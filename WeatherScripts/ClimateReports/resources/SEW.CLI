@@ -1,0 +1,2508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd ">
+<!-- Local Header -->
+<html>
+<head>
+    <title>National Weather Service - NWS Seattle</title>
+    <meta name="author" content="National Weather Service Corporate Image Web Team" />
+    <meta name="Description" content="Government Internet Service Home page. The starting point for official government weather forecasts, warnings, meteorological products for forecasting the weather, and information about meteorology." />
+    <meta name="Keywords" content="Weather, Warnings, Forecasts, Model Products, Climate information, 
+Facsimile Charts, Seattle  weather forecasts, Seattle, 
+Seattle Weather, RADAR, Observations, links to government
+web sites, documentation on meteorology, met" />
+    <meta name="DC.title" content="National Weather Service - NWS Seattle" />
+    <meta name="DC.description" content="Government Internet Service Home page. The starting point for official government weather forecasts, warnings, meteorological products for forecasting the weather, and information about meteorology." />
+    <meta name="DC.creator" content="National Weather Service Corporate Image Web Team" />
+    <meta name="DC.date.created" scheme="ISO8601" content="2005-10-24" />
+    <meta name="DC.date.reviewed" scheme="ISO8601" content="2005-10-24" />
+    <meta name="DC.language" scheme="DCTERMS.RFC1766" content="EN-US" />
+    <meta http-equiv="Window-target" content="_top" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="robot" content="all" />
+    <meta name="rating" content="general" />
+    <meta name="resource-type" content="document" />
+    <meta name="distribution" content="global" />
+    <meta name="Content-Language" content="en-US" />    
+    <link rel="STYLESHEET" type="text/css" href="/images/climate/styles.css" />
+    <script type="text/javascript" language="JavaScript" src="/images/climate/functions.js"></script>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" background="http://w1.weather.gov/images/background1.gif" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+    <td>
+    <table cellspacing="0" cellpadding="0" border="0" width="100%" background="/images/climate/topbanner.jpg">
+    <tr> 
+        <td align="right" height="19"><a href="#contents"><img src="/images/climate/skipgraphic.gif" alt="Skip Navigation Links" width="1" height="1" border="0" /></a><a href="http://www.weather.gov"><span class="nwslink">weather.gov</span></a>&nbsp;</td>
+    </tr>  
+    </table>
+    </td>
+</tr>
+<tr>
+    <td>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr> 
+        <td rowspan="2"><a href="http://www.noaa.gov"><img src="/images/climate/noaaleft.jpg" alt="NOAA logo - Click to go to the NOAA homepage" width="85" height="78" border="0" /></a></td>
+        <td><img src="/images/climate/nwsfo.jpg" alt="National Weather Service Forecast Office" width="500" height="20" border="0" /></td>
+        <td rowspan="2" width="100%" background="/images/climate/wfo_bkgrnd.jpg">&nbsp;</td>
+        <td rowspan="2"><a href="http://www.nws.noaa.gov"><img src="/images/climate/nwsright.jpg" alt="NWS logo - Click to go to the NWS homepage" width="85" height="78" border="0" /></a></td>
+        <td rowspan="2" background="/images/climate/wfo_bkgrnd.jpg">&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+    <tr>  
+        <td>
+            <a href="http://www.wrh.noaa.gov/sew"><img src="/images/climate/officenames/wfo_sea.jpg" alt="Seattle, Washington" width="500" height="58" border="0" /></a>
+        </td>
+    </tr>
+    </table>
+    </td>
+</tr>
+<tr>
+    <td>
+    <table cellspacing="0" cellpadding="0" border="0" background="/images/climate/navbkgrnd.gif" width="100%">
+    <tr>
+        <td align="left" valign="top" width="94"><img src="/images/climate/navbarleft.jpg" alt="" width="94" height="23" border="0" /></td>
+        <td class="nav" width="15%" align="center" id="menuitem" nowrap><a href="http://www.wrh.noaa.gov/sew/">Home</a></td>
+        <td class="nav" width="15%" align="center" id="menuitem"><a href="http://www.nws.noaa.gov/pa/">News</a></td>
+        <td class="nav" width="20%" align="center" id="menuitem"><a href="http://www.nws.noaa.gov/organization.html">Organization</a> </td>
+        <td align="right" class="searchinput" width="20%" nowrap="nowrap">
+    <form method="get" action="http://search.usa.gov/search" style="margin-bottom:0; margin-top:0;">
+    <label for="query" span class="yellow">Search for:</span>&nbsp;&nbsp;</label>
+    <input type="hidden" name="v:project" value="firstgov" />
+    <input name="query" type="text" value="" size="10" maxlength="256" id="query"/>
+    <input type="radio" name="affiliate" checked="checked" value="nws.noaa.gov" id="nws" />
+    <label for="nws" class="yellow">NWS</label>
+    <input type="radio" name="affiliate" value="noaa.gov" id="noaa" />
+    <label for="noaa" class="yellow">All NOAA</label>
+    <input type="submit" value="Go" />
+    </form>
+        </td>
+        <td align="right" valign="bottom"><img src="/images/climate/navbarendcap.jpg" alt="" width="24" height="23" border="0" /></td>
+    </tr>
+    </table>
+    </td>
+</tr>
+</table>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr valign="top"> 
+    <td width="131">
+    <br />
+    <table border="0" align="top" cellpadding="0" cellspacing="0" width="131" bgcolor="#0A2390">
+    <tr> 
+        <td colspan="2" align="center" width="130" bordercolor="#003399">
+        <span class="yellow"><center>Local forecast by<br />
+        "City, St"</span>
+        </td>
+    </tr>
+    <form method="post" action="http://www.srh.noaa.gov/zipcity.php">
+    <tr> 
+        <td class="searchinput" align="left" valign="bottom"><div id="Layer2" style="position:absolute; width:200px;  height:115px; z-index:2; visibility: 
+        hidden">Search by city. Press enter or select the go button to submit request</div>
+        <input type="text" name="inputstring" size="9" value="City, St" />
+        </td>
+        <td class="searchinput" align="left" valign="bottom"><input type="submit" name="Go2" value="Go" /></td>
+    </tr>
+    </form>
+    <tr>
+        <td colspan="2"><br /></td>
+    </tr>
+    <tr> 
+        <td colspan="2" width="133" valign="top"> 
+                    	<table width="131" border="0" cellspacing="0" cellpadding="0">
+            	                    <tr>
+            		    <td colspan="2" class="white" id="menuitem" width="135"><span class="yellow">Current Hazards</span></td>
+            		</tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://forecast.weather.gov/hazards/sew" title="Watches / Warnings">Watches / Warnings</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.crh.noaa.gov/outlooks/sew" title="Outlooks">Outlooks</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.noaawatch.gov/" title="NOAA Watch">NOAA Watch</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/localHazard.php" title="Add`l Hazard Info">Add`l Hazard Info</a></td>
+            	    </tr>
+                    <tr>
+            		    <td colspan="2" class="white" id="menuitem" width="135"><span class="yellow">Current Conditions</span></td>
+            		</tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/observations.php" title="Observations">Observations</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/mso/fwxmaps/ksew.php" title="State Obs Map">State Obs Map</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/mso/fwxmaps/pgtsnd.php" title="Pgt Sound Obs Map">Pgt Sound Obs Map</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/satellite/?wfo=sew" title="Satellite">Satellite</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://radar.weather.gov/radar.php?rid=atx&product=N0R&overlay=11101111&loop=no" title="Radar">Radar</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://water.weather.gov/ahps2/index.php?wfo=sew" title="AHPS: Rivers/Lks">AHPS: Rivers/Lks</a></td>
+            	    </tr>
+                    <tr>
+            		    <td colspan="2" class="white" id="menuitem" width="135"><span class="yellow">Forecasts</span></td>
+            		</tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://forecast.weather.gov/product.php?site=NWS&issuedby=sew&product=AFD&format=CI&glossary=1" title="Forecast Discussion">Forecast Discussion</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/forecast/wxtables/index.php?wfo=sew" title="Local Area">Local Area</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://forecast.weather.gov/wxplanner.php?site=sew" title="Activity Planner">Activity Planner</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/firewx/?wfo=sew" title="Fire Weather">Fire Weather</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/marine_only.php" title="Marine Weather">Marine Weather</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.spc.noaa.gov/" title="Severe Weather">Severe Weather</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.nhc.noaa.gov/" title="Hurricane Center">Hurricane Center</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/localForecast.php" title="Add`l Forecast Info">Add`l Forecast Info</a></td>
+            	    </tr>
+                    <tr>
+            		    <td colspan="2" class="white" id="menuitem" width="135"><span class="yellow">Hydrology</span></td>
+            		</tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://water.weather.gov/ahps2/index.php?wfo=sew" title="Rivers and Lakes">Rivers and Lakes</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/hydrology.php" title="Local Hydro Info">Local Hydro Info</a></td>
+            	    </tr>
+                    <tr>
+            		    <td colspan="2" class="white" id="menuitem" width="135"><span class="yellow">Climate</span></td>
+            		</tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.weather.gov/climate/index.php?wfo=sew" title="Local">Local</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.weather.gov/climate" title="National">National</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.drought.gov/" title="Drought">Drought</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.weather.gov/climate/local_data.php?wfo=sew" title="More...">More...</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.climate.gov/" title="Climate portal">Climate portal</a></td>
+            	    </tr>
+                    <tr>
+            		    <td colspan="2" class="white" id="menuitem" width="135"><span class="yellow">Weather Safety</span></td>
+            		</tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/WeatherSafety.php" title="Preparedness">Preparedness</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/nwr1.php" title="Weather Radio">Weather Radio</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.weather.gov/Skywarn" title="SkyWarn&#153;">SkyWarn&#153;</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.stormready.noaa.gov/" title="StormReady">StormReady</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.tsunamiready.noaa.gov/" title="Tsunami Ready">Tsunami Ready</a></td>
+            	    </tr>
+                    <tr>
+            		    <td colspan="2" class="white" id="menuitem" width="135"><span class="yellow">Additional Info</span></td>
+            		</tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/localInterest.php" title="Items of Interest">Items of Interest</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/wxlinks.php" title="Other Useful Links">Other Useful Links</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.education.noaa.gov/" title="Education Resources">Education Resources</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.nws.noaa.gov/om/coop/" title="COOP Observer">COOP Observer</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/office.php" title="Our Office">Our Office</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/sew/educational.php" title="Outreach / Education">Outreach / Education</a></td>
+            	    </tr>
+                    <tr>
+            		    <td colspan="2" class="white" id="menuitem" width="135"><span class="yellow">Contact Us</span></td>
+            		</tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.wrh.noaa.gov/contact.php?sid=sew" title="Contact Info">Contact Info</a></td>
+            	    </tr>
+                    <tr>
+            		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            		<td class="white" id="menuitem"><a href="http://www.weather.gov/survey/web-survey.php?code=WFOSEWwebsite" title="Feedback">Feedback</a></td>
+            	    </tr>
+                    <tr>
+                		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                		<td class="white" id="menuitem"><a href="mailto:w-sew.webmaster@noaa.gov" title="Ask Questions">Ask Questions</a></td>
+                	    </tr>
+            	</table>
+            	        <br /><br />
+        <div align="center"><a href="http://www.usa.gov/" title="USA.gov is the U.S. government's official web portal to all federal, state and local government web resources and services."><img src="http://w1.weather.gov/images/usagov_logo_color_110w.gif" width="110" height="30" alt="USA.gov is the U.S. government's official web portal to all federal, state and local government web resources and services." border="0" /></a></div>
+        </td>
+    </tr>
+    </table>
+
+    </td>
+    <a name="contents"></a>
+    <!-- Begin NWSCWI Banner -->
+    <td valign="top" align="left" >
+    
+    <table width="100%" border="0" cellspacing="0" cellpadding="8">
+    <tr>
+        <td colspan="3" align="left" valign="top">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td colspan="3" align="left" width="100%">
+            <!-- end nwscwi banner -->
+            <a name="contents"></a>
+            <!-- begin web content -->
+            <style type="text/css">
+            <!--
+            .style1 {
+            	color: #FF0000
+            }
+            td.a8 {
+            	font-size:8.0pt;
+            	font-family:"Arial";
+            }
+            td.a9 {
+            	font-size:9.0pt;
+            	font-family:"Arial";
+            }
+            th.a8 {
+            	font-size:8.0pt;
+            	font-family:"Arial";
+            	font-weight:normal;
+            	text-align:left;
+            }
+            select.a8 {
+            	font-size:7.5pt;
+            	font-family:"Arial";
+            	width: 110px;
+            }
+            select.a8a {
+                font-size:7.5pt;
+                font-family:"Arial";
+                width: 130px;
+            }
+            select.aa8 {
+                    font-size:7.5pt;
+                    font-family:"Arial";
+                    width: 130px;
+            }
+
+            textarea.a8	{
+            	font-size:8.0pt;
+            	font-family:"Arial";
+            	background-color: #FFFFB3;
+            }
+            -->
+            </style>
+
+            <br />
+            <table width="600" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td colspan="4">
+                As part of its ongoing efforts to improve service to the public, The National Weather Service has
+                released a local 3-month temperature outlook.  Access the product for your area
+                <a href="/climate/calendar_outlook.php?wfo=SEW">here</a>.
+                Please click <a href="/climate/feedback.php?wfo=SEW">here</a>
+                to complete the feedback survey.
+                                                </td>
+            </tr>
+            <tr>
+                <td colspan="4" valign="top"><br />
+                            <table width="600" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="3" align="right"><img src="/images/climate/tab_left.on.jpg" alt="" width="3" height="34"></td>
+                <td width="78" align="center" background="/images/climate/tab_middle.on.jpg" title="Weather statistics, Current & Archived Weather, Storm Data, Record Events">Observed Weather</td>
+                <td width="4" align="left"><img src="/images/climate/tab_right.on.jpg" alt="" width="4" height="34"></td>
+                <td width="3" align="right"><img src="/images/climate/tab_left.off.jpg" alt="" width="3" height="34"></td>
+                <td width="78" align="center" background="/images/climate/tab_middle.off.jpg"><a href="locations.php?wfo=SEW" title="WFO SEW Climate Locations">Climate Locations</a></td>
+                <td width="4" align="left"><img src="/images/climate/tab_right.off.jpg" alt="" width="4" height="34"></td>
+                <td width="3" align="right"><img src="/images/climate/tab_left.off.jpg" alt="" width="3" height="34"></td>
+                <td width="78" align="center" background="/images/climate/tab_middle.off.jpg"><a href="climate_prediction.php?wfo=SEW" title="Climate forecast (CPC), CDC Climate Information, Climate Variability Information">Climate Prediction</a></td>
+                <td width="4" align="left"><img src="/images/climate/tab_right.off.jpg" alt="" width="4" height="34"></td>
+                <td width="3" align="right"><img src="/images/climate/tab_left.off.jpg" alt="" width="3" height="34"></td>
+                <td width="78" align="center" background="/images/climate/tab_middle.off.jpg"><a href="climate_resources.php?wfo=SEW" title="Links to other National and International Climate Information">Climate Resources</a></td>
+                <td width="4" align="left"><img src="/images/climate/tab_right.off.jpg" alt="" width="4" height="34"></td>
+                <td width="3" align="right"><img src="/images/climate/tab_left.off.jpg" alt="" width="3" height="34"></td>
+                <td width="78" align="center" background="/images/climate/tab_middle.off.jpg"><a href="local_data.php?wfo=SEW" title="Local data, Records & Extremes, Holiday Weather, COOP data">Local Data/Records</a></td>
+                <td width="4" align="left"><img src="/images/climate/tab_right.off.jpg" alt="" width="4" height="34"></td>
+                <td width="3" align="right"><img src="/images/climate/tab_left.off.jpg" alt="" width="3" height="34"></td>
+                <td width="78" align="center" background="/images/climate/tab_middle.off.jpg"><a href="astronomical.php?wfo=SEW" title="Sun, Moon, Tides & Currents, Time">Astronomical</a></td>
+                <td width="4" align="left"><img src="/images/climate/tab_right.off.jpg" alt="" width="4" height="34"></td>
+                <td width="3" align="right"><img src="/images/climate/tab_left.off.jpg" alt="" width="3" height="34"></td>
+                <td width="78" align="center" background="/images/climate/tab_middle.off.jpg"><a href="xmacis.php?wfo=SEW" title="NOWData">NOWData</a></td>
+                <td width="4" align="left"><img src="/images/climate/tab_right.off.jpg" alt="" width="4" height="34"></td>
+            </tr>
+            </table>
+                </td>
+            </tr>
+<!--
+            </table>
+
+            </td>
+        </tr>
+-->
+        <script language="JavaScript">
+
+        // Generates CLI Station Options
+        var cliPointArray = new Array();
+                cliPointArray[0] = new Array('Seattle-Tacoma','SEA');
+        var dateSEACLIArray = new Array();
+        dateSEACLIArray[0] = new Array('January 16th, 2015','20150117');
+        dateSEACLIArray[1] = new Array('January 15th, 2015','20150116');
+        dateSEACLIArray[2] = new Array('January 14th, 2015','20150115');
+        dateSEACLIArray[3] = new Array('January 13th, 2015','20150114');
+        dateSEACLIArray[4] = new Array('January 12th, 2015','20150113');
+        dateSEACLIArray[5] = new Array('January 11th, 2015','20150112');
+        dateSEACLIArray[6] = new Array('January 10th, 2015','20150111');
+        dateSEACLIArray[7] = new Array('January 9th, 2015','20150110');
+        dateSEACLIArray[8] = new Array('January 8th, 2015','20150109');
+        dateSEACLIArray[9] = new Array('January 7th, 2015','20150108');
+        dateSEACLIArray[10] = new Array('January 6th, 2015','20150107');
+        dateSEACLIArray[11] = new Array('January 5th, 2015','20150106');
+        dateSEACLIArray[12] = new Array('January 4th, 2015','20150105');
+        dateSEACLIArray[13] = new Array('January 3rd, 2015','20150104');
+        dateSEACLIArray[14] = new Array('January 2nd, 2015','20150103');
+        dateSEACLIArray[15] = new Array('January 1st, 2015','20150102');
+        dateSEACLIArray[16] = new Array('December 31st, 2014','20150101');
+        dateSEACLIArray[17] = new Array('December 30th, 2014','20141231');
+        dateSEACLIArray[18] = new Array('December 29th, 2014','20141230');
+        dateSEACLIArray[19] = new Array('December 28th, 2014','20141229');
+        dateSEACLIArray[20] = new Array('December 27th, 2014','20141228');
+        dateSEACLIArray[21] = new Array('December 26th, 2014','20141227');
+        dateSEACLIArray[22] = new Array('December 25th, 2014','20141226');
+        dateSEACLIArray[23] = new Array('December 24th, 2014','20141225');
+        dateSEACLIArray[24] = new Array('December 23rd, 2014','20141224');
+        dateSEACLIArray[25] = new Array('December 22nd, 2014','20141223');
+        dateSEACLIArray[26] = new Array('December 21st, 2014','20141222');
+        dateSEACLIArray[27] = new Array('December 20th, 2014','20141221');
+        dateSEACLIArray[28] = new Array('December 19th, 2014','20141220');
+        dateSEACLIArray[29] = new Array('December 18th, 2014','20141219');
+        dateSEACLIArray[30] = new Array('December 17th, 2014','20141218');
+        dateSEACLIArray[31] = new Array('December 16th, 2014','20141217');
+        dateSEACLIArray[32] = new Array('December 15th, 2014','20141216');
+        dateSEACLIArray[33] = new Array('December 14th, 2014','20141215');
+        dateSEACLIArray[34] = new Array('December 13th, 2014','20141214');
+        dateSEACLIArray[35] = new Array('December 12th, 2014','20141213');
+        dateSEACLIArray[36] = new Array('December 11th, 2014','20141212');
+        dateSEACLIArray[37] = new Array('December 10th, 2014','20141211');
+        dateSEACLIArray[38] = new Array('December 9th, 2014','20141210');
+        dateSEACLIArray[39] = new Array('December 8th, 2014','20141209');
+        dateSEACLIArray[40] = new Array('December 7th, 2014','20141208');
+        dateSEACLIArray[41] = new Array('December 6th, 2014','20141207');
+        dateSEACLIArray[42] = new Array('December 5th, 2014','20141206');
+        dateSEACLIArray[43] = new Array('December 4th, 2014','20141205');
+        dateSEACLIArray[44] = new Array('December 3rd, 2014','20141204');
+        dateSEACLIArray[45] = new Array('December 2nd, 2014','20141203');
+        dateSEACLIArray[46] = new Array('December 1st, 2014','20141202');
+        dateSEACLIArray[47] = new Array('November 30th, 2014','20141201');
+        dateSEACLIArray[48] = new Array('November 29th, 2014','20141130');
+        dateSEACLIArray[49] = new Array('November 28th, 2014','20141129');
+        dateSEACLIArray[50] = new Array('November 27th, 2014','20141128');
+        dateSEACLIArray[51] = new Array('November 26th, 2014','20141127');
+        dateSEACLIArray[52] = new Array('November 25th, 2014','20141126');
+        dateSEACLIArray[53] = new Array('November 24th, 2014','20141125');
+        dateSEACLIArray[54] = new Array('November 23rd, 2014','20141124');
+        dateSEACLIArray[55] = new Array('November 22nd, 2014','20141123');
+        dateSEACLIArray[56] = new Array('November 21st, 2014','20141122');
+        dateSEACLIArray[57] = new Array('November 20th, 2014','20141121');
+        dateSEACLIArray[58] = new Array('November 19th, 2014','20141120');
+        dateSEACLIArray[59] = new Array('November 18th, 2014','20141119');
+
+        cliPointArray[1] = new Array('Olympia','OLM');
+        var dateOLMCLIArray = new Array();
+        dateOLMCLIArray[0] = new Array('January 16th, 2015','20150117');
+        dateOLMCLIArray[1] = new Array('January 15th, 2015','20150116');
+        dateOLMCLIArray[2] = new Array('January 14th, 2015','20150115');
+        dateOLMCLIArray[3] = new Array('January 13th, 2015','20150114');
+        dateOLMCLIArray[4] = new Array('January 12th, 2015','20150113');
+        dateOLMCLIArray[5] = new Array('January 11th, 2015','20150112');
+        dateOLMCLIArray[6] = new Array('January 10th, 2015','20150111');
+        dateOLMCLIArray[7] = new Array('January 9th, 2015','20150110');
+        dateOLMCLIArray[8] = new Array('January 8th, 2015','20150109');
+        dateOLMCLIArray[9] = new Array('January 7th, 2015','20150108');
+        dateOLMCLIArray[10] = new Array('January 6th, 2015','20150107');
+        dateOLMCLIArray[11] = new Array('January 5th, 2015','20150106');
+        dateOLMCLIArray[12] = new Array('January 4th, 2015','20150105');
+        dateOLMCLIArray[13] = new Array('January 3rd, 2015','20150104');
+        dateOLMCLIArray[14] = new Array('January 2nd, 2015','20150103');
+        dateOLMCLIArray[15] = new Array('January 1st, 2015','20150102');
+        dateOLMCLIArray[16] = new Array('December 31st, 2014','20150101');
+        dateOLMCLIArray[17] = new Array('December 30th, 2014','20141231');
+        dateOLMCLIArray[18] = new Array('December 29th, 2014','20141230');
+        dateOLMCLIArray[19] = new Array('December 28th, 2014','20141229');
+        dateOLMCLIArray[20] = new Array('December 27th, 2014','20141228');
+        dateOLMCLIArray[21] = new Array('December 26th, 2014','20141227');
+        dateOLMCLIArray[22] = new Array('December 25th, 2014','20141226');
+        dateOLMCLIArray[23] = new Array('December 24th, 2014','20141225');
+        dateOLMCLIArray[24] = new Array('December 23rd, 2014','20141224');
+        dateOLMCLIArray[25] = new Array('December 22nd, 2014','20141223');
+        dateOLMCLIArray[26] = new Array('December 21st, 2014','20141222');
+        dateOLMCLIArray[27] = new Array('December 20th, 2014','20141221');
+        dateOLMCLIArray[28] = new Array('December 19th, 2014','20141220');
+        dateOLMCLIArray[29] = new Array('December 18th, 2014','20141219');
+        dateOLMCLIArray[30] = new Array('December 17th, 2014','20141218');
+        dateOLMCLIArray[31] = new Array('December 16th, 2014','20141217');
+        dateOLMCLIArray[32] = new Array('December 15th, 2014','20141216');
+        dateOLMCLIArray[33] = new Array('December 14th, 2014','20141215');
+        dateOLMCLIArray[34] = new Array('December 13th, 2014','20141214');
+        dateOLMCLIArray[35] = new Array('December 12th, 2014','20141213');
+        dateOLMCLIArray[36] = new Array('December 11th, 2014','20141212');
+        dateOLMCLIArray[37] = new Array('December 10th, 2014','20141211');
+        dateOLMCLIArray[38] = new Array('December 9th, 2014','20141210');
+        dateOLMCLIArray[39] = new Array('December 8th, 2014','20141209');
+        dateOLMCLIArray[40] = new Array('December 7th, 2014','20141208');
+        dateOLMCLIArray[41] = new Array('December 6th, 2014','20141207');
+        dateOLMCLIArray[42] = new Array('December 5th, 2014','20141206');
+        dateOLMCLIArray[43] = new Array('December 4th, 2014','20141205');
+        dateOLMCLIArray[44] = new Array('December 3rd, 2014','20141204');
+        dateOLMCLIArray[45] = new Array('December 2nd, 2014','20141203');
+        dateOLMCLIArray[46] = new Array('December 1st, 2014','20141202');
+        dateOLMCLIArray[47] = new Array('November 30th, 2014','20141201');
+        dateOLMCLIArray[48] = new Array('November 29th, 2014','20141130');
+        dateOLMCLIArray[49] = new Array('November 28th, 2014','20141129');
+        dateOLMCLIArray[50] = new Array('November 27th, 2014','20141128');
+        dateOLMCLIArray[51] = new Array('November 26th, 2014','20141127');
+        dateOLMCLIArray[52] = new Array('November 25th, 2014','20141126');
+        dateOLMCLIArray[53] = new Array('November 24th, 2014','20141125');
+        dateOLMCLIArray[54] = new Array('November 23rd, 2014','20141124');
+        dateOLMCLIArray[55] = new Array('November 22nd, 2014','20141123');
+        dateOLMCLIArray[56] = new Array('November 21st, 2014','20141122');
+        dateOLMCLIArray[57] = new Array('November 20th, 2014','20141121');
+        dateOLMCLIArray[58] = new Array('November 19th, 2014','20141120');
+        dateOLMCLIArray[59] = new Array('November 18th, 2014','20141119');
+
+        cliPointArray[2] = new Array('WFO Seattle','SEW');
+        var dateSEWCLIArray = new Array();
+        dateSEWCLIArray[0] = new Array('January 16th, 2015','20150117');
+        dateSEWCLIArray[1] = new Array('January 15th, 2015','20150116');
+        dateSEWCLIArray[2] = new Array('January 14th, 2015','20150115');
+        dateSEWCLIArray[3] = new Array('January 13th, 2015','20150114');
+        dateSEWCLIArray[4] = new Array('January 12th, 2015','20150113');
+        dateSEWCLIArray[5] = new Array('January 11th, 2015','20150112');
+        dateSEWCLIArray[6] = new Array('January 10th, 2015','20150111');
+        dateSEWCLIArray[7] = new Array('January 9th, 2015','20150110');
+        dateSEWCLIArray[8] = new Array('January 8th, 2015','20150109');
+        dateSEWCLIArray[9] = new Array('January 7th, 2015','20150108');
+        dateSEWCLIArray[10] = new Array('January 6th, 2015','20150107');
+        dateSEWCLIArray[11] = new Array('January 5th, 2015','20150106');
+        dateSEWCLIArray[12] = new Array('January 4th, 2015','20150105');
+        dateSEWCLIArray[13] = new Array('January 3rd, 2015','20150104');
+        dateSEWCLIArray[14] = new Array('January 2nd, 2015','20150103');
+        dateSEWCLIArray[15] = new Array('January 1st, 2015','20150102');
+        dateSEWCLIArray[16] = new Array('December 31st, 2014','20150101');
+        dateSEWCLIArray[17] = new Array('December 30th, 2014','20141231');
+        dateSEWCLIArray[18] = new Array('December 29th, 2014','20141230');
+        dateSEWCLIArray[19] = new Array('December 28th, 2014','20141229');
+        dateSEWCLIArray[20] = new Array('December 27th, 2014','20141228');
+        dateSEWCLIArray[21] = new Array('December 26th, 2014','20141227');
+        dateSEWCLIArray[22] = new Array('December 25th, 2014','20141226');
+        dateSEWCLIArray[23] = new Array('December 24th, 2014','20141225');
+        dateSEWCLIArray[24] = new Array('December 23rd, 2014','20141224');
+        dateSEWCLIArray[25] = new Array('December 22nd, 2014','20141223');
+        dateSEWCLIArray[26] = new Array('December 21st, 2014','20141222');
+        dateSEWCLIArray[27] = new Array('December 20th, 2014','20141221');
+        dateSEWCLIArray[28] = new Array('December 19th, 2014','20141220');
+        dateSEWCLIArray[29] = new Array('December 18th, 2014','20141219');
+        dateSEWCLIArray[30] = new Array('December 17th, 2014','20141218');
+        dateSEWCLIArray[31] = new Array('December 16th, 2014','20141217');
+        dateSEWCLIArray[32] = new Array('December 15th, 2014','20141216');
+        dateSEWCLIArray[33] = new Array('December 14th, 2014','20141215');
+        dateSEWCLIArray[34] = new Array('December 13th, 2014','20141214');
+        dateSEWCLIArray[35] = new Array('December 12th, 2014','20141213');
+        dateSEWCLIArray[36] = new Array('December 11th, 2014','20141212');
+        dateSEWCLIArray[37] = new Array('December 10th, 2014','20141211');
+        dateSEWCLIArray[38] = new Array('December 9th, 2014','20141210');
+        dateSEWCLIArray[39] = new Array('December 8th, 2014','20141209');
+        dateSEWCLIArray[40] = new Array('December 7th, 2014','20141208');
+        dateSEWCLIArray[41] = new Array('December 6th, 2014','20141207');
+        dateSEWCLIArray[42] = new Array('December 5th, 2014','20141206');
+        dateSEWCLIArray[43] = new Array('December 4th, 2014','20141205');
+        dateSEWCLIArray[44] = new Array('December 3rd, 2014','20141204');
+        dateSEWCLIArray[45] = new Array('December 2nd, 2014','20141203');
+        dateSEWCLIArray[46] = new Array('December 1st, 2014','20141202');
+        dateSEWCLIArray[47] = new Array('November 30th, 2014','20141201');
+        dateSEWCLIArray[48] = new Array('November 29th, 2014','20141130');
+        dateSEWCLIArray[49] = new Array('November 28th, 2014','20141129');
+        dateSEWCLIArray[50] = new Array('November 27th, 2014','20141128');
+        dateSEWCLIArray[51] = new Array('November 26th, 2014','20141127');
+        dateSEWCLIArray[52] = new Array('November 25th, 2014','20141126');
+        dateSEWCLIArray[53] = new Array('November 24th, 2014','20141125');
+        dateSEWCLIArray[54] = new Array('November 23rd, 2014','20141124');
+        dateSEWCLIArray[55] = new Array('November 22nd, 2014','20141123');
+        dateSEWCLIArray[56] = new Array('November 21st, 2014','20141122');
+        dateSEWCLIArray[57] = new Array('November 20th, 2014','20141121');
+        dateSEWCLIArray[58] = new Array('November 19th, 2014','20141120');
+        dateSEWCLIArray[59] = new Array('November 18th, 2014','20141119');
+
+        cliPointArray[3] = new Array('Quillayute Airport','UIL');
+        var dateUILCLIArray = new Array();
+        dateUILCLIArray[0] = new Array('January 16th, 2015','20150117');
+        dateUILCLIArray[1] = new Array('January 15th, 2015','20150116');
+        dateUILCLIArray[2] = new Array('January 14th, 2015','20150115');
+        dateUILCLIArray[3] = new Array('January 13th, 2015','20150114');
+        dateUILCLIArray[4] = new Array('January 12th, 2015','20150113');
+        dateUILCLIArray[5] = new Array('January 11th, 2015','20150112');
+        dateUILCLIArray[6] = new Array('January 10th, 2015','20150111');
+        dateUILCLIArray[7] = new Array('January 9th, 2015','20150110');
+        dateUILCLIArray[8] = new Array('January 8th, 2015','20150109');
+        dateUILCLIArray[9] = new Array('January 7th, 2015','20150108');
+        dateUILCLIArray[10] = new Array('January 6th, 2015','20150107');
+        dateUILCLIArray[11] = new Array('January 5th, 2015','20150106');
+        dateUILCLIArray[12] = new Array('January 4th, 2015','20150105');
+        dateUILCLIArray[13] = new Array('January 3rd, 2015','20150104');
+        dateUILCLIArray[14] = new Array('January 2nd, 2015','20150103');
+        dateUILCLIArray[15] = new Array('January 1st, 2015','20150102');
+        dateUILCLIArray[16] = new Array('December 31st, 2014','20150101');
+        dateUILCLIArray[17] = new Array('December 30th, 2014','20141231');
+        dateUILCLIArray[18] = new Array('December 29th, 2014','20141230');
+        dateUILCLIArray[19] = new Array('December 28th, 2014','20141229');
+        dateUILCLIArray[20] = new Array('December 27th, 2014','20141228');
+        dateUILCLIArray[21] = new Array('December 26th, 2014','20141227');
+        dateUILCLIArray[22] = new Array('December 25th, 2014','20141226');
+        dateUILCLIArray[23] = new Array('December 24th, 2014','20141225');
+        dateUILCLIArray[24] = new Array('December 23rd, 2014','20141224');
+        dateUILCLIArray[25] = new Array('December 22nd, 2014','20141223');
+        dateUILCLIArray[26] = new Array('December 21st, 2014','20141222');
+        dateUILCLIArray[27] = new Array('December 20th, 2014','20141221');
+        dateUILCLIArray[28] = new Array('December 19th, 2014','20141220');
+        dateUILCLIArray[29] = new Array('December 18th, 2014','20141219');
+        dateUILCLIArray[30] = new Array('December 17th, 2014','20141218');
+        dateUILCLIArray[31] = new Array('December 16th, 2014','20141217');
+        dateUILCLIArray[32] = new Array('December 15th, 2014','20141216');
+        dateUILCLIArray[33] = new Array('December 14th, 2014','20141215');
+        dateUILCLIArray[34] = new Array('December 13th, 2014','20141214');
+        dateUILCLIArray[35] = new Array('December 12th, 2014','20141213');
+        dateUILCLIArray[36] = new Array('December 11th, 2014','20141212');
+        dateUILCLIArray[37] = new Array('December 10th, 2014','20141211');
+        dateUILCLIArray[38] = new Array('December 9th, 2014','20141210');
+        dateUILCLIArray[39] = new Array('December 8th, 2014','20141209');
+        dateUILCLIArray[40] = new Array('December 7th, 2014','20141208');
+        dateUILCLIArray[41] = new Array('December 6th, 2014','20141207');
+        dateUILCLIArray[42] = new Array('December 5th, 2014','20141206');
+        dateUILCLIArray[43] = new Array('December 4th, 2014','20141205');
+        dateUILCLIArray[44] = new Array('December 3rd, 2014','20141204');
+        dateUILCLIArray[45] = new Array('December 2nd, 2014','20141203');
+        dateUILCLIArray[46] = new Array('December 1st, 2014','20141202');
+        dateUILCLIArray[47] = new Array('November 30th, 2014','20141201');
+        dateUILCLIArray[48] = new Array('November 29th, 2014','20141130');
+        dateUILCLIArray[49] = new Array('November 28th, 2014','20141129');
+        dateUILCLIArray[50] = new Array('November 27th, 2014','20141128');
+        dateUILCLIArray[51] = new Array('November 26th, 2014','20141127');
+        dateUILCLIArray[52] = new Array('November 25th, 2014','20141126');
+        dateUILCLIArray[53] = new Array('November 24th, 2014','20141125');
+        dateUILCLIArray[54] = new Array('November 23rd, 2014','20141124');
+        dateUILCLIArray[55] = new Array('November 22nd, 2014','20141123');
+        dateUILCLIArray[56] = new Array('November 21st, 2014','20141122');
+        dateUILCLIArray[57] = new Array('November 20th, 2014','20141121');
+        dateUILCLIArray[58] = new Array('November 19th, 2014','20141120');
+        dateUILCLIArray[59] = new Array('November 18th, 2014','20141119');
+
+        cliPointArray[4] = new Array('Bellingham','BLI');
+        var dateBLICLIArray = new Array();
+        dateBLICLIArray[0] = new Array('January 16th, 2015','20150117');
+        dateBLICLIArray[1] = new Array('January 15th, 2015','20150116');
+        dateBLICLIArray[2] = new Array('January 14th, 2015','20150115');
+        dateBLICLIArray[3] = new Array('January 13th, 2015','20150114');
+        dateBLICLIArray[4] = new Array('January 12th, 2015','20150113');
+        dateBLICLIArray[5] = new Array('January 11th, 2015','20150112');
+        dateBLICLIArray[6] = new Array('January 10th, 2015','20150111');
+        dateBLICLIArray[7] = new Array('January 9th, 2015','20150110');
+        dateBLICLIArray[8] = new Array('January 8th, 2015','20150109');
+        dateBLICLIArray[9] = new Array('January 7th, 2015','20150108');
+        dateBLICLIArray[10] = new Array('January 6th, 2015','20150107');
+        dateBLICLIArray[11] = new Array('January 5th, 2015','20150106');
+        dateBLICLIArray[12] = new Array('January 4th, 2015','20150105');
+        dateBLICLIArray[13] = new Array('January 3rd, 2015','20150104');
+        dateBLICLIArray[14] = new Array('January 2nd, 2015','20150103');
+        dateBLICLIArray[15] = new Array('January 1st, 2015','20150102');
+        dateBLICLIArray[16] = new Array('December 31st, 2014','20150101');
+        dateBLICLIArray[17] = new Array('December 30th, 2014','20141231');
+        dateBLICLIArray[18] = new Array('December 29th, 2014','20141230');
+        dateBLICLIArray[19] = new Array('December 28th, 2014','20141229');
+        dateBLICLIArray[20] = new Array('December 27th, 2014','20141228');
+        dateBLICLIArray[21] = new Array('December 26th, 2014','20141227');
+        dateBLICLIArray[22] = new Array('December 25th, 2014','20141226');
+        dateBLICLIArray[23] = new Array('December 24th, 2014','20141225');
+        dateBLICLIArray[24] = new Array('December 23rd, 2014','20141224');
+        dateBLICLIArray[25] = new Array('December 22nd, 2014','20141223');
+        dateBLICLIArray[26] = new Array('December 21st, 2014','20141222');
+        dateBLICLIArray[27] = new Array('December 20th, 2014','20141221');
+        dateBLICLIArray[28] = new Array('December 19th, 2014','20141220');
+        dateBLICLIArray[29] = new Array('December 18th, 2014','20141219');
+        dateBLICLIArray[30] = new Array('December 17th, 2014','20141218');
+        dateBLICLIArray[31] = new Array('December 16th, 2014','20141217');
+        dateBLICLIArray[32] = new Array('December 15th, 2014','20141216');
+        dateBLICLIArray[33] = new Array('December 14th, 2014','20141215');
+        dateBLICLIArray[34] = new Array('December 13th, 2014','20141214');
+        dateBLICLIArray[35] = new Array('December 12th, 2014','20141213');
+        dateBLICLIArray[36] = new Array('December 11th, 2014','20141212');
+        dateBLICLIArray[37] = new Array('December 10th, 2014','20141211');
+        dateBLICLIArray[38] = new Array('December 9th, 2014','20141210');
+        dateBLICLIArray[39] = new Array('December 8th, 2014','20141209');
+        dateBLICLIArray[40] = new Array('December 7th, 2014','20141208');
+        dateBLICLIArray[41] = new Array('December 6th, 2014','20141207');
+        dateBLICLIArray[42] = new Array('December 5th, 2014','20141206');
+        dateBLICLIArray[43] = new Array('December 4th, 2014','20141205');
+        dateBLICLIArray[44] = new Array('December 3rd, 2014','20141204');
+        dateBLICLIArray[45] = new Array('December 2nd, 2014','20141203');
+        dateBLICLIArray[46] = new Array('December 1st, 2014','20141202');
+        dateBLICLIArray[47] = new Array('November 30th, 2014','20141201');
+        dateBLICLIArray[48] = new Array('November 29th, 2014','20141130');
+        dateBLICLIArray[49] = new Array('November 28th, 2014','20141129');
+        dateBLICLIArray[50] = new Array('November 27th, 2014','20141128');
+        dateBLICLIArray[51] = new Array('November 26th, 2014','20141127');
+        dateBLICLIArray[52] = new Array('November 25th, 2014','20141126');
+        dateBLICLIArray[53] = new Array('November 24th, 2014','20141125');
+        dateBLICLIArray[54] = new Array('November 23rd, 2014','20141124');
+        dateBLICLIArray[55] = new Array('November 22nd, 2014','20141123');
+        dateBLICLIArray[56] = new Array('November 21st, 2014','20141122');
+        dateBLICLIArray[57] = new Array('November 20th, 2014','20141121');
+        dateBLICLIArray[58] = new Array('November 19th, 2014','20141120');
+        dateBLICLIArray[59] = new Array('November 18th, 2014','20141119');
+
+        cliPointArray[5] = new Array('Hoquiam','HQM');
+        var dateHQMCLIArray = new Array();
+        dateHQMCLIArray[0] = new Array('January 16th, 2015','20150117');
+        dateHQMCLIArray[1] = new Array('January 15th, 2015','20150116');
+        dateHQMCLIArray[2] = new Array('January 14th, 2015','20150115');
+        dateHQMCLIArray[3] = new Array('January 13th, 2015','20150114');
+        dateHQMCLIArray[4] = new Array('January 12th, 2015','20150113');
+        dateHQMCLIArray[5] = new Array('January 11th, 2015','20150112');
+        dateHQMCLIArray[6] = new Array('January 10th, 2015','20150111');
+        dateHQMCLIArray[7] = new Array('January 9th, 2015','20150110');
+        dateHQMCLIArray[8] = new Array('January 8th, 2015','20150109');
+        dateHQMCLIArray[9] = new Array('January 7th, 2015','20150108');
+        dateHQMCLIArray[10] = new Array('January 6th, 2015','20150107');
+        dateHQMCLIArray[11] = new Array('January 5th, 2015','20150106');
+        dateHQMCLIArray[12] = new Array('January 4th, 2015','20150105');
+        dateHQMCLIArray[13] = new Array('January 3rd, 2015','20150104');
+        dateHQMCLIArray[14] = new Array('January 2nd, 2015','20150103');
+        dateHQMCLIArray[15] = new Array('January 1st, 2015','20150102');
+        dateHQMCLIArray[16] = new Array('December 31st, 2014','20150101');
+        dateHQMCLIArray[17] = new Array('December 30th, 2014','20141231');
+        dateHQMCLIArray[18] = new Array('December 29th, 2014','20141230');
+        dateHQMCLIArray[19] = new Array('December 28th, 2014','20141229');
+        dateHQMCLIArray[20] = new Array('December 27th, 2014','20141228');
+        dateHQMCLIArray[21] = new Array('December 26th, 2014','20141227');
+        dateHQMCLIArray[22] = new Array('December 25th, 2014','20141226');
+        dateHQMCLIArray[23] = new Array('December 24th, 2014','20141225');
+        dateHQMCLIArray[24] = new Array('December 23rd, 2014','20141224');
+        dateHQMCLIArray[25] = new Array('December 22nd, 2014','20141223');
+        dateHQMCLIArray[26] = new Array('December 21st, 2014','20141222');
+        dateHQMCLIArray[27] = new Array('December 20th, 2014','20141221');
+        dateHQMCLIArray[28] = new Array('December 19th, 2014','20141220');
+        dateHQMCLIArray[29] = new Array('December 18th, 2014','20141219');
+        dateHQMCLIArray[30] = new Array('December 17th, 2014','20141218');
+        dateHQMCLIArray[31] = new Array('December 16th, 2014','20141217');
+        dateHQMCLIArray[32] = new Array('December 15th, 2014','20141216');
+        dateHQMCLIArray[33] = new Array('December 14th, 2014','20141215');
+        dateHQMCLIArray[34] = new Array('December 13th, 2014','20141214');
+        dateHQMCLIArray[35] = new Array('December 12th, 2014','20141213');
+        dateHQMCLIArray[36] = new Array('December 11th, 2014','20141212');
+        dateHQMCLIArray[37] = new Array('December 10th, 2014','20141211');
+        dateHQMCLIArray[38] = new Array('December 9th, 2014','20141210');
+        dateHQMCLIArray[39] = new Array('December 8th, 2014','20141209');
+        dateHQMCLIArray[40] = new Array('December 7th, 2014','20141208');
+        dateHQMCLIArray[41] = new Array('December 6th, 2014','20141207');
+        dateHQMCLIArray[42] = new Array('December 5th, 2014','20141206');
+        dateHQMCLIArray[43] = new Array('December 4th, 2014','20141205');
+        dateHQMCLIArray[44] = new Array('December 3rd, 2014','20141204');
+        dateHQMCLIArray[45] = new Array('December 2nd, 2014','20141203');
+        dateHQMCLIArray[46] = new Array('December 1st, 2014','20141202');
+        dateHQMCLIArray[47] = new Array('November 30th, 2014','20141201');
+        dateHQMCLIArray[48] = new Array('November 29th, 2014','20141130');
+        dateHQMCLIArray[49] = new Array('November 28th, 2014','20141129');
+        dateHQMCLIArray[50] = new Array('November 27th, 2014','20141128');
+        dateHQMCLIArray[51] = new Array('November 26th, 2014','20141127');
+        dateHQMCLIArray[52] = new Array('November 25th, 2014','20141126');
+        dateHQMCLIArray[53] = new Array('November 24th, 2014','20141125');
+        dateHQMCLIArray[54] = new Array('November 23rd, 2014','20141124');
+        dateHQMCLIArray[55] = new Array('November 22nd, 2014','20141123');
+        dateHQMCLIArray[56] = new Array('November 21st, 2014','20141122');
+        dateHQMCLIArray[57] = new Array('November 20th, 2014','20141121');
+        dateHQMCLIArray[58] = new Array('November 19th, 2014','20141120');
+        dateHQMCLIArray[59] = new Array('November 18th, 2014','20141119');
+
+
+        // Generates CF6 Station Options
+        var cf6PointArray = new Array();
+                 // SEA
+        cf6PointArray[0] = new Array('Seattle-Tacoma','SEA');
+        var dateSEACF6Array = new Array();
+        dateSEACF6Array[0] = new Array('January 2015','20150131');
+        dateSEACF6Array[1] = new Array('December 2014','20141231');
+        dateSEACF6Array[2] = new Array('November 2014','20141130');
+        dateSEACF6Array[3] = new Array('October 2014','20141031');
+        dateSEACF6Array[4] = new Array('September 2014','20140930');
+        dateSEACF6Array[5] = new Array('August 2014','20140831');
+        dateSEACF6Array[6] = new Array('July 2014','20140731');
+        dateSEACF6Array[7] = new Array('June 2014','20140630');
+        dateSEACF6Array[8] = new Array('May 2014','20140531');
+        dateSEACF6Array[9] = new Array('April 2014','20140430');
+        dateSEACF6Array[10] = new Array('March 2014','20140331');
+        dateSEACF6Array[11] = new Array('February 2014','20140228');
+        dateSEACF6Array[12] = new Array('January 2014','20140131');
+        dateSEACF6Array[13] = new Array('December 2013','20131231');
+        dateSEACF6Array[14] = new Array('November 2013','20131130');
+        dateSEACF6Array[15] = new Array('October 2013','20131031');
+        dateSEACF6Array[16] = new Array('September 2013','20130930');
+        dateSEACF6Array[17] = new Array('August 2013','20130831');
+        dateSEACF6Array[18] = new Array('July 2013','20130731');
+        dateSEACF6Array[19] = new Array('June 2013','20130630');
+        dateSEACF6Array[20] = new Array('May 2013','20130531');
+        dateSEACF6Array[21] = new Array('April 2013','20130430');
+        dateSEACF6Array[22] = new Array('March 2013','20130331');
+        dateSEACF6Array[23] = new Array('February 2013','20130228');
+        dateSEACF6Array[24] = new Array('January 2013','20130131');
+        dateSEACF6Array[25] = new Array('December 2012','20121231');
+        dateSEACF6Array[26] = new Array('November 2012','20121130');
+        dateSEACF6Array[27] = new Array('October 2012','20121031');
+        dateSEACF6Array[28] = new Array('September 2012','20120930');
+        dateSEACF6Array[29] = new Array('August 2012','20120831');
+        dateSEACF6Array[30] = new Array('July 2012','20120731');
+        dateSEACF6Array[31] = new Array('June 2012','20120630');
+        dateSEACF6Array[32] = new Array('May 2012','20120531');
+        dateSEACF6Array[33] = new Array('April 2012','20120430');
+        dateSEACF6Array[34] = new Array('March 2012','20120331');
+        dateSEACF6Array[35] = new Array('February 2012','20120229');
+        dateSEACF6Array[36] = new Array('January 2012','20120131');
+        dateSEACF6Array[37] = new Array('December 2011','20111231');
+        dateSEACF6Array[38] = new Array('November 2011','20111130');
+        dateSEACF6Array[39] = new Array('October 2011','20111031');
+        dateSEACF6Array[40] = new Array('September 2011','20110930');
+        dateSEACF6Array[41] = new Array('August 2011','20110831');
+        dateSEACF6Array[42] = new Array('July 2011','20110731');
+        dateSEACF6Array[43] = new Array('June 2011','20110630');
+        dateSEACF6Array[44] = new Array('May 2011','20110531');
+        dateSEACF6Array[45] = new Array('April 2011','20110430');
+        dateSEACF6Array[46] = new Array('March 2011','20110331');
+        dateSEACF6Array[47] = new Array('February 2011','20110228');
+        dateSEACF6Array[48] = new Array('January 2011','20110131');
+        dateSEACF6Array[49] = new Array('December 2010','20101231');
+        dateSEACF6Array[50] = new Array('November 2010','20101130');
+        dateSEACF6Array[51] = new Array('October 2010','20101031');
+        dateSEACF6Array[52] = new Array('September 2010','20100930');
+        dateSEACF6Array[53] = new Array('August 2010','20100831');
+        dateSEACF6Array[54] = new Array('July 2010','20100731');
+        dateSEACF6Array[55] = new Array('June 2010','20100630');
+        dateSEACF6Array[56] = new Array('May 2010','20100531');
+        dateSEACF6Array[57] = new Array('April 2010','20100430');
+        dateSEACF6Array[58] = new Array('March 2010','20100331');
+        dateSEACF6Array[59] = new Array('February 2010','20100228');
+        dateSEACF6Array[60] = new Array('January 2010','20100131');
+
+         // OLM
+        cf6PointArray[1] = new Array('Olympia','OLM');
+        var dateOLMCF6Array = new Array();
+        dateOLMCF6Array[0] = new Array('January 2015','20150131');
+        dateOLMCF6Array[1] = new Array('December 2014','20141231');
+        dateOLMCF6Array[2] = new Array('November 2014','20141130');
+        dateOLMCF6Array[3] = new Array('October 2014','20141031');
+        dateOLMCF6Array[4] = new Array('September 2014','20140930');
+        dateOLMCF6Array[5] = new Array('August 2014','20140831');
+        dateOLMCF6Array[6] = new Array('July 2014','20140731');
+        dateOLMCF6Array[7] = new Array('June 2014','20140630');
+        dateOLMCF6Array[8] = new Array('May 2014','20140531');
+        dateOLMCF6Array[9] = new Array('April 2014','20140430');
+        dateOLMCF6Array[10] = new Array('March 2014','20140331');
+        dateOLMCF6Array[11] = new Array('February 2014','20140228');
+        dateOLMCF6Array[12] = new Array('January 2014','20140131');
+        dateOLMCF6Array[13] = new Array('December 2013','20131231');
+        dateOLMCF6Array[14] = new Array('November 2013','20131130');
+        dateOLMCF6Array[15] = new Array('October 2013','20131031');
+        dateOLMCF6Array[16] = new Array('September 2013','20130930');
+        dateOLMCF6Array[17] = new Array('August 2013','20130831');
+        dateOLMCF6Array[18] = new Array('July 2013','20130731');
+        dateOLMCF6Array[19] = new Array('June 2013','20130630');
+        dateOLMCF6Array[20] = new Array('May 2013','20130531');
+        dateOLMCF6Array[21] = new Array('April 2013','20130430');
+        dateOLMCF6Array[22] = new Array('March 2013','20130331');
+        dateOLMCF6Array[23] = new Array('February 2013','20130228');
+        dateOLMCF6Array[24] = new Array('January 2013','20130131');
+        dateOLMCF6Array[25] = new Array('December 2012','20121231');
+        dateOLMCF6Array[26] = new Array('November 2012','20121130');
+        dateOLMCF6Array[27] = new Array('October 2012','20121031');
+        dateOLMCF6Array[28] = new Array('September 2012','20120930');
+        dateOLMCF6Array[29] = new Array('August 2012','20120831');
+        dateOLMCF6Array[30] = new Array('July 2012','20120731');
+        dateOLMCF6Array[31] = new Array('June 2012','20120630');
+        dateOLMCF6Array[32] = new Array('May 2012','20120531');
+        dateOLMCF6Array[33] = new Array('April 2012','20120430');
+        dateOLMCF6Array[34] = new Array('March 2012','20120331');
+        dateOLMCF6Array[35] = new Array('February 2012','20120229');
+        dateOLMCF6Array[36] = new Array('January 2012','20120131');
+        dateOLMCF6Array[37] = new Array('December 2011','20111231');
+        dateOLMCF6Array[38] = new Array('November 2011','20111130');
+        dateOLMCF6Array[39] = new Array('October 2011','20111031');
+        dateOLMCF6Array[40] = new Array('September 2011','20110930');
+        dateOLMCF6Array[41] = new Array('August 2011','20110831');
+        dateOLMCF6Array[42] = new Array('July 2011','20110731');
+        dateOLMCF6Array[43] = new Array('June 2011','20110630');
+        dateOLMCF6Array[44] = new Array('May 2011','20110531');
+        dateOLMCF6Array[45] = new Array('April 2011','20110430');
+        dateOLMCF6Array[46] = new Array('March 2011','20110331');
+        dateOLMCF6Array[47] = new Array('February 2011','20110228');
+        dateOLMCF6Array[48] = new Array('January 2011','20110131');
+        dateOLMCF6Array[49] = new Array('December 2010','20101231');
+        dateOLMCF6Array[50] = new Array('November 2010','20101130');
+        dateOLMCF6Array[51] = new Array('October 2010','20101031');
+        dateOLMCF6Array[52] = new Array('September 2010','20100930');
+        dateOLMCF6Array[53] = new Array('August 2010','20100831');
+        dateOLMCF6Array[54] = new Array('July 2010','20100731');
+        dateOLMCF6Array[55] = new Array('June 2010','20100630');
+        dateOLMCF6Array[56] = new Array('May 2010','20100531');
+        dateOLMCF6Array[57] = new Array('April 2010','20100430');
+        dateOLMCF6Array[58] = new Array('March 2010','20100331');
+        dateOLMCF6Array[59] = new Array('February 2010','20100228');
+        dateOLMCF6Array[60] = new Array('January 2010','20100131');
+
+         // SEW
+        cf6PointArray[2] = new Array('WFO Seattle','SEW');
+        var dateSEWCF6Array = new Array();
+        dateSEWCF6Array[0] = new Array('January 2015','20150131');
+        dateSEWCF6Array[1] = new Array('December 2014','20141231');
+        dateSEWCF6Array[2] = new Array('November 2014','20141130');
+        dateSEWCF6Array[3] = new Array('October 2014','20141031');
+        dateSEWCF6Array[4] = new Array('September 2014','20140930');
+        dateSEWCF6Array[5] = new Array('August 2014','20140831');
+        dateSEWCF6Array[6] = new Array('July 2014','20140731');
+        dateSEWCF6Array[7] = new Array('June 2014','20140630');
+        dateSEWCF6Array[8] = new Array('May 2014','20140531');
+        dateSEWCF6Array[9] = new Array('April 2014','20140430');
+        dateSEWCF6Array[10] = new Array('March 2014','20140331');
+        dateSEWCF6Array[11] = new Array('February 2014','20140228');
+        dateSEWCF6Array[12] = new Array('January 2014','20140131');
+        dateSEWCF6Array[13] = new Array('December 2013','20131231');
+        dateSEWCF6Array[14] = new Array('November 2013','20131130');
+        dateSEWCF6Array[15] = new Array('October 2013','20131031');
+        dateSEWCF6Array[16] = new Array('September 2013','20130930');
+        dateSEWCF6Array[17] = new Array('August 2013','20130831');
+        dateSEWCF6Array[18] = new Array('July 2013','20130731');
+        dateSEWCF6Array[19] = new Array('June 2013','20130630');
+        dateSEWCF6Array[20] = new Array('May 2013','20130531');
+        dateSEWCF6Array[21] = new Array('April 2013','20130430');
+        dateSEWCF6Array[22] = new Array('March 2013','20130331');
+        dateSEWCF6Array[23] = new Array('February 2013','20130228');
+        dateSEWCF6Array[24] = new Array('January 2013','20130131');
+        dateSEWCF6Array[25] = new Array('December 2012','20121231');
+        dateSEWCF6Array[26] = new Array('November 2012','20121130');
+        dateSEWCF6Array[27] = new Array('October 2012','20121031');
+        dateSEWCF6Array[28] = new Array('September 2012','20120930');
+        dateSEWCF6Array[29] = new Array('August 2012','20120831');
+        dateSEWCF6Array[30] = new Array('July 2012','20120731');
+        dateSEWCF6Array[31] = new Array('June 2012','20120630');
+        dateSEWCF6Array[32] = new Array('May 2012','20120531');
+        dateSEWCF6Array[33] = new Array('April 2012','20120430');
+        dateSEWCF6Array[34] = new Array('March 2012','20120331');
+        dateSEWCF6Array[35] = new Array('February 2012','20120229');
+        dateSEWCF6Array[36] = new Array('January 2012','20120131');
+        dateSEWCF6Array[37] = new Array('December 2011','20111231');
+        dateSEWCF6Array[38] = new Array('November 2011','20111130');
+        dateSEWCF6Array[39] = new Array('October 2011','20111031');
+        dateSEWCF6Array[40] = new Array('September 2011','20110930');
+        dateSEWCF6Array[41] = new Array('August 2011','20110831');
+        dateSEWCF6Array[42] = new Array('July 2011','20110731');
+        dateSEWCF6Array[43] = new Array('June 2011','20110630');
+        dateSEWCF6Array[44] = new Array('May 2011','20110531');
+        dateSEWCF6Array[45] = new Array('April 2011','20110430');
+        dateSEWCF6Array[46] = new Array('March 2011','20110331');
+        dateSEWCF6Array[47] = new Array('February 2011','20110228');
+        dateSEWCF6Array[48] = new Array('January 2011','20110131');
+        dateSEWCF6Array[49] = new Array('December 2010','20101231');
+        dateSEWCF6Array[50] = new Array('November 2010','20101130');
+        dateSEWCF6Array[51] = new Array('October 2010','20101031');
+        dateSEWCF6Array[52] = new Array('September 2010','20100930');
+        dateSEWCF6Array[53] = new Array('August 2010','20100831');
+        dateSEWCF6Array[54] = new Array('July 2010','20100731');
+        dateSEWCF6Array[55] = new Array('June 2010','20100630');
+        dateSEWCF6Array[56] = new Array('May 2010','20100531');
+        dateSEWCF6Array[57] = new Array('April 2010','20100430');
+        dateSEWCF6Array[58] = new Array('March 2010','20100331');
+        dateSEWCF6Array[59] = new Array('February 2010','20100228');
+        dateSEWCF6Array[60] = new Array('January 2010','20100131');
+
+         // UIL
+        cf6PointArray[3] = new Array('Quillayute Airport','UIL');
+        var dateUILCF6Array = new Array();
+        dateUILCF6Array[0] = new Array('January 2015','20150131');
+        dateUILCF6Array[1] = new Array('December 2014','20141231');
+        dateUILCF6Array[2] = new Array('November 2014','20141130');
+        dateUILCF6Array[3] = new Array('October 2014','20141031');
+        dateUILCF6Array[4] = new Array('September 2014','20140930');
+        dateUILCF6Array[5] = new Array('August 2014','20140831');
+        dateUILCF6Array[6] = new Array('July 2014','20140731');
+        dateUILCF6Array[7] = new Array('June 2014','20140630');
+        dateUILCF6Array[8] = new Array('May 2014','20140531');
+        dateUILCF6Array[9] = new Array('April 2014','20140430');
+        dateUILCF6Array[10] = new Array('March 2014','20140331');
+        dateUILCF6Array[11] = new Array('February 2014','20140228');
+        dateUILCF6Array[12] = new Array('January 2014','20140131');
+        dateUILCF6Array[13] = new Array('December 2013','20131231');
+        dateUILCF6Array[14] = new Array('November 2013','20131130');
+        dateUILCF6Array[15] = new Array('October 2013','20131031');
+        dateUILCF6Array[16] = new Array('September 2013','20130930');
+        dateUILCF6Array[17] = new Array('August 2013','20130831');
+        dateUILCF6Array[18] = new Array('July 2013','20130731');
+        dateUILCF6Array[19] = new Array('June 2013','20130630');
+        dateUILCF6Array[20] = new Array('May 2013','20130531');
+        dateUILCF6Array[21] = new Array('April 2013','20130430');
+        dateUILCF6Array[22] = new Array('March 2013','20130331');
+        dateUILCF6Array[23] = new Array('February 2013','20130228');
+        dateUILCF6Array[24] = new Array('January 2013','20130131');
+        dateUILCF6Array[25] = new Array('December 2012','20121231');
+        dateUILCF6Array[26] = new Array('November 2012','20121130');
+        dateUILCF6Array[27] = new Array('October 2012','20121031');
+        dateUILCF6Array[28] = new Array('September 2012','20120930');
+        dateUILCF6Array[29] = new Array('August 2012','20120831');
+        dateUILCF6Array[30] = new Array('July 2012','20120731');
+        dateUILCF6Array[31] = new Array('June 2012','20120630');
+        dateUILCF6Array[32] = new Array('May 2012','20120531');
+        dateUILCF6Array[33] = new Array('April 2012','20120430');
+        dateUILCF6Array[34] = new Array('March 2012','20120331');
+        dateUILCF6Array[35] = new Array('February 2012','20120229');
+        dateUILCF6Array[36] = new Array('January 2012','20120131');
+        dateUILCF6Array[37] = new Array('December 2011','20111231');
+        dateUILCF6Array[38] = new Array('November 2011','20111130');
+        dateUILCF6Array[39] = new Array('October 2011','20111031');
+        dateUILCF6Array[40] = new Array('September 2011','20110930');
+        dateUILCF6Array[41] = new Array('August 2011','20110831');
+        dateUILCF6Array[42] = new Array('July 2011','20110731');
+        dateUILCF6Array[43] = new Array('June 2011','20110630');
+        dateUILCF6Array[44] = new Array('May 2011','20110531');
+        dateUILCF6Array[45] = new Array('April 2011','20110430');
+        dateUILCF6Array[46] = new Array('March 2011','20110331');
+        dateUILCF6Array[47] = new Array('February 2011','20110228');
+        dateUILCF6Array[48] = new Array('January 2011','20110131');
+        dateUILCF6Array[49] = new Array('December 2010','20101231');
+        dateUILCF6Array[50] = new Array('November 2010','20101130');
+        dateUILCF6Array[51] = new Array('October 2010','20101031');
+        dateUILCF6Array[52] = new Array('September 2010','20100930');
+        dateUILCF6Array[53] = new Array('August 2010','20100831');
+        dateUILCF6Array[54] = new Array('July 2010','20100731');
+        dateUILCF6Array[55] = new Array('June 2010','20100630');
+        dateUILCF6Array[56] = new Array('May 2010','20100531');
+        dateUILCF6Array[57] = new Array('April 2010','20100430');
+        dateUILCF6Array[58] = new Array('March 2010','20100331');
+        dateUILCF6Array[59] = new Array('February 2010','20100228');
+        dateUILCF6Array[60] = new Array('January 2010','20100131');
+
+         // BLI
+        cf6PointArray[4] = new Array('Bellingham','BLI');
+        var dateBLICF6Array = new Array();
+        dateBLICF6Array[0] = new Array('January 2015','20150131');
+        dateBLICF6Array[1] = new Array('December 2014','20141231');
+        dateBLICF6Array[2] = new Array('November 2014','20141130');
+        dateBLICF6Array[3] = new Array('October 2014','20141031');
+        dateBLICF6Array[4] = new Array('September 2014','20140930');
+        dateBLICF6Array[5] = new Array('August 2014','20140831');
+        dateBLICF6Array[6] = new Array('July 2014','20140731');
+        dateBLICF6Array[7] = new Array('June 2014','20140630');
+        dateBLICF6Array[8] = new Array('May 2014','20140531');
+        dateBLICF6Array[9] = new Array('April 2014','20140430');
+        dateBLICF6Array[10] = new Array('March 2014','20140331');
+        dateBLICF6Array[11] = new Array('February 2014','20140228');
+        dateBLICF6Array[12] = new Array('January 2014','20140131');
+        dateBLICF6Array[13] = new Array('December 2013','20131231');
+        dateBLICF6Array[14] = new Array('November 2013','20131130');
+        dateBLICF6Array[15] = new Array('October 2013','20131031');
+        dateBLICF6Array[16] = new Array('September 2013','20130930');
+        dateBLICF6Array[17] = new Array('August 2013','20130831');
+        dateBLICF6Array[18] = new Array('July 2013','20130731');
+        dateBLICF6Array[19] = new Array('June 2013','20130630');
+        dateBLICF6Array[20] = new Array('May 2013','20130531');
+        dateBLICF6Array[21] = new Array('April 2013','20130430');
+        dateBLICF6Array[22] = new Array('March 2013','20130331');
+
+         // HQM
+        cf6PointArray[5] = new Array('Hoquiam','HQM');
+        var dateHQMCF6Array = new Array();
+        dateHQMCF6Array[0] = new Array('January 2015','20150131');
+        dateHQMCF6Array[1] = new Array('December 2014','20141231');
+        dateHQMCF6Array[2] = new Array('November 2014','20141130');
+        dateHQMCF6Array[3] = new Array('October 2014','20141031');
+        dateHQMCF6Array[4] = new Array('September 2014','20140930');
+        dateHQMCF6Array[5] = new Array('August 2014','20140831');
+        dateHQMCF6Array[6] = new Array('July 2014','20140731');
+        dateHQMCF6Array[7] = new Array('June 2014','20140630');
+        dateHQMCF6Array[8] = new Array('May 2014','20140531');
+        dateHQMCF6Array[9] = new Array('April 2014','20140430');
+        dateHQMCF6Array[10] = new Array('March 2014','20140331');
+        dateHQMCF6Array[11] = new Array('February 2014','20140228');
+        dateHQMCF6Array[12] = new Array('January 2014','20140131');
+        dateHQMCF6Array[13] = new Array('December 2013','20131231');
+        dateHQMCF6Array[14] = new Array('November 2013','20131130');
+        dateHQMCF6Array[15] = new Array('October 2013','20131031');
+        dateHQMCF6Array[16] = new Array('September 2013','20130930');
+        dateHQMCF6Array[17] = new Array('August 2013','20130831');
+        dateHQMCF6Array[18] = new Array('July 2013','20130731');
+        dateHQMCF6Array[19] = new Array('June 2013','20130630');
+        dateHQMCF6Array[20] = new Array('May 2013','20130531');
+        dateHQMCF6Array[21] = new Array('April 2013','20130430');
+        dateHQMCF6Array[22] = new Array('March 2013','20130331');
+
+
+        // Generates RER Station Options
+        var rerPointArray = new Array();
+                rerPointArray[0] = new Array('Seattle-Tacoma','SEW');
+        var dateSEWRERArray = new Array();
+        dateSEWRERArray[0] = new Array('January 10th, 2015','20150110');
+        dateSEWRERArray[1] = new Array('January 9th, 2015','20150109');
+        dateSEWRERArray[2] = new Array('January 7th, 2015','20150107');
+        dateSEWRERArray[3] = new Array('January 6th, 2015','20150106');
+        dateSEWRERArray[4] = new Array('January 5th, 2015','20150105');
+        dateSEWRERArray[5] = new Array('December 30th, 2014','20141230');
+        dateSEWRERArray[6] = new Array('December 24th, 2014','20141224');
+        dateSEWRERArray[7] = new Array('December 22nd, 2014','20141222');
+        dateSEWRERArray[8] = new Array('December 21st, 2014','20141221');
+        dateSEWRERArray[9] = new Array('December 19th, 2014','20141219');
+        dateSEWRERArray[10] = new Array('December 16th, 2014','20141216');
+        dateSEWRERArray[11] = new Array('December 12th, 2014','20141212');
+        dateSEWRERArray[12] = new Array('December 11th, 2014','20141211');
+        dateSEWRERArray[13] = new Array('December 10th, 2014','20141210');
+        dateSEWRERArray[14] = new Array('December 9th, 2014','20141209');
+        dateSEWRERArray[15] = new Array('December 8th, 2014','20141208');
+        dateSEWRERArray[16] = new Array('December 7th, 2014','20141207');
+        dateSEWRERArray[17] = new Array('December 6th, 2014','20141206');
+        dateSEWRERArray[18] = new Array('December 3rd, 2014','20141203');
+        dateSEWRERArray[19] = new Array('December 2nd, 2014','20141202');
+        dateSEWRERArray[20] = new Array('December 1st, 2014','20141201');
+        dateSEWRERArray[21] = new Array('November 28th, 2014','20141128');
+        dateSEWRERArray[22] = new Array('November 27th, 2014','20141127');
+        dateSEWRERArray[23] = new Array('November 26th, 2014','20141126');
+        dateSEWRERArray[24] = new Array('November 19th, 2014','20141119');
+        dateSEWRERArray[25] = new Array('November 18th, 2014','20141118');
+        dateSEWRERArray[26] = new Array('November 17th, 2014','20141117');
+        dateSEWRERArray[27] = new Array('November 16th, 2014','20141116');
+        dateSEWRERArray[28] = new Array('November 15th, 2014','20141115');
+        dateSEWRERArray[29] = new Array('November 14th, 2014','20141114');
+        dateSEWRERArray[30] = new Array('November 13th, 2014','20141113');
+        dateSEWRERArray[31] = new Array('November 7th, 2014','20141107');
+        dateSEWRERArray[32] = new Array('November 4th, 2014','20141104');
+        dateSEWRERArray[33] = new Array('November 1st, 2014','20141101');
+        dateSEWRERArray[34] = new Array('October 23rd, 2014','20141023');
+        dateSEWRERArray[35] = new Array('October 20th, 2014','20141020');
+        dateSEWRERArray[36] = new Array('October 14th, 2014','20141014');
+        dateSEWRERArray[37] = new Array('October 7th, 2014','20141007');
+        dateSEWRERArray[38] = new Array('October 5th, 2014','20141005');
+        dateSEWRERArray[39] = new Array('October 4th, 2014','20141004');
+        dateSEWRERArray[40] = new Array('September 25th, 2014','20140925');
+        dateSEWRERArray[41] = new Array('September 24th, 2014','20140924');
+        dateSEWRERArray[42] = new Array('September 22nd, 2014','20140922');
+        dateSEWRERArray[43] = new Array('September 16th, 2014','20140916');
+        dateSEWRERArray[44] = new Array('September 7th, 2014','20140907');
+        dateSEWRERArray[45] = new Array('September 6th, 2014','20140906');
+        dateSEWRERArray[46] = new Array('September 3rd, 2014','20140903');
+        dateSEWRERArray[47] = new Array('August 31st, 2014','20140831');
+        dateSEWRERArray[48] = new Array('August 27th, 2014','20140827');
+        dateSEWRERArray[49] = new Array('August 26th, 2014','20140826');
+        dateSEWRERArray[50] = new Array('August 19th, 2014','20140819');
+        dateSEWRERArray[51] = new Array('August 14th, 2014','20140814');
+        dateSEWRERArray[52] = new Array('August 13th, 2014','20140813');
+        dateSEWRERArray[53] = new Array('August 12th, 2014','20140812');
+        dateSEWRERArray[54] = new Array('July 25th, 2014','20140725');
+        dateSEWRERArray[55] = new Array('July 24th, 2014','20140724');
+
+
+        // Generates CLM Station Options
+        var clmPointArray = new Array();
+                clmPointArray[0] = new Array('Olympia','OLM');
+        var dateOLMCLMArray = new Array();
+        dateOLMCLMArray// 2015,01,01
+[0] = new Array('December 2014','201501');
+        dateOLMCLMArray// 2014,12,01
+[1] = new Array('November 2014','201412');
+        dateOLMCLMArray// 2014,11,01
+[2] = new Array('October 2014','201411');
+        dateOLMCLMArray// 2014,10,02
+[3] = new Array('September 2014','201410');
+        dateOLMCLMArray// 2014,10,01
+        dateOLMCLMArray// 2014,09,01
+[4] = new Array('August 2014','201409');
+        dateOLMCLMArray// 2014,08,01
+[5] = new Array('July 2014','201408');
+        dateOLMCLMArray// 2014,07,01
+[6] = new Array('June 2014','201407');
+        dateOLMCLMArray// 2014,06,01
+[7] = new Array('May 2014','201406');
+        dateOLMCLMArray// 2014,05,01
+[8] = new Array('April 2014','201405');
+        dateOLMCLMArray// 2014,04,01
+[9] = new Array('March 2014','201404');
+        dateOLMCLMArray// 2014,03,01
+[10] = new Array('February 2014','201403');
+        dateOLMCLMArray// 2014,02,01
+[11] = new Array('January 2014','201402');
+
+        clmPointArray[1] = new Array('Quillayute Airport','UIL');
+        var dateUILCLMArray = new Array();
+        dateUILCLMArray// 2015,01,01
+[0] = new Array('December 2014','201501');
+        dateUILCLMArray// 2014,12,01
+[1] = new Array('November 2014','201412');
+        dateUILCLMArray// 2014,11,01
+[2] = new Array('October 2014','201411');
+        dateUILCLMArray// 2014,10,02
+[3] = new Array('September 2014','201410');
+        dateUILCLMArray// 2014,10,01
+        dateUILCLMArray// 2014,09,01
+[4] = new Array('August 2014','201409');
+        dateUILCLMArray// 2014,08,01
+[5] = new Array('July 2014','201408');
+        dateUILCLMArray// 2014,07,01
+[6] = new Array('June 2014','201407');
+        dateUILCLMArray// 2014,06,01
+[7] = new Array('May 2014','201406');
+        dateUILCLMArray// 2014,05,01
+[8] = new Array('April 2014','201405');
+        dateUILCLMArray// 2014,04,01
+[9] = new Array('March 2014','201404');
+        dateUILCLMArray// 2014,03,01
+[10] = new Array('February 2014','201403');
+        dateUILCLMArray// 2014,02,01
+[11] = new Array('January 2014','201402');
+
+        clmPointArray[2] = new Array('WFO Seattle','SEW');
+        var dateSEWCLMArray = new Array();
+        dateSEWCLMArray// 2015,01,01
+[0] = new Array('December 2014','201501');
+        dateSEWCLMArray// 2014,12,01
+[1] = new Array('November 2014','201412');
+        dateSEWCLMArray// 2014,11,01
+[2] = new Array('October 2014','201411');
+        dateSEWCLMArray// 2014,10,02
+[3] = new Array('September 2014','201410');
+        dateSEWCLMArray// 2014,10,01
+        dateSEWCLMArray// 2014,09,01
+[4] = new Array('August 2014','201409');
+        dateSEWCLMArray// 2014,08,01
+[5] = new Array('July 2014','201408');
+        dateSEWCLMArray// 2014,07,01
+[6] = new Array('June 2014','201407');
+        dateSEWCLMArray// 2014,06,01
+[7] = new Array('May 2014','201406');
+        dateSEWCLMArray// 2014,05,01
+[8] = new Array('April 2014','201405');
+        dateSEWCLMArray// 2014,04,01
+[9] = new Array('March 2014','201404');
+        dateSEWCLMArray// 2014,03,01
+[10] = new Array('February 2014','201403');
+        dateSEWCLMArray// 2014,02,01
+[11] = new Array('January 2014','201402');
+
+        clmPointArray[3] = new Array('Seattle-Tacoma','SEA');
+        var dateSEACLMArray = new Array();
+        dateSEACLMArray// 2015,01,01
+[0] = new Array('December 2014','201501');
+        dateSEACLMArray// 2014,12,01
+[1] = new Array('November 2014','201412');
+        dateSEACLMArray// 2014,11,01
+[2] = new Array('October 2014','201411');
+        dateSEACLMArray// 2014,10,02
+[3] = new Array('September 2014','201410');
+        dateSEACLMArray// 2014,10,01
+        dateSEACLMArray// 2014,09,01
+[4] = new Array('August 2014','201409');
+        dateSEACLMArray// 2014,08,01
+[5] = new Array('July 2014','201408');
+        dateSEACLMArray// 2014,07,01
+[6] = new Array('June 2014','201407');
+        dateSEACLMArray// 2014,06,01
+[7] = new Array('May 2014','201406');
+        dateSEACLMArray// 2014,05,01
+[8] = new Array('April 2014','201405');
+        dateSEACLMArray// 2014,04,01
+[9] = new Array('March 2014','201404');
+        dateSEACLMArray// 2014,03,01
+[10] = new Array('February 2014','201403');
+        dateSEACLMArray// 2014,02,01
+[11] = new Array('January 2014','201402');
+
+        clmPointArray[4] = new Array('Bellingham','BLI');
+        var dateBLICLMArray = new Array();
+        dateBLICLMArray// 2015,01,01
+[0] = new Array('December 2014','201501');
+        dateBLICLMArray// 2014,12,01
+[1] = new Array('November 2014','201412');
+        dateBLICLMArray// 2014,11,01
+[2] = new Array('October 2014','201411');
+        dateBLICLMArray// 2014,10,02
+[3] = new Array('September 2014','201410');
+        dateBLICLMArray// 2014,10,01
+        dateBLICLMArray// 2014,09,01
+[4] = new Array('August 2014','201409');
+        dateBLICLMArray// 2014,08,01
+[5] = new Array('July 2014','201408');
+        dateBLICLMArray// 2014,07,01
+[6] = new Array('June 2014','201407');
+        dateBLICLMArray// 2014,06,01
+[7] = new Array('May 2014','201406');
+        dateBLICLMArray// 2014,05,01
+[8] = new Array('April 2014','201405');
+        dateBLICLMArray// 2014,04,01
+[9] = new Array('March 2014','201404');
+        dateBLICLMArray// 2014,03,01
+[10] = new Array('February 2014','201403');
+        dateBLICLMArray// 2014,02,01
+[11] = new Array('January 2014','201402');
+
+        clmPointArray[5] = new Array('Hoquiam','HQM');
+        var dateHQMCLMArray = new Array();
+        dateHQMCLMArray// 2015,01,01
+[0] = new Array('December 2014','201501');
+        dateHQMCLMArray// 2014,12,01
+[1] = new Array('November 2014','201412');
+        dateHQMCLMArray// 2014,11,01
+[2] = new Array('October 2014','201411');
+        dateHQMCLMArray// 2014,10,02
+[3] = new Array('September 2014','201410');
+        dateHQMCLMArray// 2014,10,01
+        dateHQMCLMArray// 2014,09,01
+[4] = new Array('August 2014','201409');
+        dateHQMCLMArray// 2014,08,01
+[5] = new Array('July 2014','201408');
+        dateHQMCLMArray// 2014,07,01
+[6] = new Array('June 2014','201407');
+        dateHQMCLMArray// 2014,06,01
+[7] = new Array('May 2014','201406');
+        dateHQMCLMArray// 2014,05,01
+[8] = new Array('April 2014','201405');
+        dateHQMCLMArray// 2014,04,01
+[9] = new Array('March 2014','201404');
+        dateHQMCLMArray// 2014,03,01
+[10] = new Array('February 2014','201403');
+        dateHQMCLMArray// 2014,02,01
+[11] = new Array('January 2014','201402');
+
+
+        // Generates RTPxx Station Options
+        var RTPxxPointArray = new Array();
+                RTPxxPointArray[0] = new Array('Washington','WA');
+        var dateWARTPxxArray = new Array();
+        dateWARTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateWARTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateWARTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateWARTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateWARTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateWARTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateWARTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateWARTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateWARTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateWARTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateWARTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateWARTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateWARTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateWARTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateWARTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateWARTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateWARTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateWARTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateWARTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateWARTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateWARTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateWARTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateWARTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateWARTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateWARTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateWARTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateWARTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateWARTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateWARTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateWARTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateWARTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[1] = new Array('Oregon','OR');
+        var dateORRTPxxArray = new Array();
+        dateORRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateORRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateORRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateORRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateORRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateORRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateORRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateORRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateORRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateORRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateORRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateORRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateORRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateORRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateORRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateORRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateORRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateORRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateORRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateORRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateORRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateORRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateORRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateORRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateORRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateORRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateORRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateORRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateORRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateORRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateORRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[2] = new Array('Alaska','AK');
+        var dateAKRTPxxArray = new Array();
+        dateAKRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateAKRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateAKRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateAKRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateAKRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateAKRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateAKRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateAKRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateAKRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateAKRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateAKRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateAKRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateAKRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateAKRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateAKRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateAKRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateAKRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateAKRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateAKRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateAKRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateAKRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateAKRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateAKRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateAKRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateAKRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateAKRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateAKRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateAKRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateAKRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateAKRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateAKRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[3] = new Array('California','CA');
+        var dateCARTPxxArray = new Array();
+        dateCARTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateCARTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateCARTPxxArray[2] = new Array('January 13th, 2015','20150114');
+        dateCARTPxxArray[3] = new Array('January 12th, 2015','20150113');
+        dateCARTPxxArray[4] = new Array('January 11th, 2015','20150112');
+        dateCARTPxxArray[5] = new Array('January 10th, 2015','20150111');
+        dateCARTPxxArray[6] = new Array('January 9th, 2015','20150110');
+        dateCARTPxxArray[7] = new Array('January 8th, 2015','20150109');
+        dateCARTPxxArray[8] = new Array('January 7th, 2015','20150108');
+        dateCARTPxxArray[9] = new Array('January 6th, 2015','20150107');
+        dateCARTPxxArray[10] = new Array('January 5th, 2015','20150106');
+        dateCARTPxxArray[11] = new Array('January 4th, 2015','20150105');
+        dateCARTPxxArray[12] = new Array('January 3rd, 2015','20150104');
+        dateCARTPxxArray[13] = new Array('January 2nd, 2015','20150103');
+        dateCARTPxxArray[14] = new Array('January 1st, 2015','20150102');
+        dateCARTPxxArray[15] = new Array('December 31st, 2014','20150101');
+        dateCARTPxxArray[16] = new Array('December 30th, 2014','20141231');
+        dateCARTPxxArray[17] = new Array('December 29th, 2014','20141230');
+        dateCARTPxxArray[18] = new Array('December 28th, 2014','20141229');
+        dateCARTPxxArray[19] = new Array('December 27th, 2014','20141228');
+        dateCARTPxxArray[20] = new Array('December 26th, 2014','20141227');
+        dateCARTPxxArray[21] = new Array('December 25th, 2014','20141226');
+        dateCARTPxxArray[22] = new Array('December 24th, 2014','20141225');
+        dateCARTPxxArray[23] = new Array('December 23rd, 2014','20141224');
+        dateCARTPxxArray[24] = new Array('December 22nd, 2014','20141223');
+        dateCARTPxxArray[25] = new Array('December 21st, 2014','20141222');
+        dateCARTPxxArray[26] = new Array('December 20th, 2014','20141221');
+        dateCARTPxxArray[27] = new Array('December 19th, 2014','20141220');
+        dateCARTPxxArray[28] = new Array('December 18th, 2014','20141219');
+
+        RTPxxPointArray[4] = new Array('Colorado','CO');
+        var dateCORTPxxArray = new Array();
+        dateCORTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateCORTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateCORTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateCORTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateCORTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateCORTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateCORTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateCORTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateCORTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateCORTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateCORTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateCORTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateCORTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateCORTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateCORTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateCORTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateCORTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateCORTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateCORTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateCORTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateCORTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateCORTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateCORTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateCORTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateCORTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateCORTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateCORTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateCORTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateCORTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateCORTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateCORTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[5] = new Array('Hawaii','HI');
+        var dateHIRTPxxArray = new Array();
+        dateHIRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateHIRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateHIRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateHIRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateHIRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateHIRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateHIRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateHIRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateHIRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateHIRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateHIRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateHIRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateHIRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateHIRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateHIRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateHIRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateHIRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateHIRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateHIRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateHIRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateHIRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateHIRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateHIRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateHIRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateHIRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateHIRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateHIRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateHIRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateHIRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateHIRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateHIRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[6] = new Array('Kansas','KS');
+        var dateKSRTPxxArray = new Array();
+        dateKSRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateKSRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateKSRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateKSRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateKSRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateKSRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateKSRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateKSRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateKSRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateKSRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateKSRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateKSRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateKSRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateKSRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateKSRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateKSRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateKSRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateKSRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateKSRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateKSRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateKSRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateKSRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateKSRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateKSRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateKSRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateKSRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateKSRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateKSRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateKSRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateKSRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateKSRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[7] = new Array('Idaho','ID');
+        var dateIDRTPxxArray = new Array();
+        dateIDRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateIDRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateIDRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateIDRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateIDRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateIDRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateIDRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateIDRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateIDRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateIDRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateIDRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateIDRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateIDRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateIDRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateIDRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateIDRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateIDRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateIDRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateIDRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateIDRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateIDRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateIDRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateIDRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateIDRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateIDRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateIDRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateIDRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateIDRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateIDRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateIDRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateIDRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[8] = new Array('Arizona','AZ');
+        var dateAZRTPxxArray = new Array();
+        dateAZRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateAZRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateAZRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateAZRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateAZRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateAZRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateAZRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateAZRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateAZRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateAZRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateAZRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateAZRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateAZRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateAZRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateAZRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateAZRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateAZRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateAZRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateAZRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateAZRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateAZRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateAZRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateAZRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateAZRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateAZRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateAZRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateAZRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateAZRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateAZRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateAZRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateAZRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[9] = new Array('Montana','MT');
+        var dateMTRTPxxArray = new Array();
+        dateMTRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateMTRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateMTRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateMTRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateMTRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateMTRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateMTRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateMTRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateMTRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateMTRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateMTRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateMTRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateMTRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateMTRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateMTRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateMTRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateMTRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateMTRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateMTRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateMTRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateMTRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateMTRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateMTRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateMTRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateMTRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateMTRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateMTRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateMTRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateMTRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateMTRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateMTRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[10] = new Array('New Mexico','NM');
+        var dateNMRTPxxArray = new Array();
+        dateNMRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateNMRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateNMRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateNMRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateNMRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateNMRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateNMRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateNMRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateNMRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateNMRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateNMRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateNMRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateNMRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateNMRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateNMRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateNMRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateNMRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateNMRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateNMRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateNMRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateNMRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateNMRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateNMRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateNMRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateNMRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateNMRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateNMRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateNMRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateNMRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateNMRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateNMRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[11] = new Array('Nevada','NV');
+        var dateNVRTPxxArray = new Array();
+        dateNVRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateNVRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateNVRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateNVRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateNVRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateNVRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateNVRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateNVRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateNVRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateNVRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateNVRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateNVRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateNVRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateNVRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateNVRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateNVRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateNVRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateNVRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateNVRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateNVRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateNVRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateNVRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateNVRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateNVRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateNVRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateNVRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateNVRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateNVRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateNVRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateNVRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateNVRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[12] = new Array('Texas','TX');
+        var dateTXRTPxxArray = new Array();
+        dateTXRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateTXRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateTXRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateTXRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateTXRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateTXRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateTXRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateTXRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateTXRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateTXRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateTXRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateTXRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateTXRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateTXRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateTXRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateTXRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateTXRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateTXRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateTXRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateTXRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateTXRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateTXRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateTXRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateTXRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateTXRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateTXRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateTXRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateTXRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateTXRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateTXRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateTXRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[13] = new Array('Utah','UT');
+        var dateUTRTPxxArray = new Array();
+        dateUTRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateUTRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateUTRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateUTRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateUTRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateUTRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateUTRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateUTRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateUTRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateUTRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateUTRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateUTRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateUTRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateUTRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateUTRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateUTRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateUTRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateUTRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateUTRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateUTRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateUTRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateUTRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateUTRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateUTRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateUTRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateUTRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateUTRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateUTRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateUTRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateUTRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateUTRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+        RTPxxPointArray[14] = new Array('Wyoming','WY');
+        var dateWYRTPxxArray = new Array();
+        dateWYRTPxxArray[0] = new Array('January 16th, 2015','20150117');
+        dateWYRTPxxArray[1] = new Array('January 15th, 2015','20150116');
+        dateWYRTPxxArray[2] = new Array('January 14th, 2015','20150115');
+        dateWYRTPxxArray[3] = new Array('January 13th, 2015','20150114');
+        dateWYRTPxxArray[4] = new Array('January 12th, 2015','20150113');
+        dateWYRTPxxArray[5] = new Array('January 11th, 2015','20150112');
+        dateWYRTPxxArray[6] = new Array('January 10th, 2015','20150111');
+        dateWYRTPxxArray[7] = new Array('January 9th, 2015','20150110');
+        dateWYRTPxxArray[8] = new Array('January 8th, 2015','20150109');
+        dateWYRTPxxArray[9] = new Array('January 7th, 2015','20150108');
+        dateWYRTPxxArray[10] = new Array('January 6th, 2015','20150107');
+        dateWYRTPxxArray[11] = new Array('January 5th, 2015','20150106');
+        dateWYRTPxxArray[12] = new Array('January 4th, 2015','20150105');
+        dateWYRTPxxArray[13] = new Array('January 3rd, 2015','20150104');
+        dateWYRTPxxArray[14] = new Array('January 2nd, 2015','20150103');
+        dateWYRTPxxArray[15] = new Array('January 1st, 2015','20150102');
+        dateWYRTPxxArray[16] = new Array('December 31st, 2014','20150101');
+        dateWYRTPxxArray[17] = new Array('December 30th, 2014','20141231');
+        dateWYRTPxxArray[18] = new Array('December 29th, 2014','20141230');
+        dateWYRTPxxArray[19] = new Array('December 28th, 2014','20141229');
+        dateWYRTPxxArray[20] = new Array('December 27th, 2014','20141228');
+        dateWYRTPxxArray[21] = new Array('December 26th, 2014','20141227');
+        dateWYRTPxxArray[22] = new Array('December 25th, 2014','20141226');
+        dateWYRTPxxArray[23] = new Array('December 24th, 2014','20141225');
+        dateWYRTPxxArray[24] = new Array('December 23rd, 2014','20141224');
+        dateWYRTPxxArray[25] = new Array('December 22nd, 2014','20141223');
+        dateWYRTPxxArray[26] = new Array('December 21st, 2014','20141222');
+        dateWYRTPxxArray[27] = new Array('December 20th, 2014','20141221');
+        dateWYRTPxxArray[28] = new Array('December 19th, 2014','20141220');
+        dateWYRTPxxArray[29] = new Array('December 18th, 2014','20141219');
+        dateWYRTPxxArray[30] = new Array('December 17th, 2014','20141218');
+
+
+        // Generates RTP Station Options
+        var rtpPointArray = new Array();
+                rtpPointArray[0] = new Array('Seattle-Tacoma','SEW');
+        var dateSEWRTPArray = new Array();
+        dateSEWRTPArray[0] = new Array('January 16th, 2015','20150117');
+        dateSEWRTPArray[1] = new Array('January 15th, 2015','20150116');
+        dateSEWRTPArray[2] = new Array('January 14th, 2015','20150115');
+        dateSEWRTPArray[3] = new Array('January 13th, 2015','20150114');
+        dateSEWRTPArray[4] = new Array('January 12th, 2015','20150113');
+        dateSEWRTPArray[5] = new Array('January 11th, 2015','20150112');
+        dateSEWRTPArray[6] = new Array('January 10th, 2015','20150111');
+        dateSEWRTPArray[7] = new Array('January 9th, 2015','20150110');
+        dateSEWRTPArray[8] = new Array('January 8th, 2015','20150109');
+        dateSEWRTPArray[9] = new Array('January 7th, 2015','20150108');
+        dateSEWRTPArray[10] = new Array('January 6th, 2015','20150107');
+        dateSEWRTPArray[11] = new Array('January 5th, 2015','20150106');
+        dateSEWRTPArray[12] = new Array('January 4th, 2015','20150105');
+        dateSEWRTPArray[13] = new Array('January 3rd, 2015','20150104');
+        dateSEWRTPArray[14] = new Array('January 2nd, 2015','20150103');
+        dateSEWRTPArray[15] = new Array('January 1st, 2015','20150102');
+        dateSEWRTPArray[16] = new Array('December 31st, 2014','20150101');
+        dateSEWRTPArray[17] = new Array('December 30th, 2014','20141231');
+        dateSEWRTPArray[18] = new Array('December 29th, 2014','20141230');
+        dateSEWRTPArray[19] = new Array('December 28th, 2014','20141229');
+        dateSEWRTPArray[20] = new Array('December 27th, 2014','20141228');
+        dateSEWRTPArray[21] = new Array('December 26th, 2014','20141227');
+        dateSEWRTPArray[22] = new Array('December 25th, 2014','20141226');
+        dateSEWRTPArray[23] = new Array('December 24th, 2014','20141225');
+        dateSEWRTPArray[24] = new Array('December 23rd, 2014','20141224');
+        dateSEWRTPArray[25] = new Array('December 22nd, 2014','20141223');
+        dateSEWRTPArray[26] = new Array('December 21st, 2014','20141222');
+        dateSEWRTPArray[27] = new Array('December 20th, 2014','20141221');
+        dateSEWRTPArray[28] = new Array('December 19th, 2014','20141220');
+        dateSEWRTPArray[29] = new Array('December 18th, 2014','20141219');
+        dateSEWRTPArray[30] = new Array('December 17th, 2014','20141218');
+        dateSEWRTPArray[31] = new Array('December 16th, 2014','20141217');
+        dateSEWRTPArray[32] = new Array('December 15th, 2014','20141216');
+        dateSEWRTPArray[33] = new Array('December 14th, 2014','20141215');
+        dateSEWRTPArray[34] = new Array('December 13th, 2014','20141214');
+        dateSEWRTPArray[35] = new Array('December 12th, 2014','20141213');
+        dateSEWRTPArray[36] = new Array('December 11th, 2014','20141212');
+        dateSEWRTPArray[37] = new Array('December 10th, 2014','20141211');
+        dateSEWRTPArray[38] = new Array('December 9th, 2014','20141210');
+        dateSEWRTPArray[39] = new Array('December 8th, 2014','20141209');
+        dateSEWRTPArray[40] = new Array('December 7th, 2014','20141208');
+        dateSEWRTPArray[41] = new Array('December 6th, 2014','20141207');
+        dateSEWRTPArray[42] = new Array('December 5th, 2014','20141206');
+        dateSEWRTPArray[43] = new Array('December 4th, 2014','20141205');
+        dateSEWRTPArray[44] = new Array('December 3rd, 2014','20141204');
+        dateSEWRTPArray[45] = new Array('December 2nd, 2014','20141203');
+        dateSEWRTPArray[46] = new Array('December 1st, 2014','20141202');
+        dateSEWRTPArray[47] = new Array('November 30th, 2014','20141201');
+        dateSEWRTPArray[48] = new Array('November 29th, 2014','20141130');
+        dateSEWRTPArray[49] = new Array('November 28th, 2014','20141129');
+        dateSEWRTPArray[50] = new Array('November 27th, 2014','20141128');
+        dateSEWRTPArray[51] = new Array('November 26th, 2014','20141127');
+        dateSEWRTPArray[52] = new Array('November 25th, 2014','20141126');
+        dateSEWRTPArray[53] = new Array('November 24th, 2014','20141125');
+        dateSEWRTPArray[54] = new Array('November 23rd, 2014','20141124');
+        dateSEWRTPArray[55] = new Array('November 22nd, 2014','20141123');
+        dateSEWRTPArray[56] = new Array('November 21st, 2014','20141122');
+        dateSEWRTPArray[57] = new Array('November 20th, 2014','20141121');
+        dateSEWRTPArray[58] = new Array('November 19th, 2014','20141120');
+        dateSEWRTPArray[59] = new Array('November 18th, 2014','20141119');
+        dateSEWRTPArray[60] = new Array('November 17th, 2014','20141118');
+        dateSEWRTPArray[61] = new Array('November 16th, 2014','20141117');
+        dateSEWRTPArray[62] = new Array('November 15th, 2014','20141116');
+        dateSEWRTPArray[63] = new Array('November 14th, 2014','20141115');
+        dateSEWRTPArray[64] = new Array('November 13th, 2014','20141114');
+        dateSEWRTPArray[65] = new Array('November 12th, 2014','20141113');
+        dateSEWRTPArray[66] = new Array('November 11th, 2014','20141112');
+        dateSEWRTPArray[67] = new Array('November 10th, 2014','20141111');
+        dateSEWRTPArray[68] = new Array('November 9th, 2014','20141110');
+        dateSEWRTPArray[69] = new Array('November 8th, 2014','20141109');
+        dateSEWRTPArray[70] = new Array('November 7th, 2014','20141108');
+        dateSEWRTPArray[71] = new Array('November 6th, 2014','20141107');
+        dateSEWRTPArray[72] = new Array('November 5th, 2014','20141106');
+        dateSEWRTPArray[73] = new Array('November 4th, 2014','20141105');
+        dateSEWRTPArray[74] = new Array('November 3rd, 2014','20141104');
+        dateSEWRTPArray[75] = new Array('November 2nd, 2014','20141103');
+        dateSEWRTPArray[76] = new Array('November 1st, 2014','20141102');
+        dateSEWRTPArray[77] = new Array('October 31st, 2014','20141101');
+        dateSEWRTPArray[78] = new Array('October 30th, 2014','20141031');
+        dateSEWRTPArray[79] = new Array('October 29th, 2014','20141030');
+        dateSEWRTPArray[80] = new Array('October 28th, 2014','20141029');
+        dateSEWRTPArray[81] = new Array('October 27th, 2014','20141028');
+        dateSEWRTPArray[82] = new Array('October 26th, 2014','20141027');
+        dateSEWRTPArray[83] = new Array('October 25th, 2014','20141026');
+        dateSEWRTPArray[84] = new Array('October 24th, 2014','20141025');
+        dateSEWRTPArray[85] = new Array('October 23rd, 2014','20141024');
+        dateSEWRTPArray[86] = new Array('October 22nd, 2014','20141023');
+        dateSEWRTPArray[87] = new Array('October 21st, 2014','20141022');
+        dateSEWRTPArray[88] = new Array('October 20th, 2014','20141021');
+        dateSEWRTPArray[89] = new Array('October 19th, 2014','20141020');
+        dateSEWRTPArray[90] = new Array('October 18th, 2014','20141019');
+        dateSEWRTPArray[91] = new Array('October 17th, 2014','20141018');
+        dateSEWRTPArray[92] = new Array('October 16th, 2014','20141017');
+        dateSEWRTPArray[93] = new Array('October 15th, 2014','20141016');
+        dateSEWRTPArray[94] = new Array('October 14th, 2014','20141015');
+        dateSEWRTPArray[95] = new Array('October 13th, 2014','20141014');
+        dateSEWRTPArray[96] = new Array('October 12th, 2014','20141013');
+        dateSEWRTPArray[97] = new Array('October 11th, 2014','20141012');
+        dateSEWRTPArray[98] = new Array('October 10th, 2014','20141011');
+        dateSEWRTPArray[99] = new Array('October 9th, 2014','20141010');
+        dateSEWRTPArray[100] = new Array('October 8th, 2014','20141009');
+        dateSEWRTPArray[101] = new Array('October 7th, 2014','20141008');
+        dateSEWRTPArray[102] = new Array('October 6th, 2014','20141007');
+        dateSEWRTPArray[103] = new Array('October 5th, 2014','20141006');
+        dateSEWRTPArray[104] = new Array('October 4th, 2014','20141005');
+        dateSEWRTPArray[105] = new Array('October 3rd, 2014','20141004');
+        dateSEWRTPArray[106] = new Array('October 2nd, 2014','20141003');
+        dateSEWRTPArray[107] = new Array('October 1st, 2014','20141002');
+        dateSEWRTPArray[108] = new Array('September 30th, 2014','20141001');
+        dateSEWRTPArray[109] = new Array('September 29th, 2014','20140930');
+        dateSEWRTPArray[110] = new Array('September 28th, 2014','20140929');
+        dateSEWRTPArray[111] = new Array('September 27th, 2014','20140928');
+        dateSEWRTPArray[112] = new Array('September 26th, 2014','20140927');
+        dateSEWRTPArray[113] = new Array('September 25th, 2014','20140926');
+        dateSEWRTPArray[114] = new Array('September 24th, 2014','20140925');
+        dateSEWRTPArray[115] = new Array('September 23rd, 2014','20140924');
+        dateSEWRTPArray[116] = new Array('September 22nd, 2014','20140923');
+        dateSEWRTPArray[117] = new Array('September 21st, 2014','20140922');
+        dateSEWRTPArray[118] = new Array('September 20th, 2014','20140921');
+        dateSEWRTPArray[119] = new Array('September 19th, 2014','20140920');
+        dateSEWRTPArray[120] = new Array('September 18th, 2014','20140919');
+        dateSEWRTPArray[121] = new Array('September 17th, 2014','20140918');
+        dateSEWRTPArray[122] = new Array('September 16th, 2014','20140917');
+        dateSEWRTPArray[123] = new Array('September 15th, 2014','20140916');
+        dateSEWRTPArray[124] = new Array('September 14th, 2014','20140915');
+        dateSEWRTPArray[125] = new Array('September 13th, 2014','20140914');
+        dateSEWRTPArray[126] = new Array('September 12th, 2014','20140913');
+        dateSEWRTPArray[127] = new Array('September 11th, 2014','20140912');
+        dateSEWRTPArray[128] = new Array('September 10th, 2014','20140911');
+        dateSEWRTPArray[129] = new Array('September 9th, 2014','20140910');
+        dateSEWRTPArray[130] = new Array('September 8th, 2014','20140909');
+        dateSEWRTPArray[131] = new Array('September 7th, 2014','20140908');
+        dateSEWRTPArray[132] = new Array('September 6th, 2014','20140907');
+        dateSEWRTPArray[133] = new Array('September 5th, 2014','20140906');
+        dateSEWRTPArray[134] = new Array('September 4th, 2014','20140905');
+        dateSEWRTPArray[135] = new Array('September 3rd, 2014','20140904');
+        dateSEWRTPArray[136] = new Array('September 2nd, 2014','20140903');
+        dateSEWRTPArray[137] = new Array('September 1st, 2014','20140902');
+        dateSEWRTPArray[138] = new Array('August 31st, 2014','20140901');
+        dateSEWRTPArray[139] = new Array('August 30th, 2014','20140831');
+        dateSEWRTPArray[140] = new Array('August 29th, 2014','20140830');
+        dateSEWRTPArray[141] = new Array('August 28th, 2014','20140829');
+        dateSEWRTPArray[142] = new Array('August 27th, 2014','20140828');
+        dateSEWRTPArray[143] = new Array('August 26th, 2014','20140827');
+        dateSEWRTPArray[144] = new Array('August 25th, 2014','20140826');
+        dateSEWRTPArray[145] = new Array('August 24th, 2014','20140825');
+        dateSEWRTPArray[146] = new Array('August 23rd, 2014','20140824');
+        dateSEWRTPArray[147] = new Array('August 22nd, 2014','20140823');
+        dateSEWRTPArray[148] = new Array('August 21st, 2014','20140822');
+        dateSEWRTPArray[149] = new Array('August 20th, 2014','20140821');
+        dateSEWRTPArray[150] = new Array('August 19th, 2014','20140820');
+        dateSEWRTPArray[151] = new Array('August 18th, 2014','20140819');
+        dateSEWRTPArray[152] = new Array('August 17th, 2014','20140818');
+        dateSEWRTPArray[153] = new Array('August 16th, 2014','20140817');
+        dateSEWRTPArray[154] = new Array('August 15th, 2014','20140816');
+        dateSEWRTPArray[155] = new Array('August 14th, 2014','20140815');
+        dateSEWRTPArray[156] = new Array('August 13th, 2014','20140814');
+        dateSEWRTPArray[157] = new Array('August 12th, 2014','20140813');
+        dateSEWRTPArray[158] = new Array('August 11th, 2014','20140812');
+        dateSEWRTPArray[159] = new Array('August 10th, 2014','20140811');
+        dateSEWRTPArray[160] = new Array('August 9th, 2014','20140810');
+        dateSEWRTPArray[161] = new Array('August 8th, 2014','20140809');
+        dateSEWRTPArray[162] = new Array('August 7th, 2014','20140808');
+        dateSEWRTPArray[163] = new Array('August 6th, 2014','20140807');
+        dateSEWRTPArray[164] = new Array('August 5th, 2014','20140806');
+        dateSEWRTPArray[165] = new Array('August 4th, 2014','20140805');
+        dateSEWRTPArray[166] = new Array('August 3rd, 2014','20140804');
+        dateSEWRTPArray[167] = new Array('August 2nd, 2014','20140803');
+        dateSEWRTPArray[168] = new Array('August 1st, 2014','20140802');
+        dateSEWRTPArray[169] = new Array('July 31st, 2014','20140801');
+        dateSEWRTPArray[170] = new Array('July 30th, 2014','20140731');
+        dateSEWRTPArray[171] = new Array('July 29th, 2014','20140730');
+        dateSEWRTPArray[172] = new Array('July 28th, 2014','20140729');
+        dateSEWRTPArray[173] = new Array('July 27th, 2014','20140728');
+        dateSEWRTPArray[174] = new Array('July 26th, 2014','20140727');
+        dateSEWRTPArray[175] = new Array('July 25th, 2014','20140726');
+        dateSEWRTPArray[176] = new Array('July 24th, 2014','20140725');
+        dateSEWRTPArray[177] = new Array('July 23rd, 2014','20140724');
+        dateSEWRTPArray[178] = new Array('July 22nd, 2014','20140723');
+        dateSEWRTPArray[179] = new Array('July 21st, 2014','20140722');
+        dateSEWRTPArray[180] = new Array('July 20th, 2014','20140721');
+        dateSEWRTPArray[181] = new Array('July 19th, 2014','20140720');
+        dateSEWRTPArray[182] = new Array('July 18th, 2014','20140719');
+        dateSEWRTPArray[183] = new Array('July 17th, 2014','20140718');
+        dateSEWRTPArray[184] = new Array('July 16th, 2014','20140717');
+        dateSEWRTPArray[185] = new Array('July 15th, 2014','20140716');
+        dateSEWRTPArray[186] = new Array('July 14th, 2014','20140715');
+        dateSEWRTPArray[187] = new Array('July 13th, 2014','20140714');
+        dateSEWRTPArray[188] = new Array('July 12th, 2014','20140713');
+        dateSEWRTPArray[189] = new Array('July 11th, 2014','20140712');
+        dateSEWRTPArray[190] = new Array('July 10th, 2014','20140711');
+        dateSEWRTPArray[191] = new Array('July 9th, 2014','20140710');
+        dateSEWRTPArray[192] = new Array('July 8th, 2014','20140709');
+        dateSEWRTPArray[193] = new Array('July 7th, 2014','20140708');
+        dateSEWRTPArray[194] = new Array('July 6th, 2014','20140707');
+        dateSEWRTPArray[195] = new Array('July 5th, 2014','20140706');
+        dateSEWRTPArray[196] = new Array('July 4th, 2014','20140705');
+        dateSEWRTPArray[197] = new Array('July 3rd, 2014','20140704');
+        dateSEWRTPArray[198] = new Array('July 2nd, 2014','20140703');
+        dateSEWRTPArray[199] = new Array('July 1st, 2014','20140702');
+        dateSEWRTPArray[200] = new Array('June 30th, 2014','20140701');
+        dateSEWRTPArray[201] = new Array('June 29th, 2014','20140630');
+        dateSEWRTPArray[202] = new Array('June 28th, 2014','20140629');
+        dateSEWRTPArray[203] = new Array('June 27th, 2014','20140628');
+        dateSEWRTPArray[204] = new Array('June 26th, 2014','20140627');
+        dateSEWRTPArray[205] = new Array('June 25th, 2014','20140626');
+        dateSEWRTPArray[206] = new Array('June 24th, 2014','20140625');
+        dateSEWRTPArray[207] = new Array('June 23rd, 2014','20140624');
+        dateSEWRTPArray[208] = new Array('June 22nd, 2014','20140623');
+        dateSEWRTPArray[209] = new Array('June 21st, 2014','20140622');
+        dateSEWRTPArray[210] = new Array('June 20th, 2014','20140621');
+        dateSEWRTPArray[211] = new Array('June 19th, 2014','20140620');
+        dateSEWRTPArray[212] = new Array('June 18th, 2014','20140619');
+        dateSEWRTPArray[213] = new Array('June 17th, 2014','20140618');
+        dateSEWRTPArray[214] = new Array('June 16th, 2014','20140617');
+        dateSEWRTPArray[215] = new Array('June 15th, 2014','20140616');
+        dateSEWRTPArray[216] = new Array('June 14th, 2014','20140615');
+        dateSEWRTPArray[217] = new Array('June 13th, 2014','20140614');
+        dateSEWRTPArray[218] = new Array('June 12th, 2014','20140613');
+        dateSEWRTPArray[219] = new Array('June 11th, 2014','20140612');
+        dateSEWRTPArray[220] = new Array('June 10th, 2014','20140611');
+        dateSEWRTPArray[221] = new Array('June 9th, 2014','20140610');
+        dateSEWRTPArray[222] = new Array('June 8th, 2014','20140609');
+        dateSEWRTPArray[223] = new Array('June 7th, 2014','20140608');
+        dateSEWRTPArray[224] = new Array('June 6th, 2014','20140607');
+        dateSEWRTPArray[225] = new Array('June 5th, 2014','20140606');
+        dateSEWRTPArray[226] = new Array('June 4th, 2014','20140605');
+        dateSEWRTPArray[227] = new Array('June 3rd, 2014','20140604');
+        dateSEWRTPArray[228] = new Array('June 2nd, 2014','20140603');
+        dateSEWRTPArray[229] = new Array('June 1st, 2014','20140602');
+        dateSEWRTPArray[230] = new Array('May 31st, 2014','20140601');
+        dateSEWRTPArray[231] = new Array('May 30th, 2014','20140531');
+        dateSEWRTPArray[232] = new Array('May 29th, 2014','20140530');
+        dateSEWRTPArray[233] = new Array('May 28th, 2014','20140529');
+        dateSEWRTPArray[234] = new Array('May 27th, 2014','20140528');
+        dateSEWRTPArray[235] = new Array('May 26th, 2014','20140527');
+        dateSEWRTPArray[236] = new Array('May 25th, 2014','20140526');
+        dateSEWRTPArray[237] = new Array('May 24th, 2014','20140525');
+        dateSEWRTPArray[238] = new Array('May 23rd, 2014','20140524');
+        dateSEWRTPArray[239] = new Array('May 22nd, 2014','20140523');
+        dateSEWRTPArray[240] = new Array('May 21st, 2014','20140522');
+        dateSEWRTPArray[241] = new Array('May 20th, 2014','20140521');
+        dateSEWRTPArray[242] = new Array('May 19th, 2014','20140520');
+        dateSEWRTPArray[243] = new Array('May 18th, 2014','20140519');
+        dateSEWRTPArray[244] = new Array('May 17th, 2014','20140518');
+        dateSEWRTPArray[245] = new Array('May 16th, 2014','20140517');
+        dateSEWRTPArray[246] = new Array('May 15th, 2014','20140516');
+        dateSEWRTPArray[247] = new Array('May 14th, 2014','20140515');
+        dateSEWRTPArray[248] = new Array('May 13th, 2014','20140514');
+        dateSEWRTPArray[249] = new Array('May 12th, 2014','20140513');
+        dateSEWRTPArray[250] = new Array('May 11th, 2014','20140512');
+        dateSEWRTPArray[251] = new Array('May 10th, 2014','20140511');
+        dateSEWRTPArray[252] = new Array('May 9th, 2014','20140510');
+        dateSEWRTPArray[253] = new Array('May 8th, 2014','20140509');
+        dateSEWRTPArray[254] = new Array('May 7th, 2014','20140508');
+        dateSEWRTPArray[255] = new Array('May 6th, 2014','20140507');
+        dateSEWRTPArray[256] = new Array('May 5th, 2014','20140506');
+        dateSEWRTPArray[257] = new Array('May 4th, 2014','20140505');
+        dateSEWRTPArray[258] = new Array('May 3rd, 2014','20140504');
+        dateSEWRTPArray[259] = new Array('May 2nd, 2014','20140503');
+        dateSEWRTPArray[260] = new Array('May 1st, 2014','20140502');
+        dateSEWRTPArray[261] = new Array('April 30th, 2014','20140501');
+        dateSEWRTPArray[262] = new Array('April 29th, 2014','20140430');
+        dateSEWRTPArray[263] = new Array('April 28th, 2014','20140429');
+        dateSEWRTPArray[264] = new Array('April 27th, 2014','20140428');
+        dateSEWRTPArray[265] = new Array('April 26th, 2014','20140427');
+        dateSEWRTPArray[266] = new Array('April 25th, 2014','20140426');
+        dateSEWRTPArray[267] = new Array('April 24th, 2014','20140425');
+        dateSEWRTPArray[268] = new Array('April 23rd, 2014','20140424');
+        dateSEWRTPArray[269] = new Array('April 22nd, 2014','20140423');
+        dateSEWRTPArray[270] = new Array('April 21st, 2014','20140422');
+        dateSEWRTPArray[271] = new Array('April 20th, 2014','20140421');
+        dateSEWRTPArray[272] = new Array('April 19th, 2014','20140420');
+        dateSEWRTPArray[273] = new Array('April 18th, 2014','20140419');
+        dateSEWRTPArray[274] = new Array('April 17th, 2014','20140418');
+        dateSEWRTPArray[275] = new Array('April 16th, 2014','20140417');
+        dateSEWRTPArray[276] = new Array('April 15th, 2014','20140416');
+        dateSEWRTPArray[277] = new Array('April 14th, 2014','20140415');
+        dateSEWRTPArray[278] = new Array('April 13th, 2014','20140414');
+        dateSEWRTPArray[279] = new Array('April 12th, 2014','20140413');
+        dateSEWRTPArray[280] = new Array('April 11th, 2014','20140412');
+        dateSEWRTPArray[281] = new Array('April 10th, 2014','20140411');
+        dateSEWRTPArray[282] = new Array('April 9th, 2014','20140410');
+        dateSEWRTPArray[283] = new Array('April 8th, 2014','20140409');
+        dateSEWRTPArray[284] = new Array('April 7th, 2014','20140408');
+        dateSEWRTPArray[285] = new Array('April 6th, 2014','20140407');
+        dateSEWRTPArray[286] = new Array('April 5th, 2014','20140406');
+        dateSEWRTPArray[287] = new Array('April 4th, 2014','20140405');
+        dateSEWRTPArray[288] = new Array('April 3rd, 2014','20140404');
+        dateSEWRTPArray[289] = new Array('April 2nd, 2014','20140403');
+        dateSEWRTPArray[290] = new Array('April 1st, 2014','20140402');
+        dateSEWRTPArray[291] = new Array('March 31st, 2014','20140401');
+        dateSEWRTPArray[292] = new Array('March 30th, 2014','20140331');
+        dateSEWRTPArray[293] = new Array('March 29th, 2014','20140330');
+        dateSEWRTPArray[294] = new Array('March 28th, 2014','20140329');
+        dateSEWRTPArray[295] = new Array('March 27th, 2014','20140328');
+        dateSEWRTPArray[296] = new Array('March 26th, 2014','20140327');
+        dateSEWRTPArray[297] = new Array('March 25th, 2014','20140326');
+        dateSEWRTPArray[298] = new Array('March 24th, 2014','20140325');
+        dateSEWRTPArray[299] = new Array('March 23rd, 2014','20140324');
+        dateSEWRTPArray[300] = new Array('March 22nd, 2014','20140323');
+        dateSEWRTPArray[301] = new Array('March 21st, 2014','20140322');
+        dateSEWRTPArray[302] = new Array('March 20th, 2014','20140321');
+        dateSEWRTPArray[303] = new Array('March 19th, 2014','20140320');
+        dateSEWRTPArray[304] = new Array('March 18th, 2014','20140319');
+        dateSEWRTPArray[305] = new Array('March 17th, 2014','20140318');
+        dateSEWRTPArray[306] = new Array('March 16th, 2014','20140317');
+        dateSEWRTPArray[307] = new Array('March 15th, 2014','20140316');
+        dateSEWRTPArray[308] = new Array('March 14th, 2014','20140315');
+        dateSEWRTPArray[309] = new Array('March 13th, 2014','20140314');
+        dateSEWRTPArray[310] = new Array('March 12th, 2014','20140313');
+        dateSEWRTPArray[311] = new Array('March 11th, 2014','20140312');
+        dateSEWRTPArray[312] = new Array('March 10th, 2014','20140311');
+        dateSEWRTPArray[313] = new Array('March 9th, 2014','20140310');
+        dateSEWRTPArray[314] = new Array('March 8th, 2014','20140309');
+        dateSEWRTPArray[315] = new Array('March 7th, 2014','20140308');
+        dateSEWRTPArray[316] = new Array('March 6th, 2014','20140307');
+        dateSEWRTPArray[317] = new Array('March 5th, 2014','20140306');
+        dateSEWRTPArray[318] = new Array('March 4th, 2014','20140305');
+        dateSEWRTPArray[319] = new Array('March 3rd, 2014','20140304');
+        dateSEWRTPArray[320] = new Array('March 2nd, 2014','20140303');
+        dateSEWRTPArray[321] = new Array('March 1st, 2014','20140302');
+        dateSEWRTPArray[322] = new Array('February 28th, 2014','20140301');
+        dateSEWRTPArray[323] = new Array('February 27th, 2014','20140228');
+        dateSEWRTPArray[324] = new Array('February 26th, 2014','20140227');
+        dateSEWRTPArray[325] = new Array('February 25th, 2014','20140226');
+        dateSEWRTPArray[326] = new Array('February 24th, 2014','20140225');
+        dateSEWRTPArray[327] = new Array('February 23rd, 2014','20140224');
+        dateSEWRTPArray[328] = new Array('February 22nd, 2014','20140223');
+        dateSEWRTPArray[329] = new Array('February 21st, 2014','20140222');
+        dateSEWRTPArray[330] = new Array('February 20th, 2014','20140221');
+        dateSEWRTPArray[331] = new Array('February 19th, 2014','20140220');
+        dateSEWRTPArray[332] = new Array('February 18th, 2014','20140219');
+        dateSEWRTPArray[333] = new Array('February 17th, 2014','20140218');
+        dateSEWRTPArray[334] = new Array('February 16th, 2014','20140217');
+        dateSEWRTPArray[335] = new Array('February 15th, 2014','20140216');
+        dateSEWRTPArray[336] = new Array('February 14th, 2014','20140215');
+        dateSEWRTPArray[337] = new Array('February 13th, 2014','20140214');
+        dateSEWRTPArray[338] = new Array('February 12th, 2014','20140213');
+        dateSEWRTPArray[339] = new Array('February 11th, 2014','20140212');
+        dateSEWRTPArray[340] = new Array('February 10th, 2014','20140211');
+        dateSEWRTPArray[341] = new Array('February 9th, 2014','20140210');
+        dateSEWRTPArray[342] = new Array('February 8th, 2014','20140209');
+        dateSEWRTPArray[343] = new Array('February 7th, 2014','20140208');
+        dateSEWRTPArray[344] = new Array('February 6th, 2014','20140207');
+        dateSEWRTPArray[345] = new Array('February 5th, 2014','20140206');
+        dateSEWRTPArray[346] = new Array('February 4th, 2014','20140205');
+        dateSEWRTPArray[347] = new Array('February 3rd, 2014','20140204');
+        dateSEWRTPArray[348] = new Array('February 2nd, 2014','20140203');
+        dateSEWRTPArray[349] = new Array('February 1st, 2014','20140202');
+        dateSEWRTPArray[350] = new Array('January 31st, 2014','20140201');
+        dateSEWRTPArray[351] = new Array('January 30th, 2014','20140131');
+        dateSEWRTPArray[352] = new Array('January 29th, 2014','20140130');
+        dateSEWRTPArray[353] = new Array('January 28th, 2014','20140129');
+        dateSEWRTPArray[354] = new Array('January 27th, 2014','20140128');
+        dateSEWRTPArray[355] = new Array('January 26th, 2014','20140127');
+        dateSEWRTPArray[356] = new Array('January 25th, 2014','20140126');
+        dateSEWRTPArray[357] = new Array('January 24th, 2014','20140125');
+        dateSEWRTPArray[358] = new Array('January 23rd, 2014','20140124');
+        dateSEWRTPArray[359] = new Array('January 22nd, 2014','20140123');
+        dateSEWRTPArray[360] = new Array('January 21st, 2014','20140122');
+        dateSEWRTPArray[361] = new Array('January 20th, 2014','20140121');
+        dateSEWRTPArray[362] = new Array('January 19th, 2014','20140120');
+        dateSEWRTPArray[363] = new Array('January 18th, 2014','20140119');
+        dateSEWRTPArray[364] = new Array('January 17th, 2014','20140118');
+
+
+        // Generates CLS Station Options
+        var clsPointArray = new Array();
+        
+        // Generates CLQ Station Options
+        var clqPointArray = new Array();
+        
+        // Generates CLA Station Options
+        var claPointArray = new Array();
+        
+        // Generates Product Descriptions and used to determine date dropdown box
+        var prodDescArray = new Array();
+        prodDescArray[0] = new Array("DAILY CLIMATE REPORT - issued daily:\nDetailed daily weather statistics (usually for yesterday), including temperature, precipitation, degree days, wind, humidity, sunrise/sunset, and record temperature data for the following day.  Precipitation data includes both calendar year and water year totals, percent of normal values, and comparisons to normal.  This product is available for up to 2 months.", "CLI");
+        prodDescArray[1] = new Array("PRELIMINARY MONTHLY DATA (CF6) - updated frequently:\nDaily weather statistics for the month, including temperatures, precipitation, degree days, wind and sky cover.  In addition, monthly statistics such as average temperatures and departures from normal, degree days, and rainfall are also included.  This product is available for up to 5 years.", "CF6");
+        prodDescArray[2] = new Array("RECORD EVENT REPORT - issued as needed:\nInformation on weather-related records that have been matched or broken.  Examples include record temperatures, or number of consecutive days of measurable rainfall.  *NOTE more in-depth record data may also be available under the tab \"Local Data/Records.\"   This product is available for up to 6 months.", "RER");
+        prodDescArray[3] = new Array("MONTHLY WEATHER SUMMARY - issued once per month:\nMonthly weather statistics, including temperature, precipitation, degree days, pressure, wind and sky cover.  Normal values and departures from normal are also included.  *NOTE more in-depth record data may also be available under the tab \"Local Data/Records.\"  This product is available for up to 1 year.", "CLM");
+        prodDescArray[4] = new Array("REGIONAL SUMMARY: issued multiple times per day\nLocal high and low temperature and precipitation information from sites like cooperative weather observers and airports.  This product is available for up to 1 year.", "RTP");
+        prodDescArray[5] = new Array("STATE SUMMARY: issued multiple times per day\nStatewide high and low temperature and precipitation information from sites like cooperative weather observers and airports.  This product is available for up to 1 month.", "RTPxx");
+        prodDescArray[6] = new Array("Seasonal Climate Report - issued seasonally: Detailed seasonal weather statistics, including temperature, precipitation, degree days, wind, humidity, sunrise/sunset, and record temperature data for a season. Precipitation data includes both calendar year and water year totals, percent of normal values, and comparisons to normal.", "CLS");
+        prodDescArray[7] = new Array("Quarterly Climate Report - issued quarterly: Detailed quarterly weather statistics, including temperature, precipitation, degree days, wind, humidity, sunrise/sunset, and record temperature data for a quarter. Precipitation data includes both calendar year and water year totals, percent of normal values, and comparisons to normal.", "CLQ");
+        prodDescArray[8] = new Array("Annual Climate Report - issued annually: Detailed annual weather statistics, including temperature, precipitation, degree days, wind, humidity, sunrise/sunset, and record temperature data for a year period. Precipitation data includes both calendar year and water year totals, percent of normal values, and comparisons to normal.", "CLA");
+
+        // Functions
+        function swapDropdown(radioVar) {
+            var varArray = eval(radioVar + "PointArray");
+            var dropDownObject = eval("document.getData.station.options");
+            dropDownObject.length = 0;
+            for (i=0; i<varArray.length; i++)
+                dropDownObject[i] = new Option(varArray[i][0], varArray[i][1]);
+            dropDownObject[0].selected = true;
+        }
+        function swapProdDesc(curProd) {
+            var varArray = eval("prodDescArray");
+            var textAreaObject = eval("document.getData.prodDesc");
+            var testVal = curProd;
+            for (i=0; i<varArray.length; i++)
+                if (testVal == varArray[i][1])
+                    textAreaObject.value = varArray[i][0];
+        }
+        function swapDateDropdown() {
+            var dropDownObject = eval("document.getData.date.options");
+            for (i=0; i<document.getData.product.length;i++)
+                if (document.getData.product[i].checked)
+                    var curProd = document.getData.product[i].value;
+            var curLoc = document.getData.station[document.getData.station.selectedIndex].value;
+            var dateArray = eval("date" + curLoc + curProd + "Array");
+            dropDownObject.length = 0;
+            if (dateArray.length > 0 )
+                for (j=0; j<dateArray.length; j++)
+                    dropDownObject[j] = new Option(dateArray[j][0], dateArray[j][1]);
+            else dropDownObject[0] = new Option("No Records Found","0");
+            if (document.getData.recent[1].checked!=0)
+                dropDownObject[0].selected = true;
+        }
+        function clearPulldown() {
+            var pulldown_length = document.getData.date.length;
+            for (x=0; x < pulldown_length; x++)
+                document.getData.date.options[x].selected = false;
+        }
+        function disablePulldown() {
+            if (document.getData.recent[0].checked!=0)
+                document.getData.date.disabled=true;
+            else document.getData.date.disabled=false;
+        }
+
+        //sniffer variable for netscape 4.7x
+        var myAppVersion = parseFloat(navigator.appVersion);
+        var isNet47x = (navigator.appName == "Netscape" && (myAppVersion >= 4.7 && myAppVersion < 5));
+        goMainOn = new Image();
+        goMainOn.src = '/images/climate//bu_go_46_13_active.gif';
+        goMainOff = new Image();
+        goMainOff.src = '/images/climate//bu_go_46_13.gif';
+        function imgOn(imgName) {
+            document[imgName].src = eval(imgName + "On.src");
+        }
+        function imgOff(imgName) {
+            document[imgName].src = eval(imgName + "Off.src");
+        }
+        </script>
+        <noscript>To view a version of this site that doesn't use JavaScript, <a href="/climate/index_nonjs.php?wfo=SEW">click here</a>.<p></noscript>
+<!--
+        <tr>
+            <td>
+
+            <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor='#EAEDFF'>
+-->
+            <form name="getData" action="/climate/getclimate.php?wfo=SEW" method="post" target="cliPopup">
+            <input type="hidden" name="printer_friendly" value="" />
+            <tr bgcolor="#000066">
+                <td colspan="4" height="35" bgcolor="#003399"><div align="center"><span class="yellow"><font color="#FFFFFF" size="3" face="Verdana"><b>Observed Weather Reports</b></font></span></div></td>
+            </tr>
+            <tr>
+                <td class="a9" scope="col" width="180" nowrap>&nbsp;<label for="product"><b>1. Product &raquo;</b></label></td>
+                <td class="a9" scope="col" width="139">&nbsp;<label for="station"><b>2. Location &raquo;</b></label></td>
+                <td class="a9" scope="col" width="130">&nbsp;<label for="recent"><b>3. Timeframe &raquo;</b></label></td>
+                <td class="a9" scope="col" width="80">&nbsp;<b>4. View &raquo;<b></td>
+            </tr>
+            <tr>
+                <td class="a8" valign="top" nowrap>
+                <input tabindex="1" checked type="radio" name="product" value="CLI" onclick="javascript:swapProdDesc('CLI');swapDropdown('cli');swapDateDropdown();" onKeyPress="javascript:swapDropdown('cli');swapProdDesc('CLI');swapDateDropdown();" />Daily Climate Report (CLI)<br />                <input tabindex="2" type="radio" name="product" value="CF6" onclick="javascript:swapProdDesc('CF6');swapDropdown('cf6');swapDateDropdown();" onKeyPress="javascript:swapDropdown('cf6');swapProdDesc('CF6');swapDateDropdown();" />Preliminary Monthly Climate Data (CF6)<br />                <input tabindex="3" type="radio" name="product" value="RER" onclick="javascript:swapProdDesc('RER');swapDropdown('rer');swapDateDropdown();" onKeyPress="javascript:swapDropdown('rer');swapProdDesc('RER');swapDateDropdown();" />Record Event Report (RER)<br />                <input tabindex="4" type="radio" name="product" value="CLM" onclick="javascript:swapProdDesc('CLM');swapDropdown('clm');swapDateDropdown();" onKeyPress="javascript:swapDropdown('clm');swapProdDesc('CLM');swapDateDropdown();" />Monthly Weather Summary (CLM)<br />                <input tabindex="5" type="radio" name="product" value="RTP" onclick="javascript:swapProdDesc('RTP');swapDropdown('rtp');swapDateDropdown();" onKeyPress="javascript:swapDropdown('rtp');swapProdDesc('RTP');swapDateDropdown();" />Regional Summary (RTP)<br />                <input type="radio" name="product" value="RTPxx" onclick="javascript:swapProdDesc('RTPxx');swapDropdown('RTPxx');swapDateDropdown();" onKeyPress="javascript:swapDropdown('RTPxx');swapProdDesc('RTPxx');swapDateDropdown();" />State Summary (Temp/Precip)<br />                                                                <br />
+                <a href="http://www.ncdc.noaa.gov/stormevents/" target="noaa"><b>Storm Event Database (SPC)</b></a><br />
+                <a href="http://www4.ncdc.noaa.gov/cgi-win/wwcgi.dll?wwEvent~Storms" target="noaa"><b>Storm Data (NCDC)</b></a>
+                </td>
+                <td class="a8" valign="top">
+                &nbsp;<font size="1" face="arial"><select tabindex="6" name="station" size="7" class="a8a" onChange="javascript:swapDateDropdown();">
+                <option SELECTED  value="SEA">Seattle-Tacoma </option>
+<option  value="OLM">Olympia </option>
+<option  value="SEW">WFO Seattle </option>
+<option  value="UIL">Quillayute Airport </option>
+<option  value="BLI">Bellingham </option>
+<option  value="HQM">Hoquiam </option>
+                </select>
+                </font></td>
+
+                <script language="JavaScript">//detect Netscape 4.7x
+                if (isNet47x) {
+                    document.write('<td class="a8" valign="top">');
+                    document.write('<input tabindex="7" type="radio" name="recent" value="yes" onclick="clearPulldown();" onKeyPress="clearPulldown();" /><font color="#ff0000">Most Recent</font><br />');
+                    document.write('<input tabindex="8" type="radio" name="recent" value="no" checked onclick="document.getData.date[0].selected = true;" onKeyPress="document.getData.date[0].selected = true;" />Archived Data:<br />');
+                    document.write('<font size="1" face="arial"><select tabindex="9" name="date" size="6" class="a8" onchange="document.getData.recent[1].checked=1">');
+                } else {
+                    document.write('<td class="a8" valign="top">');
+                    document.write('<input tabindex="7" type="radio" name="recent" value="yes" onclick="clearPulldown();disablePulldown();" onKeyPress="clearPulldown();disablePulldown();" /><font color="#ff0000">Most Recent</font><br />');
+                    document.write('<input tabindex="8" type="radio" name="recent" value="no" checked onclick="disablePulldown();document.getData.date[0].selected = true;" onKeyPress="disablePulldown();document.getData.date[0].selected = true;" />Archived Data:<br />');
+                    document.write('<font size="1" face="arial"><select tabindex="9" name="date" size="6" class="aa8" onchange="document.getData.recent[1].checked=1;disablePulldown()">');
+                }
+                </script>
+
+                <option SELECTED  value="20150117">January 16th, 2015 </option>
+<option  value="20150116">January 15th, 2015 </option>
+<option  value="20150115">January 14th, 2015 </option>
+<option  value="20150114">January 13th, 2015 </option>
+<option  value="20150113">January 12th, 2015 </option>
+<option  value="20150112">January 11th, 2015 </option>
+<option  value="20150111">January 10th, 2015 </option>
+<option  value="20150110">January 9th, 2015 </option>
+<option  value="20150109">January 8th, 2015 </option>
+<option  value="20150108">January 7th, 2015 </option>
+<option  value="20150107">January 6th, 2015 </option>
+<option  value="20150106">January 5th, 2015 </option>
+<option  value="20150105">January 4th, 2015 </option>
+<option  value="20150104">January 3rd, 2015 </option>
+<option  value="20150103">January 2nd, 2015 </option>
+<option  value="20150102">January 1st, 2015 </option>
+<option  value="20150101">December 31st, 2014 </option>
+<option  value="20141231">December 30th, 2014 </option>
+<option  value="20141230">December 29th, 2014 </option>
+<option  value="20141229">December 28th, 2014 </option>
+<option  value="20141228">December 27th, 2014 </option>
+<option  value="20141227">December 26th, 2014 </option>
+<option  value="20141226">December 25th, 2014 </option>
+<option  value="20141225">December 24th, 2014 </option>
+<option  value="20141224">December 23rd, 2014 </option>
+<option  value="20141223">December 22nd, 2014 </option>
+<option  value="20141222">December 21st, 2014 </option>
+<option  value="20141221">December 20th, 2014 </option>
+<option  value="20141220">December 19th, 2014 </option>
+<option  value="20141219">December 18th, 2014 </option>
+<option  value="20141218">December 17th, 2014 </option>
+<option  value="20141217">December 16th, 2014 </option>
+<option  value="20141216">December 15th, 2014 </option>
+<option  value="20141215">December 14th, 2014 </option>
+<option  value="20141214">December 13th, 2014 </option>
+<option  value="20141213">December 12th, 2014 </option>
+<option  value="20141212">December 11th, 2014 </option>
+<option  value="20141211">December 10th, 2014 </option>
+<option  value="20141210">December 9th, 2014 </option>
+<option  value="20141209">December 8th, 2014 </option>
+<option  value="20141208">December 7th, 2014 </option>
+<option  value="20141207">December 6th, 2014 </option>
+<option  value="20141206">December 5th, 2014 </option>
+<option  value="20141205">December 4th, 2014 </option>
+<option  value="20141204">December 3rd, 2014 </option>
+<option  value="20141203">December 2nd, 2014 </option>
+<option  value="20141202">December 1st, 2014 </option>
+<option  value="20141201">November 30th, 2014 </option>
+<option  value="20141130">November 29th, 2014 </option>
+<option  value="20141129">November 28th, 2014 </option>
+<option  value="20141128">November 27th, 2014 </option>
+<option  value="20141127">November 26th, 2014 </option>
+<option  value="20141126">November 25th, 2014 </option>
+<option  value="20141125">November 24th, 2014 </option>
+<option  value="20141124">November 23rd, 2014 </option>
+<option  value="20141123">November 22nd, 2014 </option>
+<option  value="20141122">November 21st, 2014 </option>
+<option  value="20141121">November 20th, 2014 </option>
+<option  value="20141120">November 19th, 2014 </option>
+<option  value="20141119">November 18th, 2014 </option>
+                </select>
+                </font></td>
+                <td class="a8" valign="top" align="center"><br />
+                <a href="javascript:window.open ('','cliPopup','width=750,height=500,toolbar=no,menubar=yes,location=no,status=no,scrollbars=yes,resizable=yes');document.getData.submit();" ><img src="/images/climate/bu_go_70_22_active.gif" alt="Go" width="70" height="22" name="goMain" border="0"></a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"><hr color="#003399" width="100%" noshade></td>
+            </tr>
+            <tr>
+		<td colspan="4">
+		    <table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#EAEDFF">
+				<script language="JavaScript">//detect Netscape 4.7x
+				if (isNet47x) {
+				    document.write('<tr valign="top"><td class="a9">&nbsp;<b>Product Description:<b><br />&nbsp;<textarea tabindex="12" name="prodDesc" cols="80" rows="4" class="a8" wrap="hard" readonly>');
+				} else {
+				    document.write('<tr valign="top"><td>&nbsp;<b>Product Description:<b><br />&nbsp;<textarea tabindex="12" name="prodDesc" cols="90" rows="5" class="a8" readonly>');
+				}
+				</script>
+				    DAILY CLIMATE REPORT - issued daily:
+				    Detailed daily weather statistics (usually for yesterday), including temperature, precipitation, degree days, wind, humidity, sunrise/sunset, and record temperature data for the following day.  Precipitation data includes both calendar year and water year totals, percent of normal values, and comparisons to normal.  This product is available for up to 2 months.
+				</textarea>
+                </tr>
+                </table>
+                </td>
+            </form>
+            </tr>
+            </table>
+
+        <script language="JavaScript">
+        // set the checked item as 'Most Recent'
+        document.getData.recent[0].checked = true;
+        clearPulldown();
+        if (!isNet47x) {
+            disablePulldown();
+        }
+        </script>
+
+        
+        <br />
+        <br />
+
+
+            <!-- End Web Content -->
+            <!-- Begin NWSCWI Footer -->
+            </td>
+        </tr>
+        </table>
+        
+        </td>
+    </tr>
+    <tr valign="TOP"> 
+        <td colspan="3">
+        
+        <table width="549" cellspacing="2" cellpadding="2" border="0">
+      <tr> 
+        <td colspan="2"><hr /></td>
+      </tr>
+      <tr valign="top">
+        <td nowrap><font size="2" style="font-size : 8pt; color: #808080;">
+            Seattle Weather Forecast Office<br>
+                    7600 Sandpoint Way NE<br>
+                    Seattle, WA 98115-6349<br>
+                    Tel: (206) 526-6087<br>
+                    <a href="mailto:w-sew.webmaster@noaa.gov" class="gray">Ask Questions/Webmaster</a><br>
+            Page last modified: 18-Dec-2014 9:23 PM          </font></td>
+        <td>
+        <!-- start our links table -->
+        <table width="100%" cellpadding="1" cellspacing="0" border="0">
+        <tr>
+            <td><a href="http://www.weather.gov/disclaimer.php"><span class="gray">Disclaimer</span></a></td>
+            <td align="right"><a href="http://www.weather.gov/privacy.php"><span class="gray">Privacy Policy</span></a></td>
+        </tr>
+        <tr>
+            <td><a href="http://www.weather.gov/credits.php"><span class="gray">Credits</span></a></td>
+            <td align="right"><a href="http://www.weather.gov/admin.php"><span class="gray">About Us</span></a></td>
+        </tr>
+        <tr>
+            <td><a href="http://www.weather.gov/glossary/"><span class="gray">Glossary</span></a></td>
+            <td align="right"><a href="http://www.weather.gov/careers.php"><span class="gray">Career Opportunities</span></a></td>
+        </tr>
+        </table>
+        <!-- end our links table -->
+        </td>
+      </tr>
+      <tr> 
+        <td colspan="2"><hr /></td>
+      </tr>
+      <tr> 
+        <td colspan="2"> 
+                </td>
+      </tr>
+    </table>
+        
+        </td>
+    </tr>
+    </table>
+    
+    </td>
+</tr>
+</table>
+
+</body>
+</html>
+<!-- End NWSCWI Footer -->
