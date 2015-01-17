@@ -95,7 +95,7 @@ for line in iFile:
 			print climateLocation
 			#print climateLocation[0]
 			oFile.write(officeData[0] + ',' + officeData[1] +  ','  + officeData[2] + ',')
-			oFile.write(climateLocation[1] + ',' + climateLocation[4] + '\n')
+			oFile.write(climateLocation[1] + ',' + climateLocation[3] + '\n')
 
 			
 oFile.close()
