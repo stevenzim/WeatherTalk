@@ -1,702 +1,561 @@
-Anchorage,Alaska,AFC,HEADER,HEADER
-Fairbanks,Alaska,AFG,HEADER,HEADER
-Juneau,Alaska,AJK,HEADER,HEADER
-Denver/Boulder,Colorado,BOU,HEADER,HEADER
-Denver/Boulder,Colorado,BOU,Denver,DEN
-Denver/Boulder,Colorado,BOU,Akron,AKO
-Denver/Boulder,Colorado,BOU,Centennial,APA
-Denver/Boulder,Colorado,BOU,Limon,LIC
-Grand Junction,Colorado,GJT,HEADER,HEADER
-Grand Junction,Colorado,GJT,Grand Junction,GJT
-Grand Junction,Colorado,GJT,Rifle,RIL
-Grand Junction,Colorado,GJT,Montrose,MTJ
-Grand Junction,Colorado,GJT,Durango (airport),DRO
-Grand Junction,Colorado,GJT,Cortez,CEZ
-Grand Junction,Colorado,GJT,Craig,CAG
-Grand Junction,Colorado,GJT,Meeker,EEO
-Grand Junction,Colorado,GJT,Aspen,ASE
-Grand Junction,Colorado,GJT,Moab, UT (airport),CNY
-Grand Junction,Colorado,GJT,Vernal, UT,VEL
-Grand Junction,Colorado,GJT,Denver,DEN
-Grand Junction,Colorado,GJT,Salt Lake City,SLC
-Pueblo,Colorado,PUB,HEADER,HEADER
-Pueblo,Colorado,PUB,Alamosa,ALS
-Pueblo,Colorado,PUB,Colorado Springs,COS
-Pueblo,Colorado,PUB,Pueblo,PUB
-Pueblo,Colorado,PUB,La Junta,LHX
-Pueblo,Colorado,PUB,Lamar,LAA
-Pueblo,Colorado,PUB,Leadville,LXV
-Pueblo,Colorado,PUB,Springfield,SPD
-Pueblo,Colorado,PUB,Trinidad,TAD
-Chicago,Illinois,LOT,HEADER,HEADER
-Chicago,Illinois,LOT,Chicago O\,,
-Chicago,Illinois,LOT,Rockford,RFD
-Chicago,Illinois,LOT,Aurora,ARR
-Chicago,Illinois,LOT,DuPage Airport,DPA
-Chicago,Illinois,LOT,Waukegan Airport,UGN
-Chicago,Illinois,LOT,Chicago Executive Airport,PWK
-Chicago,Illinois,LOT,Valparaiso,VPZ
-Chicago,Illinois,LOT,Chicago Midway,MDW
-Chicago,Illinois,LOT,WFO Chicago Romeoville,LOT
-Lincoln,Illinois,ILX,HEADER,HEADER
-Lincoln,Illinois,ILX,Peoria,PIA
-Lincoln,Illinois,ILX,Springfield,SPI
-Lincoln,Illinois,ILX,Champaign Arpt,CMI
-Lincoln,Illinois,ILX,Decatur Arpt,DEC
-Lincoln,Illinois,ILX,Lawrenceville Arpt,LWV
-Lincoln,Illinois,ILX,Lincoln,ILX
-Lincoln,Illinois,ILX,Mattoon Arpt,MTO
-Indianapolis,Indiana,IND,HEADER,HEADER
-Indianapolis,Indiana,IND,Indianapolis Intl Ap, IN,IND
-Indianapolis,Indiana,IND,Lafayette, IN,LAF
-Indianapolis,Indiana,IND,Terre Haute, IN,HUF
-Indianapolis,Indiana,IND,Muncie, IN,MIE
-Indianapolis,Indiana,IND,Bloomington, IN,BMG
-Indianapolis,Indiana,IND,Shelbyville, IN,GEZ
-Indianapolis,Indiana,IND,Indianapolis Eagle Creek, IN,EYE
-Northern Indiana,Indiana,IWX,HEADER,HEADER
-Northern Indiana,Indiana,IWX,Fort Wayne, Indiana,FWA
-Northern Indiana,Indiana,IWX,South Bend, Indiana,SBN
-Davenport/Quad Cities,Iowa,DVN,HEADER,HEADER
-Davenport/Quad Cities,Iowa,DVN,Burlington,BRL
-Davenport/Quad Cities,Iowa,DVN,Cedar Rapids,CID
-Davenport/Quad Cities,Iowa,DVN,Davenport,DVN
-Davenport/Quad Cities,Iowa,DVN,Dubuque,DBQ
-Davenport/Quad Cities,Iowa,DVN,Iowa City,IOW
-Davenport/Quad Cities,Iowa,DVN,Moline,MLI
-Des Moines,Iowa,DMX,HEADER,HEADER
-Des Moines,Iowa,DMX,Des Moines,DSM
-Des Moines,Iowa,DMX,Waterloo,ALO
-Des Moines,Iowa,DMX,Mason City,MCW
-Des Moines,Iowa,DMX,Ottumwa,OTM
-Des Moines,Iowa,DMX,Marshalltown,MIW
-Des Moines,Iowa,DMX,Lamoni,LWD
-Des Moines,Iowa,DMX,Ames,AMW
-Des Moines,Iowa,DMX,Estherville,EST
-Dodge City,Kansas,DDC,HEADER,HEADER
-Dodge City,Kansas,DDC,DODGE CITY,DGC
-Dodge City,Kansas,DDC,GARDEN CITY,GCK
-Dodge City,Kansas,DDC,MEDICINE LODGE,P28
-Goodland,Kansas,GLD,HEADER,HEADER
-Goodland,Kansas,GLD,Burlington,ITR
-Goodland,Kansas,GLD,Goodland,GLD
-Goodland,Kansas,GLD,Hill City,HLC
-Goodland,Kansas,GLD,McCook,MCK
-Topeka,Kansas,TOP,HEADER,HEADER
-Topeka,Kansas,TOP,Topeka,TOP
-Topeka,Kansas,TOP,Concordia,CNK
-Topeka,Kansas,TOP,Manhattan,MHK
-Topeka,Kansas,TOP,Lawrence,LWC
-Topeka,Kansas,TOP,Emporia,EMP
-Wichita,Kansas,ICT,HEADER,HEADER
-Wichita,Kansas,ICT,Wichita,ICT
-Wichita,Kansas,ICT,Chanute,CNU
-Wichita,Kansas,ICT,Salina,SLN
-Jackson,Kentucky,JKL,HEADER,HEADER
-Jackson,Kentucky,JKL,Jackson,JKL
-Jackson,Kentucky,JKL,London,LOZ
-Louisville,Kentucky,LMK,HEADER,HEADER
-Louisville,Kentucky,LMK,Louisville International Airport,SDF
-Louisville,Kentucky,LMK,Louisville Bowman Field,LOU
-Louisville,Kentucky,LMK,Lexington,LEX
-Louisville,Kentucky,LMK,Bowling Green,BWG
-Louisville,Kentucky,LMK,Frankfort,FFT
-Paducah,Kentucky,PAH,HEADER,HEADER
-Paducah,Kentucky,PAH,Cape Girardeau, MO,CGI
-Paducah,Kentucky,PAH,Paducah, KY,PAH
-Paducah,Kentucky,PAH,Evansville, IN,EVV
-Detroit/Pontiac,Michigan,DTX,HEADER,HEADER
-Detroit/Pontiac,Michigan,DTX,Detroit,DTW
-Detroit/Pontiac,Michigan,DTX,Flint,FNT
-Detroit/Pontiac,Michigan,DTX,Saginaw,MBS
-Gaylord,Michigan,APX,HEADER,HEADER
-Gaylord,Michigan,APX,Alpena,APN
-Gaylord,Michigan,APX,Houghton Lake,HTL
-Gaylord,Michigan,APX,Sault Ste. Marie,ANJ
-Gaylord,Michigan,APX,Traverse City,TVC
-Grand Rapids,Michigan,GRR,HEADER,HEADER
-Grand Rapids,Michigan,GRR,Grand Rapids,GRR
-Grand Rapids,Michigan,GRR,Lansing,LAN
-Grand Rapids,Michigan,GRR,Muskegon,MKG
-Grand Rapids,Michigan,GRR,Kalamazoo,AZO
-Grand Rapids,Michigan,GRR,Battle Creek,BTL
-Grand Rapids,Michigan,GRR,Holland,BIV
-Grand Rapids,Michigan,GRR,Jackson,JXN
-Marquette,Michigan,MQT,HEADER,HEADER
-Marquette,Michigan,MQT,Marquette NWS,MQT
-Marquette,Michigan,MQT,Sault Ste. Marie,ANJ
-Duluth,Minnesota,DLH,HEADER,HEADER
-Duluth,Minnesota,DLH,Duluth, MN,DLH
-Duluth,Minnesota,DLH,International Fall, MN,INL
-Duluth,Minnesota,DLH,Minneapolis, MN,MSP
-Duluth,Minnesota,DLH,Chanhassen, MN,MPX
-Duluth,Minnesota,DLH,St Cloud, MN,STC
-Duluth,Minnesota,DLH,Grand Forks, ND,FGF
-Duluth,Minnesota,DLH,Eau Claire, WI,EAU
-Duluth,Minnesota,DLH,Green Bay, WI,GRB
-Minneapolis/Twin Cities,Minnesota,MPX,HEADER,HEADER
-Minneapolis/Twin Cities,Minnesota,MPX,Minneapolis/St Paul,MSP
-Minneapolis/Twin Cities,Minnesota,MPX,Saint Cloud,STC
-Minneapolis/Twin Cities,Minnesota,MPX,Eau Claire,EAU
-Minneapolis/Twin Cities,Minnesota,MPX,Chanhassen,MPX
-Minneapolis/Twin Cities,Minnesota,MPX,Rochester,RST
-Minneapolis/Twin Cities,Minnesota,MPX,Duluth,DLH
-Minneapolis/Twin Cities,Minnesota,MPX,International,INL
-Minneapolis/Twin Cities,Minnesota,MPX,Fargo,FAR
-Minneapolis/Twin Cities,Minnesota,MPX,Sioux Falls,FSD
-Minneapolis/Twin Cities,Minnesota,MPX,La Crosse,ARX
-Kansas City/Pleasant Hill,Missouri,EAX,HEADER,HEADER
-Kansas City/Pleasant Hill,Missouri,EAX,Kansas City,MCI
-Kansas City/Pleasant Hill,Missouri,EAX,St Joseph,STJ
-Kansas City/Pleasant Hill,Missouri,EAX,Sedalia,DMO
-Kansas City/Pleasant Hill,Missouri,EAX,Johnson County (KS) Executive,OJC
-Kansas City/Pleasant Hill,Missouri,EAX,Kirksville,IRK
-Springfield,Missouri,SGF,HEADER,HEADER
-Springfield,Missouri,SGF,Springfield,SGF
-Springfield,Missouri,SGF,Joplin,JLN
-Springfield,Missouri,SGF,West Plains,UNO
-Springfield,Missouri,SGF,Vichy/Rolla,VIH
-St. Louis,Missouri,LSX,HEADER,HEADER
-St. Louis,Missouri,LSX,St. Louis, MO,STL
-St. Louis,Missouri,LSX,Columbia, MO,COU
-St. Louis,Missouri,LSX,Quincy, IL,UIN
-Hastings,Nebraska,GID,HEADER,HEADER
-Hastings,Nebraska,GID,Grand Island,GRI
-Hastings,Nebraska,GID,Hastings,HSI
-Hastings,Nebraska,GID,Kearney,EAR
-Hastings,Nebraska,GID,Ord,ODX
-North Platte,Nebraska,LBF,HEADER,HEADER
-North Platte,Nebraska,LBF,Broken Bow,BBW
-North Platte,Nebraska,LBF,Imperial,IML
-North Platte,Nebraska,LBF,North Platte,LBF
-North Platte,Nebraska,LBF,Valentine,VTN
-Omaha/Valley,Nebraska,OAX,HEADER,HEADER
-Omaha/Valley,Nebraska,OAX,Omaha,OMA
-Omaha/Valley,Nebraska,OAX,Lincoln,LNK
-Omaha/Valley,Nebraska,OAX,Norfolk,OFK
-Omaha/Valley,Nebraska,OAX,Valley,OAX
-Bismarck,North Dakota,BIS,HEADER,HEADER
-Bismarck,North Dakota,BIS,Bismarck,BIS
-Bismarck,North Dakota,BIS,Williston,ISN
-Bismarck,North Dakota,BIS,Dickinson,DIK
-Bismarck,North Dakota,BIS,Jamestown,JMS
-Bismarck,North Dakota,BIS,Minot,MOT
-Grand Forks,North Dakota,FGF,HEADER,HEADER
-Grand Forks,North Dakota,FGF,Grand Forks,GFK
-Grand Forks,North Dakota,FGF,Fargo,FAR
-Grand Forks,North Dakota,FGF,Grand Forks UND/WFO,FGF
-Aberdeen,South Dakota,ABR,HEADER,HEADER
-Aberdeen,South Dakota,ABR,Aberdeen Regional Airport,ABR
-Aberdeen,South Dakota,ABR,Pierre Regional Airport,PIR
-Aberdeen,South Dakota,ABR,Watertown Regional Airport,ATY
-Aberdeen,South Dakota,ABR,Mobridge Airport,MBG
-Aberdeen,South Dakota,ABR,Sisseton Airport,8D3
-Aberdeen,South Dakota,ABR,Sioux Falls Airport,FSD
-Aberdeen,South Dakota,ABR,Rapid City (NWS) Downtown,UNR
-Aberdeen,South Dakota,ABR,Rapid City Airport,RAP
-Aberdeen,South Dakota,ABR,Huron Regional Airport,HON
-Rapid City,South Dakota,UNR,HEADER,HEADER
-Rapid City,South Dakota,UNR,Rapid City Airport, SD,RAP
-Rapid City,South Dakota,UNR,Rapid City NWS, SD,UNR
-Rapid City,South Dakota,UNR,Buffalo, SD,2WX
-Rapid City,South Dakota,UNR,Custer, SD,CUT
-Rapid City,South Dakota,UNR,Faith, SD,D07
-Rapid City,South Dakota,UNR,Philip, SD,PHP
-Rapid City,South Dakota,UNR,Pine Ridge, SD,IEN
-Rapid City,South Dakota,UNR,Winner, SD,ICR
-Rapid City,South Dakota,UNR,Gillette, WY,GCC
-Sioux Falls,South Dakota,FSD,HEADER,HEADER
-Sioux Falls,South Dakota,FSD,Sioux Falls,FSD
-Sioux Falls,South Dakota,FSD,Sioux City,SUX
-Sioux Falls,South Dakota,FSD,Huron,HON
-Sioux Falls,South Dakota,FSD,Mitchell,MHE
-Green Bay,Wisconsin,GRB,HEADER,HEADER
-Green Bay,Wisconsin,GRB,Green Bay,GRB
-Green Bay,Wisconsin,GRB,Wausau,AUW
-Green Bay,Wisconsin,GRB,Rhinelander,RHI
-Green Bay,Wisconsin,GRB,Milwaukee,MKE
-Green Bay,Wisconsin,GRB,Madison,MSN
-Green Bay,Wisconsin,GRB,La Crosse,LSE
-Green Bay,Wisconsin,GRB,Minneapolis,MSP
-Green Bay,Wisconsin,GRB,Marquette,MQT
-Green Bay,Wisconsin,GRB,Duluth,DLH
-La Crosse,Wisconsin,ARX,HEADER,HEADER
-La Crosse,Wisconsin,ARX,La Crosse,LSE
-La Crosse,Wisconsin,ARX,Rochester,RST
-Milwaukee/Sullivan,Wisconsin,MKX,HEADER,HEADER
-Milwaukee/Sullivan,Wisconsin,MKX,Milwaukee,MKE
-Milwaukee/Sullivan,Wisconsin,MKX,Madison,MSN
-Milwaukee/Sullivan,Wisconsin,MKX,Green Bay,GRB
-Milwaukee/Sullivan,Wisconsin,MKX,Wausau,AUW
-Milwaukee/Sullivan,Wisconsin,MKX,La Crosse,LSE
-Milwaukee/Sullivan,Wisconsin,MKX,Chicago,ORD
-Milwaukee/Sullivan,Wisconsin,MKX,Rockford,RFD
-Cheyenne,Wyoming,CYS,HEADER,HEADER
-Cheyenne,Wyoming,CYS,Alliance, NE,AIA
-Cheyenne,Wyoming,CYS,Chadron, NE,CDR
-Cheyenne,Wyoming,CYS,Cheyenne, WY,CYS
-Cheyenne,Wyoming,CYS,Douglas, WY,DGW
-Cheyenne,Wyoming,CYS,Laramie, WY,LAR
-Cheyenne,Wyoming,CYS,Rawlins, WY,RWL
-Cheyenne,Wyoming,CYS,Scottsbluff, NE,BFF
-Cheyenne,Wyoming,CYS,Sidney, NE,SNY
-Cheyenne,Wyoming,CYS,Torrington, WY,TOR
-Riverton,Wyoming,RIW,HEADER,HEADER
-Riverton,Wyoming,RIW,Big Piney,BPI
-Riverton,Wyoming,RIW,Buffalo,BYG
-Riverton,Wyoming,RIW,Casper,CPR
-Riverton,Wyoming,RIW,Greybull,GEY
-Riverton,Wyoming,RIW,Lake Yellowstone,P60
-Riverton,Wyoming,RIW,Lander,LND
-Riverton,Wyoming,RIW,Riverton,RIW
-Riverton,Wyoming,RIW,Rock Springs,RKS
-Riverton,Wyoming,RIW,Worland,WRL
-Caribou,Maine,CAR,HEADER,HEADER
-Caribou,Maine,CAR,Bangor,BGR
-Caribou,Maine,CAR,Caribou,CAR
-Caribou,Maine,CAR,Houlton,HUL
-Caribou,Maine,CAR,Millinocket,MLT
-Caribou,Maine,CAR,Frenchville,FVE
-Gray/Portland,Maine,GYX,HEADER,HEADER
-Gray/Portland,Maine,GYX,Portland,PWM
-Gray/Portland,Maine,GYX,Concord,CON
-Gray/Portland,Maine,GYX,Gray,GYX
-Gray/Portland,Maine,GYX,Augusta,AUG
-Boston,Massachusetts,BOX,HEADER,HEADER
-Boston,Massachusetts,BOX,Boston (Logan Airport),BOS
-Boston,Massachusetts,BOX,Hartford (Bradley Airport),BDL
-Boston,Massachusetts,BOX,Providence( T.F. Green Airport),PVD
-Boston,Massachusetts,BOX,Worcester,ORH
-Mount Holly/Philadelphia,New Jersey,PHI,HEADER,HEADER
-Mount Holly/Philadelphia,New Jersey,PHI,Allentown, PA,ABE
-Mount Holly/Philadelphia,New Jersey,PHI,Atlantic City, NJ,ACY
-Mount Holly/Philadelphia,New Jersey,PHI,Georgetown, DE,GED
-Mount Holly/Philadelphia,New Jersey,PHI,Philadelphia, PA,PHL
-Mount Holly/Philadelphia,New Jersey,PHI,Reading, PA,RDG
-Mount Holly/Philadelphia,New Jersey,PHI,Trenton, NJ,TTN
-Mount Holly/Philadelphia,New Jersey,PHI,Wilmington, DE,ILG
-Mount Holly/Philadelphia,New Jersey,PHI,Mount Pocono, PA,MPO
-Albany,New York,ALY,HEADER,HEADER
-Albany,New York,ALY,Albany NY,ALB
-Albany,New York,ALY,Bennington VT,DDH
-Albany,New York,ALY,Glens Falls NY,GFL
-Albany,New York,ALY,Pittsfield MA,PSF
-Albany,New York,ALY,Poughkeepsie NY,POU
-Binghamton,New York,BGM,HEADER,HEADER
-Binghamton,New York,BGM,Binghamton,BGM
-Binghamton,New York,BGM,Scranton/Wilkes-Barre,AVP
-Binghamton,New York,BGM,Syracuse,SYR
-Buffalo,New York,BUF,HEADER,HEADER
-Buffalo,New York,BUF,Buffalo,BUF
-Buffalo,New York,BUF,Rochester,ROC
-Buffalo,New York,BUF,Watertown,ART
-New York/Upton,New York,OKX,HEADER,HEADER
-New York/Upton,New York,OKX,Central Park NY,NYC
-New York/Upton,New York,OKX,LaGuardia NY,LGA
-New York/Upton,New York,OKX,JFK Arpt NY,JFK
-New York/Upton,New York,OKX,Islip NY,ISP
-New York/Upton,New York,OKX,Bridgeport CT,BDR
-New York/Upton,New York,OKX,Newark NJ,EWR
-Newport/Morehead City,North Carolina,MHX,HEADER,HEADER
-Newport/Morehead City,North Carolina,MHX,Cape Hatteras,HSE
-Newport/Morehead City,North Carolina,MHX,New Bern,EWN
-Raleigh,North Carolina,RAH,HEADER,HEADER
-Raleigh,North Carolina,RAH,Raleigh-Durham,RDU
-Raleigh,North Carolina,RAH,Piedmont Triad,GSO
-Raleigh,North Carolina,RAH,Fayetteville,FAY
-Wilmington,North Carolina,ILM,HEADER,HEADER
-Wilmington,North Carolina,ILM,Wilmington, NC,ILM
-Wilmington,North Carolina,ILM,Florence, SC,FLO
-Wilmington,North Carolina,ILM,North Myrtle Beach, SC,CRE
-Wilmington,North Carolina,ILM,Lumberton, NC,LBT
-Cleveland,Ohio,CLE,HEADER,HEADER
-Cleveland,Ohio,CLE,Cleveland,CLE
-Cleveland,Ohio,CLE,Toledo,TOL
-Cleveland,Ohio,CLE,Mansfield,MFD
-Cleveland,Ohio,CLE,Akron/Canton,CAK
-Cleveland,Ohio,CLE,Youngstown,YNG
-Cleveland,Ohio,CLE,Erie,ERI
-Wilmington,Ohio,ILN,HEADER,HEADER
-Wilmington,Ohio,ILN,Cincinnati,CVG
-Wilmington,Ohio,ILN,Dayton,DAY
-Wilmington,Ohio,ILN,Columbus,CMH
-Pittsburgh,Pennsylvania,PBZ,HEADER,HEADER
-Pittsburgh,Pennsylvania,PBZ,Pittsburgh,PIT
-Pittsburgh,Pennsylvania,PBZ,Morgantown,MGW
-Pittsburgh,Pennsylvania,PBZ,Zanesville,ZZV
-Pittsburgh,Pennsylvania,PBZ,New Philadelphia,PHD
-Pittsburgh,Pennsylvania,PBZ,Wheeling,HLG
-Pittsburgh,Pennsylvania,PBZ,Dubois,DUJ
-State College,Pennsylvania,CTP,HEADER,HEADER
-State College,Pennsylvania,CTP,Harrisburg,MDT
-State College,Pennsylvania,CTP,Williamsport,IPT
-State College,Pennsylvania,CTP,Altoona,AOO
-State College,Pennsylvania,CTP,Bradford,BFD
-State College,Pennsylvania,CTP,Johnstown,JST
-Charleston,South Carolina,CHS,HEADER,HEADER
-Charleston,South Carolina,CHS,Charleston, SC,CHS
-Charleston,South Carolina,CHS,Savannah, GA,SAV
-Charleston,South Carolina,CHS,Downtown Charleston,CXM
-Columbia,South Carolina,CAE,HEADER,HEADER
-Columbia,South Carolina,CAE,Columbia Metro Airport,CAE
-Columbia,South Carolina,CAE,Hamilton-Owens Airport,CUB
-Columbia,South Carolina,CAE,Orangeburg Airport,OGB
-Columbia,South Carolina,CAE,Augusta Regional Bush Field,AGS
-Columbia,South Carolina,CAE,Augusta Daniel Field,DNL
-Greenville-Spartanburg,South Carolina,GSP,HEADER,HEADER
-Greenville-Spartanburg,South Carolina,GSP,Asheville,AVL
-Greenville-Spartanburg,South Carolina,GSP,Charlotte,CLT
-Greenville-Spartanburg,South Carolina,GSP,Greenville-Spartanburg,GSP
-Burlington,Vermont,BTV,HEADER,HEADER
-Burlington,Vermont,BTV,Burlington,BTV
-Burlington,Vermont,BTV,Montpelier,MPV
 Burlington,Vermont,BTV,St. Johnsbury,1V4
-Burlington,Vermont,BTV,Morrisville,MVL
-Burlington,Vermont,BTV,Springfield,VSF
-Burlington,Vermont,BTV,Rutland,RUT
-Burlington,Vermont,BTV,Plattsburgh,PBG
-Burlington,Vermont,BTV,Saranac Lake,SLK
-Burlington,Vermont,BTV,Massena,MSS
-Baltimore/Washington,Virginia,LWX,HEADER,HEADER
-Baltimore/Washington,Virginia,LWX,National,DCA
-Baltimore/Washington,Virginia,LWX,BWI,BWI
-Baltimore/Washington,Virginia,LWX,MD Science Center,DMH
-Baltimore/Washington,Virginia,LWX,Dulles,IAD
-Baltimore/Washington,Virginia,LWX,Charlottesville,CHO
-Baltimore/Washington,Virginia,LWX,Martinsburg,MRB
-Baltimore/Washington,Virginia,LWX,Hagerstown,HGR
-Blacksburg,Virginia,RNK,HEADER,HEADER
-Blacksburg,Virginia,RNK,Blacksburg,RNK
-Blacksburg,Virginia,RNK,Roanoke,ROA
-Blacksburg,Virginia,RNK,Lynchburg,LYH
-Blacksburg,Virginia,RNK,Danville,DAN
-Blacksburg,Virginia,RNK,Bluefield,BLF
-Blacksburg,Virginia,RNK,Lewisburg,LWB
-Wakefield,Virginia,AKQ,HEADER,HEADER
-Wakefield,Virginia,AKQ,RICHMOND,RIC
-Wakefield,Virginia,AKQ,NORFOLK,ORF
-Wakefield,Virginia,AKQ,SALISBURY,SBY
-Wakefield,Virginia,AKQ,ELIZABETH CITY,ECG
-Wakefield,Virginia,AKQ,WALLOPS ISLAND,WAL
-Charleston,West Virginia,RLX,HEADER,HEADER
-Charleston,West Virginia,RLX,Beckley,BKW
-Charleston,West Virginia,RLX,Charleston,CRW
-Charleston,West Virginia,RLX,Elkins,EKN
-Charleston,West Virginia,RLX,Huntington,HTS
-Charleston,West Virginia,RLX,Parkersburg,PKB
-Honolulu,Hawaii,HNL,HEADER,HEADER
-Honolulu,Hawaii,HNL,Honolulu International Airport,HNL
-Honolulu,Hawaii,HNL,Lihue Airport,LIH
-Honolulu,Hawaii,HNL,Kahului Airport,OGG
-Honolulu,Hawaii,HNL,Hilo Airport,ITO
-Birmingham,Alabama,BMX,HEADER,HEADER
-Birmingham,Alabama,BMX,Anniston,ANB
-Birmingham,Alabama,BMX,Birmingham,BHM
-Birmingham,Alabama,BMX,Montgomery,MGM
-Birmingham,Alabama,BMX,Tuscaloosa,TCL
-Birmingham,Alabama,BMX,Shelby County Airport,EET
-Birmingham,Alabama,BMX,Troy,TOI
-Huntsville,Alabama,HUN,HEADER,HEADER
-Huntsville,Alabama,HUN,Huntsville Airport,HSV
-Huntsville,Alabama,HUN,Muscle Shoals Airport,MSL
-Mobile/Pensacola,Alabama,MOB,HEADER,HEADER
-Mobile/Pensacola,Alabama,MOB,Mobile Regional Apt,MOB
-Mobile/Pensacola,Alabama,MOB,Pensacola Regional Apt,PNS
-North Little Rock,Arkansas,LZK,HEADER,HEADER
-North Little Rock,Arkansas,LZK,Little Rock,LIT
-North Little Rock,Arkansas,LZK,North Little Rock,LZK
-North Little Rock,Arkansas,LZK,Harrison,HRO
-North Little Rock,Arkansas,LZK,Pine Bluff,PBF
-Jacksonville,Florida,JAX,HEADER,HEADER
-Jacksonville,Florida,JAX,Gainesville Regional Apt,GNV
-Jacksonville,Florida,JAX,Jacksonville Intl Apt,JAX
-Jacksonville,Florida,JAX,Alma,AMG
-Jacksonville,Florida,JAX,Brunswick McKinnon Arpt,SSI
-Key West,Florida,KEY,HEADER,HEADER
-Key West,Florida,KEY,Key West Intl Airport,EYW
-Key West,Florida,KEY,Marathon Airport,MTH
-Melbourne,Florida,MLB,HEADER,HEADER
-Melbourne,Florida,MLB,Daytona Beach,DAB
-Melbourne,Florida,MLB,Orlando,MCO
-Melbourne,Florida,MLB,Melbourne,MLB
-Melbourne,Florida,MLB,Vero Beach,VRB
-Miami,Florida,MFL,HEADER,HEADER
-Miami,Florida,MFL,Miami,MIA
-Miami,Florida,MFL,Ft Lauderdale - Hollywood,FLL
-Miami,Florida,MFL,West Palm Beach,PBI
-Miami,Florida,MFL,Naples,APF
-Tallahassee,Florida,TAE,HEADER,HEADER
-Tallahassee,Florida,TAE,Tallahassee,TLH
+Rapid City,South Dakota,UNR,Buffalo,2WX
+Aberdeen,South Dakota,ABR,Sisseton Airport,8D3
 Tallahassee,Florida,TAE,Apalachicola,AAF
-Tallahassee,Florida,TAE,Panama City NW,ECP
-Tallahassee,Florida,TAE,Dothan,DHN
-Tallahassee,Florida,TAE,Albany,ABY
-Tallahassee,Florida,TAE,Valdosta,VLD
-Tampa,Florida,TBW,HEADER,HEADER
-Tampa,Florida,TBW,Tampa,TPA
-Tampa,Florida,TBW,Sarasota-Bradenton,SRQ
-Tampa,Florida,TBW,Fort Myers,FMY
-Peachtree City/Atlanta,Georgia,FFC,HEADER,HEADER
-Peachtree City/Atlanta,Georgia,FFC,Atlanta, Georgia,ATL
-Peachtree City/Atlanta,Georgia,FFC,Athens, Georgia,AHN
-Peachtree City/Atlanta,Georgia,FFC,Columbus, Georgia,CSG
-Peachtree City/Atlanta,Georgia,FFC,Macon, Georgia,MCN
-Peachtree City/Atlanta,Georgia,FFC,Cartersville, Georgia,VPC
-Peachtree City/Atlanta,Georgia,FFC,DeKalb Peachtree Airport (Georgia),PDK
-Peachtree City/Atlanta,Georgia,FFC,Fulton County Airport (Georgia),FTY
-Peachtree City/Atlanta,Georgia,FFC,Gainesville, Georgia,GVL
-Peachtree City/Atlanta,Georgia,FFC,Peachtree City, Georgia,FFC
-Peachtree City/Atlanta,Georgia,FFC,Rome, Georgia,RMG
-Lake Charles,Louisiana,LCH,HEADER,HEADER
-Lake Charles,Louisiana,LCH,Lake Charles Regional Apt,LCH
-Lake Charles,Louisiana,LCH,Southeast Texas Regional Apt,BPT
-Lake Charles,Louisiana,LCH,Lafayette Regional Apt,LFT
-Lake Charles,Louisiana,LCH,Alexandria International Apt,AEX
-Lake Charles,Louisiana,LCH,New Iberia/Acadiana Reg\,,
-New Orleans/Baton Rouge,Louisiana,LIX,HEADER,HEADER
-New Orleans/Baton Rouge,Louisiana,LIX,Baton Rouge Regional Apt,BTR
-New Orleans/Baton Rouge,Louisiana,LIX,New Orleans Intl Apt,NEW
-Shreveport,Louisiana,SHV,HEADER,HEADER
-Shreveport,Louisiana,SHV,Shreveport, LA,SHV
-Shreveport,Louisiana,SHV,Monroe, LA,MLU
-Shreveport,Louisiana,SHV,Texarkana, AR,TXK
-Shreveport,Louisiana,SHV,El Dorado, AR,ELD
-Shreveport,Louisiana,SHV,DeQueen, AR,DEQ
-Shreveport,Louisiana,SHV,Tyler, TX,TYR
-Shreveport,Louisiana,SHV,Longview, TX,GGG
-Shreveport,Louisiana,SHV,Lufkin, TX,LFK
-Jackson,Mississippi,JAN,HEADER,HEADER
-Jackson,Mississippi,JAN,Jackson Intl Apt,JAN
-Jackson,Mississippi,JAN,Meridian Key Field,MEI
-Jackson,Mississippi,JAN,Hattiesburg,HBG
-Jackson,Mississippi,JAN,Tallulah/Vicksburg,TVR
-Jackson,Mississippi,JAN,Greenville,GLH
-Jackson,Mississippi,JAN,Greenwood,GWO
-Albuquerque,New Mexico,ABQ,HEADER,HEADER
+Medford,Oregon,MFR,Alturas,AAT
+Mount Holly/Philadelphia,New Jersey,PHI,Allentown,ABE
+San Angelo,Texas,SJT,Abilene,ABI
 Albuquerque,New Mexico,ABQ,Albuquerque Intl Apt,ABQ
+Aberdeen,South Dakota,ABR,Aberdeen Regional Airport,ABR
+Tallahassee,Florida,TAE,Albany,ABY
+Dallas/Fort Worth,Texas,FWD,Waco,ACT
+Mount Holly/Philadelphia,New Jersey,PHI,Atlantic City,ACY
+Fairbanks,Alaska,PAFG,Kodiak,ADQ
+Lake Charles,Louisiana,LCH,Alexandria International Apt,AEX
+Columbia,South Carolina,CAE,Augusta Regional Bush Field,AGS
+Peachtree City/Atlanta,Georgia,FFC,Athens,AHN
+Cheyenne,Wyoming,CYS,Alliance,AIA
+Fairbanks,Alaska,PAFG,King Salmon,AKN
+Denver/Boulder,Colorado,BOU,Akron,AKO
+Albany,New York,ALY,Albany NY,ALB
+Des Moines,Iowa,DMX,Waterloo,ALO
+Pueblo,Colorado,PUB,Alamosa,ALS
+Amarillo,Texas,AMA,Amarillo,AMA
+Jacksonville,Florida,JAX,Alma,AMG
+Des Moines,Iowa,DMX,Ames,AMW
+Birmingham,Alabama,BMX,Anniston,ANB
+Anchorage,Alaska,PAFC,Anchorage,ANC
+Gaylord,Michigan,APX,Sault Ste. Marie,ANJ
+Fairbanks,Alaska,PAFG,Annette,ANN
+State College,Pennsylvania,CTP,Altoona,AOO
+Denver/Boulder,Colorado,BOU,Centennial,APA
+San Francisco Bay Area/Monterey,California,MTR,Napa Airport,APC
+Miami,Florida,MFL,Naples,APF
+Gaylord,Michigan,APX,Alpena,APN
+Chicago,Illinois,LOT,Aurora,ARR
+Buffalo,New York,BUF,Watertown,ART
+Minneapolis/Twin Cities,Minnesota,MPX,La Crosse,ARX
+Grand Junction,Colorado,GJT,Aspen,ASE
+Portland,Oregon,PQR,Astoria,AST
+Peachtree City/Atlanta,Georgia,FFC,Atlanta,ATL
+Austin/San Antonio,Texas,EWX,Austin Mabry,ATT
+Aberdeen,South Dakota,ABR,Watertown Regional Airport,ATY
+Gray/Portland,Maine,GYX,Augusta,AUG
+Austin/San Antonio,Texas,EWX,Austin Bergstrom International Airp,AUS
+Green Bay,Wisconsin,GRB,Wausau,AUW
+Greenville-Spartanburg,South Carolina,GSP,Asheville,AVL
+Binghamton,New York,BGM,Scranton/Wilkes-Barre,AVP
+Grand Rapids,Michigan,GRR,Kalamazoo,AZO
+North Platte,Nebraska,LBF,Broken Bow,BBW
+Boston,Massachusetts,BOX,Hartford (Bradley Airport),BDL
+New York/Upton,New York,OKX,Bridgeport CT,BDR
+Anchorage,Alaska,PAFC,Bethel,BET
+State College,Pennsylvania,CTP,Bradford,BFD
+Cheyenne,Wyoming,CYS,Scottsbluff,BFF
+San Joaquin Valley/Hanford,California,HNX,Bakersfield,BFL
+Amarillo,Texas,AMA,Borger,BGD
+Binghamton,New York,BGM,Binghamton,BGM
+Caribou,Maine,CAR,Bangor,BGR
+Birmingham,Alabama,BMX,Birmingham,BHM
+Las Vegas,Nevada,VEF,Bishop,BIH
+Billings,Montana,BYZ,Billings,BIL
+Bismarck,North Dakota,BIS,Bismarck,BIS
+Grand Rapids,Michigan,GRR,Holland,BIV
+Boise,Idaho,BOI,Baker City,BKE
+Charleston,West Virginia,RLX,Beckley,BKW
+Blacksburg,Virginia,RNK,Bluefield,BLF
+Seattle,Washington,SEW,Bellingham,BLI
+Indianapolis,Indiana,IND,Bloomington,BMG
+Nashville,Tennessee,OHX,Nashville Intl Apt,BNA
+Boise,Idaho,BOI,Burns,BNO
+Boise,Idaho,BOI,Boise,BOI
+Boston,Massachusetts,BOX,Boston (Logan Airport),BOS
+Riverton,Wyoming,RIW,Big Piney,BPI
+Lake Charles,Louisiana,LCH,Southeast Texas Regional Apt,BPT
+Davenport/Quad Cities,Iowa,DVN,Burlington,BRL
+Brownsville,Texas,BRO,Brownsville Intl Airport,BRO
+Fairbanks,Alaska,PAFG,Barrow,BRW
+Grand Rapids,Michigan,GRR,Battle Creek,BTL
+Missoula,Montana,MSO,Butte,BTM
+New Orleans/Baton Rouge,Louisiana,LIX,Baton Rouge Regional Apt,BTR
+Burlington,Vermont,BTV,Burlington,BTV
+Buffalo,New York,BUF,Buffalo,BUF
+Los Angeles/Oxnard,California,LOX,Bob Hope Airport (BUR),BUR
+Louisville,Kentucky,LMK,Bowling Green,BWG
+Baltimore/Washington,Virginia,LWX,BWI,BWI
+Riverton,Wyoming,RIW,Buffalo,BYG
+Pocatello,Idaho,PIH,Burley,BYI
+Great Falls,Montana,TFX,Bozeman,BZN
+Columbia,South Carolina,CAE,Columbia Metro Airport,CAE
+Grand Junction,Colorado,GJT,Craig,CAG
+Cleveland,Ohio,CLE,Akron/Canton,CAK
 Albuquerque,New Mexico,ABQ,Clayton,CAO
-Albuquerque,New Mexico,ABQ,Roswell,ROW
-Norman/Oklahoma City,Oklahoma,OUN,HEADER,HEADER
-Norman/Oklahoma City,Oklahoma,OUN,Oklahoma City Will Rogers Apt,OKC
-Norman/Oklahoma City,Oklahoma,OUN,Wichita Falls Sheppard Field,SPS
-Tulsa,Oklahoma,TSA,HEADER,HEADER
-Tulsa,Oklahoma,TSA,Tulsa OK International Airport,TUL
+Caribou,Maine,CAR,Caribou,CAR
+San Francisco Bay Area/Monterey,California,MTR,Concord Airport,CCR
+Anchorage,Alaska,PAFC,Cold Bay,CDB
+Salt Lake City,Utah,SLC,Cedar City,CDC
+Cheyenne,Wyoming,CYS,Chadron,CDR
+Lubbock,Texas,LUB,Childress Airport,CDS
+Eureka,California,EKA,Crescent City,CEC
+Grand Junction,Colorado,GJT,Cortez,CEZ
+Paducah,Kentucky,PAH,Cape Girardeau,CGI
+Morristown/Knoxville,Tennessee,MRX,Chattanooga Apt,CHA
+Baltimore/Washington,Virginia,LWX,Charlottesville,CHO
+Charleston,South Carolina,CHS,Charleston,CHS
+Davenport/Quad Cities,Iowa,DVN,Cedar Rapids,CID
+Nashville,Tennessee,OHX,Clarksville,CKV
+Cleveland,Ohio,CLE,Cleveland,CLE
+Houston/Galveston,Texas,HGX,College Station,CLL
+Greenville-Spartanburg,South Carolina,GSP,Charlotte,CLT
+Los Angeles/Oxnard,California,LOX,Camarillo/Oxnard,CMA
+Wilmington,Ohio,ILN,Columbus,CMH
+Lincoln,Illinois,ILX,Champaign Arpt,CMI
+Topeka,Kansas,TOP,Concordia,CNK
+Wichita,Kansas,ICT,Chanute,CNU
+Grand Junction,Colorado,GJT,Moab,CNY
+Gray/Portland,Maine,GYX,Concord,CON
+Pueblo,Colorado,PUB,Colorado Springs,COS
+St. Louis,Missouri,LSX,Columbia,COU
+Riverton,Wyoming,RIW,Casper,CPR
+Los Angeles/Oxnard,California,LOX,Downtown Los Angeles,CQT
+Wilmington,North Carolina,ILM,North Myrtle Beach,CRE
+Corpus Christi,Texas,CRP,Corpus Christi,CRP
+Charleston,West Virginia,RLX,Charleston,CRW
+Peachtree City/Atlanta,Georgia,FFC,Columbus,CSG
+Nashville,Tennessee,OHX,Crossville,CSV
+Great Falls,Montana,TFX,Cut Bank,CTB
+Columbia,South Carolina,CAE,Hamilton-Owens Airport,CUB
+Rapid City,South Dakota,UNR,Custer,CUT
+Wilmington,Ohio,ILN,Cincinnati,CVG
+Charleston,South Carolina,CHS,Downtown Charleston,CXM
+Cheyenne,Wyoming,CYS,Cheyenne,CYS
+San Diego,California,SGX,Campo,CZZ
+Rapid City,South Dakota,UNR,Faith,D07
+Melbourne,Florida,MLB,Daytona Beach,DAB
+Blacksburg,Virginia,RNK,Danville,DAN
+Wilmington,Ohio,ILN,Dayton,DAY
+Davenport/Quad Cities,Iowa,DVN,Dubuque,DBQ
+Baltimore/Washington,Virginia,LWX,National,DCA
+Albany,New York,ALY,Bennington VT,DDH
+Lincoln,Illinois,ILX,Decatur Arpt,DEC
+Denver/Boulder,Colorado,BOU,Denver,DEN
+Shreveport,Louisiana,SHV,DeQueen,DEQ
+Spokane,Washington,OTX,Deer Park,DEW
+Dallas/Fort Worth,Texas,FWD,Dallas/Fort Worth,DFW
+Dodge City,Kansas,DDC,DODGE CITY,DGC
+Cheyenne,Wyoming,CYS,Douglas,DGW
+Tallahassee,Florida,TAE,Dothan,DHN
+Amarillo,Texas,AMA,Dalhart,DHT
+Bismarck,North Dakota,BIS,Dickinson,DIK
+Duluth,Minnesota,DLH,Duluth,DLH
+Great Falls,Montana,TFX,Dillon Airport,DLN
+Baltimore/Washington,Virginia,LWX,MD Science Center,DMH
+Kansas City/Pleasant Hill,Missouri,EAX,Sedalia,DMO
+Columbia,South Carolina,CAE,Augusta Daniel Field,DNL
+Chicago,Illinois,LOT,DuPage Airport,DPA
+Grand Junction,Colorado,GJT,Durango (airport),DRO
+Austin/San Antonio,Texas,EWX,Del Rio,DRT
+Des Moines,Iowa,DMX,Des Moines,DSM
+Detroit/Pontiac,Michigan,DTX,Detroit,DTW
+Tucson,Arizona,TWC,Douglas,DUG
+Pittsburgh,Pennsylvania,PBZ,Dubois,DUJ
+Davenport/Quad Cities,Iowa,DVN,Davenport,DVN
+Hastings,Nebraska,GID,Kearney,EAR
+Spokane,Washington,OTX,Wenatchee,EAT
+Duluth,Minnesota,DLH,Eau Claire,EAU
+Wakefield,Virginia,AKQ,ELIZABETH CITY,ECG
+Tallahassee,Florida,TAE,Panama City NW,ECP
+Grand Junction,Colorado,GJT,Meeker,EEO
+Birmingham,Alabama,BMX,Shelby County Airport,EET
+Eureka,California,EKA,Eureka,EKA
+Charleston,West Virginia,RLX,Elkins,EKN
+Elko,Nevada,LKN,Elko Airport,EKO
+Shreveport,Louisiana,SHV,El Dorado,ELD
+El Paso,Texas,EPZ,El Paso International Apt,ELP
+Elko,Nevada,LKN,Ely Airport,ELY
+Topeka,Kansas,TOP,Emporia,EMP
+Spokane,Washington,OTX,Ephrata,EPH
+Cleveland,Ohio,CLE,Erie,ERI
+Des Moines,Iowa,DMX,Estherville,EST
+Portland,Oregon,PQR,Eugene,EUG
+Paducah,Kentucky,PAH,Evansville,EVV
+Salt Lake City,Utah,SLC,Evanston,EVW
+Newport/Morehead City,North Carolina,MHX,New Bern,EWN
+New York/Upton,New York,OKX,Newark NJ,EWR
+Indianapolis,Indiana,IND,Indianapolis Eagle Creek,EYE
+Key West,Florida,KEY,Key West Intl Airport,EYW
+Fairbanks,Alaska,PAFG,Faribanks,FAI
+Minneapolis/Twin Cities,Minnesota,MPX,Fargo,FAR
+San Joaquin Valley/Hanford,California,HNX,Fresno,FAT
+Raleigh,North Carolina,RAH,Fayetteville,FAY
+Peachtree City/Atlanta,Georgia,FFC,Peachtree City,FFC
+Louisville,Kentucky,LMK,Frankfort,FFT
+Duluth,Minnesota,DLH,Grand Forks,FGF
+Flagstaff,Arizona,FGZ,Flagstaff,FLG
+Miami,Florida,MFL,Ft Lauderdale - Hollywood,FLL
+Wilmington,North Carolina,ILM,Florence,FLO
+Tampa,Florida,TBW,Fort Myers,FMY
+Detroit/Pontiac,Michigan,DTX,Flint,FNT
+Minneapolis/Twin Cities,Minnesota,MPX,Sioux Falls,FSD
 Tulsa,Oklahoma,TSA,Fort Smith AR Regional Airport,FSM
+Peachtree City/Atlanta,Georgia,FFC,Fulton County Airport (Georgia),FTY
+San Diego,California,SGX,Fullerton,FUL
+Caribou,Maine,CAR,Frenchville,FVE
+Northern Indiana,Indiana,IWX,Fort Wayne,FWA
 Tulsa,Oklahoma,TSA,Fayetteville AR Drake Field,FYV
-San Juan,Puerto Rico,SJU,HEADER,HEADER
-San Juan,Puerto Rico,SJU,San Juan Area,SJU
+Rapid City,South Dakota,UNR,Gillette,GCC
+Dodge City,Kansas,DDC,GARDEN CITY,GCK
+Mount Holly/Philadelphia,New Jersey,PHI,Georgetown,GED
+Spokane,Washington,OTX,Spokane,GEG
+Riverton,Wyoming,RIW,Greybull,GEY
+Indianapolis,Indiana,IND,Shelbyville,GEZ
+Grand Forks,North Dakota,FGF,Grand Forks,GFK
+Albany,New York,ALY,Glens Falls NY,GFL
+Shreveport,Louisiana,SHV,Longview,GGG
+Glasgow,Montana,GGW,Glasgow,GGW
+Grand Junction,Colorado,GJT,Grand Junction,GJT
+Goodland,Kansas,GLD,Goodland,GLD
+Jackson,Mississippi,JAN,Greenville,GLH
+Houston/Galveston,Texas,HGX,Galveston,GLS
+Jacksonville,Florida,JAX,Gainesville Regional Apt,GNV
+Missoula,Montana,MSO,Kalispell,GPI
+Duluth,Minnesota,DLH,Green Bay,GRB
+Hastings,Nebraska,GID,Grand Island,GRI
+Grand Rapids,Michigan,GRR,Grand Rapids,GRR
+Raleigh,North Carolina,RAH,Piedmont Triad,GSO
+Greenville-Spartanburg,South Carolina,GSP,Greenville-Spartanburg,GSP
+Great Falls,Montana,TFX,Great Falls,GTF
+Amarillo,Texas,AMA,Guymon,GUY
+Peachtree City/Atlanta,Georgia,FFC,Gainesville,GVL
+Jackson,Mississippi,JAN,Greenwood,GWO
+Gray/Portland,Maine,GYX,Gray,GYX
+Jackson,Mississippi,JAN,Hattiesburg,HBG
+Baltimore/Washington,Virginia,LWX,Hagerstown,HGR
+Portland,Oregon,PQR,Hillsboro,HIO
+San Joaquin Valley/Hanford,California,HNX,Hanford,HJO
+Goodland,Kansas,GLD,Hill City,HLC
+Pittsburgh,Pennsylvania,PBZ,Wheeling,HLG
+Great Falls,Montana,TFX,Helena,HLN
+Honolulu,Hawaii,HNL,Honolulu International Airport,HNL
+Aberdeen,South Dakota,ABR,Huron Regional Airport,HON
+Houston/Galveston,Texas,HGX,Houston,HOU
+Seattle,Washington,SEW,Hoquiam,HQM
+Brownsville,Texas,BRO,Harlingen Intl Airport,HRL
+North Little Rock,Arkansas,LZK,Harrison,HRO
+Newport/Morehead City,North Carolina,MHX,Cape Hatteras,HSE
+Hastings,Nebraska,GID,Hastings,HSI
+Huntsville,Alabama,HUN,Huntsville Airport,HSV
+Gaylord,Michigan,APX,Houghton Lake,HTL
+Charleston,West Virginia,RLX,Huntington,HTS
+Indianapolis,Indiana,IND,Terre Haute,HUF
+Caribou,Maine,CAR,Houlton,HUL
+Great Falls,Montana,TFX,Havre,HVR
+San Francisco Bay Area/Monterey,California,MTR,Hayward Airport,HWD
+Baltimore/Washington,Virginia,LWX,Dulles,IAD
+Rapid City,South Dakota,UNR,Winner,ICR
+Wichita,Kansas,ICT,Wichita,ICT
+Pocatello,Idaho,PIH,Idaho Falls,IDA
+Rapid City,South Dakota,UNR,Pine Ridge,IEN
+Las Vegas,Nevada,VEF,Kingman,IGM
+Mount Holly/Philadelphia,New Jersey,PHI,Wilmington,ILG
+Wilmington,North Carolina,ILM,Wilmington,ILM
+Lincoln,Illinois,ILX,Lincoln,ILX
+North Platte,Nebraska,LBF,Imperial,IML
+Indianapolis,Indiana,IND,Indianapolis Intl Ap,IND
+Duluth,Minnesota,DLH,International Fall,INL
+Flagstaff,Arizona,FGZ,Winslow,INW
+Davenport/Quad Cities,Iowa,DVN,Iowa City,IOW
+State College,Pennsylvania,CTP,Williamsport,IPT
+Kansas City/Pleasant Hill,Missouri,EAX,Kirksville,IRK
+Bismarck,North Dakota,BIS,Williston,ISN
+New York/Upton,New York,OKX,Islip NY,ISP
 San Juan,Puerto Rico,SJU,Cyril E. King Airport St Thomas,IST
 San Juan,Puerto Rico,SJU,Henry E. Rohlsen Airport St Croix,ISX
-Memphis,Tennessee,MEG,HEADER,HEADER
-Memphis,Tennessee,MEG,Memphis Intl Apt, TN,MEM
-Memphis,Tennessee,MEG,Jackson, TN,MKL
-Memphis,Tennessee,MEG,Jonesboro, AR,JBR
-Memphis,Tennessee,MEG,Tupelo, MS,TUP
-Memphis,Tennessee,MEG,WFO Memphis, TN,MEG
-Morristown/Knoxville,Tennessee,MRX,HEADER,HEADER
-Morristown/Knoxville,Tennessee,MRX,Chattanooga Apt,CHA
-Morristown/Knoxville,Tennessee,MRX,Knoxville Apt,TYS
-Morristown/Knoxville,Tennessee,MRX,Tri-Cities Apt,TRI
-Nashville,Tennessee,OHX,HEADER,HEADER
-Nashville,Tennessee,OHX,Nashville Intl Apt,BNA
-Nashville,Tennessee,OHX,Clarksville,CKV
-Nashville,Tennessee,OHX,Crossville,CSV
-Amarillo,Texas,AMA,HEADER,HEADER
-Amarillo,Texas,AMA,Amarillo, TX,AMA
-Amarillo,Texas,AMA,Borger, TX,BGD
-Amarillo,Texas,AMA,Dalhart, TX,DHT
-Amarillo,Texas,AMA,Guymon, OK,GUY
-Austin/San Antonio,Texas,EWX,HEADER,HEADER
-Austin/San Antonio,Texas,EWX,Austin Bergstrom International Airp,AUS
-Austin/San Antonio,Texas,EWX,Austin Mabry,ATT
-Austin/San Antonio,Texas,EWX,Del Rio,DRT
-Austin/San Antonio,Texas,EWX,San Antonio,SAT
-Brownsville,Texas,BRO,HEADER,HEADER
-Brownsville,Texas,BRO,Brownsville Intl Airport,BRO
-Brownsville,Texas,BRO,Harlingen Intl Airport,HRL
-Brownsville,Texas,BRO,McAllen Miller Intl Airport,MFE
-Corpus Christi,Texas,CRP,HEADER,HEADER
-Corpus Christi,Texas,CRP,Corpus Christi,CRP
-Corpus Christi,Texas,CRP,Victoria,VCT
-Dallas/Fort Worth,Texas,FWD,HEADER,HEADER
-Dallas/Fort Worth,Texas,FWD,Dallas/Fort Worth,DFW
-Dallas/Fort Worth,Texas,FWD,Waco,ACT
-El Paso,Texas,EPZ,HEADER,HEADER
-El Paso,Texas,EPZ,El Paso International Apt,ELP
-Houston/Galveston,Texas,HGX,HEADER,HEADER
-Houston/Galveston,Texas,HGX,Houston,HOU
-Houston/Galveston,Texas,HGX,Galveston,GLS
-Houston/Galveston,Texas,HGX,College Station,CLL
-Lubbock,Texas,LUB,HEADER,HEADER
-Lubbock,Texas,LUB,Lubbock International Apt,LBB
-Lubbock,Texas,LUB,Childress Airport,CDS
-Midland/Odessa,Texas,MAF,HEADER,HEADER
-Midland/Odessa,Texas,MAF,Midland International Airport,MAF
-San Angelo,Texas,SJT,HEADER,HEADER
-San Angelo,Texas,SJT,Abilene,ABI
-San Angelo,Texas,SJT,San Angelo,SJT
-Flagstaff,Arizona,FGZ,HEADER,HEADER
-Flagstaff,Arizona,FGZ,Flagstaff,FLG
-Flagstaff,Arizona,FGZ,Winslow,INW
-Flagstaff,Arizona,FGZ,Prescott,PRC
-Phoenix,Arizona,PSR,HEADER,HEADER
-Phoenix,Arizona,PSR,Phoenix,PHX
-Phoenix,Arizona,PSR,Yuma,NYL
-Tucson,Arizona,TWC,HEADER,HEADER
-Tucson,Arizona,TWC,Tucson,TUS
-Tucson,Arizona,TWC,Douglas,DUG
-Eureka,California,EKA,HEADER,HEADER
-Eureka,California,EKA,Eureka,EKA
-Eureka,California,EKA,Crescent City,CEC
-Eureka,California,EKA,Medford,MEF
-Eureka,California,EKA,Redding,RDD
-Eureka,California,EKA,Ukiah,UKI
-Los Angeles/Oxnard,California,LOX,HEADER,HEADER
-Los Angeles/Oxnard,California,LOX,Bob Hope Airport (BUR),BUR
-Los Angeles/Oxnard,California,LOX,Camarillo/Oxnard,CMA
-Los Angeles/Oxnard,California,LOX,Downtown Los Angeles,CQT
-Los Angeles/Oxnard,California,LOX,Los Angeles Airport,LAX
-Los Angeles/Oxnard,California,LOX,Long Beach Airport,LGB
-Los Angeles/Oxnard,California,LOX,Palmdale,PMD
-Los Angeles/Oxnard,California,LOX,Paso Robles,PRB
-Los Angeles/Oxnard,California,LOX,Santa Barbara,SBA
-Los Angeles/Oxnard,California,LOX,Santa Maria,SMX
-Los Angeles/Oxnard,California,LOX,Sandberg,SDB
-Los Angeles/Oxnard,California,LOX,Lancaster,WJF
-Sacramento,California,STO,HEADER,HEADER
-Sacramento,California,STO,Redding,RDD
-Sacramento,California,STO,Sacramento Executive,SAC
-Sacramento,California,STO,Stockton,SCK
-Sacramento,California,STO,Modesto,MOD
-San Diego,California,SGX,HEADER,HEADER
-San Diego,California,SGX,Campo,CZZ
-San Diego,California,SGX,Fullerton,FUL
-San Diego,California,SGX,John Wayne Airport,SNA
-San Diego,California,SGX,Oceanside Airport,OKB
-San Diego,California,SGX,Ontario,ONT
-San Diego,California,SGX,Palm Springs,PSP
-San Diego,California,SGX,Riverside,RAL
-San Diego,California,SGX,Ramona,RNM
-San Diego,California,SGX,San Diego,SAN
-San Diego,California,SGX,San Diego Brown Field,SDM
-San Diego,California,SGX,Thermal,TRM
-San Francisco Bay Area/Monterey,California,MTR,HEADER,HEADER
-San Francisco Bay Area/Monterey,California,MTR,Santa Rosa Airport,STS
-San Francisco Bay Area/Monterey,California,MTR,Napa Airport,APC
-San Francisco Bay Area/Monterey,California,MTR,Downtown San Francisco,SFD
-San Francisco Bay Area/Monterey,California,MTR,San Francisco Airport,SFO
-San Francisco Bay Area/Monterey,California,MTR,Oakland Airport,OAK
-San Francisco Bay Area/Monterey,California,MTR,Concord Airport,CCR
-San Francisco Bay Area/Monterey,California,MTR,Livermore Airport,LVK
-San Francisco Bay Area/Monterey,California,MTR,Hayward Airport,HWD
-San Francisco Bay Area/Monterey,California,MTR,San Jose,SJC
-San Francisco Bay Area/Monterey,California,MTR,Moffett Field,NUQ
-San Francisco Bay Area/Monterey,California,MTR,Watsonville Airport,WVI
-San Francisco Bay Area/Monterey,California,MTR,Monterey Airport,MRY
-San Francisco Bay Area/Monterey,California,MTR,Salinas Airport,SNS
-San Joaquin Valley/Hanford,California,HNX,HEADER,HEADER
-San Joaquin Valley/Hanford,California,HNX,Fresno,FAT
-San Joaquin Valley/Hanford,California,HNX,Bakersfield,BFL
-San Joaquin Valley/Hanford,California,HNX,Madera,MAE
-San Joaquin Valley/Hanford,California,HNX,Merced,MCE
-San Joaquin Valley/Hanford,California,HNX,Hanford,HJO
-Boise,Idaho,BOI,HEADER,HEADER
-Boise,Idaho,BOI,Boise,BOI
-Boise,Idaho,BOI,Baker City,BKE
-Boise,Idaho,BOI,Burns,BNO
+Honolulu,Hawaii,HNL,Hilo Airport,ITO
+Goodland,Kansas,GLD,Burlington,ITR
+Jackson,Mississippi,JAN,Jackson Intl Apt,JAN
+Jacksonville,Florida,JAX,Jacksonville Intl Apt,JAX
+Memphis,Tennessee,MEG,Jonesboro,JBR
 Boise,Idaho,BOI,Jerome,JER
-Boise,Idaho,BOI,McCall,MYL
-Boise,Idaho,BOI,Mountain Home,MUO
-Boise,Idaho,BOI,Ontario,ONO
-Boise,Idaho,BOI,Rome,REO
-Boise,Idaho,BOI,Twin Falls,TWF
-Pocatello,Idaho,PIH,HEADER,HEADER
-Pocatello,Idaho,PIH,Burley,BYI
-Pocatello,Idaho,PIH,Challis,LLJ
-Pocatello,Idaho,PIH,Idaho Falls,IDA
-Pocatello,Idaho,PIH,Pocatello,PIH
-Pocatello,Idaho,PIH,Rexburg,RXE
-Pocatello,Idaho,PIH,Stanley,SNT
-Billings,Montana,BYZ,HEADER,HEADER
-Billings,Montana,BYZ,Billings,BIL
-Billings,Montana,BYZ,Miles City,MLS
-Billings,Montana,BYZ,Livingston,LVM
-Billings,Montana,BYZ,Sheridan,SHR
-Glasgow,Montana,GGW,HEADER,HEADER
-Glasgow,Montana,GGW,Glasgow,GGW
-Great Falls,Montana,TFX,HEADER,HEADER
-Great Falls,Montana,TFX,Bozeman,BZN
-Great Falls,Montana,TFX,Cut Bank,CTB
-Great Falls,Montana,TFX,Dillon Airport,DLN
-Great Falls,Montana,TFX,Great Falls,GTF
-Great Falls,Montana,TFX,Havre,HVR
-Great Falls,Montana,TFX,Helena,HLN
-Great Falls,Montana,TFX,Lewistown,LWT
-Missoula,Montana,MSO,HEADER,HEADER
-Missoula,Montana,MSO,Missoula,MSO
-Missoula,Montana,MSO,Kalispell,GPI
-Missoula,Montana,MSO,Butte,BTM
-Elko,Nevada,LKN,HEADER,HEADER
-Elko,Nevada,LKN,Elko Airport,EKO
-Elko,Nevada,LKN,Ely Airport,ELY
-Elko,Nevada,LKN,Eureka Airport,P68
-Elko,Nevada,LKN,Tonopah Airport,TPH
-Elko,Nevada,LKN,Winnemucca Airport,WMC
-Las Vegas,Nevada,VEF,HEADER,HEADER
+New York/Upton,New York,OKX,JFK Arpt NY,JFK
+Jackson,Kentucky,JKL,Jackson,JKL
+Springfield,Missouri,SGF,Joplin,JLN
+Bismarck,North Dakota,BIS,Jamestown,JMS
+Juneau,Alaska,PAJK,Juneau,JNU
+State College,Pennsylvania,CTP,Johnstown,JST
+Grand Rapids,Michigan,GRR,Jackson,JXN
+Pueblo,Colorado,PUB,Lamar,LAA
+Indianapolis,Indiana,IND,Lafayette,LAF
+Grand Rapids,Michigan,GRR,Lansing,LAN
+Cheyenne,Wyoming,CYS,Laramie,LAR
 Las Vegas,Nevada,VEF,Las Vegas,LAS
-Las Vegas,Nevada,VEF,Bishop,BIH
-Las Vegas,Nevada,VEF,Kingman,IGM
-Reno,Nevada,REV,HEADER,HEADER
-Reno,Nevada,REV,Reno,RNO
-Reno,Nevada,REV,South Lake Tahoe,TVL
-Medford,Oregon,MFR,HEADER,HEADER
-Medford,Oregon,MFR,Alturas,AAT
+Los Angeles/Oxnard,California,LOX,Los Angeles Airport,LAX
+Lubbock,Texas,LUB,Lubbock International Apt,LBB
+North Platte,Nebraska,LBF,North Platte,LBF
+Wilmington,North Carolina,ILM,Lumberton,LBT
+Lake Charles,Louisiana,LCH,Lake Charles Regional Apt,LCH
+Louisville,Kentucky,LMK,Lexington,LEX
+Shreveport,Louisiana,SHV,Lufkin,LFK
+Lake Charles,Louisiana,LCH,Lafayette Regional Apt,LFT
+New York/Upton,New York,OKX,LaGuardia NY,LGA
+Los Angeles/Oxnard,California,LOX,Long Beach Airport,LGB
+Pueblo,Colorado,PUB,La Junta,LHX
+Denver/Boulder,Colorado,BOU,Limon,LIC
+Honolulu,Hawaii,HNL,Lihue Airport,LIH
+North Little Rock,Arkansas,LZK,Little Rock,LIT
+Pocatello,Idaho,PIH,Challis,LLJ
 Medford,Oregon,MFR,Klamath Falls,LMT
-Medford,Oregon,MFR,Medford,MFR
-Medford,Oregon,MFR,Montague,SIY
-Medford,Oregon,MFR,Mount Shasta,MHS
-Medford,Oregon,MFR,North Bend,OTH
-Medford,Oregon,MFR,Roseburg,RBG
-Pendleton,Oregon,PDT,HEADER,HEADER
-Pendleton,Oregon,PDT,Pendleton,PDT
-Pendleton,Oregon,PDT,Redmond,RDM
-Pendleton,Oregon,PDT,Pasco,PSC
-Pendleton,Oregon,PDT,Yakima,YKM
-Portland,Oregon,PQR,HEADER,HEADER
-Portland,Oregon,PQR,Astoria,AST
-Portland,Oregon,PQR,Eugene,EUG
-Portland,Oregon,PQR,Portland,PDX
-Portland,Oregon,PQR,Salem,SLE
-Portland,Oregon,PQR,Hillsboro,HIO
-Portland,Oregon,PQR,McMinnville,MMV
-Portland,Oregon,PQR,Troutdale,TTD
-Portland,Oregon,PQR,Vancouver,VUO
-Portland,Oregon,PQR,Scappoose,SPB
-Portland,Oregon,PQR,Aurora,UAO
-Portland,Oregon,PQR,Redmond,RDM
-Portland,Oregon,PQR,Roseburg,RBG
-Portland,Oregon,PQR,North Bend,OTH
-Portland,Oregon,PQR,Medford,MFR
-Portland,Oregon,PQR,Klamath Falls,LMT
-Salt Lake City,Utah,SLC,HEADER,HEADER
-Salt Lake City,Utah,SLC,Salt Lake City,SLC
-Salt Lake City,Utah,SLC,Cedar City,CDC
-Salt Lake City,Utah,SLC,Evanston,EVW
-Seattle,Washington,SEW,HEADER,HEADER
-Seattle,Washington,SEW,Seattle-Tacoma,SEA
-Seattle,Washington,SEW,Olympia,OLM
-Seattle,Washington,SEW,WFO Seattle,SEW
-Seattle,Washington,SEW,Quillayute Airport,UIL
-Seattle,Washington,SEW,Bellingham,BLI
-Seattle,Washington,SEW,Hoquiam,HQM
-Spokane,Washington,OTX,HEADER,HEADER
-Spokane,Washington,OTX,Spokane,GEG
+Riverton,Wyoming,RIW,Lander,LND
+Omaha/Valley,Nebraska,OAX,Lincoln,LNK
+Chicago,Illinois,LOT,WFO Chicago Romeoville,LOT
+Louisville,Kentucky,LMK,Louisville Bowman Field,LOU
+Jackson,Kentucky,JKL,London,LOZ
+Green Bay,Wisconsin,GRB,La Crosse,LSE
+San Francisco Bay Area/Monterey,California,MTR,Livermore Airport,LVK
+Billings,Montana,BYZ,Livingston,LVM
+Blacksburg,Virginia,RNK,Lewisburg,LWB
+Topeka,Kansas,TOP,Lawrence,LWC
+Des Moines,Iowa,DMX,Lamoni,LWD
 Spokane,Washington,OTX,Lewiston,LWS
-Spokane,Washington,OTX,Wenatchee,EAT
-Spokane,Washington,OTX,Spokane (NWS Office),OTX
-Spokane,Washington,OTX,Felts Field,SFF
-Spokane,Washington,OTX,Omak,OMK
+Great Falls,Montana,TFX,Lewistown,LWT
+Lincoln,Illinois,ILX,Lawrenceville Arpt,LWV
+Pueblo,Colorado,PUB,Leadville,LXV
+Blacksburg,Virginia,RNK,Lynchburg,LYH
+North Little Rock,Arkansas,LZK,North Little Rock,LZK
+San Joaquin Valley/Hanford,California,HNX,Madera,MAE
+Midland/Odessa,Texas,MAF,Midland International Airport,MAF
+Aberdeen,South Dakota,ABR,Mobridge Airport,MBG
+Detroit/Pontiac,Michigan,DTX,Saginaw,MBS
+San Joaquin Valley/Hanford,California,HNX,Merced,MCE
+Fairbanks,Alaska,PAFG,McGrath,MCG
+Kansas City/Pleasant Hill,Missouri,EAX,Kansas City,MCI
+Goodland,Kansas,GLD,McCook,MCK
+Peachtree City/Atlanta,Georgia,FFC,Macon,MCN
+Melbourne,Florida,MLB,Orlando,MCO
+Des Moines,Iowa,DMX,Mason City,MCW
+State College,Pennsylvania,CTP,Harrisburg,MDT
+Chicago,Illinois,LOT,Chicago Midway,MDW
+Eureka,California,EKA,Medford,MEF
+Memphis,Tennessee,MEG,WFO Memphis,MEG
+Jackson,Mississippi,JAN,Meridian Key Field,MEI
+Memphis,Tennessee,MEG,Memphis Intl Apt,MEM
+Cleveland,Ohio,CLE,Mansfield,MFD
+Brownsville,Texas,BRO,McAllen Miller Intl Airport,MFE
+Medford,Oregon,MFR,Medford,MFR
+Birmingham,Alabama,BMX,Montgomery,MGM
+Pittsburgh,Pennsylvania,PBZ,Morgantown,MGW
+Sioux Falls,South Dakota,FSD,Mitchell,MHE
+Topeka,Kansas,TOP,Manhattan,MHK
+Medford,Oregon,MFR,Mount Shasta,MHS
+Miami,Florida,MFL,Miami,MIA
+Indianapolis,Indiana,IND,Muncie,MIE
+Des Moines,Iowa,DMX,Marshalltown,MIW
+Green Bay,Wisconsin,GRB,Milwaukee,MKE
+Grand Rapids,Michigan,GRR,Muskegon,MKG
+Memphis,Tennessee,MEG,Jackson,MKL
+Melbourne,Florida,MLB,Melbourne,MLB
+Davenport/Quad Cities,Iowa,DVN,Moline,MLI
+Billings,Montana,BYZ,Miles City,MLS
+Caribou,Maine,CAR,Millinocket,MLT
+Shreveport,Louisiana,SHV,Monroe,MLU
+Portland,Oregon,PQR,McMinnville,MMV
+Mobile/Pensacola,Alabama,MOB,Mobile Regional Apt,MOB
+Sacramento,California,STO,Modesto,MOD
+Bismarck,North Dakota,BIS,Minot,MOT
+Mount Holly/Philadelphia,New Jersey,PHI,Mount Pocono,MPO
+Burlington,Vermont,BTV,Montpelier,MPV
+Duluth,Minnesota,DLH,Chanhassen,MPX
+Marquette,Michigan,MQT,Marquette NWS,MQT
+Baltimore/Washington,Virginia,LWX,Martinsburg,MRB
+San Francisco Bay Area/Monterey,California,MTR,Monterey Airport,MRY
+Huntsville,Alabama,HUN,Muscle Shoals Airport,MSL
+Green Bay,Wisconsin,GRB,Madison,MSN
+Missoula,Montana,MSO,Missoula,MSO
+Duluth,Minnesota,DLH,Minneapolis,MSP
+Burlington,Vermont,BTV,Massena,MSS
+Key West,Florida,KEY,Marathon Airport,MTH
+Grand Junction,Colorado,GJT,Montrose,MTJ
+Lincoln,Illinois,ILX,Mattoon Arpt,MTO
+Boise,Idaho,BOI,Mountain Home,MUO
+Burlington,Vermont,BTV,Morrisville,MVL
 Spokane,Washington,OTX,Moses Lake,MWH
+Boise,Idaho,BOI,McCall,MYL
+New Orleans/Baton Rouge,Louisiana,LIX,New Orleans Intl Apt,NEW
+San Francisco Bay Area/Monterey,California,MTR,Moffett Field,NUQ
+New York/Upton,New York,OKX,Central Park NY,NYC
+Phoenix,Arizona,PSR,Yuma,NYL
+San Francisco Bay Area/Monterey,California,MTR,Oakland Airport,OAK
+Omaha/Valley,Nebraska,OAX,Valley,OAX
+Hastings,Nebraska,GID,Ord,ODX
+Omaha/Valley,Nebraska,OAX,Norfolk,OFK
+Columbia,South Carolina,CAE,Orangeburg Airport,OGB
+Honolulu,Hawaii,HNL,Kahului Airport,OGG
+Kansas City/Pleasant Hill,Missouri,EAX,Johnson County (KS) Executive,OJC
+San Diego,California,SGX,Oceanside Airport,OKB
+Norman/Oklahoma City,Oklahoma,OUN,Oklahoma City Will Rogers Apt,OKC
+Seattle,Washington,SEW,Olympia,OLM
+Omaha/Valley,Nebraska,OAX,Omaha,OMA
+Fairbanks,Alaska,PAFG,Nome,OME
+Spokane,Washington,OTX,Omak,OMK
+Boise,Idaho,BOI,Ontario,ONO
+San Diego,California,SGX,Ontario,ONT
+Milwaukee/Sullivan,Wisconsin,MKX,Chicago,ORD
+Wakefield,Virginia,AKQ,NORFOLK,ORF
+Boston,Massachusetts,BOX,Worcester,ORH
+Medford,Oregon,MFR,North Bend,OTH
+Des Moines,Iowa,DMX,Ottumwa,OTM
+Spokane,Washington,OTX,Spokane (NWS Office),OTX
+Fairbanks,Alaska,PAFG,Kotzebue,OTZ
+Dodge City,Kansas,DDC,MEDICINE LODGE,P28
+Riverton,Wyoming,RIW,Lake Yellowstone,P60
+Elko,Nevada,LKN,Eureka Airport,P68
+Paducah,Kentucky,PAH,Paducah,PAH
+North Little Rock,Arkansas,LZK,Pine Bluff,PBF
+Burlington,Vermont,BTV,Plattsburgh,PBG
+Miami,Florida,MFL,West Palm Beach,PBI
+Peachtree City/Atlanta,Georgia,FFC,DeKalb Peachtree Airport (Georgia),PDK
+Pendleton,Oregon,PDT,Pendleton,PDT
+Portland,Oregon,PQR,Portland,PDX
+Pittsburgh,Pennsylvania,PBZ,New Philadelphia,PHD
+Mount Holly/Philadelphia,New Jersey,PHI,Philadelphia,PHL
+Rapid City,South Dakota,UNR,Philip,PHP
+Phoenix,Arizona,PSR,Phoenix,PHX
+Lincoln,Illinois,ILX,Peoria,PIA
+Pocatello,Idaho,PIH,Pocatello,PIH
+Aberdeen,South Dakota,ABR,Pierre Regional Airport,PIR
+Pittsburgh,Pennsylvania,PBZ,Pittsburgh,PIT
+Charleston,West Virginia,RLX,Parkersburg,PKB
+Los Angeles/Oxnard,California,LOX,Palmdale,PMD
+Mobile/Pensacola,Alabama,MOB,Pensacola Regional Apt,PNS
+Albany,New York,ALY,Poughkeepsie NY,POU
+Los Angeles/Oxnard,California,LOX,Paso Robles,PRB
+Flagstaff,Arizona,FGZ,Prescott,PRC
+Pendleton,Oregon,PDT,Pasco,PSC
+Albany,New York,ALY,Pittsfield MA,PSF
+San Diego,California,SGX,Palm Springs,PSP
+Pueblo,Colorado,PUB,Pueblo,PUB
 Spokane,Washington,OTX,Pullman,PUW
-Spokane,Washington,OTX,Ephrata,EPH
-Spokane,Washington,OTX,Deer Park,DEW
+Boston,Massachusetts,BOX,Providence( T.F. Green Airport),PVD
+Chicago,Illinois,LOT,Chicago Executive Airport,PWK
+Gray/Portland,Maine,GYX,Portland,PWM
+San Diego,California,SGX,Riverside,RAL
+Rapid City,South Dakota,UNR,Rapid City Airport,RAP
+Medford,Oregon,MFR,Roseburg,RBG
+Eureka,California,EKA,Redding,RDD
+Mount Holly/Philadelphia,New Jersey,PHI,Reading,RDG
+Pendleton,Oregon,PDT,Redmond,RDM
+Raleigh,North Carolina,RAH,Raleigh-Durham,RDU
+Boise,Idaho,BOI,Rome,REO
+Chicago,Illinois,LOT,Rockford,RFD
+Green Bay,Wisconsin,GRB,Rhinelander,RHI
+Wakefield,Virginia,AKQ,RICHMOND,RIC
+Grand Junction,Colorado,GJT,Rifle,RIL
+Riverton,Wyoming,RIW,Riverton,RIW
+Riverton,Wyoming,RIW,Rock Springs,RKS
+Peachtree City/Atlanta,Georgia,FFC,Rome,RMG
+Blacksburg,Virginia,RNK,Blacksburg,RNK
+San Diego,California,SGX,Ramona,RNM
+Reno,Nevada,REV,Reno,RNO
+Blacksburg,Virginia,RNK,Roanoke,ROA
+Buffalo,New York,BUF,Rochester,ROC
+Albuquerque,New Mexico,ABQ,Roswell,ROW
+Minneapolis/Twin Cities,Minnesota,MPX,Rochester,RST
+Burlington,Vermont,BTV,Rutland,RUT
+Cheyenne,Wyoming,CYS,Rawlins,RWL
+Pocatello,Idaho,PIH,Rexburg,RXE
+Sacramento,California,STO,Sacramento Executive,SAC
+San Diego,California,SGX,San Diego,SAN
+Austin/San Antonio,Texas,EWX,San Antonio,SAT
+Charleston,South Carolina,CHS,Savannah,SAV
+Los Angeles/Oxnard,California,LOX,Santa Barbara,SBA
+Northern Indiana,Indiana,IWX,South Bend,SBN
+Wakefield,Virginia,AKQ,SALISBURY,SBY
+Sacramento,California,STO,Stockton,SCK
+Los Angeles/Oxnard,California,LOX,Sandberg,SDB
+Louisville,Kentucky,LMK,Louisville International Airport,SDF
+San Diego,California,SGX,San Diego Brown Field,SDM
+Seattle,Washington,SEW,Seattle-Tacoma,SEA
+Seattle,Washington,SEW,WFO Seattle,SEW
+San Francisco Bay Area/Monterey,California,MTR,Downtown San Francisco,SFD
+Spokane,Washington,OTX,Felts Field,SFF
+San Francisco Bay Area/Monterey,California,MTR,San Francisco Airport,SFO
+Springfield,Missouri,SGF,Springfield,SGF
+Billings,Montana,BYZ,Sheridan,SHR
+Shreveport,Louisiana,SHV,Shreveport,SHV
+Medford,Oregon,MFR,Montague,SIY
+San Francisco Bay Area/Monterey,California,MTR,San Jose,SJC
+San Angelo,Texas,SJT,San Angelo,SJT
+San Juan,Puerto Rico,SJU,San Juan Area,SJU
+Grand Junction,Colorado,GJT,Salt Lake City,SLC
+Portland,Oregon,PQR,Salem,SLE
+Burlington,Vermont,BTV,Saranac Lake,SLK
+Wichita,Kansas,ICT,Salina,SLN
+Fairbanks,Alaska,PAFG,St. Paul,SMP
+Los Angeles/Oxnard,California,LOX,Santa Maria,SMX
+San Diego,California,SGX,John Wayne Airport,SNA
+San Francisco Bay Area/Monterey,California,MTR,Salinas Airport,SNS
+Pocatello,Idaho,PIH,Stanley,SNT
+Cheyenne,Wyoming,CYS,Sidney,SNY
+Portland,Oregon,PQR,Scappoose,SPB
+Pueblo,Colorado,PUB,Springfield,SPD
+Lincoln,Illinois,ILX,Springfield,SPI
+Norman/Oklahoma City,Oklahoma,OUN,Wichita Falls Sheppard Field,SPS
+Tampa,Florida,TBW,Sarasota-Bradenton,SRQ
+Jacksonville,Florida,JAX,Brunswick McKinnon Arpt,SSI
+Duluth,Minnesota,DLH,St Cloud,STC
+Kansas City/Pleasant Hill,Missouri,EAX,St Joseph,STJ
+St. Louis,Missouri,LSX,St. Louis,STL
+San Francisco Bay Area/Monterey,California,MTR,Santa Rosa Airport,STS
+Sioux Falls,South Dakota,FSD,Sioux City,SUX
+Binghamton,New York,BGM,Syracuse,SYR
+Pueblo,Colorado,PUB,Trinidad,TAD
+Birmingham,Alabama,BMX,Tuscaloosa,TCL
+Tallahassee,Florida,TAE,Tallahassee,TLH
+Birmingham,Alabama,BMX,Troy,TOI
+Cleveland,Ohio,CLE,Toledo,TOL
+Topeka,Kansas,TOP,Topeka,TOP
+Cheyenne,Wyoming,CYS,Torrington,TOR
+Tampa,Florida,TBW,Tampa,TPA
+Elko,Nevada,LKN,Tonopah Airport,TPH
+Morristown/Knoxville,Tennessee,MRX,Tri-Cities Apt,TRI
+San Diego,California,SGX,Thermal,TRM
+Portland,Oregon,PQR,Troutdale,TTD
+Mount Holly/Philadelphia,New Jersey,PHI,Trenton,TTN
+Tulsa,Oklahoma,TSA,Tulsa OK International Airport,TUL
+Memphis,Tennessee,MEG,Tupelo,TUP
+Tucson,Arizona,TWC,Tucson,TUS
+Gaylord,Michigan,APX,Traverse City,TVC
+Reno,Nevada,REV,South Lake Tahoe,TVL
+Jackson,Mississippi,JAN,Tallulah/Vicksburg,TVR
+Boise,Idaho,BOI,Twin Falls,TWF
+Shreveport,Louisiana,SHV,Texarkana,TXK
+Shreveport,Louisiana,SHV,Tyler,TYR
+Morristown/Knoxville,Tennessee,MRX,Knoxville Apt,TYS
+Portland,Oregon,PQR,Aurora,UAO
+Chicago,Illinois,LOT,Waukegan Airport,UGN
+Seattle,Washington,SEW,Quillayute Airport,UIL
+St. Louis,Missouri,LSX,Quincy,UIN
+Eureka,California,EKA,Ukiah,UKI
+Springfield,Missouri,SGF,West Plains,UNO
+Rapid City,South Dakota,UNR,Rapid City NWS,UNR
+Corpus Christi,Texas,CRP,Victoria,VCT
+Grand Junction,Colorado,GJT,Vernal,VEL
+Springfield,Missouri,SGF,Vichy/Rolla,VIH
+Tallahassee,Florida,TAE,Valdosta,VLD
+Peachtree City/Atlanta,Georgia,FFC,Cartersville,VPC
+Chicago,Illinois,LOT,Valparaiso,VPZ
+Melbourne,Florida,MLB,Vero Beach,VRB
+Burlington,Vermont,BTV,Springfield,VSF
+North Platte,Nebraska,LBF,Valentine,VTN
+Portland,Oregon,PQR,Vancouver,VUO
+Fairbanks,Alaska,PAFG,Valdez,VWS
+Wakefield,Virginia,AKQ,WALLOPS ISLAND,WAL
+Los Angeles/Oxnard,California,LOX,Lancaster,WJF
+Elko,Nevada,LKN,Winnemucca Airport,WMC
+Riverton,Wyoming,RIW,Worland,WRL
+San Francisco Bay Area/Monterey,California,MTR,Watsonville Airport,WVI
+Fairbanks,Alaska,PAFG,Yakutat,YAK
+Pendleton,Oregon,PDT,Yakima,YKM
+Cleveland,Ohio,CLE,Youngstown,YNG
+Pittsburgh,Pennsylvania,PBZ,Zanesville,ZZV
+Lake Charles,Louisiana,LCH,New Iberia/Acadiana Regional Airport,ARA
