@@ -1,4 +1,4 @@
-"""Script to run get list of all National Weather Service(NWS) stations that produce a daily climate report
+"""Script to get list of all National Weather Service(NWS) stations that produce a daily climate report
 	
 	Written by: Steven Zimmerman
 	Date: Jan 17th  2015
@@ -45,36 +45,8 @@ import urllib
 
 
 ###########################
-### user-defined functions
-###########################
-
-#function to check if timeValue is a single digit.  If so, then tack on a 0 at front for filename consistency
-# def checkAddZero(timeValue):
-	# if timeValue < 10:
-		# strTimeValue = '0' + str(timeValue)
-		# return strTimeValue
-	# else:
-		# return str(timeValue)
-		
-
-###########################
 ### Main part of program
 ###########################
-
-recordExists = False
-prevMetarDate = '00'	#initialize previous metar date, used to check if file exist
-outputFileOpen = False  #used to test if output file is open or not. 
-existingMetarRecords = []   #used to store list of metar records associated with file for particular day.  records have ICAO DDHHHHZ format, each metar record will be checked against list
-
-#get gmt Time and create current YYYY-MM-DD string
-gmtTime = time.gmtime()
-currentDateStamp = str(gmtTime.tm_year) + '-' + checkAddZero(gmtTime.tm_mon) + '-' + checkAddZero(gmtTime.tm_mday)
-currentYrMonStamp = str(gmtTime.tm_year) + '-' + checkAddZero(gmtTime.tm_mon)
-currentTimeStamp = checkAddZero(gmtTime.tm_hour) +  checkAddZero(gmtTime.tm_min)
-
-#open error file for append and write date time stamp
-# oErrorFile = open('errorFile.txt', 'a')
-# oErrorFile.write (currentDateStamp + '-' + currentTimeStamp + '\n')
 
 oFile = open('climReportStationList.csv' ,'w')
 iFile = open('NWSofficeList.csv' ,'r')
@@ -100,30 +72,6 @@ for line in iFile:
 			
 oFile.close()
 
-# oFile = open('climReportStationList.csv' ,'w')
-# htmlFile = open('temp.CLI' ,'r')
-# for htmlLine in htmlFile:
-	# if re.search('cliPointArray\[',htmlLine):
-		# climateLocation = htmlLine.split('(')
-		# climateLocation = climateLocation[1].split(')')
-		# climateLocation = climateLocation[0].split('\'')
-		# print climateLocation[0]
-		# oFile.write(climateLocation[0] + ',' + climateLocation[1] + '\n')
-		
-		
 
-# oFile.close()
-		
-# htmlFile = open('temp.CLI' ,'r')		
-# for htmlLine in htmlFile:
-	# if re.search('cliPointArray\[',htmlLine):
-		# temp1 = htmlLine.split('(')
-		# temp2 = temp1[1].split(')')
-		# climateLocation = temp2[0].split('\'')
-		# # oFile.write(climateLocation[0])	
-		# print temp1
-		# print temp2
-		# print climateLocation
-		# print climateLocation[0]
 	
 
