@@ -84,17 +84,18 @@ currentTimeStamp = checkAddZero(gmtTime.tm_hour) +  checkAddZero(gmtTime.tm_min)
 
 
 
-oFile = open('DailyClimateReport-TODAY.csv' ,'w')
+oFile = open('ClimateStations-WithReportHeader.csv' ,'w')
 iFile = open('climReportStationList.csv' ,'r')
 iFile.readline()  #header
 for line in iFile:
 	temperatureSection = 0
 	stationData = line.split(',')
+	stationOfficeCode = stationData[2]
 	stationName = stationData[3]  #station name e.g. city
 	stationCode = stationData[4]  #station id
 	urllib.urlretrieve ('http://www.weather.gov/climate/getclimate.php?date=&wfo=SEW&sid='+ stationCode + '&pil=CLI&recent=yes',"tempDaily.report")
 	htmlFile = open('tempDaily.report' ,'r')
-	oFile.write(stationCode + ',' + stationName +  ',')
+	oFile.write(stationOfficeCode + ',' + stationCode + ',' + stationName +  ',')
 	for htmlLine in htmlFile:
 		if re.search('WEATHER ITEM',htmlLine):
 			oFile.write(htmlLine)
