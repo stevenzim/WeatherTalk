@@ -48,14 +48,23 @@ import urllib
 ### Main part of program
 ###########################
 
-oFile = open('climReportStationList.csv' ,'w')
-iFile = open('NWSofficeList.csv' ,'r')
+cwd = os.path.abspath(os.curdir)
+os.chdir("..")
+upone = os.path.abspath(os.curdir)
+os.chdir("..")
+uptwo = os.path.abspath(os.curdir)
+
+resourcePath = uptwo + '/' + 'resources/stations/'
+
+
+oFile = open(resourcePath + 'climReportStationList.csv' ,'w')
+iFile = open(resourcePath + 'NWSofficeList.csv' ,'r')
 iFile.readline()  #header
 for line in iFile:
 	officeData = line.split(',')
 	outputList = officeData[:3]
 	officeCode = officeData[2]  #station id
-	urllib.urlretrieve ('http://www.weather.gov/climate/index.php?wfo='+ officeCode,"temp.CLI")
+	urllib.urlretrieve ('http://www.weather.gov/climate/index.php?wfo='+ officeCode, resourcePath + "temp.CLI")
 	htmlFile = open('temp.CLI' ,'r')
 	oFile.write(officeData[0] + ',' + officeData[1] +  ','  + officeData[2] + ',HEADER,HEADER\n')
 	for htmlLine in htmlFile:

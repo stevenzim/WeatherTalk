@@ -1,0 +1,52 @@
+<html>
+<head>
+    <title>National Weather Service - Climate Data</title>
+    <style>
+    select {
+        background-color: #FFFFB3;
+    }
+    </style>
+    <script language="JavaScript">
+    function swapURL() {
+        // make sure a new date was chosen
+        if (document.myProd.specdate.options[document.myProd.specdate.selectedIndex].value != "") {
+            // all good
+            // return true;
+            document.myProd.submit();
+        } else {
+            alert("Please chhose a valid date/time first.");
+            return false;
+        }
+    }
+    </script>
+</head>
+
+        <table cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td bgcolor="#A4A9FF">
+
+            <table cellspacing="0" cellpadding="10" border="1" bgcolor="#A4A9FF">
+            <form name="myProd" action="/climate/getclimate.php" method="get">
+            <input type="hidden" name="date" value="" />
+            <input type="hidden" name="wfo" value="SEW" />
+            <input type="hidden" name="sid" value="P28
+" />
+            <input type="hidden" name="pil" value="CLI" />
+            <input type="hidden" name="recent" value="yes" />
+            <tr>
+                <td>
+                <select name="specdate" onChange="return swapURL()">
+                    <option value="" selected> Select Other Date</option>
+                                    </select>
+                </td>
+            </tr>
+            </form>
+            </table>
+
+            </td>
+                    </tr>
+        </table>
+
+        <hr />
+        <!-- No date specified -->
+<h2>Sorry, no records are currently available</h2>

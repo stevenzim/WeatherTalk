@@ -17,14 +17,34 @@
 	Usage:
 	$ python 3-createFinalStationList.py
 """
+###########################
+### import existing modules to use
+###########################
 
-oFile = open('finalStationsList.csv' ,'w')
-climStationFile = open('ClimateStations-WithReportHeader.csv' ,'r')
+import os
+import re
+import time
+import urllib
+
+###########################
+### Main part of program
+###########################
+
+cwd = os.path.abspath(os.curdir)
+os.chdir("..")
+upone = os.path.abspath(os.curdir)
+os.chdir("..")
+uptwo = os.path.abspath(os.curdir)
+
+resourcePath = uptwo + '/' + 'resources/stations/'
+
+oFile = open(resourcePath + 'finalStationsList.csv' ,'w')
+climStationFile = open(resourcePath + 'ClimateStations-WithReportHeader.csv' ,'r')
 climHeader = climStationFile.readline()  #header
 for climStation in climStationFile:
 	climStationData = climStation.split(',')
 	PotentialICAO = climStationData[2] #this code represents a potential metar station, we only want climate reports that actually have a metar station
-	metarFile = open('USA-metars.csv' ,'r')
+	metarFile = open(resourcePath + 'USA-metars.csv' ,'r')
 	metarHeader = metarFile.readline()
 	for metarStation in metarFile:
 		metarStationData = metarStation.split(',')
