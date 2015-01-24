@@ -1,0 +1,120 @@
+<h3>Climatological Report (Daily)</h3>
+<pre><font size=3>
+000
+CDHW40 PHFO 241245
+CLIHNL
+
+
+CLIMATE REPORT
+NATIONAL WEATHER SERVICE HONOLULU HI
+245 AM HST SAT JAN 24 2015
+
+
+...................................
+
+...THE HONOLULU HI CLIMATE SUMMARY FOR JANUARY 23 2015...
+
+CLIMATE NORMAL PERIOD 1981 TO 2010
+CLIMATE RECORD PERIOD 1946 TO 2015
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR
+                                                  NORMAL
+..................................................................
+TEMPERATURE (F)
+ YESTERDAY
+  MAXIMUM         80    140 PM  85    1996  80      0       77
+                                      1954
+  MINIMUM         71    527 AM  55    1969  66      5       61
+  AVERAGE         76                        73      3       69
+
+PRECIPITATION (IN)
+  YESTERDAY        0.10          4.75 1972   0.07   0.03     0.00
+  MONTH TO DATE    0.86                      1.82  -0.96     1.98
+  SINCE DEC 1      1.93                      5.06  -3.13     5.62
+  SINCE JAN 1      0.86                      1.82  -0.96     1.98
+
+SNOWFALL (IN)
+  YESTERDAY        0.0
+  MONTH TO DATE    0.0
+  SINCE DEC 1      0.0
+  SINCE JUL 1      0.0
+  SNOW DEPTH       0
+
+DEGREE DAYS
+ HEATING
+  YESTERDAY        0                         0      0        0
+  MONTH TO DATE    0                         0      0        0
+  SINCE DEC 1      0                         0      0        0
+  SINCE JUL 1      0                         0      0        0
+
+ COOLING
+  YESTERDAY       11                         8      3        4
+  MONTH TO DATE  169                       186    -17      183
+  SINCE DEC 1    453                       488    -35      518
+  SINCE JAN 1    169                       186    -17      183
+..................................................................
+
+
+WIND (MPH)
+  HIGHEST WIND SPEED    17   HIGHEST WIND DIRECTION     S (190)
+  HIGHEST GUST SPEED    21   HIGHEST GUST DIRECTION     S (180)
+  AVERAGE WIND SPEED     5.8
+
+
+SKY COVER
+  POSSIBLE SUNSHINE  MM
+  AVERAGE SKY COVER 0.7
+
+
+WEATHER CONDITIONS
+ THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.
+  HEAVY RAIN
+  RAIN
+  LIGHT RAIN
+  FOG
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST   100           500 PM
+ LOWEST     74          1200 AM
+ AVERAGE    87
+
+..........................................................
+
+
+THE HONOLULU HI CLIMATE NORMALS FOR TODAY
+                         NORMAL    RECORD    YEAR
+ MAXIMUM TEMPERATURE (F)   80        85      1981
+ MINIMUM TEMPERATURE (F)   66        55      1969
+
+
+SUNRISE AND SUNSET
+JANUARY 24 2015.......SUNRISE   711 AM HST   SUNSET   617 PM HST
+JANUARY 25 2015.......SUNRISE   711 AM HST   SUNSET   617 PM HST
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+<hr />
+
+
+</font></pre>
+
+
+<font size=4>
+The U.S. Naval Observatory (USNO) computes astronomical data. Therefore, the NWS does not record, certify, or authenticate astronomical data. Computed times of sunrise, sunset, moonrise, moonset; and twilight, moon phases and other astronomical data are available from USNO's Astronomical Applications Department (http://www.usno.navy.mil). See <a href="http://weather.gov/cgi-bin/nwsexit.pl?url=http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation">http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation</a> for information on using these data for legal purposes.</font>
+
+
+    <!-- Page loaded in 0.668 seconds -->
+
+
+</body>
+</html>
