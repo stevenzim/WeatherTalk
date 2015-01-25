@@ -1,7 +1,6 @@
 from nose.tools import *
-from climReport import NWSclimReport
+from climReport import NWSclimReport as Climate
 import os
-
 
 
 def loadTestReport(fileName):
@@ -12,48 +11,28 @@ def loadTestReport(fileName):
 		reportLines.append(line.rstrip())	
 	return reportLines
 
-
 	
-def test_no_report():
-	assert_equal(NWSclimReport.getReport("see","SEA") , {"SEA" : "see is wrong WFO office code"})
-	assert_equal(NWSclimReport.getReport("sew","SEE") , {"SEE" : "SEE is wrong WFO climate station code"})
+#OOP
+def test_stringToFloat():
+	'''Verify try string to float is working'''
+	assert_equal(Climate.convertToFloat("EIGHT") , 'EIGHT IS NOT A NUMBER' )
+	assert_equal(Climate.convertToFloat("8") , 8.0 )
+	
+def test_get_report():
+	'''Verify correct errors are returned if report is missing'''
+	report = Climate.ClimateReport()
+	assert_equal(report.getReport("see","SEA") , {"SEA" : "see is wrong WFO office code"})
+	assert_equal(report.report_error , True)
+	assert_equal(report.errors , [{"SEA" : "see is wrong WFO office code"}])
+	assert_equal(report.getReport("sew","SEE") , {"SEE" : "SEE is wrong WFO climate station code"})
+
 
 def test_sky():
-	assert_equal(NWSclimReport.getSkyCover(loadTestReport("testReport1.txt")) , {'AVERAGE SKY COVER' : 0.7})
-	assert_equal(NWSclimReport.getSkyCover(loadTestReport("testReport2.txt")) , {'AVERAGE SKY COVER' : 'MISSING'})	
+	report = Climate.ClimateReport()
 	
+	report.getSkyCover(loadTestReport("testReport1.txt"))
+	assert_equal(report.avg_sky_cvg , {'AVERAGE SKY COVER' : 0.7})
 	
+	report.getSkyCover(loadTestReport("testReport2.txt"))
+	assert_equal(report.avg_sky_cvg , {'AVERAGE SKY COVER' : 'MISSING'})
 
-
-	
-#	iFile = open(testFilePath + "test1-wrong-office.report" , 'r')
-	
-
-# def test_room():
-    # gold = Room("GoldRoom",
-                # """This room has gold in it you can grab. There's a
-                # door to the north.""")
-    # assert_equal(gold.name, "GoldRoom")
-    # assert_equal(gold.paths, {})
-
-# def test_room_paths():
-    # center = Room("Center", "Test room in the center.")
-    # north = Room("North", "Test room in the north.")
-    # south = Room("South", "Test room in the south.")
-
-    # center.add_paths({'north': north, 'south': south})
-    # assert_equal(center.go('north'), north)
-    # assert_equal(center.go('south'), south)
-
-# def test_map():
-    # start = Room("Start", "You can go west and down a hole.")
-    # west = Room("Trees", "There are trees here, you can go east.")
-    # down = Room("Dungeon", "It's dark down here, you can go up.")
-
-    # start.add_paths({'west': west, 'down': down})
-    # west.add_paths({'east': start})
-    # down.add_paths({'up': start})
-
-    # assert_equal(start.go('west'), west)
-    # assert_equal(start.go('west').go('east'), start)
-    # assert_equal(start.go('down').go('up'), start)
