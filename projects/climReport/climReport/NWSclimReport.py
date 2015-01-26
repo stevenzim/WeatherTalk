@@ -20,8 +20,8 @@ class ClimateReport(object):
 		self.report_error = False					# report good/bad
 		self.errors = []									# list of errors
 		self.reportLines = []							# list to store original report lines from html file
-																			# average sky cover total/total possible [0.0 - 1.0]
-		self.avg_sky_cvg = {'AVERAGE SKY COVER' : 'NOT AVAILABLE'}							
+		self.avg_sky_cvg = {}		          # average sky cover total/total possible [0.0 - 1.0]	
+		self.winds = {}										# max speed/max gust/avg wind for day in mph
 
 		
 		#self.code = metarcode              # original METAR code
@@ -112,15 +112,16 @@ class ClimateReport(object):
 				self.reportLines.append(line.rstrip())
 		return reportLines
 		
-	def getSkyCover(self, reportLines):
+	def getSkyCover(self, reportLines = None):
 		"""
 		Grab the average sky cover.
 		 
 		The following attributes are set/returned:
-				sky cover         [average for day range 0.0-1.0]
+				sky cover         {'AVERAGE SKY COVER' : 0.0-1.0}
 		"""
-		#TODO: Need to change default of 'NOT AVAILABLE' to 
-		self.reportLines = reportLines
+		self.avg_sky_cvg =  {'AVERAGE SKY COVER' : 'NOT AVAILABLE'}
+		if reportLines != None:
+			self.reportLines = reportLines
 		for line in self.reportLines:
 			if re.search('AVERAGE SKY COVER', line):
 				startIdx = line.find('AVERAGE')
@@ -129,7 +130,27 @@ class ClimateReport(object):
 					self.avg_sky_cvg = {'AVERAGE SKY COVER' : 'MISSING'}
 				else:
 					self.avg_sky_cvg =  {'AVERAGE SKY COVER' : convertToFloat(lineList[3])}
-			#self.avg_sky_cvg =  {'AVERAGE SKY COVER' : 'NOT AVAILABLE'}			
- 
+		
+ 	def getWinds(self, reportLines = None):
+		"""
+		Grab the wind data.
+		 
+		Some or all of following attributes are set/returned:
+		WINDS         {'HIGHEST WIND SPEED' : 17.0 , 'HIGHEST GUST SPEED' : 21.0, 'AVERAGE WIND SPEED' : 5.8}
+		"""
+		windsToFind = ['HIGHEST WIND SPEED', 'HIGHEST GUST SPEED' , 'AVERAGE WIND SPEED']
+		if reportLines != None:
+			self.reportLines = reportLines
+		for wind in windsToFind:
+			for line in self.reportLines:
+				if re.search(wind, line):
+					startIdx = line.find(wind)
+					lineList = line[startIdx:].split()
+					if lineList[3] == 'MM':
+						self.winds[wind] = 'MISSING'
+					else:
+						self.winds[wind] = convertToFloat(lineList[3])
+		if self.winds == {}:
+			self.winds = {'WINDS' : 'NOT AVAILABLE'}  
 
 

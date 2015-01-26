@@ -4,6 +4,7 @@ import os
 
 
 def loadTestReport(fileName):
+	'''Load test data'''
 	testFilePath = "testData/"
 	report = open(testFilePath + fileName, 'r')
 	reportLines = []
@@ -12,7 +13,6 @@ def loadTestReport(fileName):
 	return reportLines
 
 	
-#OOP
 def test_stringToFloat():
 	'''Verify try string to float is working'''
 	assert_equal(Climate.convertToFloat("EIGHT") , 'EIGHT IS NOT A NUMBER' )
@@ -35,4 +35,10 @@ def test_sky():
 	
 	report.getSkyCover(loadTestReport("testReport2.txt"))
 	assert_equal(report.avg_sky_cvg , {'AVERAGE SKY COVER' : 'MISSING'})
+
+def test_wind():
+	report = Climate.ClimateReport()
+	
+	report.getWinds(loadTestReport("testReport1.txt"))
+	assert_equal(report.winds , {'HIGHEST WIND SPEED' : 17.0 , 'HIGHEST GUST SPEED' : 21.0, 'AVERAGE WIND SPEED' : 5.8})
 
