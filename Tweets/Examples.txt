@@ -1,0 +1,59 @@
+from TwitterAPI import TwitterAPI
+#api = TwitterAPI(consumer_key, consumer_secret, access_token_key, access_token_secret)
+api = TwitterAPI(consumer_key = 'wJqNYeJ4apokhjvUFAVPacYom', consumer_secret = 'RG8UyBEwZc8RtfmS9IXFigICUr9mewTMUJWQdpUc9J6gvh1H8I', access_token_key = '595669629-Oe5ocvFoRjwNnE3I7AfOVOzCTR2ac2raE5uVG7sE', access_token_secret = 'PPrhOb4myhPvC9ueAObTuoKIAiNsmsfIqzPeytcGUuRJM')
+#NYC
+r = api.request('statuses/filter', {'locations':'-74,40,-73,41'})
+for item in r:
+        print item
+				
+				
+#TOLEDO
+r = api.request('statuses/filter', {'locations':'-83.69,41.57,-83.42,41.73'})
+for item in r:
+        print item
+				
+				
+				
+#SEATTLE
+r = api.request('statuses/filter', {'locations':'-122.44,47.49,-122.25,47.74'})
+for item in r:
+        print item
+				
+				
+#SEATTLE
+r = api.request('statuses/filter', {'locations':'-122.44,47.49,-122.25,47.74'})
+for item in r:
+        print item		
+
+
+#NYC				
+from TwitterAPI import TwitterAPI
+oFile = open ('NYCtweets.txt','w')		
+api = TwitterAPI(consumer_key = 'wJqNYeJ4apokhjvUFAVPacYom', consumer_secret = 'RG8UyBEwZc8RtfmS9IXFigICUr9mewTMUJWQdpUc9J6gvh1H8I', access_token_key = '595669629-Oe5ocvFoRjwNnE3I7AfOVOzCTR2ac2raE5uVG7sE', access_token_secret = 'PPrhOb4myhPvC9ueAObTuoKIAiNsmsfIqzPeytcGUuRJM')
+r = api.request('statuses/filter', {'locations':'-74,40,-73,41'})
+for item in r:
+		mytweet = str(item)
+		oFile.write(mytweet)
+		oFile.write("\n")
+		
+		
+#USA				
+from TwitterAPI import TwitterAPI
+oFile = open ('USAtweets.txt','w')		
+api = TwitterAPI(consumer_key = 'wJqNYeJ4apokhjvUFAVPacYom', consumer_secret = 'RG8UyBEwZc8RtfmS9IXFigICUr9mewTMUJWQdpUc9J6gvh1H8I', access_token_key = '595669629-Oe5ocvFoRjwNnE3I7AfOVOzCTR2ac2raE5uVG7sE', access_token_secret = 'PPrhOb4myhPvC9ueAObTuoKIAiNsmsfIqzPeytcGUuRJM')
+r = api.request('statuses/filter', {'locations':'-124.7,24.4,-67,49'})
+for item in r:
+		mytweet = str(item)
+		oFile.write(mytweet)
+		oFile.write("\n")		
+		
+#USA				 W/ JSON
+from TwitterAPI import TwitterAPI
+import json
+#oFile = open ('USAtweets.txt','w')		
+api = TwitterAPI(consumer_key = 'wJqNYeJ4apokhjvUFAVPacYom', consumer_secret = 'RG8UyBEwZc8RtfmS9IXFigICUr9mewTMUJWQdpUc9J6gvh1H8I', access_token_key = '595669629-Oe5ocvFoRjwNnE3I7AfOVOzCTR2ac2raE5uVG7sE', access_token_secret = 'PPrhOb4myhPvC9ueAObTuoKIAiNsmsfIqzPeytcGUuRJM')
+r = api.request('statuses/filter', {'locations':'-124.7,24.4,-67,49'})
+for item in r:
+		myTweet = str(item)
+		print myTweet
+		json.dump(mytweet, open("tweets.json",'a'))	
