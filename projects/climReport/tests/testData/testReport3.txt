@@ -1,0 +1,97 @@
+<h3>Climatological Report (Daily)</h3>
+<pre><font size=3>
+000
+CDUS46 KSEW 270830
+CLISEW
+
+
+CLIMATE REPORT
+NATIONAL WEATHER SERVICE SEATTLE WA
+1230 AM PST TUE JAN 27 2015
+
+
+...................................
+
+...THE SEATTLE WA WFO CLIMATE SUMMARY FOR JANUARY 26 2015...
+
+CLIMATE NORMAL PERIOD 1981 TO 2010
+CLIMATE RECORD PERIOD 1986 TO 2015
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR     LAST
+                VALUE   (LST)  VALUE           YEAR
+....................................................
+TEMPERATURE (F)
+ YESTERDAY
+  MAXIMUM         63R       MM  58    2003    48
+  MINIMUM         44        MM  24    1997    32
+  AVERAGE         54                          40
+
+PRECIPITATION (IN)
+  YESTERDAY        0.00          0.39 2013     0.00
+  MONTH TO DATE    2.54                        2.72
+  SINCE OCT 1     19.10                        8.57
+  SINCE JAN 1      2.54                        2.72
+
+SNOWFALL (IN)
+  YESTERDAY        0.0                         0.0
+  MONTH TO DATE    0.0                         0.0
+  SINCE OCT 1      T                           0.9
+  SINCE JUL 1      T                           0.9
+  SNOW DEPTH       0
+
+DEGREE DAYS
+ HEATING
+  YESTERDAY       11                          25
+  MONTH TO DATE  505                         567
+  SINCE DEC 1   1113                        1384
+  SINCE JUL 1   1925                        2480
+
+ COOLING
+  YESTERDAY        0                           0
+  MONTH TO DATE    0                           0
+  SINCE DEC 1      0                           0
+  SINCE JAN 1      0                           0
+....................................................
+
+
+WIND (MPH)
+  HIGHEST WIND SPEED    MM   HIGHEST WIND DIRECTION    MM
+  HIGHEST GUST SPEED    MM   HIGHEST GUST DIRECTION    MM
+  AVERAGE WIND SPEED    MM
+
+
+
+WEATHER CONDITIONS
+ THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.
+  FOG
+  FOG W/VISIBILITY <= 1/4 MILE
+
+
+
+
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+<hr />
+
+
+</font></pre>
+
+
+<font size=4>
+The U.S. Naval Observatory (USNO) computes astronomical data. Therefore, the NWS does not record, certify, or authenticate astronomical data. Computed times of sunrise, sunset, moonrise, moonset; and twilight, moon phases and other astronomical data are available from USNO's Astronomical Applications Department (http://www.usno.navy.mil). See <a href="http://weather.gov/cgi-bin/nwsexit.pl?url=http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation">http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation</a> for information on using these data for legal purposes.</font>
+
+
+    <!-- Page loaded in 0.477 seconds -->
+
+
+</body>
+</html>

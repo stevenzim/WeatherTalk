@@ -38,7 +38,15 @@ def test_sky():
 
 def test_wind():
 	report = Climate.ClimateReport()
-	
 	report.getWinds(loadTestReport("testReport1.txt"))
 	assert_equal(report.winds , {'HIGHEST WIND SPEED' : 17.0 , 'HIGHEST GUST SPEED' : 21.0, 'AVERAGE WIND SPEED' : 5.8})
 
+def test_temp():
+	report = Climate.ClimateReport()
+
+	report.getTemps(loadTestReport("testReport1.txt"))
+	assert_equal(report.max_temps , {'OBSERVED' : 80.0, 'TIME' : '140 PM', 'RECORD' : 85.0, 'YEAR' : 1996 ,  'NORMAL' : 80 , 'DEPARTURE' : 0, 'LAST' : 77})
+	assert_equal(report.max_temps , {'OBSERVED' : 71.0, 'TIME' : '527 AM', 'RECORD' : 66.0, 'YEAR' : 1969 ,  'NORMAL' : 80 , 'DEPARTURE' : 5, 'LAST' : 61})
+
+	report.getTemps(loadTestReport("testReport3.txt"))
+	assert_equal(report.max_temps , {'OBSERVED' : 63.0, 'NEW RECORD' : True, 'TIME' : 'MISSING', 'RECORD' : 58.0, 'YEAR' : 2003 , 'LAST' : 48})

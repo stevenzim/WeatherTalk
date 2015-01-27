@@ -22,7 +22,8 @@ class ClimateReport(object):
 		self.reportLines = []							# list to store original report lines from html file
 		self.avg_sky_cvg = {}		          # average sky cover total/total possible [0.0 - 1.0]	
 		self.winds = {}										# max speed/max gust/avg wind for day in mph
-
+		self.max_temps = {}        				# max temp in last 24 hours
+		self.min_temps = {}          			# min temp in last 24 hours
 		
 		#self.code = metarcode              # original METAR code
 		self.type = 'METAR'                # METAR (routine) or SPECI (special)
@@ -111,6 +112,20 @@ class ClimateReport(object):
 				reportLines.append(line.rstrip())
 				self.reportLines.append(line.rstrip())
 		return reportLines
+		
+		
+ 	def getTemps(self, reportLines = None):
+		"""
+		Grab the temperature data.
+		 
+		Some or all of following attributes are set/returned:
+		MAX/MIN TEMPS        {'OBSERVED' : 80.0, 'TIME' : '140 PM', 'RECORD' : 85.0, 'YEAR' : 1996 ,  'NORMAL' : 80 , 'DEPARTURE' : 0, 'LAST' : 77}
+		
+		Each report could have different types i.e. sometimes TIME is reported, other times it is not
+		Also, an 'R' Next to observed temp is indicator that record has a occured and a field denoting New Record is created
+		"""
+		return 0
+	
 		
 	def getSkyCover(self, reportLines = None):
 		"""
