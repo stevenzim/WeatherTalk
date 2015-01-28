@@ -17,9 +17,14 @@ class ClimateReport(object):
 
 	def __init__( self, month=None, year=None, utcdelta=None):
 		"""Initialize climate report"""
+		#global report vars
 		self.report_error = False					# report good/bad
 		self.errors = []									# list of errors
 		self.reportLines = []							# list to store original report lines from html file
+		self.reportColumns = None					# stores variable string with available column names
+		self.columnIdxs = None						# stores starting index of each column name
+
+		#extracted daily weather vals
 		self.avg_sky_cvg = {}		          # average sky cover total/total possible [0.0 - 1.0]	
 		self.winds = {}										# max speed/max gust/avg wind for day in mph
 		self.max_temps = {}        				# max temp in last 24 hours
@@ -76,6 +81,13 @@ class ClimateReport(object):
 		# self._month = month
 		# self._year = year
 
+	def setColumnNames(self, reportHeader):	
+		self.reportColumns = reportHeader.split()[2:]
+		columnIdxs = []
+		for column in self.reportColumns:
+			startIdx = reportHeader.find(column)
+			columnIdxs.append(startIdx)
+		self.columnIdxs = columnIdxs
 
 	def getReport(self, officeID, climStationID):
 		'''
@@ -98,6 +110,7 @@ class ClimateReport(object):
 		urllib.urlretrieve ('http://www.weather.gov/climate/getclimate.php?date=&wfo=' + officeID +'&sid='+ climStationID + '&pil=CLI&recent=yes',"tempDaily.report")
 		report = open("tempDaily.report" , 'r')
 		for line in report:
+			#problems with report
 			if re.search('The chosen WFO ID could not be found in the database', line):
 				self.report_error = True
 				self.errors.append({climStationID : officeID + " is wrong WFO office code"})
@@ -106,13 +119,19 @@ class ClimateReport(object):
 				self.report_error = True
 				self.errors.append({climStationID : climStationID + " is wrong WFO climate station code"})
 				return {climStationID : climStationID + " is wrong WFO climate station code"}
+			
+			#report is good
 			if re.search('<h3>Climatological Report', line):
 				goodReport = True
 			if goodReport:
+				#get column Names and store main report lines to list
+				if re.search('WEATHER ITEM', line):
+					self.setColumnNames(line)
 				reportLines.append(line.rstrip())
 				self.reportLines.append(line.rstrip())
 		return reportLines
-		
+
+
 		
  	def getTemps(self, reportLines = None):
 		"""

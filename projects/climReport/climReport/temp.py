@@ -35,11 +35,9 @@ while i < len(columnIdxs):
 		maxMin = repValues [ : columnIdxs[i] ]
 	if (i + 1) == len(columnIdxs):
 		rawValue = repValues[ columnIdxs[i]: ]
-		#print rawValue
 		convertedValue = convertColumnVal(rawValue)
 	else:
 		rawValue = repValues[ columnIdxs[i]:columnIdxs[i + 1] ]
-		#print rawValue
 		convertedValue = convertColumnVal(rawValue)
 	if convertedValue == 'RECORD':
 		weatherCurrentLine['NEW RECORD'] = True
