@@ -11,6 +11,22 @@ def convertToFloat(string):
 	except:
 		return  string + ' IS NOT A NUMBER'
 		
+# TODO: PERHAPS MERGE convertToFloat and convertColumnVal???
+def convertColumnVal(string):
+	'''We want to convert string to float, MM to missing and keep everything else as string
+	keep/store/return original string if exception is thrown'''
+	string = string.strip()
+	try:
+		return float(string)
+	except:
+		if re.search('MM', string):
+			return 'MISSING'
+		elif re.search('AM', string) or re.search('PM', string):
+			return string
+		elif re.match('\d+R', string):
+			return 'RECORD'
+		else:
+			return string + ' IS UNKNOWN VALUE'		
 
 class ClimateReport(object):
 	'''Climate Report (daily climate report for NWS climate station'''
@@ -21,8 +37,8 @@ class ClimateReport(object):
 		self.report_error = False					# report good/bad
 		self.errors = []									# list of errors
 		self.reportLines = []							# list to store original report lines from html file
-		self.reportColumns = None					# stores variable string with available column names
-		self.columnIdxs = None						# stores starting index of each column name
+		self.reportColumns = []						# stores variable string with available column names
+		self.columnIdxs = []							# stores starting index of each column name
 
 		#extracted daily weather vals
 		self.avg_sky_cvg = {}		          # average sky cover total/total possible [0.0 - 1.0]	
@@ -80,14 +96,55 @@ class ClimateReport(object):
 
 		# self._month = month
 		# self._year = year
+		
+
 
 	def setColumnNames(self, reportHeader):	
 		self.reportColumns = reportHeader.split()[2:]
+		print "hello"
+		print reportHeader
 		columnIdxs = []
 		for column in self.reportColumns:
 			startIdx = reportHeader.find(column)
 			columnIdxs.append(startIdx)
 		self.columnIdxs = columnIdxs
+		
+	def getRowValues(self, rowString):
+		'''Generic function to handle values found in the Temperature,
+		Preciptiation and Snowfall sections.   Takes a line with raw Data
+		e.g. "  MAXIMUM         80    140 PM  85    1996  80      0       77"
+		and returns a dictionary combined with corresponding header information
+		e.g. {'OBSERVED' : 71.0, 'TIME' : '527 AM', 'RECORD' : 66.0, 'YEAR' : 1969 ,  'NORMAL' : 80 , 'DEPARTURE' : 5, 'LAST' : 61}'''
+		if self.reportColumns == []:
+			for line in self.reportLines:
+				if re.search('WEATHER ITEM', line):
+					self.setColumnNames(line)
+		
+		i = 0
+		weatherCurrentLine = {}
+		while i < len(self.columnIdxs):
+			rawValue = ''
+			convertedValue = ''
+			maxMin = ''
+			if i == 0:
+				maxMin = rowString [ : self.columnIdxs[i] ]
+			if (i + 1) == len(self.columnIdxs):
+				rawValue = rowString[ self.columnIdxs[i]: ]
+				convertedValue = convertColumnVal(rawValue)
+			else:
+				rawValue = rowString[ self.columnIdxs[i]: self.columnIdxs[i + 1] ]
+				convertedValue = convertColumnVal(rawValue)
+			if convertedValue == 'RECORD':
+				weatherCurrentLine['NEW RECORD'] = True
+				recordVal = convertColumnVal(rawValue.split('R')[0])
+				weatherCurrentLine[ self.reportColumns[i] ] = recordVal
+			else:
+				weatherCurrentLine[ self.reportColumns[i] ] = convertedValue
+			i += 1
+		#print self.columnIdxs
+		#print rowString
+		#print weatherCurrentLine
+		return weatherCurrentLine
 
 	def getReport(self, officeID, climStationID):
 		'''
@@ -124,7 +181,7 @@ class ClimateReport(object):
 			if re.search('<h3>Climatological Report', line):
 				goodReport = True
 			if goodReport:
-				#get column Names and store main report lines to list
+				#get column Names and main report lines  and store to lists
 				if re.search('WEATHER ITEM', line):
 					self.setColumnNames(line)
 				reportLines.append(line.rstrip())
@@ -143,7 +200,35 @@ class ClimateReport(object):
 		Each report could have different types i.e. sometimes TIME is reported, other times it is not
 		Also, an 'R' Next to observed temp is indicator that record has a occured and a field denoting New Record is created
 		"""
-		return 0
+
+		tempsToFind = ['MAXIMUM', 'MINIMUM']
+		correctReportSection = False
+		if reportLines != None:
+			self.reportLines = reportLines
+		for temps in tempsToFind:
+			for line in self.reportLines:
+				if re.search('TEMPERATURE',line):
+					correctReportSection = True
+				if re.search('PRECIPITATION',line):
+					#break out of loop, report section is complete
+					break
+				if re.search(temps, line):
+					convertedValues = self.getRowValues(line)
+					if temps == 'MAXIMUM':
+						self.max_temps = convertedValues
+						#print convertedValues
+						#print line
+					if temps == 'MINIMUM':
+						print line
+						print convertedValues
+						self.min_temps = convertedValues
+		if self.max_temps == {}:
+			self.max_temps = {'MAXIMUM' : 'NOT AVAILABLE'}
+		if self.min_temps == {}:
+			self.min_temps = {'MINIMUM' : 'NOT AVAILABLE'}
+		print self.max_temps
+		print self.min_temps
+
 	
 		
 	def getSkyCover(self, reportLines = None):

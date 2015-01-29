@@ -43,10 +43,10 @@ def test_wind():
 
 def test_temp():
 	report = Climate.ClimateReport()
-
 	report.getTemps(loadTestReport("testReport1.txt"))
-	assert_equal(report.max_temps , {'OBSERVED' : 80.0, 'TIME' : '140 PM', 'RECORD' : 85.0, 'YEAR' : 1996 ,  'NORMAL' : 80 , 'DEPARTURE' : 0, 'LAST' : 77})
-	assert_equal(report.max_temps , {'OBSERVED' : 71.0, 'TIME' : '527 AM', 'RECORD' : 66.0, 'YEAR' : 1969 ,  'NORMAL' : 80 , 'DEPARTURE' : 5, 'LAST' : 61})
+	assert_equal(report.max_temps , {'OBSERVED' : 80.0, 'TIME' : '140 PM', 'RECORD' : 85.0, 'YEAR' : 1996.0 ,  'NORMAL' : 80.0 , 'DEPARTURE' : 0.0, 'LAST' : 77.0})
+	assert_equal(report.min_temps , {'OBSERVED' : 71.0, 'TIME' : '527 AM', 'RECORD' : 55.0, 'YEAR' : 1969.0 ,  'NORMAL' : 66.0 , 'DEPARTURE' : 5.0, 'LAST' : 61.0})
 
+	report = Climate.ClimateReport()
 	report.getTemps(loadTestReport("testReport3.txt"))
-	assert_equal(report.max_temps , {'OBSERVED' : 63.0, 'NEW RECORD' : True, 'TIME' : 'MISSING', 'RECORD' : 58.0, 'YEAR' : 2003 , 'LAST' : 48})
+	assert_equal(report.max_temps ,{'OBSERVED' : 61.0, 'NEW RECORD' : True, 'TIME' : '400 PM', 'RECORD' : 58.0, 'YEAR' : 2003.0 ,  'NORMAL' : 48.0 , 'DEPARTURE' : 13.0, 'LAST' : 47.0})
