@@ -42,14 +42,22 @@ class ClimateReport(object):
 		self.reportColumns = []						# stores variable string with available column names
 		self.columnIdxs = []							# stores starting index of each column name
 
-		#extracted daily climate report vals
+		#station variables
+		self.uuid = None									# concatenation of ICAO + YYYYMMDD  There should never be more than one report for each ICAO + DATE combo
+		self.valid_date = None						# date for which the report covers
+		self.report_station_id = None			# 3 or 4 letter code used by NWS usually same as ICAO
+		self.ICAO = None								# 4 letter ICAO identifier
+		self.station_full_name = None			# full name of staion, usually city/airport
+		self.station_timezone = None 		  # 3 letter timezone for station
+		self.geo_point = None							# lat/lon of station			
+		
+		#extracted daily climate weather report vals
 		self.avg_sky_cvg = {}		          # average sky cover total/total possible [0.0 - 1.0]	
 		self.winds = {}										# max speed/max gust/avg wind for day in mph
 		self.max_temps = {}        				# max temp data for report
 		self.min_temps = {}          			# min temp data for report
-		self.precipitation = {}									# precip data for report
+		self.precipitation = {}						# precip data for report --> Melted precipitation
 		self.snow = {}									  # snow data for report	
-
 		
 		#self.code = metarcode              # original METAR code
 		self.type = 'METAR'                # METAR (routine) or SPECI (special)
@@ -58,40 +66,6 @@ class ClimateReport(object):
 		self.time = None                   # observation time [datetime]
 		self.cycle = None                  # observation cycle (0-23) [int]
 		self.wind_dir = None               # wind direction [direction]
-		self.wind_speed = None             # wind speed [speed]
-		self.wind_gust = None              # wind gust speed [speed]
-		self.wind_dir_from = None          # beginning of range for win dir [direction]
-		self.wind_dir_to = None            # end of range for wind dir [direction]
-		self.vis = None                    # visibility [distance]
-		self.vis_dir = None                # visibility direction [direction]
-		self.max_vis = None                # visibility [distance]
-		self.max_vis_dir = None            # visibility direction [direction]
-		self.temp = None                   # temperature (C) [temperature]
-		self.dewpt = None                  # dew point (C) [temperature]
-		self.press = None                  # barometric pressure [pressure]
-		self.runway = []                   # runway visibility (list of tuples)
-		self.weather = []                  # present weather (list of tuples)
-		self.recent = []                   # recent weather (list of tuples)
-		self.sky = []                      # sky conditions (list of tuples)
-		self.windshear = []                # runways w/ wind shear (list of strings)
-		self.wind_speed_peak = None        # peak wind speed in last hour
-		self.wind_dir_peak = None          # direction of peak wind speed in last hour
-		self.peak_wind_time = None         # time of peak wind observation [datetime]
-		self.wind_shift_time = None        # time of wind shift [datetime]
-		self.max_temp_6hr = None           # max temp in last 6 hours
-		self.min_temp_6hr = None           # min temp in last 6 hours
-		self.max_temp_24hr = None          # max temp in last 24 hours
-		self.min_temp_24hr = None          # min temp in last 24 hours
-		self.press_sea_level = None        # sea-level pressure
-		self.precip_1hr = None             # precipitation over the last hour
-		self.precip_3hr = None             # precipitation over the last 3 hours
-		self.precip_6hr = None             # precipitation over the last 6 hours
-		self.precip_24hr = None            # precipitation over the last 24 hours
-		self._trend = False                # trend groups present (bool)
-		self._trend_groups = []            # trend forecast groups
-		self._remarks = []                 # remarks (list of strings)
-		self._unparsed_groups = []
-		self._unparsed_remarks = []
 
 		# self._now = datetime.datetime.utcnow()
 		# if utcdelta:
@@ -106,8 +80,6 @@ class ClimateReport(object):
 
 	def setColumnNames(self, reportHeader):	
 		self.reportColumns = reportHeader.split()[2:]
-		print "hello"
-		print reportHeader
 		columnIdxs = []
 		for column in self.reportColumns:
 			startIdx = reportHeader.find(column)
@@ -146,9 +118,6 @@ class ClimateReport(object):
 			else:
 				weatherCurrentLine[ self.reportColumns[i] ] = convertedValue
 			i += 1
-		#print self.columnIdxs
-		#print rowString
-		#print weatherCurrentLine
 		return weatherCurrentLine
 
 	def getReport(self, officeID, climStationID):
@@ -167,6 +136,8 @@ class ClimateReport(object):
 		 additional processing
 		 
 		'''
+		#TODO: change from climStationID to ICAO.  Need to add ICAO paramater to function
+		self.ICAO = climStationID
 		goodReport = False
 		reportLines = []
 		urllib.urlretrieve ('http://www.weather.gov/climate/getclimate.php?date=&wfo=' + officeID +'&sid='+ climStationID + '&pil=CLI&recent=yes',"tempDaily.report")
@@ -192,7 +163,6 @@ class ClimateReport(object):
 				reportLines.append(line.rstrip())
 				self.reportLines.append(line.rstrip())
 		return reportLines
-
 
 		
  	def getTemps(self, reportLines = None):
@@ -236,8 +206,6 @@ class ClimateReport(object):
 		 
 
 		"""
-
-
 		precipSection = False
 		snowSection = False
 		if reportLines != None:
@@ -255,8 +223,6 @@ class ClimateReport(object):
 				if precipSection == True and snowSection == False:
 					self.precipitation = convertedValues
 				if precipSection == True and snowSection == True:
-					print line
-					print convertedValues
 					self.snow = convertedValues
 		if self.precipitation == {}:
 			self.precipitation = {'PRECIPITATION' : 'NOT AVAILABLE'}
@@ -302,6 +268,20 @@ class ClimateReport(object):
 					else:
 						self.winds[wind] = convertToFloat(lineList[3])
 		if self.winds == {}:
-			self.winds = {'WINDS' : 'NOT AVAILABLE'}  
+			self.winds = {'WINDS' : 'NOT AVAILABLE'} 
+
+	def buildOutputDictionary(self):
+		'''Build output dictionary'''
+		#TODO: add in all station details
+		dictToReturn = {'UUID': {'STATION': self.ICAO,
+														'TEMPERATURE': {'MAXIMUM': self.max_temps,
+																						'MINIMUM': self.min_temps},
+														'PRECIPITATION': {'LIQUID': self.precipitation,
+																						'SNOWFALL': self.snow},
+														'WINDS': self.winds,
+														'SKIES': self.avg_sky_cvg}}	
+		return dictToReturn
+		
+
 
 

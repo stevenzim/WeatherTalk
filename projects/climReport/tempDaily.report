@@ -36,10 +36,7 @@
                 <td>
                 <select name="specdate" onChange="return swapURL()">
                     <option value="" selected> Select Other Date</option>
-                    <option value="2014-11-29 00:33:20"> Nov 28th, 2014 16:33:20 PST</option>
-<option value="2014-11-29 08:29:53"> Nov 29th, 2014 00:29:53 PST</option>
-<option value="2014-11-29 08:29:59"> Nov 29th, 2014 00:29:59 PST</option>
-<option value="2014-11-30 00:31:35"> Nov 29th, 2014 16:31:35 PST</option>
+                    <option value="2014-11-30 00:31:35"> Nov 29th, 2014 16:31:35 PST</option>
 <option value="2014-11-30 00:31:42"> Nov 29th, 2014 16:31:42 PST</option>
 <option value="2014-11-30 08:26:45"> Nov 30th, 2014 00:26:45 PST</option>
 <option value="2014-11-30 08:26:52"> Nov 30th, 2014 00:26:52 PST</option>
@@ -272,6 +269,9 @@
 <option value="2015-01-28 00:26:23"> Jan 27th, 2015 16:26:23 PST</option>
 <option value="2015-01-28 08:39:09"> Jan 28th, 2015 00:39:09 PST</option>
 <option value="2015-01-28 08:39:11"> Jan 28th, 2015 00:39:11 PST</option>
+<option value="2015-01-29 00:26:45"> Jan 28th, 2015 16:26:45 PST</option>
+<option value="2015-01-29 08:27:12"> Jan 29th, 2015 00:27:12 PST</option>
+<option value="2015-01-29 08:27:12"> Jan 29th, 2015 00:27:12 PST</option>
                 </select>
                 </td>
             </tr>
@@ -284,7 +284,7 @@
 
         <hr />
         <!-- No date specified -->
-<!-- 2015-01-28 08:39:11 -->
+<!-- 2015-01-29 08:27:12 -->
 
 <font size=4><b>
 These data are preliminary and have not undergone final quality control by the National Climatic Data Center (NCDC). Therefore, these data are subject to revision. Final and certified climate data can be accessed at the NCDC -
@@ -294,18 +294,18 @@ These data are preliminary and have not undergone final quality control by the N
 <h3>Climatological Report (Daily)</h3>
 <pre><font size=3>
 000
-CDUS45 KVEF 280839
+CDUS45 KVEF 290827
 CLILAS
 
 
 CLIMATE REPORT
 NATIONAL WEATHER SERVICE LAS VEGAS, NV
-1239 AM PST WED JAN 28 2015
+1226 AM PST THU JAN 29 2015
 
 
 ...................................
 
-...THE LAS VEGAS NV CLIMATE SUMMARY FOR JANUARY 27 2015...
+...THE LAS VEGAS NV CLIMATE SUMMARY FOR JANUARY 28 2015...
 
 CLIMATE NORMAL PERIOD 1981 TO 2010
 CLIMATE RECORD PERIOD 1937 TO 2015
@@ -317,18 +317,19 @@ WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST
 ..................................................................
 TEMPERATURE (F)
  YESTERDAY
-  MAXIMUM         62    407 PM  73    1971  59      3       68
-  MINIMUM         51    803 AM  12    1937  40     11       42
-  AVERAGE         57                        50      7       55
+  MAXIMUM         64        MM  71    1971  59      5       68
+                                      1940
+  MINIMUM         49        MM  18    1937  40      9       47
+  AVERAGE         57                        50      7       58
 
 PRECIPITATION (IN)
-  YESTERDAY        0.11          0.50 2008   0.02   0.09     0.00
-  MONTH TO DATE    0.67                      0.47   0.20     0.00
-  SINCE OCT 1      0.97                      1.60  -0.63     1.42
-  SINCE JAN 1      0.67                      0.47   0.20     0.00
+  YESTERDAY        0.00          0.26 2005   0.01  -0.01     0.00
+  MONTH TO DATE    0.67                      0.48   0.19     0.00
+  SINCE OCT 1      0.97                      1.61  -0.64     1.42
+  SINCE JAN 1      0.67                      0.48   0.19     0.00
 
 SNOWFALL (IN)
-  YESTERDAY        0.0           T    1957   0.0    0.0      0.0
+  YESTERDAY        0.0           2.4  1979   0.0    0.0      0.0
   MONTH TO DATE    0.0                       0.0    0.0      0.0
   SINCE DEC 1      T                         0.2   -0.2      0.0
   SINCE JUL 1      T                         0.2   -0.2      0.0
@@ -336,10 +337,10 @@ SNOWFALL (IN)
 
 DEGREE DAYS
  HEATING
-  YESTERDAY        8                        15     -7       10
-  MONTH TO DATE  336                       445   -109      330
-  SINCE DEC 1    760                       983   -223      870
-  SINCE JUL 1    933                      1292   -359     1133
+  YESTERDAY        8                        15     -7        7
+  MONTH TO DATE  344                       460   -116      337
+  SINCE DEC 1    768                       998   -230      877
+  SINCE JUL 1    941                      1307   -366     1140
 
  COOLING
   YESTERDAY        0                         0      0        0
@@ -350,42 +351,42 @@ DEGREE DAYS
 
 
 WIND (MPH)
-  RESULTANT WIND SPEED   3   RESULTANT WIND DIRECTION   S (180)
-  HIGHEST WIND SPEED    14   HIGHEST WIND DIRECTION     S (190)
-  HIGHEST GUST SPEED    15   HIGHEST GUST DIRECTION     S (190)
-  AVERAGE WIND SPEED     3.8
+  RESULTANT WIND SPEED   5   RESULTANT WIND DIRECTION   S (200)
+  HIGHEST WIND SPEED    10   HIGHEST WIND DIRECTION     S (200)
+  HIGHEST GUST SPEED    MM   HIGHEST GUST DIRECTION    MM
+  AVERAGE WIND SPEED     5.5
 
 
 SKY COVER
   POSSIBLE SUNSHINE  MM
-  AVERAGE SKY COVER 0.7
+  AVERAGE SKY COVER 0.8
 
 
 WEATHER CONDITIONS
  THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.
-  RAIN
-  LIGHT RAIN
-  FOG
+  NO SIGNIFICANT WEATHER WAS OBSERVED.
 
 
 RELATIVE HUMIDITY (PERCENT)
- HIGHEST    89           200 AM
- LOWEST     60           400 PM
- AVERAGE    75
+ HIGHEST    86           400 AM
+ LOWEST     48           400 PM
+ AVERAGE    67
 
 ..........................................................
 
 
 THE LAS VEGAS NV CLIMATE NORMALS FOR TODAY
                          NORMAL    RECORD    YEAR
- MAXIMUM TEMPERATURE (F)   59        71      1971
+ MAXIMUM TEMPERATURE (F)   59        71      1976
+                                             1953
                                              1940
- MINIMUM TEMPERATURE (F)   40        18      1937
+ MINIMUM TEMPERATURE (F)   41        17      1979
+                                             1948
 
 
 SUNRISE AND SUNSET
-JANUARY 28 2015.......SUNRISE   644 AM PST   SUNSET   503 PM PST
 JANUARY 29 2015.......SUNRISE   644 AM PST   SUNSET   504 PM PST
+JANUARY 30 2015.......SUNRISE   643 AM PST   SUNSET   505 PM PST
 
 
 -  INDICATES NEGATIVE NUMBERS.
@@ -399,7 +400,6 @@ T  INDICATES TRACE AMOUNT.
 <hr />
 
 
-
 </font></pre>
 
 
@@ -407,7 +407,7 @@ T  INDICATES TRACE AMOUNT.
 The U.S. Naval Observatory (USNO) computes astronomical data. Therefore, the NWS does not record, certify, or authenticate astronomical data. Computed times of sunrise, sunset, moonrise, moonset; and twilight, moon phases and other astronomical data are available from USNO's Astronomical Applications Department (http://www.usno.navy.mil). See <a href="http://weather.gov/cgi-bin/nwsexit.pl?url=http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation">http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation</a> for information on using these data for legal purposes.</font>
 
 
-    <!-- Page loaded in 0.137 seconds -->
+    <!-- Page loaded in 0.191 seconds -->
 
 
 </body>
