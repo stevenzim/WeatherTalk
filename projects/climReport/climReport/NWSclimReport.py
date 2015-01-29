@@ -23,8 +23,10 @@ def convertColumnVal(string):
 			return 'MISSING'
 		elif re.search('AM', string) or re.search('PM', string):
 			return string
-		elif re.match('\d+R', string):
+		elif re.match('\d+R', string) or re.match('\d+.\d+R', string) or re.match('\d+.\d+ R', string):
 			return 'RECORD'
+		elif re.match('', string):
+			return ''
 		else:
 			return string + ' IS UNKNOWN VALUE'		
 
@@ -40,11 +42,14 @@ class ClimateReport(object):
 		self.reportColumns = []						# stores variable string with available column names
 		self.columnIdxs = []							# stores starting index of each column name
 
-		#extracted daily weather vals
+		#extracted daily climate report vals
 		self.avg_sky_cvg = {}		          # average sky cover total/total possible [0.0 - 1.0]	
 		self.winds = {}										# max speed/max gust/avg wind for day in mph
-		self.max_temps = {}        				# max temp in last 24 hours
-		self.min_temps = {}          			# min temp in last 24 hours
+		self.max_temps = {}        				# max temp data for report
+		self.min_temps = {}          			# min temp data for report
+		self.precipitation = {}									# precip data for report
+		self.snow = {}									  # snow data for report	
+
 		
 		#self.code = metarcode              # original METAR code
 		self.type = 'METAR'                # METAR (routine) or SPECI (special)
@@ -219,17 +224,44 @@ class ClimateReport(object):
 						#print convertedValues
 						#print line
 					if temps == 'MINIMUM':
-						print line
-						print convertedValues
 						self.min_temps = convertedValues
 		if self.max_temps == {}:
 			self.max_temps = {'MAXIMUM' : 'NOT AVAILABLE'}
 		if self.min_temps == {}:
 			self.min_temps = {'MINIMUM' : 'NOT AVAILABLE'}
-		print self.max_temps
-		print self.min_temps
 
-	
+ 	def getPrecipData(self, reportLines = None):
+		"""
+		Grab the precipitationdata data.
+		 
+
+		"""
+
+
+		precipSection = False
+		snowSection = False
+		if reportLines != None:
+			self.reportLines = reportLines
+		for line in self.reportLines:
+			if re.search('PRECIPITATION',line):
+				precipSection = True
+			if re.search('SNOWFALL',line):
+				snowSection = True
+			if re.search('DEGREE DAYS',line):
+				#break out of loop, report section is complete
+				break
+			if re.search('YESTERDAY', line) or re.search('TODAY', line):
+				convertedValues = self.getRowValues(line)
+				if precipSection == True and snowSection == False:
+					self.precipitation = convertedValues
+				if precipSection == True and snowSection == True:
+					print line
+					print convertedValues
+					self.snow = convertedValues
+		if self.precipitation == {}:
+			self.precipitation = {'PRECIPITATION' : 'NOT AVAILABLE'}
+		if self.snow == {}:
+			self.snow = {'SNOWFALL' : 'NOT AVAILABLE'}
 		
 	def getSkyCover(self, reportLines = None):
 		"""

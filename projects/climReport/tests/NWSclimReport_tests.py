@@ -50,3 +50,13 @@ def test_temp():
 	report = Climate.ClimateReport()
 	report.getTemps(loadTestReport("testReport3.txt"))
 	assert_equal(report.max_temps ,{'OBSERVED' : 61.0, 'NEW RECORD' : True, 'TIME' : '400 PM', 'RECORD' : 58.0, 'YEAR' : 2003.0 ,  'NORMAL' : 48.0 , 'DEPARTURE' : 13.0, 'LAST' : 47.0})
+
+	
+def test_precip():
+	report = Climate.ClimateReport()
+	report.getPrecipData(loadTestReport("testReport1.txt"))
+	assert_equal(report.precipitation , {'OBSERVED' : 0.10, 'TIME' : '', 'RECORD' : 4.75, 'YEAR' : 1972.0 ,  'NORMAL' : 0.07 , 'DEPARTURE' : 0.03, 'LAST' : 0.00})
+
+	report = Climate.ClimateReport()
+	report.getPrecipData(loadTestReport("testReport4.txt"))
+	assert_equal(report.snow , {'OBSERVED' : 22.1, 'NEW RECORD' : True, 'TIME' : '', 'RECORD' : 22.1, 'YEAR' : 2015.0 ,  'NORMAL' : 0.4 , 'DEPARTURE' : 21.7, 'LAST' : 0.0})
