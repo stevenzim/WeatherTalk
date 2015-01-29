@@ -60,6 +60,12 @@ def test_precip():
 	report = Climate.ClimateReport()
 	report.getPrecipData(loadTestReport("testReport4.txt"))
 	assert_equal(report.snow , {'OBSERVED' : 22.1, 'NEW RECORD' : True, 'TIME' : '', 'RECORD' : 22.1, 'YEAR' : 2015.0 ,  'NORMAL' : 0.4 , 'DEPARTURE' : 21.7, 'LAST' : 0.0})
+
+def test_wx_obs():
+	report = Climate.ClimateReport()
+	report.getWxObs(loadTestReport("testReport1.txt"))
+	assert_equal(report.observations, ['HEAVY RAIN','RAIN','LIGHT RAIN','FOG'])	
+
 	
 def test_output_dict():
 	test = {'UUID': {'STATION': None,
@@ -68,6 +74,7 @@ def test_output_dict():
 									'PRECIPITATION': {'LIQUID': {},
 																	'SNOWFALL': {}},
 									'WINDS': {},
-									'SKIES': {}}}
+									'SKIES': {},
+									'OBSERVATIONS':[]}}
 	report = Climate.ClimateReport()
 	assert_equal(report.buildOutputDictionary(),test)
