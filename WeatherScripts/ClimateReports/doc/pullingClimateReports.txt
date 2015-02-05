@@ -1,3 +1,0 @@
-These are two example links for pulling climate reports. These links are basis for python code.
-http://www.weather.gov/climate/index.php?wfo=PQR
-http://www.weather.gov/climate/getclimate.php?date=&wfo=sew&sid=OLM&pil=CLI&recent=yes

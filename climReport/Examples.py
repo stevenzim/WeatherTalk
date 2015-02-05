@@ -13,6 +13,7 @@ for station in stationFile:
 	report.getWinds()
 	report.getTemps()
 	report.getPrecipData()
+	report.getWxObs()
 #	reportDict = {}
 #	masterDict = {}
 #	reportDict['SKY'] = report.avg_sky_cvg
