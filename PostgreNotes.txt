@@ -1,0 +1,39 @@
+#start server
+sudo service postgresql start
+
+#switch to postgres user to run commands into server
+sudo su – postgres
+
+#create db 
+createdb weather
+
+#log into weather db and create stations table and add extensions for cube and earthdistance
+psql -d weather
+CREATE TABLE stations (ICAO_ID CHAR(4), latitude float, longitude float, name VARCHAR(50));
+CREATE EXTENSION cube;
+CREATE EXTENSION earthdistance;
+
+SELECT ICAO_ID, name FROM stations WHERE earth_box( {current_user_lat}, {current_user_lng}, {radius_in_metres}) @> ll_to_earth(events.lat, events.lng);
+SELECT ICAO_ID, name FROM stations WHERE earth_box( 40.0, -70.0, 100000) @> ll_to_earth(stations.latitude, stations.longitude);
+
+#example get all stations within 50 miles of NYC central park
+#This SQL statement is inspired by: http://rodush.com/en/2013/09/postgres-and-earthdistance-extension/
+SELECT ICAO_ID, name 
+FROM stations 
+WHERE earth_box(ll_to_earth( 40.7833, -73.9667), 80467) @> ll_to_earth(stations.latitude, stations.longitude);
+
+
+##SETUP PYTHON
+sudo apt-get install python-psycopg2
+sudo -u postgres createuser pythonuser
+
+##login as database user and then cd to script directory
+user@ubuntu-dev:~/Desktop/GitHub/WeatherTalk/WeatherScripts$ sudo su - postgres
+postgres@ubuntu-dev:~$ cd /home/user/Desktop/GitHub/WeatherTalk/WeatherScripts
+
+
+#create table with python
+cursor.execute("CREATE TABLE stations (ICAO_ID CHAR(4), latitude float, longitude float, name VARCHAR(50));")
+>>> cursor.execute("SELECT * FROM stations;")
+>>> cursor.fetchone()
+
