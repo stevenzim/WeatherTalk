@@ -28,8 +28,9 @@ connection = psycopg2.connect("dbname=weather user=postgres")
 cursor = connection.cursor()
 
 
-for sqlCommands in masterListCommands:
-	cursor.execute(sqlCommands)
+for sqlCommand in masterListCommands:
+	cursor.execute(sqlCommand)
+	connection.commit()
 
 connection.close()	
 
