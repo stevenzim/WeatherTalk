@@ -132,7 +132,8 @@ class ClimateReport(object):
 		self.min_temps = {}          			# min temp data for report
 		self.precipitation = {}						# precip data for report --> Melted precipitation
 		self.snow = {}									  # snow data for report	
-		self.observations = []					# list of all observed weather conditions
+		self.observations = []						# list of all observed weather conditions
+		self.sun = {}											# sunrise/sunset data for station  TODO: Consider if total minutes should be calculated
 		
 		#self.code = metarcode              # original METAR code
 		self.type = 'METAR'                # METAR (routine) or SPECI (special)
@@ -374,6 +375,28 @@ class ClimateReport(object):
 				self.observations.append(line.strip())
 		if self.observations == []:
 			self.observations = ['OBSERVATIONS MISSING']
+	
+	def getSunRiseSet(self, reportLines = None):
+		'''
+		Grabs the sunrise and sunset for the current day of report (note the report 
+		gives weather for previous day). At most, there will be an error of 4 minutes,
+		greatest error occurs on first day of Spring/Autumn, smallest error on 
+		first day of Winter/Summer
+		'''
+		self.sun = {'SUNRISE' : 'MISSING', 'SUNSET' : 'MISSING'}
+		correctReportSection = False
+		if reportLines != None:
+			self.reportLines = reportLines
+		for line in self.reportLines:
+			if re.search('SUNRISE AND SUNSET',line):
+				correctReportSection = True
+				continue
+			if correctReportSection == True and re.search('SUNRISE',line):
+				#grab and store sunrise/sunset information break out of loop, 
+				#report section is now complete
+				self.sun = {'SUNRISE' : line[29:38].strip(), 'SUNSET' : line[51:60].strip()}
+				break
+
 
 
 	def buildOutputDictionary(self):
@@ -386,7 +409,8 @@ class ClimateReport(object):
 																						'SNOWFALL': self.snow},
 														'WINDS': self.winds,
 														'SKIES': self.avg_sky_cvg,
-														'OBSERVATIONS': self.observations}}	
+														'OBSERVATIONS': self.observations,
+														'SUN' : self.sun}}	
 		return dictToReturn
 		
 

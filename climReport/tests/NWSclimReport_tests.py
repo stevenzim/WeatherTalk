@@ -64,7 +64,13 @@ def test_precip():
 def test_wx_obs():
 	report = Climate.ClimateReport()
 	report.getWxObs(loadTestReport("testReport1.txt"))
-	assert_equal(report.observations, ['HEAVY RAIN','RAIN','LIGHT RAIN','FOG'])	
+	assert_equal(report.observations, ['HEAVY RAIN','RAIN','LIGHT RAIN','FOG'])
+
+def test_sun():
+	report = Climate.ClimateReport()
+	report.getSunRiseSet(loadTestReport("testReport1.txt"))	
+	assert_equal(report.sun , {'SUNRISE' : '710 AM', 'SUNSET' : '617 PM'})
+	
 
 	
 def test_output_dict():
@@ -75,6 +81,7 @@ def test_output_dict():
 																	'SNOWFALL': {}},
 									'WINDS': {},
 									'SKIES': {},
-									'OBSERVATIONS':[]}}
+									'OBSERVATIONS':[],
+									'SUN': {}}}
 	report = Climate.ClimateReport()
 	assert_equal(report.buildOutputDictionary(),test)
