@@ -20,11 +20,47 @@ primaryKeysToDrop = ["contributors",\
                     "in_reply_to_screen_name",\
                     "in_reply_to_status_id_str",\
                     "in_reply_to_user_id_str",\
+                    "place",\
                     "possibly_sensitive",\
                     "retweet_count",\
                     "retweeted",\
                     "source",\
                     "truncated"]
+                    
+userKeysToDrop =    ["contributors_enabled",\
+                    "created_at",\
+                    "default_profile",\
+                    "default_profile_image",\
+                    "description",\
+                    "favourites_count",\
+                    "follow_request_sent",\
+                    "following",\
+                    "friends_count",\
+                    "geo_enabled",\
+                    "id_str",\
+                    "is_translator",\
+                    "lang",\
+                    "listed_count",\
+                    "location",\
+                    "name",\
+                    "notifications",\
+                    "profile_background_color",\
+                    "profile_background_image_url",\
+                    "profile_background_image_url_https",\
+                    "profile_background_tile",\
+                    "profile_banner_url",\
+                    "profile_image_url",\
+                    "profile_image_url_https",\
+                    "profile_link_color",\
+                    "profile_sidebar_border_color",\
+                    "profile_sidebar_fill_color",\
+                    "profile_text_color",\
+                    "profile_use_background_image",\
+                    "protected",\
+                    "statuses_count",\
+                    "time_zone",\
+                    "url",\
+                    "verified"]
 
 
 # primaryKeysToDrop = ["place",\
@@ -77,6 +113,8 @@ def criterianTest(tweet):
 def cleanRawTweets(rawTweetList,cleanedTweetList):
     for tweet in rawTweetList:
         if criterianTest(tweet):
+            cleanedUser = dropKeysVals(getVals(tweet,"user"),userKeysToDrop)
+            tweet["user"] = cleanedUser
             cleanedTweetList.append(dropKeysVals(tweet,primaryKeysToDrop))
         else:
             continue
@@ -87,7 +125,7 @@ def getRawTweets():
     inDirName = '1-RawTweets'
     outDirName = '2-CleanedTweets'
     fileList = helper.getListOfFiles(inDirName)
-    utc_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H%M%SZ")
+    utc_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H%M-%SZ")
     outFileName = outDirName + '/' + 'Tweets_%s.json' % utc_datetime
     totalTweets = 0
     tweetsThisFile = 0

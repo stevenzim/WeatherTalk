@@ -24,7 +24,7 @@ def getTweets():
         tweetList.append(currentTweet)
         if (totalTweets % 100) == 0:
             print totalTweets
-        if (totalTweets % 100) == 0:
+        if (totalTweets % 1000) == 0:
             helper.dumpJSONtoFile(fileName,tweetList)
             tweetList = []
             return 0

@@ -28,20 +28,7 @@ def getListOfFiles(path):
     '''
     listOfFiles = [ file for file in listdir(path) if isfile(join(path,file)) ]
     return listOfFiles
-    #check if open
-    # test = True
-    # for file in listOfFiles:
-        # try:
-            # testOpen = open(file,'w')
-            # testOpen.close()
-        # except:
-            # print "File still open"
-            # test = False
-        
-    # if test:        
-        # return listOfFiles
-    # else:
-        # return None
+
 
 def deleteFilesInList(dirName,listOfFiles):
     '''
