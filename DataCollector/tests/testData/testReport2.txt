@@ -1,0 +1,113 @@
+<h3>Climatological Report (Daily)</h3>
+<pre><font size=3>
+000
+CDAK48 PADQ 241135
+CLIADQ
+
+CLIMATE REPORT
+NATIONAL WEATHER SERVICE KODIAK, AK
+236 AM AKST SAT JAN 24 2015
+
+...................................
+...THE KODIAK AP CLIMATE SUMMARY FOR JANUARY 23 2015...
+
+CLIMATE NORMAL PERIOD  1981 TO  2010
+CLIMATE RECORD PERIOD  1949 TO  2015
+
+WEATHER ITEM   OBSERVED TIME    RECORD YEAR NORMAL DEPARTURE LAST
+               VALUE    (LST)   VALUE       VALUE  FROM      YEAR
+                                                   NORMAL
+...................................................................
+TEMPERATURE
+YESTERDAY
+ MAXIMUM            36  0217 PM    51  1950     35       1     46
+ MINIMUM            33  1159 PM    -5  2012     26       7     38
+ AVERAGE            35                          30       5     42
+
+PRECIPITATION
+(INCHES)
+ YESTERDAY        0.03           1.70  1975   0.27   -0.24   0.54
+ MONTH TO DATE    9.05                        6.34    2.71  12.20
+ SINCE DEC 1     22.84                       15.07    7.77  16.65
+ SINCE JAN 1      9.05                        6.34    2.71  12.20
+
+SNOWFALL
+(INCHES)
+ YESTERDAY         0.2            5.5  1949    0.5    -0.3    0.0
+ MONTH TO DATE     1.4                         9.3    -7.9    5.1
+ SINCE DEC 1       1.7                        23.1   -21.4   16.7
+ SINCE JUL 1       2.4                        30.6   -28.2   24.0
+ SNOW DEPTH (IN)     0                                          0
+
+DEGREE DAYS
+ HEATING
+  YESTERDAY         30                          35      -5     23
+  MONTH TO DATE    619                         793    -174    668
+  SINCE DEC 1     1441                        1842    -401   1708
+  SINCE JUL 1     3837                        4634    -797   4115
+
+ COOLING
+  YESTERDAY          0                           0       0      0
+  MONTH TO DATE      0                           0       0      0
+  SINCE DEC 1        0                           0       0      0
+  SINCE JAN 1        0                           0       0      0
+...................................................................
+
+WIND (MPH)
+ HIGHEST WIND SPEED    15     HIGHEST WIND DIRECTION    310
+ HIGHEST GUST SPEED    19     HIGHEST GUST DIRECTION    310
+ AVERAGE WIND SPEED   8.1
+
+SKY COVER
+  POSSIBLE SUNSHINE    MM          AVERAGE SKY COVER     MM
+
+WEATHER CONDITIONS
+ THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.
+  FOG
+RAIN
+SNOW
+
+
+RELATIVE HUMIDITY
+ HIGHEST RH     MM PERCENT       MM
+ LOWEST  RH     MM PERCENT       MM
+ AVERAGE RH     MM PERCENT       MM
+...................................................................
+
+THE KODIAK CLIMATE NORMALS FOR TODAY
+                           NORMAL    RECORD   YEAR
+ MAXIMUM TEMPERATURE (F)     35        50     1950
+ MINIMUM TEMPERATURE (F)     26        -2     1973
+
+SUNRISE AND SUNSET
+ JAN 24 2015..........SUNRISE  9:28 AM      SUNSET  5:18 PM
+ JAN 25 2015..........SUNRISE  9:27 AM      SUNSET  5:20 PM
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD HAS BEEN SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE OF PRECIPITATION.
+
+&&
+-------------------------------------------------------------------
+
+AMOUNT OF DAYLIGHT TODAY  (HOUR:MIN)........7 HOURS 50 MINUTES
+GAIN/LOSS SINCE YESTERDAY (HOUR:MIN:SEC)....+0:03:59
+
+<hr />
+*** JAN 15
+
+
+
+</font></pre>
+
+
+<font size=4>
+The U.S. Naval Observatory (USNO) computes astronomical data. Therefore, the NWS does not record, certify, or authenticate astronomical data. Computed times of sunrise, sunset, moonrise, moonset; and twilight, moon phases and other astronomical data are available from USNO's Astronomical Applications Department (http://www.usno.navy.mil). See <a href="http://weather.gov/cgi-bin/nwsexit.pl?url=http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation">http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation</a> for information on using these data for legal purposes.</font>
+
+
+    <!-- Page loaded in 0.213 seconds -->
+
+
+</body>
+</html>

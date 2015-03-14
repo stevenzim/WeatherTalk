@@ -115,12 +115,17 @@ class ClimateReport(object):
         self.reportLines = []                            # list to store original report lines from html file
         self.reportColumns = []                        # stores variable string with available column names
         self.columnIdxs = []                            # stores starting index of each column name
+        
+        self.summaryDate = 'YYYY-MM-DD'     #Date of summary at beginning of report in format 15 MARCH 2015
+        self.summaryYear = None
+        self.summaryMonth = None
+        self.summaryDay = None
 
         #station variables
         self.uuid = None                                    # concatenation of ICAO + YYYYMMDD  There should never be more than one report for each ICAO + DATE combo
         self.valid_date = None                        # date for which the report covers
         self.report_station_id = None            # 3 or 4 letter code used by NWS usually same as ICAO
-        self.ICAO = None                                # 4 letter ICAO identifier
+        self.ICAO = 'ICAO'                        # 4 letter ICAO identifier
         self.station_full_name = None            # full name of staion, usually city/airport
         self.station_timezone = None           # 3 letter timezone for station
         self.geo_point = None                            # lat/lon of station            
@@ -204,7 +209,7 @@ class ClimateReport(object):
             i += 1
         return weatherCurrentLine
 
-    def getReport(self, officeID, climStationID, ICAOcode):
+    def getReport(self, officeID, climStationID, ICAOcode=None):
         '''
          Provided an NWS office ID e.g. SEW = seattle and 
          climStationID e.g. OLM = Olympia.  
@@ -231,6 +236,7 @@ class ClimateReport(object):
             
             #prints current date in report
             if re.search('CLIMATE SUMMARY FOR ', line):
+                self.setSummaryDateVars(line)
                 print line
             
             
@@ -255,7 +261,37 @@ class ClimateReport(object):
                 self.reportLines.append(line.rstrip())
         return reportLines
 
+        
+        ######DATE STUFF#####
+        
+    def addZeroDateString(self, value):
+        '''Checks if date val is single digit, if so then tack on zero at front
+        else return original value'''
+        if len(value) < 2:
+            value = "0" + str(value)
+            return value
+        else:
+            return str(value)
+        
+    def setSummaryDateVars(self, line):
+         
+        firstSplit = line.split('.')[:-3]
+        stationDateString = firstSplit[-1]              #get rid of periods
+        dateString = stationDateString.split('FOR ')[1]  #isolate the target date
 
+        dateVals = datetime.datetime.strptime(dateString,"%B %d %Y")
+        self.summaryYear = str(dateVals.year)
+        self.summaryMonth = self.addZeroDateString(str(dateVals.month))
+        self.summaryDay = self.addZeroDateString(str(dateVals.day))
+        
+        self.summaryDate =  self.summaryYear + '-' +\
+                            self.summaryMonth + '-' +\
+                            self.summaryDay
+
+        return 0
+
+        
+            ##### WEATHER STUFF ####
     def getTemps(self, reportLines = None):
         """
         Grab the temperature data.
@@ -409,11 +445,11 @@ class ClimateReport(object):
     def buildOutputDictionary(self):
         '''Build output dictionary'''
         #TODO: add in all station details
-        dictToReturn = {'UUID': {'STATION': self.ICAO,
+        dictToReturn = {self.ICAO + '-' + self.summaryDate : {'STATION': self.ICAO,
                                                         'TEMPERATURE': {'MAXIMUM': self.max_temps,
-                                                                                        'MINIMUM': self.min_temps},
+                                                                        'MINIMUM': self.min_temps},
                                                         'PRECIPITATION': {'LIQUID': self.precipitation,
-                                                                                        'SNOWFALL': self.snow},
+                                                                          'SNOWFALL': self.snow},
                                                         'WINDS': self.winds,
                                                         'SKIES': self.avg_sky_cvg,
                                                         'OBSERVATIONS': self.observations,
