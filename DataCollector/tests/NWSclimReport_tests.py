@@ -82,7 +82,8 @@ def test_sun():
     
 def test_output_dict():
     test = {'ICAO-YYYY-MM-DD': {'STATION': 'ICAO',
-                                    'TEMPERATURE': {'MAXIMUM': {},
+                                'REPORT-DATE':'YYYY-MM-DD',
+                                'TEMPERATURE': {'MAXIMUM': {},
                                                                     'MINIMUM': {}},
                                     'PRECIPITATION': {'LIQUID': {},
                                                                     'SNOWFALL': {}},

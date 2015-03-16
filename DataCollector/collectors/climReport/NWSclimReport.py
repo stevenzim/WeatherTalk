@@ -232,11 +232,16 @@ class ClimateReport(object):
         reportLines = []
         urllib.urlretrieve ('http://www.weather.gov/climate/getclimate.php?date=&wfo=' + officeID +'&sid='+ climStationID + '&pil=CLI&recent=yes',"tempDaily.report")
         report = open("tempDaily.report" , 'r')
+        gotDate = False
         for line in report:
             
             #prints current date in report
-            if re.search('CLIMATE SUMMARY FOR ', line):
+            #TODO: NEED TO ADD A TEST TO CONFIRM IT IS FIRST OCCURENCE OF THIS LINE
+            # see http://www.weather.gov/climate/getclimate.php?date=&wfo=SEW&sid=bil&pil=CLI&recent=yes
+            # and http://www.weather.gov/climate/getclimate.php?date=&wfo=SEW&sid=iow&pil=CLI&recent=yes
+            if re.search('CLIMATE SUMMARY FOR ', line) and gotDate == False:
                 self.setSummaryDateVars(line)
+                gotDate = True
                 print line
             
             
@@ -446,6 +451,7 @@ class ClimateReport(object):
         '''Build output dictionary'''
         #TODO: add in all station details
         dictToReturn = {self.ICAO + '-' + self.summaryDate : {'STATION': self.ICAO,
+                                                        'REPORT-DATE' : self.summaryDate,
                                                         'TEMPERATURE': {'MAXIMUM': self.max_temps,
                                                                         'MINIMUM': self.min_temps},
                                                         'PRECIPITATION': {'LIQUID': self.precipitation,

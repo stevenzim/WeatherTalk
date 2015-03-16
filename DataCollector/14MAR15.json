@@ -1,1 +1,56 @@
-[]
+{
+		"KROW-2015-03-13": {
+				"OBSERVATIONS": [
+						"NO SIGNIFICANT WEATHER WAS OBSERVED."
+				],
+				"PRECIPITATION": {
+						"LIQUID": {
+								"DEPARTURE": -0.02,
+								"NORMAL": 0.02,
+								"OBSERVED": "",
+								"RECORD": 0.23,
+								"TIME": "",
+								"YEAR": 1922.0
+						},
+						"SNOWFALL": {
+								"DEPARTURE": "",
+								"NORMAL": "",
+								"OBSERVED": 0.0,
+								"RECORD": "",
+								"TIME": "",
+								"YEAR": ""
+						}
+				},
+				"SKIES": {
+						"AVERAGE SKY COVER": 0.3
+				},
+				"STATION": "KROW",
+				"SUN": {
+						"SUNRISE": "710 AM",
+						"SUNSET": "705 PM"
+				},
+				"TEMPERATURE": {
+						"MAXIMUM": {
+								"DEPARTURE": 7.0,
+								"NORMAL": 67.0,
+								"OBSERVED": 74.0,
+								"RECORD": 89.0,
+								"TIME": "301 PM",
+								"YEAR": 2002.0
+						},
+						"MINIMUM": {
+								"DEPARTURE": 2.0,
+								"NORMAL": 36.0,
+								"OBSERVED": 38.0,
+								"RECORD": -2.0,
+								"TIME": "408 AM",
+								"YEAR": 1909.0
+						}
+				},
+				"WINDS": {
+						"AVERAGE WIND SPEED": 10.0,
+						"HIGHEST GUST SPEED": 45.0,
+						"HIGHEST WIND SPEED": 37.0
+				}
+		}
+}
