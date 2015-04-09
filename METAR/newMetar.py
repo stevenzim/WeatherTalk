@@ -78,7 +78,7 @@ for report in metarReports:
     newFields = newFields + origFields[1:3]         #station_id,observation_time
     newFields = newFields + origFields[5:12]        #temp_c,dewpoint_c,wind_dir_degrees,wind_speed_kt,wind_gust_kt,visibility_statute_mi,altim_in_hg
     newFields = newFields + origFields[13:14]       #corrected?
-    newFields = newFields + origFields[16:17]        #maintenance_indicator_on
+    newFields = newFields + origFields[16:17]        #maintenance_indicator_on?
     newFields = newFields + origFields[21:30]       #skycover details
     newFields = newFields + origFields[42:43]       #report type e.g. METAR,SPECI
     newFields = newFields + remark                 #append remark

@@ -26,9 +26,12 @@ for station in stationList:
 
     #get station details from current line in master list
     #instantiate report object
-    #scrap data report data from NWS and load data to object
+    #scrape data report data from NWS and load data to object
     stationDetails = station.split(',')
     report = NWSclimReport.ClimateReport()
+    #TODO: Add feature to check for date match, if report date is for current day
+    #       then we don't want it yet.  It should be for yesterday or before.
+    #       i.e. We only want complete reports
     reportLines = report.getReport("sew",stationDetails[1],stationDetails[4])
     
     #file checker
