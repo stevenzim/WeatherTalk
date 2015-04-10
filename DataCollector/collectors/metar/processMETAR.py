@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#
+#  TODO:  UPDATE--> 
 #  A python package for extracting reported daily climatology from the 
 #     US National Weather Service (NWS) daily climate report
 # 
@@ -29,14 +29,12 @@
 #  Copyright 2015  Steven Zimmerman
 # 
 """
-This module defines the National Weather Service climate report class.  
+TODO:  UPDATE--> This module defines the National Weather Service climate report class.  
 A Climate Report object represents the weather data deemed most important from the
 daily NWS climate report.  A Google search for "NWS Daily Climate Report" will provide examples
 
-SEE Example.py for usage
+SEE Examples-METAR.py for usage
 
-The code, tests and docs for this package were inspired by Tom Pollard's
-metar package found at http://python-metar.sourceforge.net/
 
 """
 
@@ -75,45 +73,60 @@ import os
 import re
 import datetime
 
-def convertToFloat(string):
-    '''We want to convert string to float, and 
-    return 999 as exception to indicate error'''
-    try:
-        return float(string)
-    except:
-        return  999.
         
 def setWindGust(windSpeed,windGust):
+    '''Set wind gust to wind speed if no wind gust is recorded'''
     if windGust == '':
         return int(windSpeed)
     else:
         return int(windGust)
 
+def setFloat(value):
+    '''Return 999 to indicate missing'''
+    try:
+        return float(value)
+    except:
+        return 999.
+
 def setBool(value):
+    '''Set to False if string is not True'''
     if value:
         return True
     else:
         return False
         
-metarDict = {
-'station_id' : metarList[0],                # ICAO Code
-'observation_time' : metarList[1][:-1],     # Date and Time in UTC  --> Drop Z at end
-'temp_c' : float(metarList[2]),             # Temp C
-'dewpoint_c' : float(metarList[3]),         # Dewpoint Temp C
-'wind_dir_degrees' : int(metarList[4]),             # Wind Direction 0-360
-'wind_speed_kt' : int(metarList[5]),                # Wind Speed Knots
-'wind_gust_kt' : setWindGust(metarList[5],metarList[6]),                 # Wind Speed Knots
-'visibility_statute_mi' : float(metarList[7]),      # Visibility in Statute Miles
-'altim_in_hg' : float(metarList[8]),                # Pressure in inches of Mercury
-'corrected' : setBool(metarList[9]),                        # Is report a correction
-'maintenance_indicator_on' : setBool(metarList[10]),         # Is the weather station due for maintenance
-'wx_string' : 'NONE',                       # String with Signficant weather
-'transmissivity_clouds' : 999.,             # Transmissivity of Clouds based on NRCC paper
-'max_cloud_cov' : 999.,                     # Max Cloud Percentage based on METAR standards
-'metar_type' : metarList[20],               # Report SPECI or METAR
-'remark' : metarList[21],                   # String with additional info such as SYNOP code
-'concat_station_date' : metarList[0] + metarList[1]
-}
+def setRemark(metarList):
+    '''Need to handle situation when no remark is included'''
+    if len(metarList) < 22:
+        return ''
+    else:
+        return metarList[21]
 
+
+def getMetarDict(metarList):
+    '''Takes in a cleaned up list containing data from METAR
+    returns  a dictionary with data in format necessary for database
+    there is intentionally no error handling. If an exception is thrown, then
+    the data has something missing (e.g. wind/temp data) and thus should not be 
+    recorded'''
+    return{
+    'station_id' : metarList[0],                # ICAO Code
+    'observation_time' : metarList[1][:-1],     # Date and Time in UTC  --> Drop Z at end
+    'temp_c' : float(metarList[2]),             # Temp C
+    'dewpoint_c' : float(metarList[3]),         # Dewpoint Temp C
+    'wind_dir_degrees' : int(metarList[4]),             # Wind Direction 0-360
+    'wind_speed_kt' : int(metarList[5]),                # Wind Speed Knots
+    'wind_gust_kt' : setWindGust(metarList[5],metarList[6]),                 # Wind Speed Knots
+    'visibility_statute_mi' : setFloat(metarList[7]),      # Visibility in Statute Miles
+    'altim_in_hg' : float(metarList[8]),                # Pressure in inches of Mercury
+    'corrected' : setBool(metarList[9]),                        # Is report a correction
+    'maintenance_indicator_on' : setBool(metarList[10]),         # Is the weather station due for maintenance
+    'wx_string' : 'NONE',                       # TODO: String with Signficant weather
+    'transmissivity_clouds' : 999.,             # TODO: Transmissivity of Clouds based on NRCC paper
+    'max_cloud_cov' : 999.,                     # TODO: Max Cloud Percentage based on METAR standards
+    'metar_type' : metarList[20],               # Report SPECI or METAR
+    'remark' : setRemark(metarList),                   # String with additional info such as SYNOP code
+    'concat_station_date' : metarList[0] + metarList[1]
+    }
 
 

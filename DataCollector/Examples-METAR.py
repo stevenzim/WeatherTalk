@@ -1,85 +1,39 @@
 import os
+import mysql.connector
 from collectors import helper
 from collectors.metar import processMETAR
+from collectors.metar import dbMETAR
 
-dataPath = 'data/climate/'      #path to data files
-reportList = []         #list storing dictionary reports
+rawDataPath = 'data/METAR/raw/'      #path to raw data files
+procDataPath = 'data/METAR/processed/'      #path to processed data files
+errorPath = 'data/METAR/error.csv'
 
+#db connection
+cnx = mysql.connector.connect(user='python', password='python',
+                              host='127.0.0.1', db='weather')
+cursor = cnx.cursor()
 
-stationFile = open('MasterStationList.txt','r')     #master station list of
-                                                    # climate stations
-stationFile.readline()                              #header
+#error logging file
+errFile = open(errorPath,'a')
 
+listRawFiles = helper.getListOfFiles(rawDataPath)
+for file in listRawFiles:
+    filePath = rawDataPath + file
+    iFile = open(filePath,'r')
+    iFile.readline() #header
+    for line in iFile:
+        metarList = line.split(',')
+        try:
+            metarDict = processMETAR.getMetarDict(metarList)
+            cursor.execute(dbMETAR.add_metar,metarDict)
+        except:
+            errFile.write(line)
+            print line
 
-#init file TODO: NEED TEST IF IT EXISTS
-stationList = []
-for station in stationFile:
-    stationList.append(station)
-stationFile.close()
-#print len(stationList)
-from random import shuffle
-shuffle(stationList)
-#print stationList[1].split(',')[1]
-
-for station in stationList: 
-#for station in stationFile:
-
-    #get station details from current line in master list
-    #instantiate report object
-    #scrape data report data from NWS and load data to object
-    stationDetails = station.split(',')
-    report = NWSclimReport.ClimateReport()
-    #TODO: Add feature to check for date match, if report date is for current day
-    #       then we don't want it yet.  It should be for yesterday or before.
-    #       i.e. We only want complete reports
-    reportLines = report.getReport("sew",stationDetails[1],stationDetails[4])
-    
-    #file checker
-    
-    fileName = report.summaryDate + '.json'
-    stationFileName = stationDetails[4] + '.json'
-    
-    fullDirPath = dataPath + report.summaryDate +'/'
+errFile.close()
 
 
-    if not os.path.exists(fullDirPath):
-        os.makedirs(fullDirPath)    
-    listRepoFiles = helper.getListOfFiles(fullDirPath)
-    fullFilePath = fullDirPath + fileName
-    stationFullFilePath = fullDirPath + stationFileName
-    
-
-    #fullFilePath = dataPath + fileName
-    
-    #create file if it doesnt exist and load file if it does exist
-    #if fileName in listRepoFiles:
-    #    print fullFilePath
-    #    reportList = helper.loadJSONfromFile(fullFilePath)
-    #else:
-    #    helper.dumpJSONtoFile(fullFilePath, [])
-    
-    #run report methods
-    report.getSkyCover()
-    report.getWinds()
-    report.getTemps()
-    report.getPrecipData()
-    report.getWxObs()
-    report.getSunRiseSet()
-
-    #check to see if the report already exists
-    #if it does exist, then it needs to be updated
-    #assumption is that latest report has most correct data
-    # indexToUpdate = None
-    # updateReportList = False
-    # for i, reportDict in enumerate(reportList):
-        # uuid = stationDetails[4] + report.summaryDate
-        # if uuid in reportDict:
-            # indexToUpdate = i
-            # updateReportList = True      
-            # print 'update list'
-            # break
-   
-   
-    helper.dumpJSONtoFile(stationFullFilePath,report.buildOutputDictionary())
-    print stationDetails[4]
-    
+cursor.execute("SELECT concat_station_date FROM METAR WHERE concat_station_date='KPHL2015-03-31T23:59:00Z'")
+rows = cursor.fetchall()
+for row in rows:
+    print row
