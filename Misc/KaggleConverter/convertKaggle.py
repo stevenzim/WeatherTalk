@@ -84,6 +84,7 @@ def buildOutputDict(csvRow,sentiList,temporalList):
                 'temporal_converted' : temporal_convert(temporalList), 
                 'topic_wx_orig' : sentiList[-1],
                 'topic_wx_converted' : topic_convert(sentiList[-1]),  
+                'uncertainty_score' : sentiList[0],
                 'source' : 'Kaggle'}
     return outputDict
 
@@ -93,11 +94,10 @@ def buildOutputDict(csvRow,sentiList,temporalList):
 #TODO: Could change the code from here below to be a function that takes in csv and json filenames
 myList = []
 currentRow = 1
-totalRemoved = 0    
 with open('train-edited-test.csv') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
-        #print currentRow
+        print currentRow
         currentRow += 1
         sentiList = [row['s1'],row['s2'],row['s3'],row['s4'],row['s5']]
         temporalList = [row['w1'],row['w2'],row['w3'],row['w4']]
@@ -107,13 +107,15 @@ with open('train-edited-test.csv') as csvfile:
         # Based on this criteria, nearly 4000 tweets are removed!!!!
         # TODO: Research a better way to address this.  Per Udo, he recommends keeping all data
         #       Consider different removal criteria, quick glance shows that many times fields s2-s4 = 0 and s1 is > 0 and s5 < or > s1
-        if sentiList.index(max(sentiList[:4])) != 0:
-            myList.append(buildOutputDict(row,sentiList,temporalList))
-        else:
-            print row['id']
-            totalRemoved += 1
-
-    print totalRemoved   
+        # NOTE: After further review of Kaggle forum and data, it seems best to not remove these at all, perhaps consider taking into account the uncertainty label
+        #       see https://www.kaggle.com/c/crowdflower-weather-twitter/forums/t/6267/s1-is-i-don-t-know-if-it-is-weather-related-or-i-don-t-know-if-it-is-positive
+        
+        myList.append(buildOutputDict(row,sentiList,temporalList))
+        # if sentiList.index(max(sentiList[:4])) != 0:
+            # myList.append(buildOutputDict(row,sentiList,temporalList))
+        # else:
+            # print row['id']
+            # totalRemoved += 1
 
 
 #Pretty print to JSON
