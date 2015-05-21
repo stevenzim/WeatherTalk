@@ -1,12 +1,18 @@
+#Steven Zimmerman
+#21-MAY-2015
+
+#This is a script to clean up my collected raw twitter data into the desired 
+#format.   Many unnecessary keys are dropped.  Most important of all......
+#only tweets with user location coordinates are kept, all others are discarded. 
+#NOTE: On April 27th - Twitter implemented changes to the way locations are
+# reported.   Prior to this, ~80% of tweets were had specific user coordinates.
+# Post this, ~20% of tweets had specific user coordinates. For more information:
+#search for '80% reduction in tweets' on https://twittercommunity.com/
+
 from TwitterAPI import TwitterAPI
 import json
 import datetime
 import helper
-
-
-
-
-
 
 #keys to drop
 primaryKeysToDrop = ["contributors",\
