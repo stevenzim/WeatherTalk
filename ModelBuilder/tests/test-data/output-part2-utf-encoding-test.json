@@ -62,12 +62,8 @@
                 ":"
             ],
             [
-                "Hiya",
-                "NNP"
-            ],
-            [
-                "~",
-                ":"
+                "Hiya~",
+                "JJ"
             ],
             [
                 "This",
@@ -170,8 +166,12 @@
                 "DT"
             ],
             [
-                "private.",
-                "NNP"
+                "private",
+                "JJ"
+            ],
+            [
+                ".",
+                "."
             ],
             [
                 "I",
@@ -258,15 +258,7 @@
                 "RB"
             ],
             [
-                "*",
-                "-NONE-"
-            ],
-            [
-                "am",
-                "VB"
-            ],
-            [
-                "*",
+                "*am*",
                 "-NONE-"
             ],
             [
@@ -278,12 +270,16 @@
                 "JJ"
             ],
             [
-                "reditor.",
-                "NNP"
+                "reditor",
+                "NN"
+            ],
+            [
+                ".",
+                "."
             ],
             [
                 "(",
-                "NNP"
+                "NN"
             ],
             [
                 "Promise",
@@ -294,12 +290,8 @@
                 "."
             ],
             [
-                ":",
-                ":"
-            ],
-            [
-                "3",
-                "LS"
+                ":3",
+                "-NONE-"
             ],
             [
                 ")",
@@ -370,12 +362,16 @@
                 "IN"
             ],
             [
-                "attention.",
-                "NNP"
+                "attention",
+                "NN"
+            ],
+            [
+                ".",
+                "."
             ],
             [
                 "(",
-                "NNP"
+                "NN"
             ],
             [
                 "Check",
@@ -402,12 +398,16 @@
                 "VBP"
             ],
             [
-                "interested.",
-                "NNP"
+                "interested",
+                "JJ"
+            ],
+            [
+                ".",
+                "."
             ],
             [
                 ")",
-                "NNP"
+                "NN"
             ],
             [
                 "Anyway",
@@ -530,12 +530,16 @@
                 "VB"
             ],
             [
-                "it.",
-                "NNP"
+                "it",
+                "PRP"
+            ],
+            [
+                ".",
+                "."
             ],
             [
                 "They",
-                "NNP"
+                "PRP"
             ],
             [
                 "just",
@@ -602,23 +606,19 @@
                 "PRP"
             ],
             [
-                "anymore.",
-                "NNP"
+                "anymore",
+                "JJR"
+            ],
+            [
+                ".",
+                "."
             ],
             [
                 "(",
                 ":"
             ],
             [
-                "\u2565",
-                ":"
-            ],
-            [
-                "\ufe4f",
-                ":"
-            ],
-            [
-                "\u2565",
+                "\u2565\ufe4f\u2565",
                 ":"
             ],
             [
@@ -678,31 +678,7 @@
                 ":"
             ],
             [
-                "\u2265",
-                ":"
-            ],
-            [
-                "\\",
-                ":"
-            ],
-            [
-                "^",
-                ":"
-            ],
-            [
-                ".",
-                "."
-            ],
-            [
-                "\\",
-                ":"
-            ],
-            [
-                "^",
-                ":"
-            ],
-            [
-                "\u2264",
+                "\u2265\\^.\\^\u2264",
                 ":"
             ],
             [
@@ -766,16 +742,20 @@
                 "PRP$"
             ],
             [
-                "movie.",
-                "NNP"
+                "movie",
+                "NN"
+            ],
+            [
+                ".",
+                "."
             ],
             [
                 "I",
-                "NNP"
+                "PRP"
             ],
             [
                 "'ll",
-                "NNP"
+                "MD"
             ],
             [
                 "even",
@@ -846,23 +826,7 @@
                 ":"
             ],
             [
-                "*",
-                "-NONE-"
-            ],
-            [
-                "*",
-                "-NONE-"
-            ],
-            [
-                "EDIT",
-                "VB"
-            ],
-            [
-                "*",
-                "-NONE-"
-            ],
-            [
-                "*",
+                "**EDIT**",
                 "-NONE-"
             ],
             [
@@ -871,7 +835,7 @@
             ],
             [
                 "Oh",
-                "UH"
+                "NNP"
             ],
             [
                 ",",
@@ -926,12 +890,16 @@
                 "NN"
             ],
             [
-                "either.",
-                "NNP"
+                "either",
+                "DT"
+            ],
+            [
+                ".",
+                "."
             ],
             [
                 "O.O",
-                "NNP"
+                "NN"
             ]
         ],
         "added_Title_+_Request": "[Request] 17-year-old, broke, could use some comfort food ;~; Hiya~\n\nThis isn't my main account, but I have some friends from real-life who know my main, and I want to keep this private. I'm using an old throwaway, as I figured it might help to prove a little bit that I really *am* an active reditor. (Promise! :3) I used this throwaway to publish a story to /r/nosleep that got a fair amount of attention. (Check it out if you're interested.)\n\nAnyway, I was recently diagnosed with bipolar disorder, and I've been feeling like absolute shit for the past week, and my family doesn't even get it. They just say that I'm screwing up and I feel like I can't take it anymore. (\u2565\ufe4f\u2565)\n\nSome comfort food would be really nice, if some kind person (\u2265\\^.\\^\u2264) might be willing to buy me a pizza, to go along with my movie. I'll even write you a story about something you choose, if you want.\n\nThanks!~\n\n**EDIT**: Oh, and fyi, I've never received pizza on my main account either. O.O",
@@ -950,8 +918,7 @@
             ";",
             "~",
             ";",
-            "hiya",
-            "~",
+            "hiya~",
             "n't",
             "main",
             "account",
@@ -963,7 +930,8 @@
             ",",
             "want",
             "keep",
-            "private.",
+            "privat",
+            ".",
             "'m",
             "use",
             "old",
@@ -976,15 +944,14 @@
             "littl",
             "bit",
             "realli",
-            "*",
-            "*",
+            "*am*",
             "activ",
-            "reditor.",
+            "reditor",
+            ".",
             "(",
             "promis",
             "!",
-            ":",
-            "3",
+            ":3",
             ")",
             "use",
             "throwaway",
@@ -994,11 +961,13 @@
             "got",
             "fair",
             "amount",
-            "attention.",
+            "attent",
+            ".",
             "(",
             "check",
             "'re",
-            "interested.",
+            "interest",
+            ".",
             ")",
             "anyway",
             ",",
@@ -1019,7 +988,7 @@
             "n't",
             "even",
             "get",
-            "it.",
+            ".",
             "say",
             "'m",
             "screw",
@@ -1028,11 +997,10 @@
             "ca",
             "n't",
             "take",
-            "anymore.",
+            "anymor",
+            ".",
             "(",
-            "\u2565",
-            "\ufe4f",
-            "\u2565",
+            "\u2565\ufe4f\u2565",
             ")",
             "comfort",
             "food",
@@ -1043,13 +1011,7 @@
             "kind",
             "person",
             "(",
-            "\u2265",
-            "\\",
-            "^",
-            ".",
-            "\\",
-            "^",
-            "\u2264",
+            "\u2265\\^.\\^\u2264",
             ")",
             "might",
             "will",
@@ -1058,7 +1020,8 @@
             ",",
             "go",
             "along",
-            "movie.",
+            "movi",
+            ".",
             "'ll",
             "even",
             "write",
@@ -1071,11 +1034,7 @@
             "thank",
             "!",
             "~",
-            "*",
-            "*",
-            "edit",
-            "*",
-            "*",
+            "**edit**",
             ":",
             "oh",
             ",",
@@ -1087,7 +1046,8 @@
             "pizza",
             "main",
             "account",
-            "either.",
+            "either",
+            ".",
             "o.o"
         ],
         "added_segmented_sentences": [
@@ -1095,8 +1055,8 @@
             "I'm using an old throwaway, as I figured it might help to prove a little bit that I really *am* an active reditor.",
             "(Promise!",
             ":3) I used this throwaway to publish a story to /r/nosleep that got a fair amount of attention.",
-            "(Check it out if you're interested.",
-            ")\n\nAnyway, I was recently diagnosed with bipolar disorder, and I've been feeling like absolute shit for the past week, and my family doesn't even get it.",
+            "(Check it out if you're interested.)",
+            "Anyway, I was recently diagnosed with bipolar disorder, and I've been feeling like absolute shit for the past week, and my family doesn't even get it.",
             "They just say that I'm screwing up and I feel like I can't take it anymore.",
             "(\u2565\ufe4f\u2565)\n\nSome comfort food would be really nice, if some kind person (\u2265\\^.\\^\u2264) might be willing to buy me a pizza, to go along with my movie.",
             "I'll even write you a story about something you choose, if you want.",
@@ -1119,8 +1079,7 @@
             ";",
             "~",
             ";",
-            "Hiya",
-            "~",
+            "Hiya~",
             "This",
             "is",
             "n't",
@@ -1146,7 +1105,8 @@
             "to",
             "keep",
             "this",
-            "private.",
+            "private",
+            ".",
             "I",
             "'m",
             "using",
@@ -1168,17 +1128,15 @@
             "that",
             "I",
             "really",
-            "*",
-            "am",
-            "*",
+            "*am*",
             "an",
             "active",
-            "reditor.",
+            "reditor",
+            ".",
             "(",
             "Promise",
             "!",
-            ":",
-            "3",
+            ":3",
             ")",
             "I",
             "used",
@@ -1196,7 +1154,8 @@
             "fair",
             "amount",
             "of",
-            "attention.",
+            "attention",
+            ".",
             "(",
             "Check",
             "it",
@@ -1204,7 +1163,8 @@
             "if",
             "you",
             "'re",
-            "interested.",
+            "interested",
+            ".",
             ")",
             "Anyway",
             ",",
@@ -1236,7 +1196,8 @@
             "n't",
             "even",
             "get",
-            "it.",
+            "it",
+            ".",
             "They",
             "just",
             "say",
@@ -1254,11 +1215,10 @@
             "n't",
             "take",
             "it",
-            "anymore.",
+            "anymore",
+            ".",
             "(",
-            "\u2565",
-            "\ufe4f",
-            "\u2565",
+            "\u2565\ufe4f\u2565",
             ")",
             "Some",
             "comfort",
@@ -1273,13 +1233,7 @@
             "kind",
             "person",
             "(",
-            "\u2265",
-            "\\",
-            "^",
-            ".",
-            "\\",
-            "^",
-            "\u2264",
+            "\u2265\\^.\\^\u2264",
             ")",
             "might",
             "be",
@@ -1295,7 +1249,8 @@
             "along",
             "with",
             "my",
-            "movie.",
+            "movie",
+            ".",
             "I",
             "'ll",
             "even",
@@ -1315,11 +1270,7 @@
             "Thanks",
             "!",
             "~",
-            "*",
-            "*",
-            "EDIT",
-            "*",
-            "*",
+            "**EDIT**",
             ":",
             "Oh",
             ",",
@@ -1335,7 +1286,8 @@
             "my",
             "main",
             "account",
-            "either.",
+            "either",
+            ".",
             "O.O"
         ],
         "giver_username_if_known": "N/A",

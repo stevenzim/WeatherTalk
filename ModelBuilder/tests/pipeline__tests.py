@@ -72,5 +72,7 @@ def test_part4_buildModel_and_results():
         outLines.append(line)
     for line in testExpectedFile:
         expectLines.append(line)
+    print outLines[19]
+    print expectLines[19]
     assert_equal(outLines,expectLines)
  

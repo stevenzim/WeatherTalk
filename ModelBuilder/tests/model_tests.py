@@ -4,6 +4,8 @@ from sklearn import datasets
 from sklearn import svm
 from sklearn.externals import joblib
 import numpy as np
+import cgitb; 
+cgitb.enable()
 
 iris_testdata = datasets.load_iris()
 X_set, Y_set = iris_testdata.data, iris_testdata.target
@@ -20,10 +22,15 @@ def test_save_model():
     assert_equal(origModel.kernel,newModel.kernel)
 
 def crossValidate_test():
-    expected_results = [ 1.,  1., 0.86666666666666667,1.,  0.93333333333333335,\
-    1.,1.,  1., 1.,  1. ]
+    #expected_results = [ 1.,  1., 0.86666666666666667,1.,  0.93333333333333335,\
+    #1.,1.,  1., 1.,  1. ]
+    expected_results = [ 1.,0.93333333333333335,  1., 1., 1., 0.93333333333333335,\
+  0.93333333333333335,  1.,          1.,          1.        ]
     modelObj = model.MLmodel(classifier,X_set, Y_set)
     modelObj.crossValidate()
+    print expected_results[1]
+    print modelObj.cv_accuracy[1]
+    print (expected_results == modelObj.cv_accuracy)
     assert_equal((expected_results == modelObj.cv_accuracy).all(), True)
  
 def eval_test():
