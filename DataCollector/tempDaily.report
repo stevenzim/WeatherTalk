@@ -29,129 +29,255 @@
             <form name="myProd" action="/climate/getclimate.php" method="get">
             <input type="hidden" name="date" value="" />
             <input type="hidden" name="wfo" value="sew" />
-            <input type="hidden" name="sid" value="MWH" />
+            <input type="hidden" name="sid" value="FLL" />
             <input type="hidden" name="pil" value="CLI" />
             <input type="hidden" name="recent" value="yes" />
             <tr>
                 <td>
                 <select name="specdate" onChange="return swapURL()">
                     <option value="" selected> Select Other Date</option>
-                    <option value="2015-02-09 08:46:28"> Feb 9th, 2015 00:46:28 PST</option>
-<option value="2015-02-09 08:46:28"> Feb 9th, 2015 00:46:28 PST</option>
-<option value="2015-02-10 08:40:05"> Feb 10th, 2015 00:40:05 PST</option>
-<option value="2015-02-10 08:40:57"> Feb 10th, 2015 00:40:57 PST</option>
-<option value="2015-02-11 08:38:50"> Feb 11th, 2015 00:38:50 PST</option>
-<option value="2015-02-12 08:45:23"> Feb 12th, 2015 00:45:23 PST</option>
-<option value="2015-02-12 08:45:30"> Feb 12th, 2015 00:45:30 PST</option>
-<option value="2015-02-13 08:48:19"> Feb 13th, 2015 00:48:19 PST</option>
-<option value="2015-02-13 08:48:20"> Feb 13th, 2015 00:48:20 PST</option>
-<option value="2015-02-14 08:30:42"> Feb 14th, 2015 00:30:42 PST</option>
-<option value="2015-02-14 08:30:49"> Feb 14th, 2015 00:30:49 PST</option>
-<option value="2015-02-15 08:28:22"> Feb 15th, 2015 00:28:22 PST</option>
-<option value="2015-02-16 08:25:32"> Feb 16th, 2015 00:25:32 PST</option>
-<option value="2015-02-16 08:25:33"> Feb 16th, 2015 00:25:33 PST</option>
-<option value="2015-02-17 08:26:29"> Feb 17th, 2015 00:26:29 PST</option>
-<option value="2015-02-17 08:26:30"> Feb 17th, 2015 00:26:30 PST</option>
-<option value="2015-02-18 08:22:17"> Feb 18th, 2015 00:22:17 PST</option>
-<option value="2015-02-18 08:22:17"> Feb 18th, 2015 00:22:17 PST</option>
-<option value="2015-02-19 08:21:00"> Feb 19th, 2015 00:21:00 PST</option>
-<option value="2015-02-19 08:21:07"> Feb 19th, 2015 00:21:07 PST</option>
-<option value="2015-02-20 08:29:49"> Feb 20th, 2015 00:29:49 PST</option>
-<option value="2015-02-20 08:29:50"> Feb 20th, 2015 00:29:50 PST</option>
-<option value="2015-02-21 08:29:28"> Feb 21st, 2015 00:29:28 PST</option>
-<option value="2015-02-22 08:39:45"> Feb 22nd, 2015 00:39:45 PST</option>
-<option value="2015-02-22 08:39:51"> Feb 22nd, 2015 00:39:51 PST</option>
-<option value="2015-02-23 08:47:09"> Feb 23rd, 2015 00:47:09 PST</option>
-<option value="2015-02-23 08:47:17"> Feb 23rd, 2015 00:47:17 PST</option>
-<option value="2015-02-24 08:29:55"> Feb 24th, 2015 00:29:55 PST</option>
-<option value="2015-02-24 08:29:55"> Feb 24th, 2015 00:29:55 PST</option>
-<option value="2015-02-25 08:38:24"> Feb 25th, 2015 00:38:24 PST</option>
-<option value="2015-02-25 08:38:25"> Feb 25th, 2015 00:38:25 PST</option>
-<option value="2015-02-26 08:23:25"> Feb 26th, 2015 00:23:25 PST</option>
-<option value="2015-02-26 08:23:25"> Feb 26th, 2015 00:23:25 PST</option>
-<option value="2015-02-27 08:26:07"> Feb 27th, 2015 00:26:07 PST</option>
-<option value="2015-02-27 08:26:27"> Feb 27th, 2015 00:26:27 PST</option>
-<option value="2015-02-28 08:24:33"> Feb 28th, 2015 00:24:33 PST</option>
-<option value="2015-02-28 08:24:34"> Feb 28th, 2015 00:24:34 PST</option>
-<option value="2015-03-01 08:27:39"> Mar 1st, 2015 00:27:39 PST</option>
-<option value="2015-03-01 08:27:39"> Mar 1st, 2015 00:27:39 PST</option>
-<option value="2015-03-02 08:29:50"> Mar 2nd, 2015 00:29:50 PST</option>
-<option value="2015-03-02 08:29:57"> Mar 2nd, 2015 00:29:57 PST</option>
-<option value="2015-03-03 08:47:34"> Mar 3rd, 2015 00:47:34 PST</option>
-<option value="2015-03-03 08:47:34"> Mar 3rd, 2015 00:47:34 PST</option>
-<option value="2015-03-04 08:32:00"> Mar 4th, 2015 00:32:00 PST</option>
-<option value="2015-03-04 08:32:08"> Mar 4th, 2015 00:32:08 PST</option>
-<option value="2015-03-05 08:28:20"> Mar 5th, 2015 00:28:20 PST</option>
-<option value="2015-03-05 08:28:21"> Mar 5th, 2015 00:28:21 PST</option>
-<option value="2015-03-06 08:37:15"> Mar 6th, 2015 00:37:15 PST</option>
-<option value="2015-03-06 08:37:16"> Mar 6th, 2015 00:37:16 PST</option>
-<option value="2015-03-07 08:50:54"> Mar 7th, 2015 00:50:54 PST</option>
-<option value="2015-03-07 08:50:55"> Mar 7th, 2015 00:50:55 PST</option>
-<option value="2015-03-08 08:37:22"> Mar 8th, 2015 00:37:22 PST</option>
-<option value="2015-03-08 08:37:23"> Mar 8th, 2015 00:37:23 PST</option>
-<option value="2015-03-09 08:35:23"> Mar 9th, 2015 01:35:23 PDT</option>
-<option value="2015-03-09 08:35:29"> Mar 9th, 2015 01:35:29 PDT</option>
-<option value="2015-03-10 08:32:50"> Mar 10th, 2015 01:32:50 PDT</option>
-<option value="2015-03-10 08:32:51"> Mar 10th, 2015 01:32:51 PDT</option>
-<option value="2015-03-11 08:28:47"> Mar 11th, 2015 01:28:47 PDT</option>
-<option value="2015-03-11 08:28:54"> Mar 11th, 2015 01:28:54 PDT</option>
-<option value="2015-03-12 08:38:21"> Mar 12th, 2015 01:38:21 PDT</option>
-<option value="2015-03-12 08:38:28"> Mar 12th, 2015 01:38:28 PDT</option>
-<option value="2015-03-13 08:47:49"> Mar 13th, 2015 01:47:49 PDT</option>
-<option value="2015-03-13 08:47:49"> Mar 13th, 2015 01:47:49 PDT</option>
-<option value="2015-03-14 08:38:57"> Mar 14th, 2015 01:38:57 PDT</option>
-<option value="2015-03-14 08:38:57"> Mar 14th, 2015 01:38:57 PDT</option>
-<option value="2015-03-15 08:38:36"> Mar 15th, 2015 01:38:36 PDT</option>
-<option value="2015-03-15 08:38:37"> Mar 15th, 2015 01:38:37 PDT</option>
-<option value="2015-03-16 08:32:11"> Mar 16th, 2015 01:32:11 PDT</option>
-<option value="2015-03-16 08:32:11"> Mar 16th, 2015 01:32:11 PDT</option>
-<option value="2015-03-17 08:29:32"> Mar 17th, 2015 01:29:32 PDT</option>
-<option value="2015-03-17 08:29:32"> Mar 17th, 2015 01:29:32 PDT</option>
-<option value="2015-03-18 08:27:59"> Mar 18th, 2015 01:27:59 PDT</option>
-<option value="2015-03-19 08:32:04"> Mar 19th, 2015 01:32:04 PDT</option>
-<option value="2015-03-19 08:32:04"> Mar 19th, 2015 01:32:04 PDT</option>
-<option value="2015-03-20 08:21:15"> Mar 20th, 2015 01:21:15 PDT</option>
-<option value="2015-03-20 08:21:24"> Mar 20th, 2015 01:21:24 PDT</option>
-<option value="2015-03-21 08:20:00"> Mar 21st, 2015 01:20:00 PDT</option>
-<option value="2015-03-21 08:20:53"> Mar 21st, 2015 01:20:53 PDT</option>
-<option value="2015-03-22 08:30:14"> Mar 22nd, 2015 01:30:14 PDT</option>
-<option value="2015-03-22 08:30:23"> Mar 22nd, 2015 01:30:23 PDT</option>
-<option value="2015-03-23 08:36:46"> Mar 23rd, 2015 01:36:46 PDT</option>
-<option value="2015-03-23 08:36:52"> Mar 23rd, 2015 01:36:52 PDT</option>
-<option value="2015-03-24 08:27:45"> Mar 24th, 2015 01:27:45 PDT</option>
-<option value="2015-03-24 08:27:45"> Mar 24th, 2015 01:27:45 PDT</option>
-<option value="2015-03-25 08:36:01"> Mar 25th, 2015 01:36:01 PDT</option>
-<option value="2015-03-25 08:36:02"> Mar 25th, 2015 01:36:02 PDT</option>
-<option value="2015-03-26 08:30:23"> Mar 26th, 2015 01:30:23 PDT</option>
-<option value="2015-03-26 08:30:24"> Mar 26th, 2015 01:30:24 PDT</option>
-<option value="2015-03-27 08:29:12"> Mar 27th, 2015 01:29:12 PDT</option>
-<option value="2015-03-27 08:29:19"> Mar 27th, 2015 01:29:19 PDT</option>
-<option value="2015-03-28 08:25:54"> Mar 28th, 2015 01:25:54 PDT</option>
-<option value="2015-03-28 08:25:55"> Mar 28th, 2015 01:25:55 PDT</option>
-<option value="2015-03-29 08:29:51"> Mar 29th, 2015 01:29:51 PDT</option>
-<option value="2015-03-29 08:29:58"> Mar 29th, 2015 01:29:58 PDT</option>
-<option value="2015-03-30 08:35:16"> Mar 30th, 2015 01:35:16 PDT</option>
-<option value="2015-03-30 08:35:17"> Mar 30th, 2015 01:35:17 PDT</option>
-<option value="2015-03-31 08:20:00"> Mar 31st, 2015 01:20:00 PDT</option>
-<option value="2015-03-31 08:20:54"> Mar 31st, 2015 01:20:54 PDT</option>
-<option value="2015-04-01 08:21:39"> Apr 1st, 2015 01:21:39 PDT</option>
-<option value="2015-04-01 08:21:41"> Apr 1st, 2015 01:21:41 PDT</option>
-<option value="2015-04-02 08:43:53"> Apr 2nd, 2015 01:43:53 PDT</option>
-<option value="2015-04-03 08:36:31"> Apr 3rd, 2015 01:36:31 PDT</option>
-<option value="2015-04-03 08:36:31"> Apr 3rd, 2015 01:36:31 PDT</option>
-<option value="2015-04-04 08:34:54"> Apr 4th, 2015 01:34:54 PDT</option>
-<option value="2015-04-04 08:34:54"> Apr 4th, 2015 01:34:54 PDT</option>
-<option value="2015-04-05 08:31:48"> Apr 5th, 2015 01:31:48 PDT</option>
-<option value="2015-04-05 08:31:48"> Apr 5th, 2015 01:31:48 PDT</option>
-<option value="2015-04-06 08:27:39"> Apr 6th, 2015 01:27:39 PDT</option>
-<option value="2015-04-06 08:27:47"> Apr 6th, 2015 01:27:47 PDT</option>
-<option value="2015-04-07 08:48:16"> Apr 7th, 2015 01:48:16 PDT</option>
-<option value="2015-04-07 08:48:25"> Apr 7th, 2015 01:48:25 PDT</option>
-<option value="2015-04-08 08:22:16"> Apr 8th, 2015 01:22:16 PDT</option>
-<option value="2015-04-08 08:22:17"> Apr 8th, 2015 01:22:17 PDT</option>
-<option value="2015-04-09 08:27:22"> Apr 9th, 2015 01:27:22 PDT</option>
-<option value="2015-04-09 08:27:35"> Apr 9th, 2015 01:27:35 PDT</option>
-<option value="2015-04-10 08:28:14"> Apr 10th, 2015 01:28:14 PDT</option>
+                    <option value="2015-03-28 08:32:41"> Mar 28th, 2015 01:32:41 PDT</option>
+<option value="2015-03-28 08:32:42"> Mar 28th, 2015 01:32:42 PDT</option>
+<option value="2015-03-28 20:26:02"> Mar 28th, 2015 13:26:02 PDT</option>
+<option value="2015-03-28 20:26:09"> Mar 28th, 2015 13:26:09 PDT</option>
+<option value="2015-03-29 08:39:36"> Mar 29th, 2015 01:39:36 PDT</option>
+<option value="2015-03-29 20:17:50"> Mar 29th, 2015 13:17:50 PDT</option>
+<option value="2015-03-29 20:17:50"> Mar 29th, 2015 13:17:50 PDT</option>
+<option value="2015-03-30 08:32:54"> Mar 30th, 2015 01:32:54 PDT</option>
+<option value="2015-03-30 08:32:54"> Mar 30th, 2015 01:32:54 PDT</option>
+<option value="2015-03-30 20:19:30"> Mar 30th, 2015 13:19:30 PDT</option>
+<option value="2015-03-30 20:19:36"> Mar 30th, 2015 13:19:36 PDT</option>
+<option value="2015-03-31 08:39:09"> Mar 31st, 2015 01:39:09 PDT</option>
+<option value="2015-03-31 20:16:58"> Mar 31st, 2015 13:16:58 PDT</option>
+<option value="2015-04-01 08:40:18"> Apr 1st, 2015 01:40:18 PDT</option>
+<option value="2015-04-01 08:40:18"> Apr 1st, 2015 01:40:18 PDT</option>
+<option value="2015-04-01 08:45:03"> Apr 1st, 2015 01:45:03 PDT</option>
+<option value="2015-04-01 08:45:56"> Apr 1st, 2015 01:45:56 PDT</option>
+<option value="2015-04-01 20:16:57"> Apr 1st, 2015 13:16:57 PDT</option>
+<option value="2015-04-01 20:16:57"> Apr 1st, 2015 13:16:57 PDT</option>
+<option value="2015-04-02 08:35:00"> Apr 2nd, 2015 01:35:00 PDT</option>
+<option value="2015-04-02 08:35:00"> Apr 2nd, 2015 01:35:00 PDT</option>
+<option value="2015-04-02 20:28:56"> Apr 2nd, 2015 13:28:56 PDT</option>
+<option value="2015-04-02 20:28:56"> Apr 2nd, 2015 13:28:56 PDT</option>
+<option value="2015-04-03 08:40:16"> Apr 3rd, 2015 01:40:16 PDT</option>
+<option value="2015-04-03 20:16:22"> Apr 3rd, 2015 13:16:22 PDT</option>
+<option value="2015-04-03 20:16:22"> Apr 3rd, 2015 13:16:22 PDT</option>
+<option value="2015-04-04 08:21:32"> Apr 4th, 2015 01:21:32 PDT</option>
+<option value="2015-04-04 08:21:32"> Apr 4th, 2015 01:21:32 PDT</option>
+<option value="2015-04-04 20:15:12"> Apr 4th, 2015 13:15:12 PDT</option>
+<option value="2015-04-04 20:15:12"> Apr 4th, 2015 13:15:12 PDT</option>
+<option value="2015-04-05 08:40:22"> Apr 5th, 2015 01:40:22 PDT</option>
+<option value="2015-04-05 08:40:29"> Apr 5th, 2015 01:40:29 PDT</option>
+<option value="2015-04-05 20:48:28"> Apr 5th, 2015 13:48:28 PDT</option>
+<option value="2015-04-05 20:48:35"> Apr 5th, 2015 13:48:35 PDT</option>
+<option value="2015-04-06 08:22:35"> Apr 6th, 2015 01:22:35 PDT</option>
+<option value="2015-04-06 08:22:35"> Apr 6th, 2015 01:22:35 PDT</option>
+<option value="2015-04-06 20:18:25"> Apr 6th, 2015 13:18:25 PDT</option>
+<option value="2015-04-06 20:18:25"> Apr 6th, 2015 13:18:25 PDT</option>
+<option value="2015-04-07 08:20:08"> Apr 7th, 2015 01:20:08 PDT</option>
+<option value="2015-04-07 08:20:09"> Apr 7th, 2015 01:20:09 PDT</option>
+<option value="2015-04-07 20:18:15"> Apr 7th, 2015 13:18:15 PDT</option>
+<option value="2015-04-07 20:18:31"> Apr 7th, 2015 13:18:31 PDT</option>
+<option value="2015-04-07 20:18:38"> Apr 7th, 2015 13:18:38 PDT</option>
+<option value="2015-04-08 08:22:22"> Apr 8th, 2015 01:22:22 PDT</option>
+<option value="2015-04-08 08:22:38"> Apr 8th, 2015 01:22:38 PDT</option>
+<option value="2015-04-08 20:16:04"> Apr 8th, 2015 13:16:04 PDT</option>
+<option value="2015-04-08 20:16:05"> Apr 8th, 2015 13:16:05 PDT</option>
+<option value="2015-04-09 08:23:42"> Apr 9th, 2015 01:23:42 PDT</option>
+<option value="2015-04-09 20:15:04"> Apr 9th, 2015 13:15:04 PDT</option>
+<option value="2015-04-10 08:20:00"> Apr 10th, 2015 01:20:00 PDT</option>
+<option value="2015-04-10 08:20:07"> Apr 10th, 2015 01:20:07 PDT</option>
+<option value="2015-04-10 20:16:32"> Apr 10th, 2015 13:16:32 PDT</option>
+<option value="2015-04-10 20:16:32"> Apr 10th, 2015 13:16:32 PDT</option>
+<option value="2015-04-11 08:40:15"> Apr 11th, 2015 01:40:15 PDT</option>
+<option value="2015-04-11 08:40:24"> Apr 11th, 2015 01:40:24 PDT</option>
+<option value="2015-04-11 08:44:09"> Apr 11th, 2015 01:44:09 PDT</option>
+<option value="2015-04-11 08:44:10"> Apr 11th, 2015 01:44:10 PDT</option>
+<option value="2015-04-11 20:37:42"> Apr 11th, 2015 13:37:42 PDT</option>
+<option value="2015-04-12 08:23:37"> Apr 12th, 2015 01:23:37 PDT</option>
+<option value="2015-04-12 08:23:37"> Apr 12th, 2015 01:23:37 PDT</option>
+<option value="2015-04-12 20:16:56"> Apr 12th, 2015 13:16:56 PDT</option>
+<option value="2015-04-13 08:26:22"> Apr 13th, 2015 01:26:22 PDT</option>
+<option value="2015-04-13 08:26:28"> Apr 13th, 2015 01:26:28 PDT</option>
+<option value="2015-04-13 20:23:27"> Apr 13th, 2015 13:23:27 PDT</option>
+<option value="2015-04-13 20:23:27"> Apr 13th, 2015 13:23:27 PDT</option>
+<option value="2015-04-14 08:25:26"> Apr 14th, 2015 01:25:26 PDT</option>
+<option value="2015-04-14 08:25:26"> Apr 14th, 2015 01:25:26 PDT</option>
+<option value="2015-04-14 20:15:04"> Apr 14th, 2015 13:15:04 PDT</option>
+<option value="2015-04-14 20:15:11"> Apr 14th, 2015 13:15:11 PDT</option>
+<option value="2015-04-15 08:24:53"> Apr 15th, 2015 01:24:53 PDT</option>
+<option value="2015-04-15 20:31:27"> Apr 15th, 2015 13:31:27 PDT</option>
+<option value="2015-04-16 08:23:59"> Apr 16th, 2015 01:23:59 PDT</option>
+<option value="2015-04-16 20:19:15"> Apr 16th, 2015 13:19:15 PDT</option>
+<option value="2015-04-16 20:19:22"> Apr 16th, 2015 13:19:22 PDT</option>
+<option value="2015-04-16 22:25:25"> Apr 16th, 2015 15:25:25 PDT</option>
+<option value="2015-04-16 22:25:47"> Apr 16th, 2015 15:25:47 PDT</option>
+<option value="2015-04-16 22:25:54"> Apr 16th, 2015 15:25:54 PDT</option>
+<option value="2015-04-17 08:39:39"> Apr 17th, 2015 01:39:39 PDT</option>
+<option value="2015-04-17 08:39:39"> Apr 17th, 2015 01:39:39 PDT</option>
+<option value="2015-04-17 20:15:06"> Apr 17th, 2015 13:15:06 PDT</option>
+<option value="2015-04-17 20:15:12"> Apr 17th, 2015 13:15:12 PDT</option>
+<option value="2015-04-18 08:38:02"> Apr 18th, 2015 01:38:02 PDT</option>
+<option value="2015-04-18 08:38:02"> Apr 18th, 2015 01:38:02 PDT</option>
+<option value="2015-04-18 20:16:37"> Apr 18th, 2015 13:16:37 PDT</option>
+<option value="2015-04-19 08:38:17"> Apr 19th, 2015 01:38:17 PDT</option>
+<option value="2015-04-19 08:38:20"> Apr 19th, 2015 01:38:20 PDT</option>
+<option value="2015-04-19 20:15:58"> Apr 19th, 2015 13:15:58 PDT</option>
+<option value="2015-04-19 20:15:59"> Apr 19th, 2015 13:15:59 PDT</option>
+<option value="2015-04-20 08:33:12"> Apr 20th, 2015 01:33:12 PDT</option>
+<option value="2015-04-20 08:33:12"> Apr 20th, 2015 01:33:12 PDT</option>
+<option value="2015-04-20 20:20:31"> Apr 20th, 2015 13:20:31 PDT</option>
+<option value="2015-04-20 20:20:54"> Apr 20th, 2015 13:20:54 PDT</option>
+<option value="2015-04-20 20:20:54"> Apr 20th, 2015 13:20:54 PDT</option>
+<option value="2015-04-21 08:36:13"> Apr 21st, 2015 01:36:13 PDT</option>
+<option value="2015-04-21 08:36:13"> Apr 21st, 2015 01:36:13 PDT</option>
+<option value="2015-04-21 20:16:54"> Apr 21st, 2015 13:16:54 PDT</option>
+<option value="2015-04-21 20:16:55"> Apr 21st, 2015 13:16:55 PDT</option>
+<option value="2015-04-22 08:35:25"> Apr 22nd, 2015 01:35:25 PDT</option>
+<option value="2015-04-22 08:35:25"> Apr 22nd, 2015 01:35:25 PDT</option>
+<option value="2015-04-22 20:16:57"> Apr 22nd, 2015 13:16:57 PDT</option>
+<option value="2015-04-22 20:16:57"> Apr 22nd, 2015 13:16:57 PDT</option>
+<option value="2015-04-23 08:48:19"> Apr 23rd, 2015 01:48:19 PDT</option>
+<option value="2015-04-23 08:48:59"> Apr 23rd, 2015 01:48:59 PDT</option>
+<option value="2015-04-23 20:16:41"> Apr 23rd, 2015 13:16:41 PDT</option>
+<option value="2015-04-23 20:16:49"> Apr 23rd, 2015 13:16:49 PDT</option>
+<option value="2015-04-24 08:21:12"> Apr 24th, 2015 01:21:12 PDT</option>
+<option value="2015-04-24 08:21:12"> Apr 24th, 2015 01:21:12 PDT</option>
+<option value="2015-04-24 20:16:48"> Apr 24th, 2015 13:16:48 PDT</option>
+<option value="2015-04-24 20:16:48"> Apr 24th, 2015 13:16:48 PDT</option>
+<option value="2015-04-25 08:22:02"> Apr 25th, 2015 01:22:02 PDT</option>
+<option value="2015-04-25 08:22:10"> Apr 25th, 2015 01:22:10 PDT</option>
+<option value="2015-04-25 20:16:50"> Apr 25th, 2015 13:16:50 PDT</option>
+<option value="2015-04-26 08:21:04"> Apr 26th, 2015 01:21:04 PDT</option>
+<option value="2015-04-26 08:21:53"> Apr 26th, 2015 01:21:53 PDT</option>
+<option value="2015-04-26 20:18:02"> Apr 26th, 2015 13:18:02 PDT</option>
+<option value="2015-04-27 08:21:12"> Apr 27th, 2015 01:21:12 PDT</option>
+<option value="2015-04-27 08:21:12"> Apr 27th, 2015 01:21:12 PDT</option>
+<option value="2015-04-27 20:18:31"> Apr 27th, 2015 13:18:31 PDT</option>
+<option value="2015-04-27 20:18:31"> Apr 27th, 2015 13:18:31 PDT</option>
+<option value="2015-04-28 08:43:24"> Apr 28th, 2015 01:43:24 PDT</option>
+<option value="2015-04-28 08:43:24"> Apr 28th, 2015 01:43:24 PDT</option>
+<option value="2015-04-28 20:16:51"> Apr 28th, 2015 13:16:51 PDT</option>
+<option value="2015-04-28 20:16:52"> Apr 28th, 2015 13:16:52 PDT</option>
+<option value="2015-04-29 08:21:38"> Apr 29th, 2015 01:21:38 PDT</option>
+<option value="2015-04-29 08:21:39"> Apr 29th, 2015 01:21:39 PDT</option>
+<option value="2015-04-29 20:18:38"> Apr 29th, 2015 13:18:38 PDT</option>
+<option value="2015-04-30 08:32:27"> Apr 30th, 2015 01:32:27 PDT</option>
+<option value="2015-04-30 20:18:24"> Apr 30th, 2015 13:18:24 PDT</option>
+<option value="2015-04-30 20:18:31"> Apr 30th, 2015 13:18:31 PDT</option>
+<option value="2015-04-30 20:18:47"> Apr 30th, 2015 13:18:47 PDT</option>
+<option value="2015-05-01 08:21:00"> May 1st, 2015 01:21:00 PDT</option>
+<option value="2015-05-01 08:21:00"> May 1st, 2015 01:21:00 PDT</option>
+<option value="2015-05-01 20:15:01"> May 1st, 2015 13:15:01 PDT</option>
+<option value="2015-05-01 20:15:55"> May 1st, 2015 13:15:55 PDT</option>
+<option value="2015-05-02 08:21:32"> May 2nd, 2015 01:21:32 PDT</option>
+<option value="2015-05-02 08:21:32"> May 2nd, 2015 01:21:32 PDT</option>
+<option value="2015-05-02 20:16:49"> May 2nd, 2015 13:16:49 PDT</option>
+<option value="2015-05-02 20:16:49"> May 2nd, 2015 13:16:49 PDT</option>
+<option value="2015-05-03 08:22:37"> May 3rd, 2015 01:22:37 PDT</option>
+<option value="2015-05-03 08:22:43"> May 3rd, 2015 01:22:43 PDT</option>
+<option value="2015-05-03 20:16:50"> May 3rd, 2015 13:16:50 PDT</option>
+<option value="2015-05-03 20:16:50"> May 3rd, 2015 13:16:50 PDT</option>
+<option value="2015-05-04 08:29:40"> May 4th, 2015 01:29:40 PDT</option>
+<option value="2015-05-04 08:29:40"> May 4th, 2015 01:29:40 PDT</option>
+<option value="2015-05-04 20:15:05"> May 4th, 2015 13:15:05 PDT</option>
+<option value="2015-05-05 08:31:08"> May 5th, 2015 01:31:08 PDT</option>
+<option value="2015-05-05 08:31:58"> May 5th, 2015 01:31:58 PDT</option>
+<option value="2015-05-05 20:16:20"> May 5th, 2015 13:16:20 PDT</option>
+<option value="2015-05-05 20:16:20"> May 5th, 2015 13:16:20 PDT</option>
+<option value="2015-05-06 08:40:08"> May 6th, 2015 01:40:08 PDT</option>
+<option value="2015-05-06 08:40:23"> May 6th, 2015 01:40:23 PDT</option>
+<option value="2015-05-06 08:40:23"> May 6th, 2015 01:40:23 PDT</option>
+<option value="2015-05-06 08:50:14"> May 6th, 2015 01:50:14 PDT</option>
+<option value="2015-05-06 08:50:22"> May 6th, 2015 01:50:22 PDT</option>
+<option value="2015-05-06 08:51:22"> May 6th, 2015 01:51:22 PDT</option>
+<option value="2015-05-06 08:51:22"> May 6th, 2015 01:51:22 PDT</option>
+<option value="2015-05-06 20:21:43"> May 6th, 2015 13:21:43 PDT</option>
+<option value="2015-05-06 20:21:44"> May 6th, 2015 13:21:44 PDT</option>
+<option value="2015-05-07 08:23:55"> May 7th, 2015 01:23:55 PDT</option>
+<option value="2015-05-07 20:22:56"> May 7th, 2015 13:22:56 PDT</option>
+<option value="2015-05-07 20:22:56"> May 7th, 2015 13:22:56 PDT</option>
+<option value="2015-05-08 08:23:37"> May 8th, 2015 01:23:37 PDT</option>
+<option value="2015-05-08 08:23:37"> May 8th, 2015 01:23:37 PDT</option>
+<option value="2015-05-08 20:16:07"> May 8th, 2015 13:16:07 PDT</option>
+<option value="2015-05-08 20:16:07"> May 8th, 2015 13:16:07 PDT</option>
+<option value="2015-05-09 08:21:17"> May 9th, 2015 01:21:17 PDT</option>
+<option value="2015-05-09 08:21:17"> May 9th, 2015 01:21:17 PDT</option>
+<option value="2015-05-09 20:16:22"> May 9th, 2015 13:16:22 PDT</option>
+<option value="2015-05-09 20:16:29"> May 9th, 2015 13:16:29 PDT</option>
+<option value="2015-05-10 08:23:54"> May 10th, 2015 01:23:54 PDT</option>
+<option value="2015-05-10 08:23:55"> May 10th, 2015 01:23:55 PDT</option>
+<option value="2015-05-10 20:16:11"> May 10th, 2015 13:16:11 PDT</option>
+<option value="2015-05-10 20:16:17"> May 10th, 2015 13:16:17 PDT</option>
+<option value="2015-05-11 08:32:14"> May 11th, 2015 01:32:14 PDT</option>
+<option value="2015-05-11 08:32:15"> May 11th, 2015 01:32:15 PDT</option>
+<option value="2015-05-11 20:18:14"> May 11th, 2015 13:18:14 PDT</option>
+<option value="2015-05-11 20:18:22"> May 11th, 2015 13:18:22 PDT</option>
+<option value="2015-05-12 08:22:23"> May 12th, 2015 01:22:23 PDT</option>
+<option value="2015-05-12 08:22:25"> May 12th, 2015 01:22:25 PDT</option>
+<option value="2015-05-12 20:16:09"> May 12th, 2015 13:16:09 PDT</option>
+<option value="2015-05-12 20:16:56"> May 12th, 2015 13:16:56 PDT</option>
+<option value="2015-05-13 08:24:00"> May 13th, 2015 01:24:00 PDT</option>
+<option value="2015-05-13 08:24:01"> May 13th, 2015 01:24:01 PDT</option>
+<option value="2015-05-13 20:18:17"> May 13th, 2015 13:18:17 PDT</option>
+<option value="2015-05-13 20:18:17"> May 13th, 2015 13:18:17 PDT</option>
+<option value="2015-05-14 08:25:32"> May 14th, 2015 01:25:32 PDT</option>
+<option value="2015-05-14 08:25:44"> May 14th, 2015 01:25:44 PDT</option>
+<option value="2015-05-14 20:16:52"> May 14th, 2015 13:16:52 PDT</option>
+<option value="2015-05-14 20:16:59"> May 14th, 2015 13:16:59 PDT</option>
+<option value="2015-05-15 08:27:38"> May 15th, 2015 01:27:38 PDT</option>
+<option value="2015-05-15 08:27:38"> May 15th, 2015 01:27:38 PDT</option>
+<option value="2015-05-15 20:16:57"> May 15th, 2015 13:16:57 PDT</option>
+<option value="2015-05-16 08:35:11"> May 16th, 2015 01:35:11 PDT</option>
+<option value="2015-05-16 08:35:19"> May 16th, 2015 01:35:19 PDT</option>
+<option value="2015-05-16 20:16:49"> May 16th, 2015 13:16:49 PDT</option>
+<option value="2015-05-16 20:16:58"> May 16th, 2015 13:16:58 PDT</option>
+<option value="2015-05-17 08:40:20"> May 17th, 2015 01:40:20 PDT</option>
+<option value="2015-05-17 08:40:20"> May 17th, 2015 01:40:20 PDT</option>
+<option value="2015-05-17 08:41:17"> May 17th, 2015 01:41:17 PDT</option>
+<option value="2015-05-17 08:41:38"> May 17th, 2015 01:41:38 PDT</option>
+<option value="2015-05-17 08:41:45"> May 17th, 2015 01:41:45 PDT</option>
+<option value="2015-05-17 08:41:51"> May 17th, 2015 01:41:51 PDT</option>
+<option value="2015-05-17 20:17:12"> May 17th, 2015 13:17:12 PDT</option>
+<option value="2015-05-17 20:17:12"> May 17th, 2015 13:17:12 PDT</option>
+<option value="2015-05-18 08:21:52"> May 18th, 2015 01:21:52 PDT</option>
+<option value="2015-05-18 08:21:59"> May 18th, 2015 01:21:59 PDT</option>
+<option value="2015-05-18 20:34:32"> May 18th, 2015 13:34:32 PDT</option>
+<option value="2015-05-18 20:34:32"> May 18th, 2015 13:34:32 PDT</option>
+<option value="2015-05-19 08:21:48"> May 19th, 2015 01:21:48 PDT</option>
+<option value="2015-05-19 08:21:49"> May 19th, 2015 01:21:49 PDT</option>
+<option value="2015-05-19 20:24:45"> May 19th, 2015 13:24:45 PDT</option>
+<option value="2015-05-20 08:22:48"> May 20th, 2015 01:22:48 PDT</option>
+<option value="2015-05-20 08:22:49"> May 20th, 2015 01:22:49 PDT</option>
+<option value="2015-05-20 20:25:21"> May 20th, 2015 13:25:21 PDT</option>
+<option value="2015-05-20 20:25:28"> May 20th, 2015 13:25:28 PDT</option>
+<option value="2015-05-21 08:23:18"> May 21st, 2015 01:23:18 PDT</option>
+<option value="2015-05-21 08:23:25"> May 21st, 2015 01:23:25 PDT</option>
+<option value="2015-05-21 20:22:49"> May 21st, 2015 13:22:49 PDT</option>
+<option value="2015-05-21 20:22:49"> May 21st, 2015 13:22:49 PDT</option>
+<option value="2015-05-22 08:21:41"> May 22nd, 2015 01:21:41 PDT</option>
+<option value="2015-05-22 08:21:42"> May 22nd, 2015 01:21:42 PDT</option>
+<option value="2015-05-22 20:23:03"> May 22nd, 2015 13:23:03 PDT</option>
+<option value="2015-05-22 20:23:04"> May 22nd, 2015 13:23:04 PDT</option>
+<option value="2015-05-22 20:23:23"> May 22nd, 2015 13:23:23 PDT</option>
+<option value="2015-05-22 20:23:23"> May 22nd, 2015 13:23:23 PDT</option>
+<option value="2015-05-23 08:24:47"> May 23rd, 2015 01:24:47 PDT</option>
+<option value="2015-05-23 08:24:54"> May 23rd, 2015 01:24:54 PDT</option>
+<option value="2015-05-23 20:15:00"> May 23rd, 2015 13:15:00 PDT</option>
+<option value="2015-05-23 20:15:00"> May 23rd, 2015 13:15:00 PDT</option>
+<option value="2015-05-24 08:25:41"> May 24th, 2015 01:25:41 PDT</option>
+<option value="2015-05-24 20:18:38"> May 24th, 2015 13:18:38 PDT</option>
+<option value="2015-05-24 20:18:44"> May 24th, 2015 13:18:44 PDT</option>
+<option value="2015-05-25 08:27:56"> May 25th, 2015 01:27:56 PDT</option>
+<option value="2015-05-25 08:27:56"> May 25th, 2015 01:27:56 PDT</option>
+<option value="2015-05-25 20:16:28"> May 25th, 2015 13:16:28 PDT</option>
+<option value="2015-05-26 08:29:13"> May 26th, 2015 01:29:13 PDT</option>
+<option value="2015-05-26 08:29:20"> May 26th, 2015 01:29:20 PDT</option>
+<option value="2015-05-26 08:30:22"> May 26th, 2015 01:30:22 PDT</option>
+<option value="2015-05-26 20:16:47"> May 26th, 2015 13:16:47 PDT</option>
+<option value="2015-05-26 20:16:48"> May 26th, 2015 13:16:48 PDT</option>
+<option value="2015-05-27 08:26:28"> May 27th, 2015 01:26:28 PDT</option>
+<option value="2015-05-27 08:26:35"> May 27th, 2015 01:26:35 PDT</option>
                 </select>
                 </td>
             </tr>
@@ -164,7 +290,13 @@
 
         <hr />
         <!-- No date specified -->
-<!-- 2015-04-10 08:28:14 -->
+<!-- not RTPxx 2015-05-27 08:26:35 -->
+<!--
+            SELECT    product, DATE_FORMAT(date, '%Y,%m') AS date
+            FROM      CLI
+            WHERE     site_id='FLL' AND
+                      date>='2015-05-27 08:26:05' AND
+                      date<='2015-05-27 08:27:05' LIMIT 1 -->
 
 <font size=4><b>
 These data are preliminary and have not undergone final quality control by the National Climatic Data Center (NCDC). Therefore, these data are subject to revision. Final and certified climate data can be accessed at the NCDC -
@@ -174,21 +306,21 @@ These data are preliminary and have not undergone final quality control by the N
 <h3>Climatological Report (Daily)</h3>
 <pre><font size=3>
 000
-CDUS46 KOTX 100828
-CLIMWH
+CDUS42 KMFL 270826
+CLIFLL
 
 
 CLIMATE REPORT
-NATIONAL WEATHER SERVICE SPOKANE, WA
-127 AM PDT FRI APR 10 2015
+NATIONAL WEATHER SERVICE MIAMI, FL
+425 AM EDT WED MAY 27 2015
 
 
 ...................................
 
-...THE MOSES LAKE WA AIRPORT CLIMATE SUMMARY FOR APRIL 9 2015...
+...THE FORT LAUDERDALE CLIMATE SUMMARY FOR MAY 26 2015...
 
 CLIMATE NORMAL PERIOD 1981 TO 2010
-CLIMATE RECORD PERIOD 9999 TO 9999
+CLIMATE RECORD PERIOD 1839 TO 2015
 
 
 WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST
@@ -197,67 +329,71 @@ WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST
 ..................................................................
 TEMPERATURE (F)
  YESTERDAY
-  MAXIMUM         64    339 PM  MM      MM  61      3       67
-  MINIMUM         32    439 AM  MM      MM  36     -4       44
-  AVERAGE         48                        49     -1       56
+  MAXIMUM         88    105 PM  94    1924  88      0       87
+  MINIMUM         78    116 AM  62    1950  76      2       78
+  AVERAGE         83                        82      1       83
 
 PRECIPITATION (IN)
-  YESTERDAY        0.00         MM      MM   0.02  -0.02     0.00
-  MONTH TO DATE    0.21                      0.22  -0.01      T
-  SINCE OCT 1      5.23                      6.23  -1.00     2.50
-  SINCE JAN 1      2.57                      2.94  -0.37     1.86
+  YESTERDAY        0.01          2.35 1913   0.22  -0.21     0.00
+  MONTH TO DATE    1.90                      3.53  -1.63     6.37
+  SINCE NOV 1     19.09                     22.07  -2.98    30.88
+  SINCE JAN 1     13.98                     16.37  -2.39    18.76
 
 SNOWFALL (IN)
-  YESTERDAY       MM
+  YESTERDAY        0.0
+  MONTH TO DATE    0.0
+  SINCE MAR 1      0.0
+  SINCE JUL 1      0.0
+  SNOW DEPTH       0
 
 DEGREE DAYS
  HEATING
-  YESTERDAY       17                        16      1        9
-  MONTH TO DATE  164                       154     10      104
-  SINCE MAR 1    681                       821   -140      738
-  SINCE JUL 1   4439                      5326   -887     5249
-
- COOLING
   YESTERDAY        0                         0      0        0
   MONTH TO DATE    0                         0      0        0
-  SINCE MAR 1      0                         0      0        0
-  SINCE JAN 1      0                         0      0        0
+  SINCE MAR 1      0                        10    -10        1
+  SINCE JUL 1     97                       112    -15       81
+
+ COOLING
+  YESTERDAY       18                        17      1       18
+  MONTH TO DATE  393                       386      7      403
+  SINCE MAR 1   1173                       977    196     1067
+  SINCE JAN 1   1454                      1333    121     1455
 ..................................................................
 
 
 WIND (MPH)
-  HIGHEST WIND SPEED    12   HIGHEST WIND DIRECTION     S (160)
-  HIGHEST GUST SPEED    18   HIGHEST GUST DIRECTION     S (180)
-  AVERAGE WIND SPEED     4.7
+  HIGHEST WIND SPEED    22   HIGHEST WIND DIRECTION     E (100)
+  HIGHEST GUST SPEED    26   HIGHEST GUST DIRECTION     E (110)
+  AVERAGE WIND SPEED    16.4
 
 
 SKY COVER
-  POSSIBLE SUNSHINE  MM
-  AVERAGE SKY COVER 0.2
+  AVERAGE SKY COVER 0.6
 
 
 WEATHER CONDITIONS
  THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.
-  NO SIGNIFICANT WEATHER WAS OBSERVED.
+  LIGHT RAIN
+  FOG
 
 
 RELATIVE HUMIDITY (PERCENT)
- HIGHEST    92           600 AM
- LOWEST     34           400 PM
- AVERAGE    63
+ HIGHEST    85
+ LOWEST     61
+ AVERAGE    73
 
 ..........................................................
 
 
-THE MOSES LAKE WA AIRPORT CLIMATE NORMALS FOR TODAY
+THE FORT LAUDERDALE CLIMATE NORMALS FOR TODAY
                          NORMAL    RECORD    YEAR
- MAXIMUM TEMPERATURE (F)   62        MM        MM
- MINIMUM TEMPERATURE (F)   36        MM        MM
+ MAXIMUM TEMPERATURE (F)   88        94      1924
+ MINIMUM TEMPERATURE (F)   76        62      1927
 
 
 SUNRISE AND SUNSET
-APRIL 10 2015.........SUNRISE   619 AM PDT   SUNSET   739 PM PDT
-APRIL 11 2015.........SUNRISE   617 AM PDT   SUNSET   740 PM PDT
+MAY 27 2015...........SUNRISE   630 AM EDT   SUNSET   806 PM EDT
+MAY 28 2015...........SUNRISE   629 AM EDT   SUNSET   806 PM EDT
 
 
 -  INDICATES NEGATIVE NUMBERS.
@@ -271,6 +407,8 @@ T  INDICATES TRACE AMOUNT.
 <hr />
 
 
+
+
 </font></pre>
 
 
@@ -278,7 +416,7 @@ T  INDICATES TRACE AMOUNT.
 The U.S. Naval Observatory (USNO) computes astronomical data. Therefore, the NWS does not record, certify, or authenticate astronomical data. Computed times of sunrise, sunset, moonrise, moonset; and twilight, moon phases and other astronomical data are available from USNO's Astronomical Applications Department (http://www.usno.navy.mil). See <a href="http://weather.gov/cgi-bin/nwsexit.pl?url=http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation">http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation</a> for information on using these data for legal purposes.</font>
 
 
-    <!-- Page loaded in 0.045 seconds -->
+    <!-- Page loaded in 0.192 seconds -->
 
 
 </body>
