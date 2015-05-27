@@ -1,3 +1,13 @@
+#######
+'''
+A simple script to strip out non-desired data from METAR report
+This script also removes all non-CONUS reports i.e. only saves reports with station id first char=K
+Should be run every 5 minutes due to frequent updating of reports
+From here, you can store data in database or whereever
+'''
+#######
+
+
 ###########################
 ### import existing modules to use
 ###########################
@@ -36,26 +46,28 @@ def outputToCSV(listOfList,outFile):
 ###########################
 ### Main part of program
 ###########################
+#create temp file and permanent output file
 tempMetarFile = "data/temp.metar"
 dirName = 'data'
 utc_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H%MZ")
 outFileName = dirName + '/' + 'METAR_%s.csv' % utc_datetime
 
 
-
+#retrieve data
 urllib.urlretrieve ('https://aviationweather.gov/adds/dataserver_current/current/metars.cache.csv',tempMetarFile)
 
-
+#create header for output file
 newHeader = 'station_id,observation_time,temp_c,dewpoint_c,wind_dir_degrees,wind_speed_kt,wind_gust_kt,visibility_statute_mi,altim_in_hg,corrected,maintenance_indicator_on,wx_string,sky_cover,cloud_base_ft_agl,sky_cover,cloud_base_ft_agl,sky_cover,cloud_base_ft_agl,sky_cover,cloud_base_ft_agl,metar_type,remark'
 newHeader = newHeader.split(',')
 
+#initialize output list
 listToOutput = []
 listToOutput.append(newHeader)
 
 #### PROCESS METAR FILE ####
 metarReports = open(tempMetarFile,'r')
 
-#read first 6 lines
+#read first 6 lines, these will not be written to output file
 metarReports.readline() #errors
 metarReports.readline() #warnings
 metarReports.readline() #retrieval time in ms
@@ -64,6 +76,10 @@ metarReports.readline() #number of results
 metarReports.readline() #header
 
 for report in metarReports:
+    '''
+    Loops through each metar report and loads into output list if all test pass
+    '''
+    #read in each report from temp file.  Each line = 1 report
     origFields = report.strip().split(',')
     newFields = []
     remark = []

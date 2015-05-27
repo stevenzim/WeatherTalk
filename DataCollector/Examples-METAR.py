@@ -1,8 +1,8 @@
 import os
 import mysql.connector
-from collectors import helper
-from collectors.metar import processMETAR
-from collectors.metar import dbMETAR
+from convertors import helper
+from convertors.metar import processMETAR
+from convertors.metar import dbMETAR
 
 rawDataPath = 'data/METAR/raw/'      #path to raw data files
 procDataPath = 'data/METAR/processed/'      #path to processed data files
