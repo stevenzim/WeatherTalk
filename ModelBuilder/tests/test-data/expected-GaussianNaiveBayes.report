@@ -1,0 +1,31 @@
+Model Name: GaussianNaiveBayes
+Model Description: Steven Zimmerman - March 3rd 2015 - Gaussian Naive Bayes
+Model Feautures: BASELINE FEATURES
+
+Model Evaluation Metrics
+----------------------
+
+             precision    recall  f1-score   support
+
+      False       0.77      0.88      0.82       597
+       True       0.44      0.26      0.33       211
+
+avg / total       0.69      0.72      0.69       808
+
+
+----------------------
+
+Cross Validation Stats
+----------------------
+Fold-1 = 0.728395061728
+Fold-2 = 0.737654320988
+Fold-3 = 0.71826625387
+Fold-4 = 0.761609907121
+Fold-5 = 0.715170278638
+Fold-6 = 0.71826625387
+Fold-7 = 0.736842105263
+Fold-8 = 0.752321981424
+Fold-9 = 0.712074303406
+Fold-10 = 0.715170278638
+----------------------
+Average = 0.729577074495
