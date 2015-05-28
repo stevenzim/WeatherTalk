@@ -14,6 +14,7 @@ from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
 from nltk.stem.porter import *
 from nltk.corpus import stopwords
+import re
 
 
 class Preprocess(object):
@@ -29,6 +30,13 @@ class Preprocess(object):
         self.stopWordRmText = None      #stopwords removed e.g. the, and
         self.stemmedText = None         #stemmed text e.g. running-->run
         self.normalisedText = None      #normalized text e.g. 'and Running'->run
+
+        #Twitter normalization vars
+        self.TweetURLText = None        #tweet with URLs normalised
+        self.TweetUserText = None       #tweet with usernames normalised
+        self.TweetRepeatCharText = None #tweet with repeated chars normalised
+        self.normalisedTweet = None     #fully normalised tweet with all options
+    
 
         self.concatText = None          #concatenation of two desired keys
                                         #e.g. title + body		
@@ -82,6 +90,41 @@ class Preprocess(object):
     def dropKey(self, keyName):
         '''Remove specified Key Value from dictionary'''
         self.kaggleDict.pop(keyName)
-										
+        
+    #twitter normalisation funcs
+    def convertTwitterURL(self, textString):
+        '''Converts all URLs in tweet to "URL" It has been shown in 
+        multiple papers that this is an important preprocessing step'''
+        textString = re.sub(r'https?:\/\/.\S+', "URL",textString)
+        self.TweetURLText = textString
+
+    def convertTwitterUser(self, textString):
+        '''Converts all usernames in tweet to "USER" It has been shown in 
+        multiple papers that this is an important preprocessing step
+        e.g. @DavidCameron becomes USER'''
+        textString = re.sub(r'@\S+', "USER",textString)
+        self.TweetUserText = textString 
+
+    def convertTwitterRepeatedChar(self, textString):
+        '''
+        Converts all alpha-num characters repeated 3 or more times down to 2 
+        in tweet. It has been shown in multiple papers that this  can be useful
+        for improved performance.  There are discrepencies as to the number of
+        characters to remove (e.g. more than 3 becomes 3 vs 3 or more becomes 2
+        example:  "Moonnnnneyyyy!!!!" becomes "Moonneyy!!!!"
+        '''
+        textString =  re.sub(r'(.)\1+', r'\1\1',textString)
+        self.TweetRepeatCharText = textString
+
+
+    def normaliseTweet(self, textString):
+        '''Run all normalisation functions on tweet text string.'''
+        print textString
+        self.convertTwitterURL(textString)
+        self.convertTwitterUser(self.TweetURLText)
+        self.convertTwitterRepeatedChar(self.TweetUserText)
+        self.normalisedTweet=self.TweetRepeatCharText
+
+								
 
 		

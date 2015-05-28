@@ -6,6 +6,7 @@ testDict = {'text' : 'I am here.'}
 testDict2 = {'text' : 'I am doing the tests.',
 	     'title' : 'TESTING'}
 testDict3 = {'text' : 'I am here. I will be home soon.'}
+testTwitterDict1 = {'text' : "@RasmussenPoll01 http://link1.com https://link2.com haaaappppy!"}
 
 def test_set_dict():
 	'''Test to load dictionary'''
@@ -32,18 +33,34 @@ def test_pos_tag():
 
 
 def test_norm():
-        '''Test for normalisation'''
-        preProcObj = preprocess.Preprocess()
-        preProcObj.setDictionary(testDict2)
-        preProcObj.tokenize(preProcObj.kaggleDict.get('text'))
-        preProcObj.lowerCase(preProcObj.tokenizedText)
-	preProcObj.stopWordRm(preProcObj.lowerCaseText)
-	preProcObj.stem(preProcObj.stopWordRmText)
-        assert_equal(preProcObj.lowerCaseText,['i', 'am', 'doing', 'the','tests','.'])
-	assert_equal(preProcObj.stopWordRmText,['tests','.'])
-	assert_equal(preProcObj.stemmedText,['test','.'])
-	preProcObj.normalisation(preProcObj.tokenizedText)
-        assert_equal(preProcObj.normalisedText,['test','.'])
+    '''Test for standard normalisation components'''
+    preProcObj = preprocess.Preprocess()
+    preProcObj.setDictionary(testDict2)
+    preProcObj.tokenize(preProcObj.kaggleDict.get('text'))
+    preProcObj.lowerCase(preProcObj.tokenizedText)
+    preProcObj.stopWordRm(preProcObj.lowerCaseText)
+    preProcObj.stem(preProcObj.stopWordRmText)
+    assert_equal(preProcObj.lowerCaseText,['i', 'am', 'doing', 'the','tests','.'])
+    assert_equal(preProcObj.stopWordRmText,['tests','.'])
+    assert_equal(preProcObj.stemmedText,['test','.'])
+    preProcObj.normalisation(preProcObj.tokenizedText)
+    assert_equal(preProcObj.normalisedText,['test','.'])
+
+     
+def test_twitter_norm():
+    '''Test for normalisation of twitter specific text'''
+    preProcObj = preprocess.Preprocess()
+    #componenent normalisation tests
+    preProcObj.convertTwitterURL('http://link1.com')
+    preProcObj.convertTwitterUser('@RasmussenPoll01')
+    preProcObj.convertTwitterRepeatedChar('haapppyyyy')
+    assert_equal(preProcObj.TweetURLText,'URL')
+    assert_equal(preProcObj.TweetUserText,'USER')
+    assert_equal(preProcObj.TweetRepeatCharText,'haappyy')
+    #full normalisation of tweet test 
+    preProcObj.normaliseTweet(testTwitterDict1['text'])
+    assert_equal(preProcObj.normalisedTweet,'USER URL URL haappy!')
+    
 
 def test_concat():
 	'''Test for field concatenator'''
