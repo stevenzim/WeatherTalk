@@ -8,6 +8,32 @@ import re
 import nltk
 from sklearn.cross_validation import train_test_split as train_valid_split
 
+#Step 1 - Add POS tags, tokens, etc to each dictionary in input json and then output
+def tweetPreprocessedKeyVals(inputJSONfile,outputJSONfile):
+	'''Loads json file to list --> creates object for each dictionary in list
+	Then preprocesses the text data in dictionary (e.g. POS tags, normalisation)
+	Then creates new key value pairs with these processed fields
+	usage: tweetPreprocessedKeyVals("resources/SemEvalTester.json","resources/semevaltester-preprocessed.json")'''
+	list = helper.loadJSONfromFile(inputJSONfile)
+	#count = 1
+	for dict in list:
+		preProcObj = preproc.Preprocess()
+		preProcObj.setDictionary(dict)
+		preProcObj.normaliseTweet(dict["text"])
+		preProcObj.tokenize(preProcObj.normalisedTweet)
+		preProcObj.posTag(preProcObj.tokenizedText)
+		preProcObj.normalisation(preProcObj.tokenizedText)
+		dict["tweet_tokens"] = preProcObj.tokenizedText
+		dict["tweet_POStags"] = preProcObj.POS_TaggedText
+		dict["tweet_norm_text"] = preProcObj.normalisedTweet
+		dict["tweet_norm_tokens"] = preProcObj.normalisedText
+		#print count
+		#count += 1
+	helper.dumpJSONtoFile(outputJSONfile, list)
+
+#######OLDER non-tweet pipeline####################
+#TODO: Remove all code below when new pipeline complete
+
 #Step 1	- Remove desired keys from each dictionary
 def removeNonNeededKeys(inputJSONfile,outputJSONfile):
 	'''Removes keys from training file that are not needed.  
