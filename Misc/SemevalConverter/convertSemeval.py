@@ -38,7 +38,7 @@ def buildOutputDict(csvRow):
     '''
     outputDict = {'tweet_id' : csvRow['tweet_id'],
                 'semeval_id' : csvRow['semeval_id'],
-                'text_orig' : csvRow['tweet'],  
+                'text' : csvRow['tweet'],  
                 #'text_converted' : links_convert(csvRow['tweet']),  
                 #'loc_state' : csvRow['state'],
                 #'loc_city' : csvRow['location'],

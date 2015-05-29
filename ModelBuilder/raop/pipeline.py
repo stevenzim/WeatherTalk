@@ -31,6 +31,78 @@ def tweetPreprocessedKeyVals(inputJSONfile,outputJSONfile):
 		#count += 1
 	helper.dumpJSONtoFile(outputJSONfile, list)
 
+
+	
+def loadTweetFeaturesToNumpy(inputJSONfile, isTest, xt_features_idxs = None):
+    '''Loads Json(output from step 2) file to list --> creates object for 
+       each dictionary in list. Then extract features from each dictionary,
+       and keep it in a feature vector.
+       '''
+    thelist = helper.loadJSONfromFile(inputJSONfile)
+    #featObj = featureextract.FeatureExtract()
+    X_set = []
+    Y_set = []
+
+    for dict in thelist:
+        temp_feat = []
+        temp_addit_feat =[]
+        addit_feat_to_append = []
+        
+   
+        #Base features
+        #Populate the feature vector for each instance with base features
+       
+        temp_feat.append(dict["tweet_norm_text"])
+       
+        #Additional Features
+        #1 = num adjectives/num words
+        #temp_addit_feat.append(\
+        #float(featObj.CountPOSTag(dict["added_POStags"],'JJ')) / \
+        #float(featObj.wordNum))
+        
+        #6 = punctuation
+        #punct_regex = re.compile(r"(!)")
+        #punct_match = re.findall(punct_regex,dict['request_text_edit_aware'])
+        #temp_addit_feat.append(len(punct_match))
+        
+        #7 High likely stems that are true therefore count occurence
+        #stems_regex = re.compile(r"(supermarket|warn|batteri|fold|insurance|preciou|reasons|bonu|skip|insan|lil|struggling|admit|stapl|anticip|compens|constant|corpor|couldnt|deplet|familiar|interact|overal|pinch|pure|rut|shoulder|reserv|packag)")
+        #stems_match = re.findall(stems_regex,dict['request_text_edit_aware'])
+        #temp_addit_feat.append(len(stems_match))
+        
+              
+        #based on input list, add in the specified features.  numbers in list
+        # must match the corresponding numbers in additional features list above
+        if xt_features_idxs != None:
+            for index in xt_features_idxs:
+                addit_feat_to_append.append(temp_addit_feat[index-1])
+                    
+        #extend the feature vector with specified additional features            
+        temp_feat.extend(addit_feat_to_append)        
+        #add the feature vector to X set
+        X_set.append(temp_feat[0])
+
+        
+        if isTest==0: # If the input json file is not the test set
+            # Append the sentiment label to the Y set 
+            Y_set.append(dict["sentiment_num"])
+     
+    
+
+    if isTest ==0:
+        #return both X set and Y set, if the inputJSON is the trainning set
+        return X_set, np.array(Y_set)
+        #return np.array(X_set), np.array(Y_set)
+    else:
+        #return only X set if the inputJSON is the Kaggle test set
+        return X_set
+        #return np.array(X_set)
+        
+        
+#step 3 build model
+#import raop.pipeline as pipe
+#X, y = pipe.loadTweetFeaturesToNumpy('resources/semevaltester-preprocessed.json',0)
+
 #######OLDER non-tweet pipeline####################
 #TODO: Remove all code below when new pipeline complete
 
