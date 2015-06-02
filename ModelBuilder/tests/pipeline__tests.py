@@ -9,13 +9,31 @@ tweetNLPinFileName = "test-data/preTweetNLP-test.json"
 tweetNLPactualOutFileName = "test-data/postTweetNLP-temp.json"
 tweetNLPexpectedOutFileName = "test-data/postTweetNLP-test.json"
 
+semEvalRawFile = "test-data/SemEval/1-SemEvalRaw.json"
+semEvalTemp = "test-data/SemEval/SemEvalTemp.json"
+semEvalTriplesFile = "test-data/SemEval/2-SemEvalTriples.json"
+
+liveTweetsRawFile = "test-data/LiveTweets/1-LiveTweetsRaw.json"
+liveTweetsTemp = "test-data/LiveTweets/LiveTweetsTemp.json"
+liveTweetsTriplesFile = "test-data/LiveTweets/2-LiveTweetsTriples.json"
+
 def test_tweet_part0_tweetNLP():
 	'''Test for part 0 of pipeline. To add TweetNLP results to list of dictionaries'''
+	#basic test
 	expectedOutput = helper.loadJSONfromFile(tweetNLPexpectedOutFileName)
 	pipeline.extractTweetNLPtriples(tweetNLPinFileName,tweetNLPactualOutFileName)
 	actualOutput = helper.loadJSONfromFile(tweetNLPactualOutFileName)
 	assert_equal(expectedOutput,actualOutput)
-
+	#test on semeval input format
+	expectedOutput = helper.loadJSONfromFile(semEvalTriplesFile)
+	pipeline.extractTweetNLPtriples(semEvalRawFile,semEvalTemp)
+	actualOutput = helper.loadJSONfromFile(semEvalTemp)
+	assert_equal(expectedOutput,actualOutput)
+	#test on live tweet input format
+	expectedOutput = helper.loadJSONfromFile(liveTweetsTriplesFile)
+	pipeline.extractTweetNLPtriples(liveTweetsRawFile,liveTweetsTemp)
+	actualOutput = helper.loadJSONfromFile(liveTweetsTemp)
+	assert_equal(expectedOutput,actualOutput)
 
 ####BELOW IS RAOP ORIGINAL STUFF
 

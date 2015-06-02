@@ -1,0 +1,18 @@
+[
+    {
+        "semeval_id": "15140428",
+        "sentiment_num": 1,
+        "sentiment_orig": "positive",
+        "source": "Semeval-train",
+        "text": "R U happy? :)",
+        "tweet_id": "264183816548130816"
+    },
+    {
+        "semeval_id": "18516728",
+        "sentiment_num": -1,
+        "sentiment_orig": "negative",
+        "source": "Semeval-train",
+        "text": "#YesIam @myName",
+        "tweet_id": "264249301910310912"
+    }
+]

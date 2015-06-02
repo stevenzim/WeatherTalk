@@ -74,10 +74,11 @@ class Preprocess(object):
     
     def setNotNormalTokens(self):
         '''With list of tweetNLP tag triples set, creates a list of non-normalised tokens'''
-        #TODO: consider removal of this function.  It is likely we could just keep normalising function,
+        #TODO: consider refactor of this function.  It is likely we could just put everything in normalising function,
         #       However, this is a good basic token list, which could go down various paths of normalisation
         #       Optionally, this could become a very generic function, where the specified triple value is passed including
         #       triple[0] = token, triple[1] = POS, triple[2] = likelihood score
+        #
         if self.tagged_tweet_triples != None:
             tempTokenList = []
             tempPOSList = []
@@ -87,7 +88,7 @@ class Preprocess(object):
                 tempPOSList.append(triple[1])
                 tempConfList.append(triple[2])
                 #dirty feature extract
-                #TODO: Change this to its own method in next version, just need to get something working
+                #TODO: Put feature extraction in seperate method, just need to get something working
                 #set hashtag feature
                 if triple[1] == '#':
                     self.hashtag_present = True

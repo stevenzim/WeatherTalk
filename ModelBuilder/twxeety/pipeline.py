@@ -30,8 +30,12 @@ def extractTweetNLPtriples(inputJSONfile,outputJSONfile):
 	    listOfDicts[idx]['tagged_tweet_triples'] = triple
 
 	helper.dumpJSONtoFile(outputJSONfile, listOfDicts)
+	
+	
+#Step 1 - PROTOTYPE - extract some features and dump to JSON
+#TODO:
 
-#Step 1 - Add POS tags, tokens, etc to each dictionary in input json and then output
+#Step 1 (original tweet preprocessor before reading SemEval papers) - Add POS tags, tokens, etc to each dictionary in input json and then output
 def tweetPreprocessedKeyVals(inputJSONfile,outputJSONfile):
 	'''Loads json file to list --> creates object for each dictionary in list
 	Then preprocesses the text data in dictionary (e.g. POS tags, normalisation)
