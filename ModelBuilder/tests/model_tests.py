@@ -1,5 +1,5 @@
 from nose.tools import *
-import raop.model.ml as model
+import twxeety.model.ml as model
 from sklearn import datasets
 from sklearn import svm
 from sklearn.externals import joblib

@@ -1,5 +1,5 @@
 from nose.tools import *
-import raop.featureextract.featureextract as featureextract
+import twxeety.featureextract.featureextract as featureextract
 from nltk.tokenize import word_tokenize
 
 def testEvidence():

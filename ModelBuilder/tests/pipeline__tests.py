@@ -1,14 +1,33 @@
 from nose.tools import *
-import raop.helper as helper
-import raop.pipeline as pipeline
+import twxeety.helper as helper
+import twxeety.pipeline as pipeline
 import os
 import numpy as np
+
+
+tweetNLPinFileName = "test-data/preTweetNLP-test.json"
+tweetNLPactualOutFileName = "test-data/postTweetNLP-temp.json"
+tweetNLPexpectedOutFileName = "test-data/postTweetNLP-test.json"
+
+def test_tweet_part0_tweetNLP():
+	'''Test for part 0 of pipeline. To add TweetNLP results to list of dictionaries'''
+	expectedOutput = helper.loadJSONfromFile(tweetNLPexpectedOutFileName)
+	pipeline.extractTweetNLPtriples(tweetNLPinFileName,tweetNLPactualOutFileName)
+	actualOutput = helper.loadJSONfromFile(tweetNLPactualOutFileName)
+	assert_equal(expectedOutput,actualOutput)
+
+
+####BELOW IS RAOP ORIGINAL STUFF
 
 keysInFileName = "test-data/oneJSONentry.json"
 keysOutFileName = "test-data/output-part1-keys-removed-oneJSONentry.json"
 inFileName = "test-data/utf-encoding-test.json"
 outFileName = "test-data/output-part2-utf-encoding-test.json"
 outTestFileName = "test-data/output-part2-utf-encoding-test-testset.json"
+
+
+
+
 
 def test_part1_remove_keys():
 	'''Test for part 1 of pipeline. The keys listed in function must be removed'''
