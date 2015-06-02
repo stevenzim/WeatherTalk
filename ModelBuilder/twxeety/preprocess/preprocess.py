@@ -39,25 +39,116 @@ class Preprocess(object):
         
         #Twitter normalization/feature extraction vars adapted from RTRGO 
         '''See Semeval2014 conference proceeding RTRGO: enghancing the GU-MLT-LT
-        System for Sentiment Analysis of Short Messages'''
+        System for Sentiment Analysis of Short Messages 
+        & twitterNLP from Carnegie Mellon'''
         self.tagged_tweet_triples = tweet_triples #As extracted by the tweet tagger 
                                                   #developed at carnegie mellon
                                                   #see Paper by Owoputi et. al 2013
                                                   #NOTE: These are stored in a dictionary
                                                   # via twxeety.pipeline.extractTweetNLPtriples
-        self.normal_tokens_rtrgo = None   #Normalised tokens per RTRGO paper
-        self.normal_string_rtrgo = None   #Concatenation of list items in normal_tokens_rtrgo
-                                          #This is used to simplify the vectorization process
-                                          #in scikit learn
-        self.stemmed_tokens_rtrgo = None  #stemmed version of normalized tokens
+        self.not_normal_tokens_rtrgo = None #Pre-normalised tokens listOfTokensTags
+        self.pos_tweet_tags = None          #POS tags from triples returned from twitterNLP
+        self.pos_tweet_tag_conf = None      #Confidence score for POS tag from twitterNLP
+        self.normal_tokens_rtrgo = None     #Normalised tokens per RTRGO paper
+        self.normal_string_rtrgo = None     #Concatenation of list items in normal_tokens_rtrgo
+                                            #This is used to simplify the vectorization process
+                                            #in scikit learn
+        self.hashtag_present = False        #If hashtag present in Tweet, then true
+        self.urloremail_present = False     #If URL/Email present in Tweet, then true
+        self.questmark_present = False      #If question mark token present in Tweet, then true
+                                          
+                           
+
     
 
         self.concatText = None          #concatenation of two desired keys
                                         #e.g. title + body		
 
-    #twitter normalization/feature extraction    
+    #twitter normalization/feature extraction based on RTRGO papers
+    #TODO: Consider additional normalisation and features per paper, 
+    #       1 - currently only removing # and convert to lowercase
+    #       2 - Don't yet know how to remove punctuation and tokens from bigrams so not doing that
+    #       3 - Not using word stems or clusters
+    #       4 - Not using a sentiment lexicon yet
+    #       5 - Not implementing anything else below sentiment lexica
+    
+    def setNotNormalTokens(self):
+        '''With list of tweetNLP tag triples set, creates a list of non-normalised tokens'''
+        #TODO: consider removal of this function.  It is likely we could just keep normalising function,
+        #       However, this is a good basic token list, which could go down various paths of normalisation
+        #       Optionally, this could become a very generic function, where the specified triple value is passed including
+        #       triple[0] = token, triple[1] = POS, triple[2] = likelihood score
+        if self.tagged_tweet_triples != None:
+            tempTokenList = []
+            tempPOSList = []
+            tempConfList = []
+            for triple in self.tagged_tweet_triples:
+                tempTokenList.append(triple[0])
+                tempPOSList.append(triple[1])
+                tempConfList.append(triple[2])
+                #dirty feature extract
+                #TODO: Change this to its own method in next version, just need to get something working
+                #set hashtag feature
+                if triple[1] == '#':
+                    self.hashtag_present = True
+                #set url/email feature 
+                if triple[1] == 'U':
+                    self.urloremail_present = True
+                #set question mark feature
+                if triple[0] == '?':
+                    self.questmark_present = True
+            self.not_normal_tokens_rtrgo = tempTokenList
+            self.pos_tweet_tags = tempPOSList
+            self.pos_tweet_tag_conf = tempConfList   #Not used or tested currently  Perhaps consider later
 
-    #original raop functions
+    def setNormalTokensRTRGO(self, nonNormalTokenList):
+        '''Given list of tweetNLP non-normalised tokens, normalise tokens per RTRGO'''
+        tempTokenList = []
+        for token in nonNormalTokenList:
+            tempToken = token.lower()
+            tempToken = tempToken.replace("#","")
+            tempTokenList.append(tempToken) 
+        self.normal_tokens_rtrgo = tempTokenList
+        #concatenat normalized token list into string with spaces in between
+        #this is done for simplification of vectorization process in scikit learn
+        self.normal_string_rtrgo = ' '.join(tempTokenList)
+        
+
+    #twitter normalisation funcs (ORIGINALs before Semeval papers e.g. RTRGO)
+    def convertTwitterURL(self, textString):
+        '''Converts all URLs in tweet to "URL" It has been shown in 
+        multiple papers that this is an important preprocessing step'''
+        textString = re.sub(r'https?:\/\/.\S+', "URL",textString)
+        self.TweetURLText = textString
+
+    def convertTwitterUser(self, textString):
+        '''Converts all usernames in tweet to "USER" It has been shown in 
+        multiple papers that this is an important preprocessing step
+        e.g. @DavidCameron becomes USER'''
+        textString = re.sub(r'@\S+', "USER",textString)
+        self.TweetUserText = textString 
+
+    def convertTwitterRepeatedChar(self, textString):
+        '''
+        Converts all alpha-num characters repeated 3 or more times down to 2 
+        in tweet. It has been shown in multiple papers that this  can be useful
+        for improved performance.  There are discrepencies as to the number of
+        characters to remove (e.g. more than 3 becomes 3 vs 3 or more becomes 2
+        example:  "Moonnnnneyyyy!!!!" becomes "Moonneyy!!!!"
+        '''
+        textString =  re.sub(r'(.)\1+', r'\1\1',textString)
+        self.TweetRepeatCharText = textString
+
+
+    def normaliseTweet(self, textString):
+        '''Run all normalisation functions on tweet text string.'''
+        print textString
+        self.convertTwitterURL(textString)
+        self.convertTwitterUser(self.TweetURLText)
+        self.convertTwitterRepeatedChar(self.TweetUserText)
+        self.normalisedTweet=self.TweetRepeatCharText
+
+    ######original raop functions  TODO: some of these could be removed
     def setDictionary(self,dictionary):
         '''Sets the dictionary'''
         self.kaggleDict = dictionary
@@ -108,39 +199,7 @@ class Preprocess(object):
         '''Remove specified Key Value from dictionary'''
         self.kaggleDict.pop(keyName)
         
-    #twitter normalisation funcs (ORIGINALs before Semeval papers e.g. RTRGO)
-    def convertTwitterURL(self, textString):
-        '''Converts all URLs in tweet to "URL" It has been shown in 
-        multiple papers that this is an important preprocessing step'''
-        textString = re.sub(r'https?:\/\/.\S+', "URL",textString)
-        self.TweetURLText = textString
 
-    def convertTwitterUser(self, textString):
-        '''Converts all usernames in tweet to "USER" It has been shown in 
-        multiple papers that this is an important preprocessing step
-        e.g. @DavidCameron becomes USER'''
-        textString = re.sub(r'@\S+', "USER",textString)
-        self.TweetUserText = textString 
-
-    def convertTwitterRepeatedChar(self, textString):
-        '''
-        Converts all alpha-num characters repeated 3 or more times down to 2 
-        in tweet. It has been shown in multiple papers that this  can be useful
-        for improved performance.  There are discrepencies as to the number of
-        characters to remove (e.g. more than 3 becomes 3 vs 3 or more becomes 2
-        example:  "Moonnnnneyyyy!!!!" becomes "Moonneyy!!!!"
-        '''
-        textString =  re.sub(r'(.)\1+', r'\1\1',textString)
-        self.TweetRepeatCharText = textString
-
-
-    def normaliseTweet(self, textString):
-        '''Run all normalisation functions on tweet text string.'''
-        print textString
-        self.convertTwitterURL(textString)
-        self.convertTwitterUser(self.TweetURLText)
-        self.convertTwitterRepeatedChar(self.TweetUserText)
-        self.normalisedTweet=self.TweetRepeatCharText
 
 								
 

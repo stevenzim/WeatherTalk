@@ -17,7 +17,7 @@ import shlex
 # NOTE this command is directly lifted from runTagger.sh
 #RUN_TAGGER_CMD = "java -XX:ParallelGCThreads=2 -Xmx500m -jar ark-tweet-nlp-0.3.2.jar"
 #TODO: If time, figure out way to not hard code full path to jar, no luck finding a solution so far
-RUN_TAGGER_CMD = "java -XX:ParallelGCThreads=2 -Xmx500m -jar /home/steven/Desktop/T/WeatherTalk/ModelBuilder/twxeety/tnlp/ark-tweet-nlp-0.3.2.jar"
+RUN_TAGGER_CMD = "java -XX:ParallelGCThreads=2 -Xmx500m -jar /home/steven/Desktop/T/WeatherTalk/ModelBuilder/twxeety/tweetNLP/ark-tweet-nlp-0.3.2.jar"
 
 
 def _split_results(rows):

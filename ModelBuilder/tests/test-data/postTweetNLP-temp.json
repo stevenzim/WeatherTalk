@@ -14,34 +14,39 @@
             [
                 "you",
                 "O",
-                0.9987
+                0.9978
             ],
             [
-                ".",
+                "?",
                 ",",
-                0.9996
+                0.9995
             ]
         ],
-        "text": "I am you."
+        "text": "I am you?"
     },
     {
         "tagged_tweet_triples": [
             [
+                "@user",
                 "@",
-                "P",
-                0.561
+                0.9987
             ],
             [
                 "http://you.com",
                 "U",
-                0.9949
+                0.9935
             ],
             [
                 ":)",
                 "E",
-                0.9943
+                0.9887
+            ],
+            [
+                "#HAAPPPY",
+                "#",
+                0.889
             ]
         ],
-        "text": "@ http://you.com :)"
+        "text": "@user http://you.com :) #HAAPPPY"
     }
 ]
