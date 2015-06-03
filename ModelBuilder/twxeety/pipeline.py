@@ -102,7 +102,7 @@ def loadTweetFeaturesToNumpy(inputJSONfile, isTest, xt_features_idxs = None):
         #Populate the feature vector for each instance with base features
        
         #temp_feat.append(dict["tweet_norm_text"])
-        temp_feat.append(dict["text"])
+        temp_feat.append(dict["normal_string_rtrgo"])
        
         #Additional Features
         #1 = num adjectives/num words
@@ -152,6 +152,23 @@ def loadTweetFeaturesToNumpy(inputJSONfile, isTest, xt_features_idxs = None):
 #step 3 build model
 #import twxeety.pipeline as pipe
 #X, y = pipe.loadTweetFeaturesToNumpy('resources/semevaltester-preprocessed.json',0)
+
+
+def testBuildAdditionalFeatArray(inputJSONfile):
+    thelist = helper.loadJSONfromFile(inputJSONfile)
+    X_set = []
+    Y_set = []
+    
+    for dict in thelist:
+        temp_feat = []
+               
+        temp_feat.append(dict["hashtag_present"])
+        temp_feat.append(dict["urloremail_present"])
+        temp_feat.append(dict["questmark_present"])   
+        #add the feature vector to X set
+        X_set.append(temp_feat)
+    return numpy.array(X_set)
+
 
 #######OLDER non-tweet pipeline####################
 #TODO: Remove all code below when new pipeline complete
