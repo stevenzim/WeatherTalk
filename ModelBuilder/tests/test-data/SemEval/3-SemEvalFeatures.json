@@ -1,15 +1,5 @@
 [
     {
-        "hashtag_present": false,
-        "normal_string_rtrgo": "r u happy ? :)",
-        "normal_tokens_rtrgo": [
-            "r",
-            "u",
-            "happy",
-            "?",
-            ":)"
-        ],
-        "questmark_present": true,
         "semeval_id": "15140428",
         "sentiment_num": 1,
         "sentiment_orig": "positive",
@@ -43,16 +33,19 @@
         ],
         "text": "R U happy? :)",
         "tweet_id": "264183816548130816",
-        "urloremail_present": false
+        "normal_tokens_rtrgo":[
+            "r",
+            "u",
+            "happy",
+            "?",
+            ":)"
+        ],
+        "normal_string_rtrgo":"r u happy ? :)",
+        "hashtag_present":false,
+        "urloremail_present":false,
+        "questmark_present":true        
     },
     {
-        "hashtag_present": true,
-        "normal_string_rtrgo": "yesiam @myname",
-        "normal_tokens_rtrgo": [
-            "yesiam",
-            "@myname"
-        ],
-        "questmark_present": false,
         "semeval_id": "18516728",
         "sentiment_num": -1,
         "sentiment_orig": "negative",
@@ -71,6 +64,13 @@
         ],
         "text": "#YesIam @myName",
         "tweet_id": "264249301910310912",
-        "urloremail_present": false
+        "normal_tokens_rtrgo":[
+            "yesiam",
+            "@myname"
+        ],
+        "normal_string_rtrgo":"yesiam @myname",
+        "hashtag_present":true,
+        "urloremail_present":false,
+        "questmark_present":false
     }
 ]

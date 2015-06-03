@@ -25,6 +25,8 @@ def extractTweetNLPtriples(inputJSONfile,outputJSONfile):
 	tweetNLPtriples = tweetNLPtagger.runtagger_parse(listOfTweets)
 	
 	for idxAndTriple in enumerate(tweetNLPtriples):
+	#TODO: Caution...It is assumed an equal number of elements exists in tweet triples
+	#         list and dictionary list. Some error handling is potentially useful  
 	    idx = idxAndTriple[0]
 	    triple = idxAndTriple[1]
 	    listOfDicts[idx]['tagged_tweet_triples'] = triple
@@ -33,7 +35,27 @@ def extractTweetNLPtriples(inputJSONfile,outputJSONfile):
 	
 	
 #Step 1 - PROTOTYPE - extract some features and dump to JSON
-#TODO:
+def extractTweetNLPfeatures(inputJSONfile,outputJSONfile):
+	'''
+	Prov
+	usage: tweetPreprocessedKeyVals("resources/preTweetNLP.json","resources/postTweetNLP.json")'''
+	list = helper.loadJSONfromFile(inputJSONfile)  #load list of tweet dicts
+	#count = 1
+	#normalize text, produce and add potentially useful features and add to dictionary
+	for dict in list:
+		addFeatObj = preproc.Preprocess(tweet_triples = dict["tagged_tweet_triples"])
+		addFeatObj.setNotNormalTokens()
+		addFeatObj.setNormalTokensRTRGO(addFeatObj.not_normal_tokens_rtrgo)
+		dict["normal_tokens_rtrgo"] = addFeatObj.normal_tokens_rtrgo
+		dict["normal_string_rtrgo"] = addFeatObj.normal_string_rtrgo
+		dict["hashtag_present"] = addFeatObj.hashtag_present
+		dict["urloremail_present"] = addFeatObj.urloremail_present
+		dict["questmark_present"] = addFeatObj.questmark_present
+		#print count
+		#count += 1
+    #dump out updated list of dictionaries to JSON
+	helper.dumpJSONtoFile(outputJSONfile, list)
+
 
 #Step 1 (original tweet preprocessor before reading SemEval papers) - Add POS tags, tokens, etc to each dictionary in input json and then output
 def tweetPreprocessedKeyVals(inputJSONfile,outputJSONfile):

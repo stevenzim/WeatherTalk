@@ -73,7 +73,8 @@ class Preprocess(object):
     #       5 - Not implementing anything else below sentiment lexica
     
     def setNotNormalTokens(self):
-        '''With list of tweetNLP tag triples set, creates a list of non-normalised tokens'''
+        '''Assuming list of tweetNLP tag triples was set at object initialisation, 
+        creates a list of non-normalised tokens'''
         #TODO: consider refactor of this function.  It is likely we could just put everything in normalising function,
         #       However, this is a good basic token list, which could go down various paths of normalisation
         #       Optionally, this could become a very generic function, where the specified triple value is passed including
