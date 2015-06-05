@@ -4,6 +4,8 @@ import twxeety.pipeline as pipeline
 import os
 import numpy as np
 
+#TODO: REVIEW THIS WHEN PROTOTYPE COMPLETE MOST (IF NOT ALL) CAN BE REMOVED
+
 tweetNLPactualOutFileName = "test-data/postTweetNLP-temp.json"
 tweetNLPinFileName = "test-data/preTweetNLP-test.json"
 tweetNLPexpectedOutFileName = "test-data/postTweetNLP-test.json"

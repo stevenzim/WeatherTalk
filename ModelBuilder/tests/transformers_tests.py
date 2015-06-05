@@ -14,21 +14,31 @@ doc2features = {"questmark_present":False,
                 "hashtag_present":True}
 listOfDocsFeats = [doc1features,doc2features]
 
+listOfTriples2 = [[['#Hello','#',.9],['Woorrlld','N',.9]]]
+listOfTriples3 = [listOfTriples2[0],listOfTriples2[0]]
 
 
-def test_docs_and_triples_extractor():
-	'''test to confirm docs and triples are correctly extracted from list of dicts'''
-	#test 1, docs and triples only
-	d = transformer.DocsTriplesYsExtractor()
-	docs,triples = d.transform(listOfDicts,'doc','triple')
-	assert_equal(docs,['abc','def'])
-	assert_equal(triples,[[0,5,6],[1,2,3]])
-	#test 2, docs, triples and ys(e.g. expected results)
-	d = transformer.DocsTriplesYsExtractor()
-	docs,triples,ys = d.transform(listOfDicts,'doc','triple','expect')
-	assert_equal(docs,['abc','def'])
-	assert_equal(triples,[[0,5,6],[1,2,3]])
-	assert_equal(ys,[True,False])
+def test_triples_and_ys_extractor():
+    '''test to confirm triples and ys(expected output) are correctly extracted from list of dicts'''
+    #test 1, triples only
+    d = transformer.TriplesYsExtractor()
+    triples = d.transform(listOfDicts,'triple')
+    assert_equal(triples,[[0,5,6],[1,2,3]])
+    #test 2, triples and ys
+    d = transformer.TriplesYsExtractor()
+    triples, ys = d.transform(listOfDicts,'triple','expect')
+    assert_equal(triples,[[0,5,6],[1,2,3]])
+    assert_equal(ys,[True,False])
+
+def test_docs_extractor():
+    '''Test to confirm list of normalised docs are returned provided triples containing tokens'''
+    d = transformer.DocsExtractor()
+    #no docs test
+    assert_equal(d.transform([]),[])
+    #single doc test
+    assert_equal(d.transform(listOfTriples2),['hello woorrlld'])
+    #multiple docs test
+    assert_equal(d.transform(listOfTriples3),['hello woorrlld','hello woorrlld'])    
 
 def test_text_features_extractor():
     '''test to confirm features are correctly extracted from triples'''

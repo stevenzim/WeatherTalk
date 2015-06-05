@@ -16,7 +16,7 @@ from nltk.stem.porter import *
 from nltk.corpus import stopwords
 import re
 
-
+#TODO: REVIEW THIS WHEN PROTOTYPE COMPLETE MOST (IF NOT ALL) CAN BE REMOVED
 class Preprocess(object):
     def __init__(self,tweet_triples = None):
         '''Initialize the preprocessing class'''

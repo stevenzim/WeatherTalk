@@ -9,6 +9,9 @@ import re
 import nltk
 from sklearn.cross_validation import train_test_split as train_valid_split
 
+#TODO: REVIEW THIS WHEN PROTOTYPE COMPLETE MOST (IF NOT ALL) CAN BE REMOVED
+
+
 #Step 0 - Run TweetNLP on list of dictionaries
 def extractTweetNLPtriples(inputJSONfile,outputJSONfile):
 	'''Loads json file to list --> creates list of tweets for all dictionaries in list

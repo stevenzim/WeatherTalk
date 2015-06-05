@@ -2,7 +2,7 @@ from nose.tools import *
 import twxeety.preprocess.preprocess as preprocess
 import twxeety.helper as helper
 
-
+#TODO: REVIEW THIS WHEN PROTOTYPE COMPLETE MOST (IF NOT ALL) CAN BE REMOVED
 testTwitterDict1 = {'text' : "@RasmussenPoll01 http://link1.com https://link2.com haaaappppy!"}
 listOfTweetDicts = helper.loadJSONfromFile("test-data/postTweetNLP-test.json")
 testTriple1 = listOfTweetDicts[0]["tagged_tweet_triples"]
