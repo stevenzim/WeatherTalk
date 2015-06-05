@@ -30,13 +30,40 @@ class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
     NOTE: you can pass in list of keys to drop, where key name is representitive of features
     you don't want"""
     #TODO: Verify that when no features returned, that it will still append to other features
+    
+    def boolTest(self, docTripleSet,tripleIdx,stringToTest):
+        '''
+        docTripleSet = tripleSet for current document
+        tripleIdx --> 0 = token, 1 = POS tag, 2 = confidence
+        itemToTest --> Will test if this string exist in current document tokens/POS_TaggedText
+        breaks out when True occurs
+        '''
+        #TODO: change this to re.search and also consider adding functionality for confidence score
+        #TODO: optionally consider adding in exception error for confidence score to prevent it from being used
+        for triple in docTripleSet:
+            if triple[tripleIdx] == stringToTest:
+                return True
+                break
+        return False
+            
+#        return len(tripleSet)
+#     
+#                if triple[1] == '#':
+#                    self.hashtag_present = True
+#                #set url/email feature 
+#                if triple[1] == 'U':
+#                    self.urloremail_present = True
+#                #set question mark feature
+#                if triple[0] == '?':
+#                    self.questmark_present = True
     def fit(self, x, y=None):
         return self
     def transform(self, listOfTriples, keysToDrop=[]):
-        listOfStats = [{'length': len(tripleSetCurrentDoc),\
-                    'test': len(tripleSetCurrentDoc)}\
+        listOfStats = [{'questmark_present': self.boolTest(tripleSetCurrentDoc,0,'?'),\
+                    'urloremail_present': self.boolTest(tripleSetCurrentDoc,1,'U'),\
+                    "hashtag_present":self.boolTest(tripleSetCurrentDoc,1,'#')}\
                      for tripleSetCurrentDoc in listOfTriples]
-        listToReturn = dropKeysVals(listOfStats, keysToDrop)
+        listToReturn = helper.dropKeysVals(listOfStats, keysToDrop)
         return listToReturn
 
 
