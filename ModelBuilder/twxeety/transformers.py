@@ -1,14 +1,9 @@
-import numpy as np
-import string #necessary for analyzer option for feature extractors to split unicode and strings
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import (Pipeline,FeatureUnion)
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import (CountVectorizer, TfidfTransformer, TfidfVectorizer)
+import string #necessary for analyzer option for feature extractors to split unicode and strings
 import helper
-
-#TODO: BIG ITEMS -
-#3) Grid Search with options dictionary
-
 
 class TriplesYsExtractor(BaseEstimator, TransformerMixin):
     '''Provided a list of dictionaries containing triples created by Twitter NLP
@@ -34,36 +29,7 @@ class TriplesYsExtractor(BaseEstimator, TransformerMixin):
         else:
             return triplesList    #no expected results, therefore don't return ys
 
-
-
-#EXAMPLE PIPELINE
-#from sklearn.linear_model import SGDClassifier
-#from sklearn.grid_search import GridSearchCV
-#ngramCountPipe = Pipeline([\
-#            ('docs',tran.DocsExtractor()),\
-#            ('count',tran.CountVectorizer(analyzer=string.split))])
-
-#ngramTfidfPipe = Pipeline([\
-#            ('docs',tran.DocsExtractor()),\
-#            ('tf-idf',tran.TfidfVectorizer(analyzer=string.split))])
-
-#otherFeaturesPipe = Pipeline([\
-#            ('text-feats-dict',tran.TextFeaturesExtractor()),\
-#            ('text-feats-vec',tran.DictVectorizer())])
-
-#features = FeatureUnion([
-#            ('ngrams',ngramCountPipe),
-#            ('others',otherFeaturesPipe)])
-
-#pipeline = Pipeline([\
-#            ('features',features),
-#            ('clf',SGDClassifier())])
-
-#inFile = 'tests/test-data/SemEval/3-SemEvalFeatures.json'
-#data = helper.loadJSONfromFile(inFile)           
-#ed = tran.DocsTriplesYsExtractor()
-#docsList, triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
-   
+ 
 class DocsExtractor(BaseEstimator, TransformerMixin):
     '''Provided a list of documents containing TweetNLP triples.  
     Fully extract and normalize the text to string format necessary for Doc or Idf vectorizers'''

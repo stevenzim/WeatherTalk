@@ -8,6 +8,7 @@ import os
 import re
 import nltk
 from sklearn.cross_validation import train_test_split as train_valid_split
+from time import time
 
 #TODO: REVIEW THIS WHEN PROTOTYPE COMPLETE MOST (IF NOT ALL) CAN BE REMOVED
 
@@ -25,8 +26,13 @@ def extractTweetNLPtriples(inputJSONfile,outputJSONfile):
 	for dict in listOfDicts:
 	    listOfTweets.append(dict["text"])
 	
+	print "Running TweetNLP On:"
+	print len(listOfTweets)
+	t0 = time()
+
 	tweetNLPtriples = tweetNLPtagger.runtagger_parse(listOfTweets)
-	
+	print "Done with NLP extractor"
+	print("done in %0.3fs" % (time() - t0))
 	for idxAndTriple in enumerate(tweetNLPtriples):
 	#TODO: Caution...It is assumed an equal number of elements exists in tweet triples
 	#         list and dictionary list. Some error handling is potentially useful  
