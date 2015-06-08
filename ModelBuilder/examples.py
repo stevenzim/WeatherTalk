@@ -8,6 +8,21 @@ inFile = 'resources/SemTrain.json'
 outFile = 'resources/SemTrainTriples.json'
 pipeline.extractTweetNLPtriples(inFile,outFile)
 
+from twxeety import pipeline
+inFile = 'resources/SemDev.json'
+outFile = 'resources/SemDevTriples.json'
+pipeline.extractTweetNLPtriples(inFile,outFile)
+
+from twxeety import pipeline
+inFile = 'resources/SemTest2013.json'
+outFile = 'resources/SemTest2013Triples.json'
+pipeline.extractTweetNLPtriples(inFile,outFile)
+
+
+from twxeety import pipeline
+inFile = 'resources/SemTest.json'
+outFile = 'resources/SemTestTriples.json'
+pipeline.extractTweetNLPtriples(inFile,outFile)
 
 #EXAMPLE 1 - MY FIRST PIPELINE WITH FEATURE UNION
 from twxeety import helper
@@ -27,7 +42,7 @@ ngramTfidfPipe = Pipeline([\
             ('tf-idf',tran.TfidfVectorizer(analyzer=string.split))])
 
 otherFeaturesPipe = Pipeline([\
-            ('text-feats-dict',tran.TextFeaturesExtractor()),\
+            ('text-feats-dict',tran.TextFeaturesExtractor(keysToDrop=['urloremail_present',"hashtag_present"])),\
             ('text-feats-vec',tran.DictVectorizer())])
 
 features = FeatureUnion([
@@ -37,7 +52,8 @@ features = FeatureUnion([
 pipeline = Pipeline([\
             ('features',features),
             ('clf',SGDClassifier())])
-
+            
+##nestpipline example
 nestedfeatures = FeatureUnion([
             ('ngrams-idf',Pipeline([\
                             ('docs',tran.DocsExtractor()),\
@@ -81,8 +97,6 @@ nestedparameters = {'features__others__text-feats-dict__keysToDrop':\
                      ['urloremail_present']]}
                      # ['questmark_present','urloremail_present',"hashtag_present"]]}
 
-(['questmark_present'],\
-['questmark_present','urloremail_present',"hashtag_present"])
 
 #1a - extract triples and ys
 inFile = 'tests/test-data/SemEval/3-SemEvalFeatures.json'
@@ -109,18 +123,32 @@ triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
 pipeline.fit(triplesList,ysList)
 joblib.dump(pipeline, 'test.pkl') 
 loadedpipe = joblib.load('test.pkl')
-loadedpipe.predict(otherList)
 
-#1e gridsearch with nested parameters
-inFile = 'resources/SemTrainTriples.json'
+#1e - predict on dev/test data and output precision, recall f1
+'''Must complete steps in 1d  and load pipeline first'''
+#dev
+inFile = 'resources/SemDevTriples.json'
 data = helper.loadJSONfromFile(inFile)           
 ed = tran.TriplesYsExtractor()
-triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
-nestedparameters = {'features__others__text-feats-dict__keysToDrop':\
-                     [['questmark_present'],\
-                     ['urloremail_present']]}
-y10=ysList[0:10]
-t10 = triplesList[0:10]
+triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(triplesList)
+print helper.evaluateResults(expected_ys,predicted_ys)
+#test
+inFile = 'resources/SemTestTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(triplesList)
+print helper.evaluateResults(expected_ys,predicted_ys)
+#test2013
+inFile = 'resources/SemTest2013Triples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(triplesList)
+print helper.evaluateResults(expected_ys,predicted_ys)
+
+
 
 
 #EXAMPLE 2 - GRIDSEARCH
@@ -224,7 +252,7 @@ nestedpipeline= Pipeline([('text-feats-dict',tran.TextFeaturesExtractor()),\
                     ('text-feats-vec',tran.DictVectorizer()),\
                     ('clf',SGDClassifier())])
 nestedparameters = {
-    'text-feats-dict__keysToDrop':(['questmark_present','urloremail_present'])
+    'text-feats-dict__keysToDrop':(['questmark_present'],['urloremail_present'],['questmark_present','urloremail_present'])
 }
 
 #complexpipe

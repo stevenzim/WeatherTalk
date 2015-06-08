@@ -55,8 +55,9 @@ class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
     """Extract features from each document which can then be passed to DictVectorizer
     NOTE: you can pass in list of keys to drop, where key name is representitive of features
     you don't want"""
-    #TODO: Verify that when no features returned, that it will still append to other features
-    
+    #TODO: Dealwith/Debug situation when no additional features will be added
+    #      fit transform does not like it when all features are removed.
+    #      WORKAROUND IS TO REMOVE THIS STEP FROM PIPELINE
     def __init__(self,keysToDrop=[]):
         #added this to allow for grid search to work.  Per discussuion:
         # http://stackoverflow.com/questions/23174964/how-to-gridsearch-over-transform-arguments-within-a-pipeline-in-scikit-learn
@@ -79,12 +80,16 @@ class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
         return False
             
 
-    def fit(self, x,keysToDrop=[], y=None):
+    def fit(self, x,y=None):
+        #print "fit"
+        #print self.keysToDrop
+#        if keysToDrop != []:
+#            self.keysToDrop = keysToDrop
         return self
 
-    def transform(self, listOfTriples, keysToDrop=[]):
-        print "Hello"
-        print keysToDrop
+    def transform(self, listOfTriples,keysToDrop=[]):
+        #print "transform"
+        #print self.keysToDrop
         if keysToDrop != []:
             self.keysToDrop = keysToDrop
             
@@ -92,6 +97,10 @@ class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
                     'urloremail_present': self.boolTest(tripleSetCurrentDoc,1,'U'),\
                     "hashtag_present":self.boolTest(tripleSetCurrentDoc,1,'#')}\
                      for tripleSetCurrentDoc in listOfTriples]
+#        print "Hello 1"
+#        print self.keysToDrop
+#        print "Hello 2"
+#        print keysToDrop
         listToReturn = helper.dropKeysVals(listOfStats, self.keysToDrop)
         return listToReturn
 

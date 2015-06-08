@@ -1,5 +1,6 @@
 import json
 import twxeety.preprocess.preprocess as preprocess
+from sklearn.metrics import classification_report
 
 #load json
 def loadJSONfromFile(fileName):	
@@ -16,6 +17,11 @@ def dumpJSONtoFile(fileName , dataToDump):
 		usage: dumpJSONtoFile("FileName", myListOfDicts)'''
 	with open(fileName, 'w') as outfile:
 		json.dump(dataToDump, outfile ,sort_keys=True, indent=4, separators=(',', ': '))
+
+#produce model metrics		
+def evaluateResults(y_expected,y_predicted):
+    '''Get evaluation results e.g. Precision, Recall and F1 scores'''
+    return classification_report(y_expected,y_predicted)
 		
 #drop keys and vals from list of dicts based on list of keys to drop, default is none		
 def dropKeysVals(listOfDicts, keysToDrop = []):
@@ -37,7 +43,6 @@ def dropKeysVals(listOfDicts, keysToDrop = []):
     # to drop and drop key --> then add updated dictionary to return list 
     returnList = []
     for dictionary in listOfDicts:
-        print dictionary
         for keyName in keysToDrop:
             try:
                 dictionary.pop(keyName)
