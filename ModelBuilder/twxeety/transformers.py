@@ -57,6 +57,12 @@ class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
     you don't want"""
     #TODO: Verify that when no features returned, that it will still append to other features
     
+    def __init__(self,keysToDrop=[]):
+        #added this to allow for grid search to work.  Per discussuion:
+        # http://stackoverflow.com/questions/23174964/how-to-gridsearch-over-transform-arguments-within-a-pipeline-in-scikit-learn
+        # BaseEstimator requires __init__ in order for GridSearchCV to iterate over passed in params
+        self.keysToDrop = keysToDrop
+    
     def boolTest(self, docTripleSet,tripleIdx,stringToTest):
         '''
         docTripleSet = tripleSet for current document
@@ -73,16 +79,20 @@ class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
         return False
             
 
-    def fit(self, x, y=None):
+    def fit(self, x,keysToDrop=[], y=None):
         return self
 
     def transform(self, listOfTriples, keysToDrop=[]):
-        #TODO: Need to confirm that order is guaranteed when these results are passed to DictVectorizer
+        print "Hello"
+        print keysToDrop
+        if keysToDrop != []:
+            self.keysToDrop = keysToDrop
+            
         listOfStats = [{'questmark_present': self.boolTest(tripleSetCurrentDoc,0,'?'),\
                     'urloremail_present': self.boolTest(tripleSetCurrentDoc,1,'U'),\
                     "hashtag_present":self.boolTest(tripleSetCurrentDoc,1,'#')}\
                      for tripleSetCurrentDoc in listOfTriples]
-        listToReturn = helper.dropKeysVals(listOfStats, keysToDrop)
+        listToReturn = helper.dropKeysVals(listOfStats, self.keysToDrop)
         return listToReturn
 
 

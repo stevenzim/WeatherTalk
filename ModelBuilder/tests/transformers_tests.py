@@ -44,6 +44,12 @@ def test_text_features_extractor():
     '''test to confirm features are correctly extracted from triples'''
     d = transformer.TextFeaturesExtractor()
     featureDict = d.transform(listOfTriples1)
+    #test1 - all features test
     assert_equal(featureDict[0],listOfDocsFeats[0]) #doc1 has question mark
     assert_equal(featureDict[1],listOfDocsFeats[1]) #doc2 has url and hashtag
+    #test2 -question and urlemail removed
+    featureDict = d.transform(listOfTriples1,['questmark_present',"urloremail_present"])
+    assert_equal(featureDict[0],{"hashtag_present":False})
+    assert_equal(featureDict[1],{"hashtag_present":True})
+
 
