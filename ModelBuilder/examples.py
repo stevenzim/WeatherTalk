@@ -136,6 +136,8 @@ allFeatures.toarray()
 
 #1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
 import sklearn.externals.joblib as joblib
+from twxeety import helper
+from twxeety import transformers as tran
 inFile = 'resources/SemTrainTriples.json'
 data = helper.loadJSONfromFile(inFile)           
 ed = tran.TriplesYsExtractor()
@@ -146,6 +148,7 @@ loadedpipe = joblib.load('test.pkl')
 
 #1e - predict on dev/test data and output precision, recall f1
 '''Must complete steps in 1d  and load pipeline first'''
+loadedpipe = joblib.load('test.pkl')
 #dev
 inFile = 'resources/SemDevTriples.json'
 data = helper.loadJSONfromFile(inFile)           
