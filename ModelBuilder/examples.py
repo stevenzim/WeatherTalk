@@ -1,8 +1,11 @@
 
 
-#TODO: BIG ITEMS - Grid Search with options dictionary
+
+
+    
 
 #EXAMPLE 0 - Extract NLP Triples
+#0a - semeval data
 from twxeety import pipeline
 inFile = 'resources/SemTrain.json'
 outFile = 'resources/SemTrainTriples.json'
@@ -18,11 +21,28 @@ inFile = 'resources/SemTest2013.json'
 outFile = 'resources/SemTest2013Triples.json'
 pipeline.extractTweetNLPtriples(inFile,outFile)
 
-
 from twxeety import pipeline
 inFile = 'resources/SemTest.json'
 outFile = 'resources/SemTestTriples.json'
 pipeline.extractTweetNLPtriples(inFile,outFile)
+
+#0b - live tweets
+#single file
+from twxeety import pipeline
+inFile = 'resources/LiveTweets.json'
+outFile = 'resources/LiveTweetsTriples.json'
+pipeline.extractTweetNLPtriples(inFile,outFile)
+
+#multiple files
+from twxeety import helper,pipeline
+rawDataDir = 'resources/data'
+files = helper.getListOfFiles(rawDataDir)
+fileNum = 0
+for file in files:
+    fileNum = fileNum + 1
+    inFile = rawDataDir + "/" + file
+    outFile = rawDataDir + "/tweets-" + str(fileNum) + ".json"
+    pipeline.extractTweetNLPtriples(inFile,outFile)
 
 #EXAMPLE 1 - MY FIRST PIPELINE WITH FEATURE UNION
 from twxeety import helper
@@ -147,6 +167,34 @@ ed = tran.TriplesYsExtractor()
 triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
 predicted_ys = loadedpipe.predict(triplesList)
 print helper.evaluateResults(expected_ys,predicted_ys)
+
+#1f - Example of Live Data Pipeline --> predict on live Tweets.  Attach prediction/result to each dictionary
+#     YIPPPEEE!!!! It works
+'''Assumes that pickle files contain the desired pipeline'''
+from twxeety import transformers as tran
+import sklearn.externals.joblib as joblib
+from twxeety import (helper, pipeline)
+inFile = 'tests/test-data/LiveTweets/Pipeline/LiveTweets.json'
+outFile = 'tests/test-data/LiveTweets/Pipeline/LiveTweetsTriples.json'
+pipeline.extractTweetNLPtriples(inFile,outFile)
+loadedpipe = joblib.load('tests/test-data/LiveTweets/Pipeline/test.pkl')
+inFile = 'tests/test-data/LiveTweets/Pipeline/LiveTweetsTriples.json'
+outFile = 'tests/test-data/LiveTweets/Pipeline/LiveTweetsScored.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList = ed.transform(data)
+predicted_ys = loadedpipe.predict(triplesList)
+sentimentList = predicted_ys.tolist()
+#TODO: Create a fully working function out of this, needs to be tested
+#       Should also have error handling for when counts don't match
+#TODO: You could also add in topic classification here e.g. dict["topic_wx"] = topic_wx[count]
+count = 0 
+for dict in data:
+    keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
+    dict["sentiment_score"] = sentimentList[count]
+    count += 1
+
+helper.dumpJSONtoFile(outFile,data)   #dump live tweets with classifer predictions added to json
 
 
 

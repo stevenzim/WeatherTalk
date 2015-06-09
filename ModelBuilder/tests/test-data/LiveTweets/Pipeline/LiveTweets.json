@@ -1,0 +1,68 @@
+[
+    {
+        "coordinates": {
+            "coordinates": [
+                -83.823245,
+                39.923353
+            ],
+            "type": "Point"
+        },
+        "created_at": "Thu May 21 10:18:27 +0000 2015",
+        "id": 601331209453592576,
+        "in_reply_to_status_id": 601277968845971457,
+        "in_reply_to_user_id": 70668520,
+        "lang": "en",
+        "text": "\"@goldentot: Haha boobies\" \rHaha butts",
+        "timestamp_ms": "1432203507184",
+        "user": {
+            "followers_count": 54,
+            "id": 236164279,
+            "screen_name": "Jcar101",
+            "utc_offset": null
+        }
+    },
+    {
+        "coordinates": {
+            "coordinates": [
+                -81.447354,
+                41.515055
+            ],
+            "type": "Point"
+        },
+        "created_at": "Thu May 21 10:18:27 +0000 2015",
+        "id": 601331209516507136,
+        "in_reply_to_status_id": null,
+        "in_reply_to_user_id": null,
+        "lang": "en",
+        "text": "Trust in the LORD with all your heart, And lean not on your own understanding; In all your ways\u2026 https://t.co/A3sb34ooC9",
+        "timestamp_ms": "1432203507199",
+        "user": {
+            "followers_count": 2086,
+            "id": 175893196,
+            "screen_name": "TweetCoachTweet",
+            "utc_offset": -14400
+        }
+    },
+    {
+        "coordinates": {
+            "coordinates": [
+                -100.389502,
+                48.28949
+            ],
+            "type": "Point"
+        },
+        "created_at": "Thu May 21 10:18:30 +0000 2015",
+        "id": 601331223298977792,
+        "in_reply_to_status_id": null,
+        "in_reply_to_user_id": null,
+        "lang": "en",
+        "text": "Jamie hat Upton Services #us_test #No21233",
+        "timestamp_ms": "1432203510485",
+        "user": {
+            "followers_count": 54,
+            "id": 2595995856,
+            "screen_name": "UbicityPrincip",
+            "utc_offset": 7200
+        }
+    }
+]

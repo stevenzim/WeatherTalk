@@ -1,6 +1,9 @@
 import json
 import twxeety.preprocess.preprocess as preprocess
 from sklearn.metrics import classification_report
+from os import listdir
+from os.path import isfile, join
+import os as os
 
 #load json
 def loadJSONfromFile(fileName):	
@@ -51,3 +54,25 @@ def dropKeysVals(listOfDicts, keysToDrop = []):
                 continue
         returnList.append(dictionary)
     return returnList
+    
+#list all files in a path    
+def getListOfFiles(path):
+    '''A modification of this post: 
+    http://stackoverflow.com/questions/3207219/how-to-list-all-files-of-a-directory-in-python
+    Input = path to directory containing files you want to list
+    Returns a a list of all files in path
+    '''
+    listOfFiles = [ file for file in listdir(path) if isfile(join(path,file)) ]
+    return listOfFiles
+
+#delete files - given a list of files and directory containing files
+def deleteFilesInList(dirName,listOfFiles):
+    '''
+    Input = directory name AND list of files in directory to delete
+    '''
+    for file in listOfFiles:
+        path = dirName + '/' + file
+        try:
+            os.remove(path)
+        except:
+            continue

@@ -15,33 +15,47 @@ from time import time
 
 #Step 0 - Run TweetNLP on list of dictionaries
 def extractTweetNLPtriples(inputJSONfile,outputJSONfile):
-	'''Loads json file to list --> creates list of tweets for all dictionaries in list
-	Then runs the TweetNLP tagger (from Carnegie Mellon) on list of tweets
-	Results of TweetNLP tagger are then added to appropriate dictionary which is dumped to new file
-	This is done as independent task to allow jvm to process a batch of tweets
-	rather than restarting for each individual tweet
-	usage: tweetPreprocessedKeyVals("resources/preTweetNLP.json","resources/postTweetNLP.json")'''
-	listOfDicts = helper.loadJSONfromFile(inputJSONfile)
-	listOfTweets = []
-	for dict in listOfDicts:
-	    listOfTweets.append(dict["text"])
+    '''Loads json file to list --> creates list of tweets for all dictionaries in list
+    Then runs the TweetNLP tagger (from Carnegie Mellon) on list of tweets
+    Results of TweetNLP tagger are then added to appropriate dictionary which is dumped to new file
+    This is done as independent task to allow jvm to process a batch of tweets
+    rather than restarting for each individual tweet
+    usage: tweetPreprocessedKeyVals("resources/preTweetNLP.json","resources/postTweetNLP.json")'''
+    listOfDicts = helper.loadJSONfromFile(inputJSONfile)
+    listOfTweets = []
+    for dict in listOfDicts:
+        tweet = dict["text"]
+        tweet = tweet.replace("\r","\n")  #The \r escape character must be replaced with\n, \
+                                            #or else TweetNLP splits tweet on this character thus outputting triples for two seperate
+                                            #tweets rather than one
+        listOfTweets.append(tweet)
+    
+    print "Running TweetNLP On: " + str(len(listOfTweets)) + " tweets"
+    t0 = time()
+    
+    tweetNLPtriples = tweetNLPtagger.runtagger_parse(listOfTweets)  #send tweets to tagger which returns triples
+    
+    print "Done with NLP extractor"
+    print(str(len(tweetNLPtriples)) + " tweets processed in %0.3fs" % (time() - t0))
 	
-	print "Running TweetNLP On:"
-	print len(listOfTweets)
-	t0 = time()
-
-	tweetNLPtriples = tweetNLPtagger.runtagger_parse(listOfTweets)
-	print "Done with NLP extractor"
-	print("done in %0.3fs" % (time() - t0))
-	for idxAndTriple in enumerate(tweetNLPtriples):
-	#TODO: Caution...It is assumed an equal number of elements exists in tweet triples
-	#         list and dictionary list. Some error handling is potentially useful  
+    #error handling, if tagger returns a different number of triples than tweets passed in, then ther is a problem
+    #currently dump the file to an error folder and throw exception
+    if len(tweetNLPtriples) != len(listOfTweets):
+        #TODO: Consider adding in function to create folderpath if it doesn't exist
+        outputJSONfile = "error/" + outputJSONfile
+        helper.dumpJSONtoFile(outputJSONfile, listOfDicts)
+        raise Exception("Total number of triples returned from tweetNLP does not match number of tweets passed in! Review file in: " + outputJSONfile)
+	
+	#If there were no errors, then attach the triple to its corresponding dictionary
+    for idxAndTriple in enumerate(tweetNLPtriples):
 	    idx = idxAndTriple[0]
 	    triple = idxAndTriple[1]
 	    listOfDicts[idx]['tagged_tweet_triples'] = triple
+    
+    #dump list of dictionaries with triples to output folder
+    helper.dumpJSONtoFile(outputJSONfile, listOfDicts)
 
-	helper.dumpJSONtoFile(outputJSONfile, listOfDicts)
-	
+
 	
 #Step 1 - PROTOTYPE - extract some features and dump to JSON
 def extractTweetNLPfeatures(inputJSONfile,outputJSONfile):
