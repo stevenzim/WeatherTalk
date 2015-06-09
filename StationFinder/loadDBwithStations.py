@@ -4,7 +4,6 @@
 #user@ubuntu-dev:~/Desktop/GitHub/WeatherTalk/WeatherScripts$ sudo su - postgres
 #postgres@ubuntu-dev:~$ cd /home/user/Desktop/GitHub/WeatherTalk/WeatherScripts
 
-#TODO: When ready, remove this from current directory, as it is being moved to StationFinder directory
 
 
 '''THIS IS A BRUTE FORCE WAY TO LOAD THE MASTER STATION LIST INTO DATABASE'''
@@ -12,32 +11,45 @@
 import psycopg2
 import sys
 
-connection = None
 
+#open database connection
+connection = psycopg2.connect("dbname=weather user=postgres password=postgres") 
+cursor = connection.cursor()
 
-iFile = open('MasterStationList.txt','r')
+#drop existing table
+cursor.execute("DROP TABLE stations;")
+connection.commit()
+
+#create table
+addTableCmd = "CREATE TABLE stations (ICAO_ID CHAR(4), latitude float, longitude float, location point, name VARCHAR(50));"
+cursor.execute(addTableCmd)
+connection.commit()
+
+#load stations from master station list
+iFile = open('ClimMasterStationList.csv','r')
 iFile.readline()
 masterListCommands = []
 for line in iFile:
 	stationItems = line.split(',')
-	dbPreStr = 'INSERT INTO stations (ICAO_ID, latitude, longitude, name) VALUES('
-	stationString = '\'' + stationItems[4] + '\',' + stationItems[5] + ',' + stationItems[6] + ',\'' + stationItems[2] + '\''
+	#point is (Longitude, Latitude) to match same order as tweets
+	point = "(" + stationItems[6] + "," + stationItems[5] + ")"
+	dbPreStr = 'INSERT INTO stations (ICAO_ID, latitude, longitude,location, name) VALUES('
+	stationString = '\'' + stationItems[4] + '\',' + stationItems[5] + ',' + stationItems[6] + ',POINT' + point + ',\'' + stationItems[2] + '\''
 	dbPostStr = ');'
 	dbCommandStr = dbPreStr + stationString + dbPostStr
 	masterListCommands.append(dbCommandStr)
 
 
-connection = psycopg2.connect("dbname=weather user=postgres") 
-cursor = connection.cursor()
 
 
+#write stations and points to db
 for sqlCommand in masterListCommands:
 	cursor.execute(sqlCommand)
 	connection.commit()
 
 connection.close()	
 
-#cursor.execute("SELECT * FROM stations WHERE ICAO_ID = 'KSEA';")
+
 
 
 
