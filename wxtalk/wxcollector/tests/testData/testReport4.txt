@@ -1,0 +1,123 @@
+<h3>Climatological Report (Daily)</h3>
+<pre><font size=3>
+000
+CDUS41 KBOX 280616
+CLIBOS
+
+
+CLIMATE REPORT
+NATIONAL WEATHER SERVICE TAUNTON MA
+111 AM EST WED JAN 28 2015
+
+
+...................................
+
+...THE BOSTON MA CLIMATE SUMMARY FOR JANUARY 27 2015...
+
+CLIMATE NORMAL PERIOD 1981 TO 2010
+CLIMATE RECORD PERIOD 1872 TO 2015
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR
+                                                  NORMAL
+..................................................................
+TEMPERATURE (F)
+ YESTERDAY
+  MAXIMUM         19    604 PM  63    1974  36    -17       47
+  MINIMUM         14   1159 PM  -6    1924  22     -8       21
+  AVERAGE         17                        29    -12       34
+
+PRECIPITATION (IN)
+  YESTERDAY        0.95          1.82 1996   0.10   0.85     0.02
+  MONTH TO DATE    3.45                      2.94   0.51     3.23
+  SINCE DEC 1     10.01                      6.72   3.29     7.85
+  SINCE JAN 1      3.45                      2.94   0.51     3.23
+
+SNOWFALL (IN)
+  YESTERDAY       22.1 R        22.1  2015   0.4   21.7      0.0
+  MONTH TO DATE   32.1                      11.3   20.8     21.8
+  SINCE DEC 1     32.4                      20.3   12.1     33.5
+  SINCE JUL 1     35.0                      21.6   13.4     33.5
+  SNOW DEPTH      MM
+
+DEGREE DAYS
+ HEATING
+  YESTERDAY       48                        36     12       31
+  MONTH TO DATE 1021                       968     53      991
+  SINCE DEC 1   1844                      1907    -63     1964
+  SINCE JUL 1   2857                      2962   -105     2980
+
+ COOLING
+  YESTERDAY        0                         0      0        0
+  MONTH TO DATE    0                         0      0        0
+  SINCE DEC 1      0                         0      0        0
+  SINCE JAN 1      0                         0      0        0
+..................................................................
+
+
+WIND (MPH)
+  RESULTANT WIND SPEED  21   RESULTANT WIND DIRECTION   N (350)
+  HIGHEST WIND SPEED    32   HIGHEST WIND DIRECTION     N (360)
+  HIGHEST GUST SPEED    45   HIGHEST GUST DIRECTION     N (360)
+  AVERAGE WIND SPEED    22.2
+
+
+SKY COVER
+  POSSIBLE SUNSHINE  MM
+  AVERAGE SKY COVER 1.0
+
+
+WEATHER CONDITIONS
+ THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.
+  HEAVY SNOW
+  SNOW
+  LIGHT SNOW
+  FOG
+  FOG W/VISIBILITY <= 1/4 MILE
+  BLOWING SNOW
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    92           300 AM
+ LOWEST     77           600 PM
+ AVERAGE    85
+
+..........................................................
+
+
+THE BOSTON MA CLIMATE NORMALS FOR TODAY
+                         NORMAL    RECORD    YEAR
+ MAXIMUM TEMPERATURE (F)   36        63      1916
+ MINIMUM TEMPERATURE (F)   22        -5      1935
+
+
+SUNRISE AND SUNSET
+JANUARY 28 2015.......SUNRISE   702 AM EST   SUNSET   453 PM EST
+JANUARY 29 2015.......SUNRISE   701 AM EST   SUNSET   454 PM EST
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+<hr />
+
+
+
+</font></pre>
+
+
+<font size=4>
+The U.S. Naval Observatory (USNO) computes astronomical data. Therefore, the NWS does not record, certify, or authenticate astronomical data. Computed times of sunrise, sunset, moonrise, moonset; and twilight, moon phases and other astronomical data are available from USNO's Astronomical Applications Department (http://www.usno.navy.mil). See <a href="http://weather.gov/cgi-bin/nwsexit.pl?url=http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation">http://www.usno.navy.mil/USNO/astronomical-applications/astronomical-information-center/litigation</a> for information on using these data for legal purposes.</font>
+
+
+    <!-- Page loaded in 0.355 seconds -->
+
+
+</body>
+</html>
