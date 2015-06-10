@@ -1,5 +1,0 @@
-while true
-do 
-    python Examples-ClimReport.py
-    sleep 3600
-done

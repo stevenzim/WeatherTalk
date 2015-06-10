@@ -1,8 +1,0 @@
-    for i, report in enumerate(reportList):
-        print i;
-        uuid = stationDetails[4] #+ report.summaryDate
-        if uuid in report: 
-            print 'update list'
-        else:
-            reportList.append(report.buildOutputDictionary())
-            print 'append list'
