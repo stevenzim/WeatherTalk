@@ -11,7 +11,7 @@ config = {
     'author_email': 'szimme@essex.ac.uk',
     'version': '0.1',
     'install_requires': [],
-    'packages': ['tests','tweetcollector','wxcollector','db','models','scripts'],
+    'packages': ['tests','tweetcollector','wxcollector','db','models'],
     'scripts': [],
     'name': 'wxtalk'
 }

@@ -25,16 +25,33 @@ CREATE USER steven PASSWORD 'steven';
 createdb weather;
 \q #to log out
 
-### Don't do steps below until steps above are complete!
+postgres@clouds:~$ psql -d weather
+psql (9.3.7)
+Type "help" for help.
 
-
-#log into weather db and create stations table and add extensions for cube and earthdistance
-psql -d weather
-CREATE TABLE stations (ICAO_ID CHAR(4), latitude float, longitude float, location point, name VARCHAR(50));
+#run the following commands
+CREATE SCHEMA weather;
+GRANT ALL ON SCHEMA weather TO steven;
+GRANT ALL ON ALL TABLES IN SCHEMA weather TO steven;
+SELECT * FROM weather.stations;
 CREATE EXTENSION cube;
 CREATE EXTENSION earthdistance;
 
 
+### Don't try steps below until steps above are complete!
+#FROM HERE RUN THE load stations script
+loadDBwithStations.py script
+
+
+
+
+#log into weather db and create stations table and add extensions for cube and earthdistance
+psql -d weather
+CREATE EXTENSION cube;
+CREATE EXTENSION earthdistance;
+
+
+CREATE TABLE stations (ICAO_ID CHAR(4), latitude float, longitude float, location point, name VARCHAR(50));
 
 #grant full permissions on schema to steven
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO steven;

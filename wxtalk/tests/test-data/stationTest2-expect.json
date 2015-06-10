@@ -1,0 +1,27 @@
+[
+    {
+        "coordinates": {
+            "coordinates": [
+                -100.389502,
+                48.28949
+            ],
+            "type": "Point"
+        },
+        "id": 601331223298977792,
+        "metar_stations": [
+            [
+                "KMOT",
+                40.586
+            ],
+            [
+                "KBIS",
+                106.325
+            ],
+            [
+                "KJMS",
+                123.438
+            ]
+        ],
+        "text": "Jamie hat Upton Services #us_test #No21233"
+    }
+]

@@ -1,0 +1,5 @@
+For packaging to work must update ~/.bashrc with following:
+
+#set PYTHON PATH necessary for weathertalk
+#see stackoverflow "permanently add a directory to python path"
+export PYTHONPATH="${PYTHONPATH}:/home/steven/Desktop/T/WeatherTalk"
