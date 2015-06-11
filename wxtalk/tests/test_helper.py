@@ -26,3 +26,36 @@ def test_drop_keys_vals_listOfDicts():
     assert_raises(ValueError,\
                 helper.dropKeysVals,listOfDicts, ['txt'] ) #test error thrown when wrong keyname passed
 
+
+#test files for tweetNLP                
+tweetNLPactualOutFileName = "test-data/postTweetNLP-temp.json"
+tweetNLPinFileName = "test-data/preTweetNLP-test.json"
+tweetNLPexpectedOutFileName = "test-data/postTweetNLP-test.json"
+
+semEvalTemp = "test-data/SemEval/SemEvalTemp.json"
+semEvalRawFile = "test-data/SemEval/1-SemEvalRaw.json"
+semEvalTriplesFile = "test-data/SemEval/2-SemEvalTriples.json"
+
+liveTweetsTemp = "test-data/LiveTweets/LiveTweetsTemp.json"
+liveTweetsRawFile = "test-data/LiveTweets/1-LiveTweetsRaw.json"
+liveTweetsTriplesFile = "test-data/LiveTweets/2-LiveTweetsTriples.json"
+
+
+def test_extract_tweetNLP():
+	'''Test for tweetNLP extraction helper function. To add TweetNLP triples to list of dictionaries'''
+	#basic test
+	expectedOutput = helper.loadJSONfromFile(tweetNLPexpectedOutFileName)
+	helper.extractTweetNLPtriples(tweetNLPinFileName,tweetNLPactualOutFileName)
+	actualOutput = helper.loadJSONfromFile(tweetNLPactualOutFileName)
+	assert_equal(expectedOutput,actualOutput)
+	#test on semeval input format
+	expectedOutput = helper.loadJSONfromFile(semEvalTriplesFile)
+	helper.extractTweetNLPtriples(semEvalRawFile,semEvalTemp)
+	actualOutput = helper.loadJSONfromFile(semEvalTemp)
+	assert_equal(expectedOutput,actualOutput)
+#	#test on live tweet input format
+	expectedOutput = helper.loadJSONfromFile(liveTweetsTriplesFile)
+	helper.extractTweetNLPtriples(liveTweetsRawFile,liveTweetsTemp)
+	actualOutput = helper.loadJSONfromFile(liveTweetsTemp)
+	assert_equal(expectedOutput,actualOutput)
+

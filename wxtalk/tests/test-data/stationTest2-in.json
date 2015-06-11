@@ -5,7 +5,8 @@
             "type": "Point"
         },
         "id": 601331209453592576,
-        "text": "\"@goldentot: Haha boobies\" \rHaha butts"
+        "text": "\"@goldentot: Haha boobies\" \rHaha butts",
+        "TEST":"TEST"
     },
     {
         "coordinates": {
@@ -16,6 +17,7 @@
             "type": "Point"
         },
         "id": 601331223298977792,
-        "text": "Jamie hat Upton Services #us_test #No21233"
+        "text": "Jamie hat Upton Services #us_test #No21233",
+        "TEST":"TEST"
     }
 ]

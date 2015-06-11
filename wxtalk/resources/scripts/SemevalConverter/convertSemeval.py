@@ -9,7 +9,7 @@
 #TODO:  Consider feature reduction.  e.g. change @username to user and all http links --> URL
 #TODO:	Consider is it better to leave classes as neg,neut,pos or convert to -1,0,1
 
-# usage 'python .\convertSemeval.py TestFile.csv semeval-train.json'
+# usage 'python .\convertSemeval.py SemEvalData\TestFile.csv SemEvalData\semeval-train.json'
 
 import csv
 import json

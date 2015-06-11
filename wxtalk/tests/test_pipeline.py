@@ -22,9 +22,4 @@ def test_get_tweet_wxstations():
     #test to ensure tweet with bad data is dropped from list
     test = pipeline.getTweetWxStations(test2in)
     assert_equal(test,test2expect)
-    
-#    fsObj = fs.Stations()
-#    assert_equal(fsObj.getStationList([-75.,44.]),\
-#                    [('KSLK', 48.312), ('KART', 51.219), ('KMSS', 64.681)])
-#    assert_equal(fsObj.getStationList([-75.,44.],1),\
-#                    [('KSLK', 48.312)])
+

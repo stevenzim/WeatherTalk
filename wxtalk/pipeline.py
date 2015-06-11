@@ -37,7 +37,7 @@ def getTweetWxStations(tweetListofdicts,numStationsToReturn = 3):
             #append updated dict to return list
             returnTweetsList.append(tweetDict)
         except:
-            #TODO: Decide if I want to dump the data somewhere??
+            #dump data to error folder and continue onto next dictionary
             tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxStations'
             helper.dumpJSONtoFile('../errors/pipeline-'+helper.getDateTimeStamp()+'.json',tweetDict)
             continue
