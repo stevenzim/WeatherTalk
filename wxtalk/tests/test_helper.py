@@ -40,6 +40,11 @@ liveTweetsTemp = "test-data/LiveTweets/LiveTweetsTemp.json"
 liveTweetsRawFile = "test-data/LiveTweets/1-LiveTweetsRaw.json"
 liveTweetsTriplesFile = "test-data/LiveTweets/2-LiveTweetsTriples.json"
 
+obamaListIn =     [{"text": "I am Obama?"},{"text": "I am #ObaMa?"},{"text": "I am Ted?"}]
+obamaListOut =     [{"text": "I am Obama?","topic_obama":True},\
+                    {"text": "I am #ObaMa?","topic_obama":True},\
+                    {"text": "I am Ted?","topic_obama":False}]
+
 
 def test_extract_tweetNLP():
 	'''Test for tweetNLP extraction helper function. To add TweetNLP triples to list of dictionaries'''
@@ -58,4 +63,11 @@ def test_extract_tweetNLP():
 	helper.extractTweetNLPtriples(liveTweetsRawFile,liveTweetsTemp)
 	actualOutput = helper.loadJSONfromFile(liveTweetsTemp)
 	assert_equal(expectedOutput,actualOutput)
-
+	
+def test_add_simple_topic():
+    results = helper.addStringTestTopic(dictionary = obamaListIn[0],keyToSearch = 'text',stringToTest = "obama",keyNameToAdd = "topic_obama")
+    assert_equal(results,obamaListOut[0])
+    results = helper.addStringTestTopic(dictionary = obamaListIn[1],keyToSearch = 'text',stringToTest = "oBama",keyNameToAdd = "topic_obama")
+    assert_equal(results,obamaListOut[1])
+    results = helper.addStringTestTopic(dictionary = obamaListIn[2],keyToSearch = 'text',stringToTest = "obama",keyNameToAdd = "topic_obama")
+    assert_equal(results,obamaListOut[2])        

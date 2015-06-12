@@ -7,7 +7,7 @@
 #TODO: Split examples into seperate files
 
 #for all examples
-from wxtalk.models import transformers as tran
+from wxtalk.modelbuilder import transformers as tran
 from wxtalk import helper
 
 import string

@@ -128,3 +128,18 @@ def extractTweetNLPtriples(inputJSONfile,outputJSONfile):
     
     #dump list of dictionaries with triples to output folder
     dumpJSONtoFile(outputJSONfile, listOfDicts)
+    
+def addStringTestTopic(dictionary,keyToSearch,stringToTest,keyNameToAdd):
+    '''Provided a dictionary, desired string to look for,key to search for string and key name to add
+    test for occurance of string in lower case format and put result into new key.  Returns an updated dictionary'''
+    stringToSearch = dictionary[keyToSearch].lower()
+    stringToTest = stringToTest.lower()
+    dictionary[keyNameToAdd] = stringToTest in stringToSearch
+    return dictionary
+     
+     
+     
+     
+     
+
+
