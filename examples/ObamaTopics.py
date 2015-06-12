@@ -8,6 +8,8 @@ filesComplete = 0
 obamaCount = 0
 totalCount = 0
 
+outputList = []
+
 for file in files:
     print "Files completed = " + str(filesComplete)
     filesComplete += 1
@@ -18,9 +20,12 @@ for file in files:
         dict = helper.addStringTestTopic(dict,'text',"obama","topic_obama")
         if dict["topic_obama"]:
             obamaCount += 1
+            outputList.append({"text":dict['text']})
         updateList.append(dict)
+        
     print "Total obama count = " + str(obamaCount)
     print "Total tweet count = " + str(totalCount)
     print "\n"
 
 
+helper.dumpJSONtoFile("ObamaText.txt",outputList)
