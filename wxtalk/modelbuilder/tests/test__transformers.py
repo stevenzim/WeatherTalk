@@ -1,5 +1,5 @@
 from nose.tools import *
-from wxtalk.models import transformers
+from wxtalk.modelbuilder import transformers
 from wxtalk import helper
 
 listOfDicts = [{'doc': 'abc', 'triple': [0,5,6],'expect':True},\

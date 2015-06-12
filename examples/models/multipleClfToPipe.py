@@ -7,7 +7,7 @@
 #A short list of these is found at: https://www.kaggle.com/c/amazon-employee-access-challenge/forums/t/5128/scikit-learn-models-compatible-with-sparse-matrix/38925
 
 #for all examples
-from wxtalk.models import transformers as tran
+from wxtalk.modelbuilder import transformers as tran
 from wxtalk import helper
 
 import string

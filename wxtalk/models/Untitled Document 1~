@@ -1,5 +1,0 @@
-import raop.pipeline as pipe
-X, y = pipe.loadTweetFeaturesToNumpy('resources/semevaltester-preprocessed.json',0)
-import sklearn
-test =  sklearn.feature_extraction.text.CountVectorizer(X)
-
