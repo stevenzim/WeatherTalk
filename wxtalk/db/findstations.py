@@ -12,7 +12,7 @@ class Stations(object):
     db = findstations.Stations()
     db.getStationList([-75.,44.])
     
-    returns [('KSLK', 48.312), ('KMSS', 64.681), ('KART', 51.219)]
+    returns [('KSLK', 48.312), ('KART', 51.219), ('KMSS', 64.681)]
     '''
     def __init__(self,connectionParams = "dbname=weather user=steven password=steven"):
         #TODO: If time permits, clean this up so user and pw are passed in
@@ -20,17 +20,18 @@ class Stations(object):
         self.connection = psycopg2.connect(self.conparams) 
         self.cursor = self.connection.cursor()
 
-    def getStationList(self,twitterCoords,maxStations = 3):
+    def getStationList(self,twitterCoords,maxStations = 3,stationTable = "metarStations"):
         '''
         Pass in a list of coordinates in [longitude,latitude] format
         Returns a list of tuples containing top 3 
+        stationTable = default(metarStations) or climateStations
         '''
         stationCoordString = str(tuple(twitterCoords))
 
         #sql statement to retrieve sorted list of stations with distances in statue miles
         sql = "SELECT ICAO_ID, name, latitude, longitude, location,\
                round((location <@> point" + stationCoordString + ")::numeric, 3) as miles \
-        FROM weather.stations \
+        FROM weather." + stationTable + " \
         ORDER BY round((location <@> point" + stationCoordString + ")::numeric, 3) \
         limit " + str(maxStations) + ";" 
         
