@@ -88,7 +88,42 @@ outFile.close()
 
 
 
+#build wxstring list
+files = helper.getListOfFiles("30list/")
+wxDict = {}
+for file in files:
+    inFile = open("30list/" + file, 'r')
+    print file
+    for line in inFile:
+            report = line.split(',')
+            wxString = report[11]
+            wxDict[wxString] = None
 
+oFile = open("wxStringList.txt",'w')
+for key in wxDict:
+    oFile.write(key + "\n")
 
+oFile.close()
+    
 
+#clean up metar
+#remove dupes
+#dump to new csv file
+#a prototype to quickly get rid of duplicate metars
+files = helper.getListOfFiles("consec/")
+files.sort()
+metarDict = {}
+for file in files:
+    inFile = open("consec/" + file, 'r')
+    print file
+    for line in inFile:
+            report = line.split(',')
+            key = report[0]+report[1]
+            metarDict[key] = line
+
+oFile = open("MetarDupesRemoved.csv",'w')
+for key in metarDict:
+    oFile.write(metarDict[key])
+
+oFile.close()
 
