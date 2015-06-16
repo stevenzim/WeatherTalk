@@ -122,38 +122,37 @@ def getMetarDict(metarList):
     presentWxString = metarList[11]
     return{
         #info about report
-        'concat_station_date' : metarList[0] + metarList[1],  #could be used as the unique key for database
-        'station_id' : metarList[0],                # ICAO Code
-        'observation_time' : metarList[1][:-1],     # Date and Time in UTC  --> Drop Z at end
+        'ICAO_ID' : metarList[0],                # ICAO Code e.g. KSEA
+        'observation_time' : metarList[1][:-1] + '+00:00',     # Date and Time in UTC  --> Drop Z at end --> add timezone offset e.g. 2015-05-22T14:02:00
         #temps
-        'temp_c' : float(metarList[2]),             # Temp C
-        'dewpoint_c' : float(metarList[3]),         # Dewpoint Temp C
+        'temp_c' : float(metarList[2]),             # Temp C  38.6
+        'dewpoint_c' : float(metarList[3]),         # Dewpoint Temp C 24.5
         #winds
         'wind_dir_degrees' : int(metarList[4]),             # Wind Direction 0-360
-        'wind_speed_kt' : int(metarList[5]),                # Wind Speed Knots
-        'wind_gust_kt' : setWindGust(metarList[5],metarList[6]),                 # Wind Speed Knots
+        'wind_speed_kt' : int(metarList[5]),                # Wind Speed Knots  11
+        'wind_gust_kt' : setWindGust(metarList[5],metarList[6]),                 # Wind Speed Knots  15
         #vis & pressure
-        'visibility_statute_mi' : setFloat(metarList[7]),      # Visibility in Statute Miles
-        'altim_in_hg' : round(float(metarList[8]),2),                # Pressure in inches of Mercury rounded to 2 decimals
+        'visibility_statute_mi' : setFloat(metarList[7]),      # Visibility in Statute Miles   24.2
+        'altim_in_hg' : round(float(metarList[8]),2),                # Pressure in inches of Mercury rounded to 2 decimals    29.92
         #report correct and maintenance indicator
-        'corrected' : setBool(metarList[9]),                        # Is report a correction
-        'maintenance_indicator_on' : setBool(metarList[10]),         # Is the weather station due for maintenance
+        'corrected' : setBool(metarList[9]),                        # Is report a correction   True
+        'maintenance_indicator_on' : setBool(metarList[10]),         # Is the weather station due for maintenance  False
         #present weather values
         #TODO: The following wxtsring fields are a very basic conversion of wxstring, if time, consider a more elegant way to do this
-        'wx_string' : presentWxString,                       # TODO: Should I convert this to something else or just leave it as a string, perhaps index it so easily searched in db?
-        'precip_rain': setPrecipVals(presentWxString,'RA'),     #all four precip types return 0 if not reported. 1 = light, 2 = moderate, 3 = heavy , NOTE: VC for vicinity is assumed to be present weather
+        'wx_string' : presentWxString,                       # TODO: Should I convert this to something else or just leave it as a string, perhaps index it so easily searched in db?   e.g. VCTS +RA
+        'precip_rain': setPrecipVals(presentWxString,'RA'),     #all four precip types return 0 if not reported. 1 = light, 2 = moderate, 3 = heavy , NOTE: VC for vicinity is assumed to be present weather e.g. 1
         'precip_snow': setPrecipVals(presentWxString,'SN'),
         'precip_drizzle': setPrecipVals(presentWxString,'DZ'),
         'precip_unknown': setPrecipVals(presentWxString,'UP'),
-        'thunderstorm': setWxTypeBoolean(presentWxString,['TS']),                       #If TS in string, then tstorm occuring
+        'thunderstorm': setWxTypeBoolean(presentWxString,['TS']),                       #If TS in string, then tstorm occuring  True/False
         'hail_graupel_pellets': setWxTypeBoolean(presentWxString,['GR','GS','PL']),                        #If any in list then true, else false
         'fog_mist': setWxTypeBoolean(presentWxString,['BR','FG']),                            #If any in list then true, else false
         #Cloud cover
-        'transmissivity_clouds' : 999.,             # TODO: Transmissivity of Clouds based on NRCC paper, a very interesting value, but it will take a while to implement
-        'max_cloud_cov' : setMaxCloudCover(metarList[12:20]),                     #Max Cloud Percentage based on METAR standards, for details see function above
+        'transmissivity_clouds' : 9.99,             # TODO: Transmissivity of Clouds based on NRCC paper, a very interesting value, but it will take a while to implement e.g. .96
+        'max_cloud_cov' : setMaxCloudCover(metarList[12:20]),                     #Max Cloud Percentage based on METAR standards, for details see function above   e.g. .1275
         #other keys/vals
-        'metar_type' : metarList[20],               # Report SPECI or METAR
-        'remark' : setRemark(metarList)                  # String with additional info such as SYNOP code
+        'metar_type' : metarList[20],               # Report SPECI or METAR     e.g. METAR/SPECI
+        'remark' : setRemark(metarList)                  # String with additional info such as SYNOP code  e.g. AO2 LTG DSNT SE AND S P0004 T01330128
     }
 
 

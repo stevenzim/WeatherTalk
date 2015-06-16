@@ -21,7 +21,7 @@ def createStationTable(tableName,stationCsvFilePath):
     connection.commit()
 
     #create table
-    addTableCmd = "CREATE TABLE weather." + tableName + " (ICAO_ID CHAR(4), latitude float, longitude float, location point, name VARCHAR(50));"
+    addTableCmd = "CREATE TABLE weather." + tableName + " (ICAO_ID CHAR(4) PRIMARY KEY, latitude float, longitude float, location point, name VARCHAR(50));"
     cursor.execute(addTableCmd)
     connection.commit()
 
