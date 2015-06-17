@@ -128,7 +128,8 @@ def extractTweetNLPtriples(inputJSONfile,outputJSONfile):
     
     #dump list of dictionaries with triples to output folder
     dumpJSONtoFile(outputJSONfile, listOfDicts)
-    
+
+#A toy example to identify topics.  E.g. identify occurences of Obama in a tweet    
 def addStringTestTopic(dictionary,keyToSearch,stringToTest,keyNameToAdd):
     '''Provided a dictionary, desired string to look for,key to search for string and key name to add
     test for occurance of string in lower case format and put result into new key.  Returns an updated dictionary'''
@@ -138,7 +139,18 @@ def addStringTestTopic(dictionary,keyToSearch,stringToTest,keyNameToAdd):
     return dictionary
      
      
-     
+#get project path for current Python project
+def getProjectPath():
+    '''
+    useful for returning full project path. With project path, one can then easily join relative paths to project path.
+    This only works assuming project is set up in python path correctly
+    This code is a modfied version found at http://stackoverflow.com/questions/1489599/how-do-i-find-out-my-python-path-using-python
+    '''
+    try:
+        user_paths = os.environ['PYTHONPATH'].split(os.pathsep)
+        return user_paths[1]
+    except KeyError:
+        user_paths = []    
      
      
 

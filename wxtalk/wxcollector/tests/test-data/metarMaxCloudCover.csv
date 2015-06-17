@@ -1,0 +1,10 @@
+sky_cover,cloud_base_ft_agl,sky_cover,cloud_base_ft_agl,sky_cover,cloud_base_ft_agl,sky_cover,cloud_base_ft_agl,expected
+0,1,2,3,4,5,6,7,8
+CLR,,,,,,,,0.0
+,,,,,,,,-999.0
+SCT,1100,BKN,4000,OVC,4900,,,1.0
+SCT,1100,BKN,4000,FEW,4900,FEW,5200,.75
+SCT,1800,FEW,4900,,,,,.4375
+FEW,1000,,,,,,,.1875
+OVX,,,,,,,,1.0
+SKC,,,,,,,,0.0

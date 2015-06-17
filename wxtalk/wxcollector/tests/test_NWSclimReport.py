@@ -1,11 +1,17 @@
 from nose.tools import *
+from wxtalk import helper
 import os
 import wxtalk.wxcollector.collectors.climReport.NWSclimReport as Climate
 
+
+projPathTestData = os.path.join(helper.getProjectPath(),'wxtalk/wxcollector/tests/test-data/')
+
+
 def loadTestReport(fileName):
     '''Load test data'''
-    testFilePath = "testData/"
-    report = open(testFilePath + fileName, 'r')
+    #testFilePath = "test-data/"
+    #report = open(testFilePath + fileName, 'r')
+    report = open(os.path.join(projPathTestData,fileName), 'r')
     reportLines = []
     for line in report:
         reportLines.append(line.rstrip())    

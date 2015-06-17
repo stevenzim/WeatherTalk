@@ -1,8 +1,16 @@
 from nose.tools import *
 import wxtalk.helper as helper
 
-inFileName = "test-data/oneJSONentry.json"
-outFileName = "test-data/outputOneJSONentry.json"
+
+import os
+
+projPathTestData = os.path.join(helper.getProjectPath(),'wxtalk/tests/test-data/')
+
+#test json load and unload
+inFileName = os.path.join(projPathTestData,"oneJSONentry.json")
+outFileName = os.path.join(projPathTestData,"outputOneJSONentry.json")
+#inFileName = "test-data/oneJSONentry.json"
+#outFileName = "test-data/outputOneJSONentry.json"
 
 def test_JSON_load_unload():
 	'''Test to load json data and verify that unloaded data is still the same as original data'''
@@ -27,18 +35,30 @@ def test_drop_keys_vals_listOfDicts():
                 helper.dropKeysVals,listOfDicts, ['txt'] ) #test error thrown when wrong keyname passed
 
 
-#test files for tweetNLP                
-tweetNLPactualOutFileName = "test-data/postTweetNLP-temp.json"
-tweetNLPinFileName = "test-data/preTweetNLP-test.json"
-tweetNLPexpectedOutFileName = "test-data/postTweetNLP-test.json"
+#test files for tweetNLP     
+tweetNLPactualOutFileName = os.path.join(projPathTestData,"postTweetNLP-temp.json")
+tweetNLPinFileName = os.path.join(projPathTestData,"preTweetNLP-test.json")
+tweetNLPexpectedOutFileName = os.path.join(projPathTestData,"postTweetNLP-test.json")
 
-semEvalTemp = "test-data/SemEval/SemEvalTemp.json"
-semEvalRawFile = "test-data/SemEval/1-SemEvalRaw.json"
-semEvalTriplesFile = "test-data/SemEval/2-SemEvalTriples.json"
+semEvalTemp = os.path.join(projPathTestData,"SemEval/SemEvalTemp.json")
+semEvalRawFile = os.path.join(projPathTestData,"SemEval/1-SemEvalRaw.json")
+semEvalTriplesFile = os.path.join(projPathTestData,"SemEval/2-SemEvalTriples.json")
 
-liveTweetsTemp = "test-data/LiveTweets/LiveTweetsTemp.json"
-liveTweetsRawFile = "test-data/LiveTweets/1-LiveTweetsRaw.json"
-liveTweetsTriplesFile = "test-data/LiveTweets/2-LiveTweetsTriples.json"
+liveTweetsTemp = os.path.join(projPathTestData,"LiveTweets/LiveTweetsTemp.json")
+liveTweetsRawFile = os.path.join(projPathTestData,"LiveTweets/1-LiveTweetsRaw.json")
+liveTweetsTriplesFile = os.path.join(projPathTestData,"LiveTweets/2-LiveTweetsTriples.json")
+           
+#tweetNLPactualOutFileName = "test-data/postTweetNLP-temp.json"
+#tweetNLPinFileName = "test-data/preTweetNLP-test.json"
+#tweetNLPexpectedOutFileName = "test-data/postTweetNLP-test.json"
+
+#semEvalTemp = "test-data/SemEval/SemEvalTemp.json"
+#semEvalRawFile = "test-data/SemEval/1-SemEvalRaw.json"
+#semEvalTriplesFile = "test-data/SemEval/2-SemEvalTriples.json"
+
+#liveTweetsTemp = "test-data/LiveTweets/LiveTweetsTemp.json"
+#liveTweetsRawFile = "test-data/LiveTweets/1-LiveTweetsRaw.json"
+#liveTweetsTriplesFile = "test-data/LiveTweets/2-LiveTweetsTriples.json"
 
 obamaListIn =     [{"text": "I am Obama?"},{"text": "I am #ObaMa?"},{"text": "I am Ted?"}]
 obamaListOut =     [{"text": "I am Obama?","topic_obama":True},\
