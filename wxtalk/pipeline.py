@@ -123,7 +123,7 @@ def batchLoadMetarReports(rawMetarDir = os.path.join(helper.getProjectPath(),'wx
                 s.loadMetarReport(dict)
             except:
                 #TODO: fix error logging, currently it is logging way to much
-                logger1.error('Error load dict via loadMetarReport: %s',  dict)
+                #logger1.error('Error load dict via loadMetarReport: %s',  dict)
                 s = db.MetarReport()
                 continue
             completedCount += 1

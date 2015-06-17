@@ -19,25 +19,55 @@ reports = c.cursor.fetchall()
 
 
 
+#example to find nearest reports
+c = db.Connector()
+sqlstring = 'SELECT * FROM weather.metar_report\
+            WHERE ICAO_ID = \'KSEA\''
+c.cursor.execute(sqlstring)
+reports = c.cursor.fetchall()
 
-#example to load in a set of metar reports and files
-#clean up metar
-#remove dupes
-#dump to new csv file
-#a prototype to quickly get rid of duplicate metars
-files = helper.getListOfFiles("consec/")
-files.sort()
-metarDict = {}
-for file in files:
-    inFile = open("consec/" + file, 'r')
-    print file
-    for line in inFile:
-            report = line.split(',')
-            key = report[0]+report[1]
-            metarDict[key] = line
 
-oFile = open("MetarDupesRemoved.csv",'w')
-for key in metarDict:
-    oFile.write(metarDict[key])
+#example to retrieve latest metar report
+c = db.Connector()
+sqlstring = 'SELECT *\
+            FROM weather.metar_report\
+            WHERE ICAO_ID = \'KSEA\'  AND observation_time <= \'Sat May 23 20:59:30 +0000 2015\'::timestamp\
+            ORDER BY observation_time DESC LIMIT 1;'
+c.cursor.execute(sqlstring)
+reports = c.cursor.fetchall()
 
-oFile.close()
+#playbox          
+sqlstring = 'SELECT *\
+            FROM weather.metar_report\
+            WHERE ICAO_ID = \'KSEA\'  AND observation_time <= \'2015-05-23 14:58:49\'::timestamp\
+            ORDER BY observation_time DESC LIMIT 1;'
+            
+reports = c.cursor.fetchall()
+
+#crap
+sqlstring = 'SELECT observation_time\
+             FROM weather.metar_report\
+             WHERE weather.observation_time <= timestamp \'Sat May 23 20:59:30 +0000 2015\''        
+
+sqlstring = '\'Sat May 23 20:59:30 +0000 2015\'::timestamp'
+sqlstring = '\'2013-08-20 14:52:49\'::timestamp'
+
+sqlstring = 'SELECT * FROM weather.metar_report\
+            WHERE observation_time >= (\'2015-05-23 14:52:49\'::timestamp - \'1 hours\'::timestamp) AND ICAO_ID = \'KSEA\';'
+
+#from http://dba.stackexchange.com/questions/27823/query-to-find-closest-lesser-date
+SELECT 
+    a.WorkCenter
+  , a.ActionDate
+  , a.Hours
+  , r.Rate
+  , r.Rate * a.Hours  AS Cost
+FROM 
+    Activities AS a
+  JOIN
+    Rates AS r
+      ON  r.StartDate = 
+          ( SELECT MAX(StartDate)
+             FROM Rates 
+             WHERE StartDate <= a.ActionDate
+          ) ;

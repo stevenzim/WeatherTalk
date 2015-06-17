@@ -116,8 +116,8 @@ def setRemark(metarList):
 def getMetarDict(metarList):
     '''Takes in a cleaned up list containing data from METAR
     returns  a dictionary with data in format necessary for use in other processing, e.g. entry into SQL database
-    there is intentionally no error handling. If an exception is thrown, then
-    the data has something missing (e.g. wind/temp data) and thus should not be 
+    there is intentionally no error handling. NOTE: --> If an exception is thrown, then
+    the data has key information missing (e.g. wind/temp data) and thus should not be 
     recorded'''
     presentWxString = metarList[11]
     return{

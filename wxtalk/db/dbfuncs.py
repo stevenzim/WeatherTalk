@@ -37,6 +37,12 @@ class MetarReport(object):
         #establish db connection
         self.con = Connector()
         
+    def retrieveMetarReport(self,datetimeStamp,metarStationID):
+        '''Provided a datetime stamp and metar station ID. 
+        This function returns a metar report from database that is closest to datetime for station'''
+        #TODO: Consider if it is better to have a unique ID and return this?
+        return 0
+        
     def loadMetarReport(self,metarDict):
         '''
         pass in dictionary matching format produced by wxtalk.wxcollector.createMetarTable.getMetarDict(metarString)
@@ -44,13 +50,9 @@ class MetarReport(object):
         if it exists already, then assume this is updated version --> delete existing, then create new record
         '''
         
-        ###Example to load in data into db
-#        from wxtalk.wxcollector import processmetar as metar
-
-#        metarRep1 = 'KNCA,2015-05-22T14:05:00Z,17.2,11.1,360,9,,10.0,30.15059,,,,BKN,3000,,,,,,,SPECI, AO2 T01720111'
-#        metarList1 = metarRep1.split(",")
-#        metarDict1 = metar.getMetarDict(metarList1)
-
+        #throw error if data passed in is not a dict
+        if type(metarDict) != type({}):
+            raise Exception("This function expects a dictionary containing metar data")
 
         #inspired by http://stackoverflow.com/questions/29461933/insert-python-dictionary-using-psycopg2
         #convert keys to column names and then create string
