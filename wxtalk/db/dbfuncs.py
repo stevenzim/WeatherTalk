@@ -2,8 +2,23 @@
 #created: 09-JUN-2015
 #module to retrieve wx station information from weather db
 
+from wxtalk import helper
 import psycopg2
 import sys
+import os
+
+
+import logging
+
+# set up logging to file - see previous section for more details
+#from: https://docs.python.org/2/howto/logging-cookbook.html
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+                    datefmt='%m-%d %H:%M',
+                    filename = os.path.join(helper.getProjectPath(),'wxtalk/errors/db.log'),
+                    filemode='a')
+
+logger1 = logging.getLogger('wxtalk.MetarReport')
 
 
 class Connector(object):
@@ -66,9 +81,15 @@ class MetarReport(object):
                 self.con.connection.commit()
                 self.con.cursor.execute(sqlinsertstring)
                 self.con.connection.commit()
-            except:
+            except Exception as error:
                 # if it can't be deleted or inserted, do warn me so I can review the data
-                raise Exception("Record could not be deleted nor inserted.  Review original metar data")       
+                # 23503 = FK violation in Postgre.  This is due to the occasional METAR report that is not loaded in metar master station list
+                # We don't want these reports in our db so we can supress error logging
+                if error.pgcode != 23503:
+                    #TODO: fix error logging, currently it is logging way to much, sometimes FK error still logged
+                    logger1.error('DB loadMetarReport: %s',  error)
+                raise Exception("Record could not be deleted nor inserted.  Review original metar data, most likely a report that is not in master station list")       
+
 
 class Stations(object):
     '''

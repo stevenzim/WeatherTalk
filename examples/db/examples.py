@@ -18,44 +18,15 @@ c.cursor.execute(sqlstring)
 reports = c.cursor.fetchall()
 
 
+
+
 #example to load in a set of metar reports and files
 #clean up metar
 #remove dupes
 #dump to new csv file
 #a prototype to quickly get rid of duplicate metars
-files = helper.getListOfFiles("data/")
+files = helper.getListOfFiles("consec/")
 files.sort()
-s = db.MetarReport()
-
-for file in files:
-    inFile = open("data/" + file, 'r')
-    inFile.readline()
-    print file
-    metarDictsList = []
-    #convert each report to dictionary and store in list
-    for line in inFile:
-        metarList = line.split(",")
-        try:
-            metarDict = metar.getMetarDict(metarList)
-            metarDictsList.append(metarDict)
-        except:
-            print line
-            continue
-        
-    #now load in dictionary
-    counter = 0
-    total = len(metarDictsList)
-    for dict in metarDictsList:
-        try:
-            s.loadMetarReport(dict)
-        except:
-            print dict
-            s = db.MetarReport()
-            continue
-        counter += 1
-        print str(counter) + " reports loaded of " + str(total) + " reports. From file = " + file
-
-
 metarDict = {}
 for file in files:
     inFile = open("consec/" + file, 'r')

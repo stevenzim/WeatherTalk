@@ -56,6 +56,7 @@ def outputToCSV(listOfList,outFile):
 ### Main part of program
 ###########################
 #create temp file and permanent output file
+#TODO: Need to clean this up so that it works with relative and absolute paths
 tempMetarFile = "data/temp.metar"
 dirName = 'data'
 utc_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H%MZ")
