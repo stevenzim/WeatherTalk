@@ -47,6 +47,7 @@ class MetarReport(object):
         #TODO: Would this query be more efficient with indexing on station ID and observation time? 
         #       What is the best way to index? 
         #       Perhaps it is already indexed automatically because they are PK?
+        #TODO: Consider adding criteria to WHERE clause -->  timedelta <= threshold e.g. 3600 seconds
         sqlstring = 'SELECT '+ sqlSelect +'\
                     FROM weather.metar_report\
                     WHERE ICAO_ID = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp\

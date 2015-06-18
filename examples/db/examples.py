@@ -40,4 +40,4 @@ r.retrieveMetarReport('KSEA',\
                       'to_char(observation_time,\'YYYY-MM-DD HH24:MI:SS\'),\
                       extract(\'epoch\' from (\'Sat May 23 20:59:30 +0000 2015\' - observation_time)),\
                        temp_c')      #returns nearest observation time, seconds since observation, temperature in celsius                
-   
+
