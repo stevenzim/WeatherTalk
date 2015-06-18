@@ -133,7 +133,7 @@ class Stations(object):
         '''
         #con = Connector()  #create connection obj
         stationCoordString = str(tuple(twitterCoords))
-        print stationCoordString
+        #print stationCoordString
 
         #sql statement to retrieve sorted list of stations with distances in statue miles
         sql = "SELECT ICAO_ID, name, latitude, longitude, location,\
