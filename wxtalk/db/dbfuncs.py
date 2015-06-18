@@ -37,11 +37,30 @@ class MetarReport(object):
         #establish db connection
         self.con = Connector()
         
-    def retrieveMetarReport(self,datetimeStamp,metarStationID):
+    def retrieveMetarReport(self,metarStationID,datetimeStamp,sqlSelect = ' * ',limit = '1'):
         '''Provided a datetime stamp and metar station ID. 
-        This function returns a metar report from database that is closest to datetime for station'''
-        #TODO: Consider if it is better to have a unique ID and return this?
-        return 0
+        This function returns the most recent metar report from database relative to the station provided
+        By default, all fields are returned, however a simple change to SELECT statement will alter results
+        e.g. weather.uid will return on the uid field
+        DATETIME must be in acceptable ansi format
+        Returns a sorted list of reports, most recent first, default limit = 1'''
+        #TODO: Would this query be more efficient with indexing on station ID and observation time? 
+        #       What is the best way to index? 
+        #       Perhaps it is already indexed automatically because they are PK?
+        sqlstring = 'SELECT '+ sqlSelect +'\
+                    FROM weather.metar_report\
+                    WHERE ICAO_ID = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp\
+                    ORDER BY observation_time DESC LIMIT '+ limit +';'
+        try:
+            self.con.cursor.execute(sqlstring)
+            return self.con.cursor.fetchall()
+        except Exception as error:
+            #restablish connection and record error
+            self.con.cursor.close()
+            self.con = Connector()
+            logger1.error('DB retrieveMetarReport: %s',  error)
+            raise Exception('Report could not be retrieved, perhaps wrong datestamp, stationID or sqlselect statemnt')
+
         
     def loadMetarReport(self,metarDict):
         '''

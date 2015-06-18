@@ -84,12 +84,17 @@ def deleteFilesInList(dirName,listOfFiles):
 
 
 #get date timestamp  string          
-def getDateTimeStamp():
+def getDateTimeStamp(ansiFormat = False):
     '''
     returns a string formatted datetime stamp useful for error files
+    ansiFormat True is useful for db calls
+    ansiFormat False is useful for file naming
     '''
-    return datetime.utcnow().strftime('%Y-%m-%d-%H%M')
-    
+    if ansiFormat:
+        return datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
+    else:
+        return datetime.utcnow().strftime('%Y-%m-%d-%H%M')
+  
     
 # Run TweetNLP on list of dictionaries
 def extractTweetNLPtriples(inputJSONfile,outputJSONfile):

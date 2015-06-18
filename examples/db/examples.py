@@ -19,7 +19,7 @@ reports = c.cursor.fetchall()
 
 
 
-#example to find nearest reports
+#example to find nearest reports for a station
 c = db.Connector()
 sqlstring = 'SELECT * FROM weather.metar_report\
             WHERE ICAO_ID = \'KSEA\''
@@ -27,47 +27,17 @@ c.cursor.execute(sqlstring)
 reports = c.cursor.fetchall()
 
 
-#example to retrieve latest metar report
-c = db.Connector()
-sqlstring = 'SELECT *\
-            FROM weather.metar_report\
-            WHERE ICAO_ID = \'KSEA\'  AND observation_time <= \'Sat May 23 20:59:30 +0000 2015\'::timestamp\
-            ORDER BY observation_time DESC LIMIT 1;'
-c.cursor.execute(sqlstring)
-reports = c.cursor.fetchall()
-
-#playbox          
-sqlstring = 'SELECT *\
-            FROM weather.metar_report\
-            WHERE ICAO_ID = \'KSEA\'  AND observation_time <= \'2015-05-23 14:58:49\'::timestamp\
-            ORDER BY observation_time DESC LIMIT 1;'
-            
-reports = c.cursor.fetchall()
-
-#crap
-sqlstring = 'SELECT observation_time\
-             FROM weather.metar_report\
-             WHERE weather.observation_time <= timestamp \'Sat May 23 20:59:30 +0000 2015\''        
-
-sqlstring = '\'Sat May 23 20:59:30 +0000 2015\'::timestamp'
-sqlstring = '\'2013-08-20 14:52:49\'::timestamp'
-
-sqlstring = 'SELECT * FROM weather.metar_report\
-            WHERE observation_time >= (\'2015-05-23 14:52:49\'::timestamp - \'1 hours\'::timestamp) AND ICAO_ID = \'KSEA\';'
-
-#from http://dba.stackexchange.com/questions/27823/query-to-find-closest-lesser-date
-SELECT 
-    a.WorkCenter
-  , a.ActionDate
-  , a.Hours
-  , r.Rate
-  , r.Rate * a.Hours  AS Cost
-FROM 
-    Activities AS a
-  JOIN
-    Rates AS r
-      ON  r.StartDate = 
-          ( SELECT MAX(StartDate)
-             FROM Rates 
-             WHERE StartDate <= a.ActionDate
-          ) ;
+#example to retrieve latest metar report relative to station and time provided most recent report first
+r = db.MetarReport()
+r.retrieveMetarReport('KSEA',helper.getDateTimeStamp(ansiFormat = True)) #returns all fields for most recent report
+r.retrieveMetarReport('KSEA','Sat May 23 20:59:30 +0000 2015') #returns all fields for most recent report relative to input time
+r.retrieveMetarReport('KJFK','Sat May 23 20:59:30 +0000 2015','uid') #returns only the uid field
+r.retrieveMetarReport('KSEA',helper.getDateTimeStamp(ansiFormat = True), 'observation_time, temp_c','100') #returns temperature in celsius for last 100 reports from Seattle
+r.retrieveMetarReport('KSEA',helper.getDateTimeStamp(ansiFormat = True), 'to_char(observation_time,\'YYYY-MM-DD HH24:MI:SS\'), temp_c','100') # returns with datetime in readable format
+r.retrieveMetarReport('KSEA',helper.getDateTimeStamp(ansiFormat = True), '*, to_char(observation_time,\'YYYY-MM-DD HH24:MI:SS\')','100') #returns all with formatted date at end
+r.retrieveMetarReport('KSEA',\
+                      'Sat May 23 20:59:30 +0000 2015',\
+                      'to_char(observation_time,\'YYYY-MM-DD HH24:MI:SS\'),\
+                      extract(\'epoch\' from (\'Sat May 23 20:59:30 +0000 2015\' - observation_time)),\
+                       temp_c')      #returns nearest observation time, seconds since observation, temperature in celsius                
+   

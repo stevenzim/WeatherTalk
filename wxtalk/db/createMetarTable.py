@@ -52,6 +52,7 @@ def createTable():
     max_cloud_cov float,\
     metar_type char(10),\
     remark text,\
+    uid SERIAL,\
     PRIMARY KEY (ICAO_ID, observation_time),\
     CONSTRAINT metar_report_station_id_fkey FOREIGN KEY (ICAO_ID)\
       REFERENCES weather.metarStations (ICAO_ID) MATCH SIMPLE\
@@ -59,13 +60,6 @@ def createTable():
     );"
     cursor.execute(addTableCmd)
     connection.commit()
-
-
-
-
-
-
-
 
 
 
