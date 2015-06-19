@@ -58,8 +58,8 @@ createStationTable("climateStations",'../resources/db/ClimMasterStationList.csv'
 createStationTable("metarStations",'../resources/db/MetarMasterList.csv')
 
 
-
-
+#Indexes
+#'CREATE INDEX metar_station_loc_idx ON weather.metarStations USING gist(location);'
 
 
 

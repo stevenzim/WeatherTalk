@@ -62,12 +62,40 @@ def createTable():
     connection.commit()
 
 
+#'CREATE INDEX observation_time_idx ON weather.metar_report (observation_time);'
+#'CREATE INDEX stationid_idx ON weather.metar_report (ICAO_ID);'
+
+#'DROP INDEX weather.observation_time_idx;'
+
+#determine size of table
+#sql = 'SELECT reltuples::bigint AS estimate \
+#FROM   pg_class \
+#WHERE  oid = \'weather.metar_report\'::regclass;'
+
+#get list of indexs
+#sql = 'SELECT i.relname as indname,\
+#       i.relowner as indowner,\
+#       idx.indrelid::regclass,\
+#       am.amname as indam,\
+#       idx.indkey,\
+#       ARRAY(\
+#       SELECT pg_get_indexdef(idx.indexrelid, k + 1, true)\
+#       FROM generate_subscripts(idx.indkey, 1) as k\
+#       ORDER BY k\
+#       ) as indkey_names,\
+#       idx.indexprs IS NOT NULL as indexprs,\
+#       idx.indpred IS NOT NULL as indpred \
+#FROM   pg_index as idx \
+#JOIN   pg_class as i \
+#ON     i.oid = idx.indexrelid \
+#JOIN   pg_am as am \
+#ON     i.relam = am.oid;'
+#c.cursor.execute(sql)
+#t = c.cursor.fetchall()
+#b = [(i[0]) for i in t]
 
 
-
-
-
-
+#sudo service postgresql restart
 
 
 

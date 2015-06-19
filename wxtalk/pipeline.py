@@ -13,6 +13,8 @@ import math
 
 import logging
 
+import time
+
 # set up logging to file - see previous section for more details
 #from: https://docs.python.org/2/howto/logging-cookbook.html
 #TODO: Need to learn how to deal with error logging better.  Currently everything is dumping to db.log
@@ -31,7 +33,7 @@ pathToErrorDir = os.path.join(helper.getProjectPath(),'wxtalk/errors/')
 ############### METAR PIPE ####################
 #STEP 1
 def removeDuplicateMetar(rawMetarDir = os.path.join(helper.getProjectPath(),'wxtalk/resources/data/metar/1-raw/'),\
-                        filesPerBatch = 100):
+                        filesPerBatch = 250):
     '''
     Purpose of this function: METAR Reports updated by the ADDS(aviation digital data server), 
     these files contain all reports over previous hour or so.  Most stations only update every hour unless if conditions change.
@@ -92,6 +94,8 @@ def batchLoadMetarReports(rawMetarDir = os.path.join(helper.getProjectPath(),'wx
     '''Provided a directory path containing raw metar files.
     Function converts them to correct format for database and then loads them into database'''
     
+    
+    
     #Get list of deduplicated files to insert into database
     files = helper.getListOfFiles(rawMetarDir)
     files.sort()
@@ -99,6 +103,7 @@ def batchLoadMetarReports(rawMetarDir = os.path.join(helper.getProjectPath(),'wx
     
     #load deduplicate files into database
     for file in files:
+        start_time = time.time()
         inFile = open(rawMetarDir + file, 'r')
         inFile.readline()
         print file
@@ -129,9 +134,10 @@ def batchLoadMetarReports(rawMetarDir = os.path.join(helper.getProjectPath(),'wx
                 s = db.MetarReport()
                 continue
             completedCount += 1
-            if (completedCount % 100) == 0:
+            if (completedCount % 1000) == 0:
                 print str(completedCount) + " reports loaded of " + str(total)
         print str(completedCount) + " reports loaded of " + str(total) + " reports. From file = " + file
+        print("completed in--- %s seconds ---" % (time.time() - start_time))
         
         #success so delete this file
         helper.deleteFilesInList(rawMetarDir,[file])

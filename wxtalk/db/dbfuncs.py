@@ -48,10 +48,20 @@ class MetarReport(object):
         #       What is the best way to index? 
         #       Perhaps it is already indexed automatically because they are PK?
         #TODO: Consider adding criteria to WHERE clause -->  timedelta <= threshold e.g. 3600 seconds
+#        sqlstring = 'SELECT '+ sqlSelect +'\
+#                    FROM weather.metar_report\
+#                    WHERE ICAO_ID = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp\
+#                    ORDER BY observation_time DESC LIMIT '+ limit +';'
         sqlstring = 'SELECT '+ sqlSelect +'\
                     FROM weather.metar_report\
-                    WHERE ICAO_ID = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp\
+                    WHERE ICAO_ID = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp  AND\
+                                    observation_time > (\''+ datetimeStamp +'\'::timestamp - interval \'2 hours\')::timestamp\
                     ORDER BY observation_time DESC LIMIT '+ limit +';'
+#        sqlstring = 'EXPLAIN SELECT '+ sqlSelect +'\
+#                    FROM weather.metar_report\
+#                    WHERE ICAO_ID = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp  AND\
+#                                     observation_time > (\''+ datetimeStamp +'\'::timestamp - interval \'2 hours\')::timestamp\
+#                    ORDER BY observation_time DESC LIMIT '+ limit +';'
         try:
             self.con.cursor.execute(sqlstring)
             return self.con.cursor.fetchall()

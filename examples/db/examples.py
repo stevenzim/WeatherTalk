@@ -1,6 +1,7 @@
 from wxtalk.wxcollector import processmetar as metar
 from wxtalk.db import dbfuncs as db
 from wxtalk import helper
+import time
 
 ###simple Example to load in data into db
 metarRep = 'KNCA,2000-01-01T00:00:00Z,0,0,0,0,,0,30.15059,,,,,,,,,,,,,'
@@ -40,4 +41,8 @@ r.retrieveMetarReport('KSEA',\
                       'to_char(observation_time,\'YYYY-MM-DD HH24:MI:SS\'),\
                       extract(\'epoch\' from (\'Sat May 23 20:59:30 +0000 2015\' - observation_time)),\
                        temp_c')      #returns nearest observation time, seconds since observation, temperature in celsius                
+
+stime = time.time()
+r.retrieveMetarReport('KSEA','Sat May 23 20:59:30 +0000 2015', 'to_char(observation_time,\'YYYY-MM-DD HH24:MI:SS\'), temp_c','100')
+print ("completed in--- %s seconds ---" % (time.time() - stime))
 
