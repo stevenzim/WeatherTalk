@@ -1,6 +1,7 @@
 #author: Steven Zimmerman
 #created: 09-JUN-2015
 #module to retrieve wx station information from weather db
+#TODO: Refactor code in load tweets and load metar, the dictionary function to build insert strings could be changed to helper fcn
 
 from wxtalk import helper
 import psycopg2
@@ -57,11 +58,6 @@ class MetarReport(object):
                     WHERE ICAO_ID = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp  AND\
                                     observation_time > (\''+ datetimeStamp +'\'::timestamp - interval \'2 hours\')::timestamp\
                     ORDER BY observation_time DESC LIMIT '+ limit +';'
-#        sqlstring = 'EXPLAIN SELECT '+ sqlSelect +'\
-#                    FROM weather.metar_report\
-#                    WHERE ICAO_ID = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp  AND\
-#                                     observation_time > (\''+ datetimeStamp +'\'::timestamp - interval \'2 hours\')::timestamp\
-#                    ORDER BY observation_time DESC LIMIT '+ limit +';'
         try:
             self.con.cursor.execute(sqlstring)
             return self.con.cursor.fetchall()
@@ -76,7 +72,7 @@ class MetarReport(object):
     def loadMetarReport(self,metarDict):
         '''
         pass in dictionary matching format produced by wxtalk.wxcollector.createMetarTable.getMetarDict(metarString)
-        loads metar report if it exists
+        loads metar report if it doesnt exist
         if it exists already, then assume this is updated version --> delete existing, then create new record
         '''
         
@@ -120,7 +116,10 @@ class MetarReport(object):
                 if error.pgcode != 23503:
                     #TODO: fix error logging, currently it is logging way to much, sometimes FK error still logged
                     logger1.error('DB loadMetarReport: %s',  error)
+                    logger1.error('DB loadMetarReport: %s',  error.pgcode)
                 raise Exception("Record could not be deleted nor inserted.  Review original metar data, most likely a report that is not in master station list")       
+
+
 
 
 class Stations(object):
@@ -175,4 +174,68 @@ class Stations(object):
         return listToReturn    
 
 
+
+class Tweet(object):
+    '''
+    usage:
+    from db import dbfuncs
+    '''
+    def __init__(self):
+        #establish db connection
+        self.con = Connector()
+        
+      
+    def loadTweet(self,tweetDict):
+        #TODO: Update doc string
+        '''
+        pass in dictionary matching format produced TODO: WHERE by wxtalk.wxcollector.createMetarTable.getMetarDict(metarString)
+        loads tweet
+        if tweet exists already, then assume this is updated version --> delete existing, then create new record
+        '''
+        
+        #throw error if data passed in is not a dict
+        if type(tweetDict) != type({}):
+            raise Exception("This function expects a dictionary containing metar data")
+
+        #inspired by http://stackoverflow.com/questions/29461933/insert-python-dictionary-using-psycopg2
+        #convert keys to column names and then create string
+        columns = tweetDict.keys()
+        columns_str = ", ".join(columns)
+        #convert values to column names and then create string
+        values = [tweetDict[x] for x in columns]
+        values_str_list = [str(value) for value in values]
+        #print values_str_list
+        #print "helpo"
+        #values_str_list = [str(value) for value in values]
+        values_str = "\',\'".join(values_str_list).encode('utf-8').strip()
+        #create insert string
+        sqlinsertstring = 'INSERT INTO weather.tweet (' + columns_str + ')\
+                                 VALUES (\'' + values_str + '\');'
+                                                    
+
+        #load tweet into db
+        #if exception thrown, then record likely exists, therefore delete record and try again
+        try:
+            self.con.cursor.execute(sqlinsertstring)
+            self.con.connection.commit()
+        except psycopg2.IntegrityError as error:
+            try:
+                #restablish connection, try to delete existing record and then insert in new record
+                self.con.cursor.close()
+                self.con = Connector()
+                sqldeletestring = 'DELETE FROM weather.tweet\
+                            WHERE id = \'' + str(tweetDict['id']) + '\''
+                self.con.cursor.execute(sqldeletestring)
+                self.con.connection.commit()
+                self.con.cursor.execute(sqlinsertstring)
+                self.con.connection.commit()
+            except Exception as error:
+                # if it can't be deleted or inserted, do warn me so I can review the data
+                # 23503 = FK violation in Postgre.  This is due to the occasional METAR report that is not loaded in metar master station list
+                # We don't want these reports in our db so we can supress error logging
+                if error.pgcode != 23503:
+                    #TODO: fix error logging, currently it is logging way to much, sometimes FK error still logged
+                    logger1.error('DB loadTweet: %s',  error)
+                    #logger1.error('DB loadTweet'+ str(tweetDict['id']) +' : %s',  error.pgcode)
+                raise Exception("Record could not be deleted nor inserted.  Review original tweet, most likely a report that is not in master station list")    
 
