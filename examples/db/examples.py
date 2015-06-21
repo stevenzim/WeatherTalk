@@ -46,3 +46,24 @@ stime = time.time()
 r.retrieveMetarReport('KSEA','Sat May 23 20:59:30 +0000 2015', 'to_char(observation_time,\'YYYY-MM-DD HH24:MI:SS\'), temp_c','100')
 print ("completed in--- %s seconds ---" % (time.time() - stime))
 
+
+#example to retrieve count of tweets where temp > 15
+select id from weather.tweet where sentiment_score = 1
+uid
+metar_db_uid
+SELECT
+	tweet.metar_db_uid,
+	metar.uid,
+	B.pkb,
+	B.c2
+FROM
+	A
+INNER JOIN B ON A .pka = B.fka;
+SELECT
+	A.pka,
+	A.c1,
+	B.pkb,
+	B.c2
+FROM
+	A
+INNER JOIN B ON A .pka = B.fka;
