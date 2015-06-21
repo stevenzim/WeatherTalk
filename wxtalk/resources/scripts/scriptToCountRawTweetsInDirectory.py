@@ -24,6 +24,4 @@ for file in files:
 #cleaned up to 25,575,000 geo tagged tweets
 
 
-#pg_dump weather > /home/steven/Desktop/T/weatherdb.bak
-pg_dumpall | gzip -c > /home/steven/Desktop/T/all.dbs.out.gz
-pg_dump weather | gzip -c > /home/steven/Desktop/T/weather.dump.out.gz
+

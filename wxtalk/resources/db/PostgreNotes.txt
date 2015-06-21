@@ -1,3 +1,14 @@
+#restore
+pg_dump weather > /home/steven/Desktop/T/weatherdb.bak -o
+pg_dumpall | gzip -c > /home/steven/Desktop/T/all.dbs.out.gz
+pg_dump weather | gzip -c > /home/steven/Desktop/T/weather.dump.out.gz
+
+in windows log int to postgres
+create user steven
+log into weather db as postgres
+run \i /pathtodb.bak
+
+
 #install postgresql
 sudo apt-get install postgresql postgresql-contrib
 
