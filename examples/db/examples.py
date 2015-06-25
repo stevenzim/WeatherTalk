@@ -18,6 +18,12 @@ sqlstring = 'SELECT * FROM weather.metar_report\
 c.cursor.execute(sqlstring)
 reports = c.cursor.fetchall()
 
+d = db.Connector()
+metarDict ={'icao_id':'K0F2'}
+sqlstring = 'SELECT * FROM weather.metar\
+            WHERE icao_id = \'' + metarDict['icao_id'] + '\''
+d.cursor.execute(sqlstring)
+reports = c.cursor.fetchall()
 
 
 #example to find nearest reports for a station

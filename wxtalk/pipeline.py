@@ -61,7 +61,7 @@ def removeDuplicateMetar(rawMetarDir = os.path.join(helper.getProjectPath(),'wxt
         metarDict = {}
         for file in currentQueue:
             inFile = open(rawMetarDir + file, 'r')
-            print file
+            #print file
             for line in inFile:
                     report = line.split(',')
                     key = report[0]+report[1]
@@ -130,6 +130,7 @@ def batchLoadMetarReports(rawMetarDir = os.path.join(helper.getProjectPath(),'wx
                 s.loadMetarReport(dict)
             except:
                 #TODO: fix error logging, currently it is logging way to much
+                #print dict
                 #logger1.error('Error load dict via loadMetarReport: %s',  dict)
                 s = db.MetarReport()
                 continue

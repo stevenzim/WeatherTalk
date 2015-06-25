@@ -103,7 +103,7 @@ class MetarReport(object):
                 self.con.cursor.close()
                 self.con = Connector()
                 sqldeletestring = 'DELETE FROM weather.metar\
-                            WHERE ICAO_ID = \'' + metarDict['ICAO_ID'] + '\' AND observation_time = \'' + metarDict['observation_time'] + '\''
+                            WHERE icao_id = \'' + metarDict['icao_id'] + '\' AND observation_time = \'' + metarDict['observation_time'] + '\''
                 self.con.cursor.execute(sqldeletestring)
                 self.con.connection.commit()
                 self.con.cursor.execute(sqlinsertstring)
@@ -112,10 +112,10 @@ class MetarReport(object):
                 # if it can't be deleted or inserted, do warn me so I can review the data
                 # 23503 = FK violation in Postgre.  This is due to the occasional METAR report that is not loaded in metar master station list
                 # We don't want these reports in our db so we can supress error logging
-                if error.pgcode != 23503:
+                #if error.pgcode != 23503:
                     #TODO: fix error logging, currently it is logging way to much, sometimes FK error still logged
-                    logger1.error('DB loadMetarReport: %s',  error)
-                    logger1.error('DB loadMetarReport: %s',  error.pgcode)
+                #logger1.error('DB loadMetarReport: %s',  error)
+                    #logger1.error('DB loadMetarReport: %s',  error.pgcode)
                 raise Exception("Record could not be deleted nor inserted.  Review original metar data, most likely a report that is not in master station list")     
         
 #    def loadMetarReport(self,metarDict):

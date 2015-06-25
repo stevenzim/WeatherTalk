@@ -125,8 +125,8 @@ def setOneHrPrecip(remark):
             precip = round(float(precip),2)
             return precip
         except:
-            return None
-    return None
+            return -999.
+    return -999.
 
 def setThreeHrPressureTendency(remark):
     '''provided remark string, finds three hour pressure tendency and converts to desired output.  We want none if there is nothing there or error'''
@@ -138,14 +138,14 @@ def setThreeHrPressureTendency(remark):
             change = round(change,1)
             tendencyCode = int(pressure[1])
         except:
-            return None
+            return -999.
         if tendencyCode >3:
             return change
         if change == 0.00:
             return change
         if tendencyCode < 4:
             return -change
-    return None    
+    return -999.   
 
 def setTornado(remark,presentWxString):
     '''TEST to determine if tornado/funnel cloud has been reported'''
