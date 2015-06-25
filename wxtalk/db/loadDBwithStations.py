@@ -59,6 +59,10 @@ def createStationTable(csvFilePath):
     d.connection.close()	
     print "Stations loaded to station table successfully."
 
+
+#TODO: Remove below once final db is setup
+
+
 #def createStationTable(tableName,stationCsvFilePath):
 #    #open database connection
 #    connection = psycopg2.connect("dbname=weather user=steven password=steven") 

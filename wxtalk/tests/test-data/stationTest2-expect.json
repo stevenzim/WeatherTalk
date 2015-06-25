@@ -8,18 +8,24 @@
             "type": "Point"
         },
         "id": 601331223298977792,
-        "metar_stations": [
+        "climate_stations": [
             [
                 "KMOT",
                 40.586
+            ]
+        ],
+        "metar_stations": [
+            [
+                "KRUG",
+                18.087
             ],
             [
-                "KBIS",
-                106.325
+                "KMOT", 
+                40.586
             ],
             [
-                "KJMS",
-                123.438
+                "K5H4",
+                41.108
             ]
         ],
         "text": "Jamie hat Upton Services #us_test #No21233",

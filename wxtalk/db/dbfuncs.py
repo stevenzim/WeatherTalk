@@ -134,7 +134,7 @@ class Stations(object):
     def __init__(self,connectionParams = "dbname=weather user=steven password=steven"):
         self.con = Connector()
 
-    def getStationList(self,twitterCoords,maxStations = 3,stationTable = "metarStations"):
+    def getStationList(self,twitterCoords,maxStations = 3,stationTable = "stations",climateStationBool = False):
         '''
         Pass in a list of coordinates in [longitude,latitude] format
         Returns a list of tuples containing top 3 
@@ -142,15 +142,24 @@ class Stations(object):
         '''
         #con = Connector()  #create connection obj
         stationCoordString = str(tuple(twitterCoords))
-        #print stationCoordString
 
         #sql statement to retrieve sorted list of stations with distances in statue miles
-        sql = "SELECT ICAO_ID, name, latitude, longitude, location,\
-               round((location <@> point" + stationCoordString + ")::numeric, 3) as miles \
-        FROM weather." + stationTable + " \
-        ORDER BY round((location <@> point" + stationCoordString + ")::numeric, 3) \
-        limit " + str(maxStations) + ";" 
+        sql = ''
+        if climateStationBool:
+            sql = "SELECT icao_id, latitude, longitude, lat_lon_point,climate_station,\
+                   round((lat_lon_point <@> point" + stationCoordString + ")::numeric, 3) as miles \
+            FROM weather." + stationTable + " \
+            WHERE climate_station = " + str(climateStationBool) + " \
+            ORDER BY round((lat_lon_point <@> point" + stationCoordString + ")::numeric, 3) \
+            limit " + str(maxStations) + ";" 
+        else:
+            sql = "SELECT icao_id, latitude, longitude, lat_lon_point,climate_station,\
+                   round((lat_lon_point <@> point" + stationCoordString + ")::numeric, 3) as miles \
+            FROM weather." + stationTable + " \
+            ORDER BY round((lat_lon_point <@> point" + stationCoordString + ")::numeric, 3) \
+            limit " + str(maxStations) + ";" 
         
+
         
         listToReturn = []
         
@@ -159,7 +168,7 @@ class Stations(object):
         try:
             self.con.cursor.execute(sql)
             listOfStations = self.con.cursor.fetchall()
-        except:
+        except Exception as err:
             #restablish connection and throw exception error
             self.con.cursor.close()
             self.con = Connector()
@@ -167,11 +176,54 @@ class Stations(object):
         
         #build and return list of stations and distances    
         for record in listOfStations:
+            print record
             stationID = record[0]
+            climateBool = record[-2]
             stationDistance = record[-1].__float__()
-            listToReturn.append([stationID,stationDistance])
+            listToReturn.append([stationID,stationDistance,climateBool])
         
-        return listToReturn    
+        return listToReturn  
+
+
+#    def getStationListOld(self,twitterCoords,maxStations = 3,stationTable = "metarStations"):
+#        '''
+#        Pass in a list of coordinates in [longitude,latitude] format
+#        Returns a list of tuples containing top 3 
+#        stationTable = default(metarStations) or climateStations
+#        '''
+#        #con = Connector()  #create connection obj
+#        stationCoordString = str(tuple(twitterCoords))
+#        #print stationCoordString
+
+#        #sql statement to retrieve sorted list of stations with distances in statue miles
+#        sql = "SELECT ICAO_ID, name, latitude, longitude, location,\
+#               round((location <@> point" + stationCoordString + ")::numeric, 3) as miles \
+#        FROM weather." + stationTable + " \
+#        ORDER BY round((location <@> point" + stationCoordString + ")::numeric, 3) \
+#        limit " + str(maxStations) + ";" 
+#        
+#        
+#        listToReturn = []
+#        
+#        #get nearest station
+#        #error handling in the event that wrong point format thrown in
+#        try:
+#            self.con.cursor.execute(sql)
+#            listOfStations = self.con.cursor.fetchall()
+#        except:
+#            #restablish connection and throw exception error
+#            self.con.cursor.close()
+#            self.con = Connector()
+#            raise TypeError("Coordinate must be passed in as list/tuple format (lat,lon)")
+#        
+#        #build and return list of stations and distances    
+#        for record in listOfStations:
+#            stationID = record[0]
+#            stationDistance = record[-1].__float__()
+#            listToReturn.append([stationID,stationDistance])
+#        
+#        return listToReturn    
+
 
 
 

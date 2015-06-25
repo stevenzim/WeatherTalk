@@ -144,14 +144,13 @@ def batchLoadMetarReports(rawMetarDir = os.path.join(helper.getProjectPath(),'wx
     
 
 ############### TWITTER/WX PIPE ####################
+
 #STEP 1
-def getTweetWxStations(tweetListofdicts,numStationsToReturn = 3,desiredKeyName = 'metar_stations',stationTable = "metarStations"):
+def getTweetWxStations(tweetListofdicts,numStationsToReturn = 20,stationTable = "stations",maxStations = 3):
     '''
     Input: Tweet Dictionary,numStationsToReturn(default = 3), 
-                    desiredKeyName = 'metar_stations' or 'climate_stations' 
-                    stationTable = "metarStations" or "climateStations"
     Returns: Tweet Dictionary with 
-    key = 'metar_stations' or 'climate_stations'
+    key = 'metar_stations' and 'climate_stations' list
     vals = [('stationID1',distanceToStationID1 in StatuteMiles),
             ('stationID2',distanceToStationID2 in StatuteMiles)]
     
@@ -166,12 +165,21 @@ def getTweetWxStations(tweetListofdicts,numStationsToReturn = 3,desiredKeyName =
             #get lon/lat from tweet dictionary and convert to tuple
             tweetCoordinates = tweetDict['coordinates']['coordinates']
             
-            #TODO: If time permits, add in climate stations field.
-            #return list of metar stations
+            #TODO: Returns a list of metar and potentially climate stations.
             stationList = stationObj.getStationList(tweetCoordinates,maxStations = numStationsToReturn, stationTable = stationTable)
             
+            climateList = []
+            metarList = []
+            #this is done for efficient querying, by doing this db is only queried once for both station types
+            for station in stationList:
+                if station[2] and (len(climateList) < maxStations):
+                    climateList.append([station[0],station[1]])
+                if len(metarList) < maxStations:
+                    metarList.append([station[0],station[1]])
+            
             #append station list to tweetDictionary
-            tweetDict[desiredKeyName] = stationList
+            tweetDict['metar_stations'] = metarList
+            tweetDict['climate_stations'] = climateList
             
             #append updated dict to return list
             returnTweetsList.append(tweetDict)
@@ -183,6 +191,47 @@ def getTweetWxStations(tweetListofdicts,numStationsToReturn = 3,desiredKeyName =
     
     #return dictionary
     return returnTweetsList
+
+
+##STEP 1
+#def getTweetWxStations(tweetListofdicts,numStationsToReturn = 3,desiredKeyName = 'metar_stations',stationTable = "metarStations"):
+#    '''
+#    Input: Tweet Dictionary,numStationsToReturn(default = 3), 
+#                    desiredKeyName = 'metar_stations' or 'climate_stations' 
+#                    stationTable = "metarStations" or "climateStations"
+#    Returns: Tweet Dictionary with 
+#    key = 'metar_stations' or 'climate_stations'
+#    vals = [('stationID1',distanceToStationID1 in StatuteMiles),
+#            ('stationID2',distanceToStationID2 in StatuteMiles)]
+#    
+#    '''
+#    #initialise db object
+#    stationObj = db.Stations()
+#    
+#    returnTweetsList = []
+#    
+#    for tweetDict in tweetListofdicts:
+#        try:
+#            #get lon/lat from tweet dictionary and convert to tuple
+#            tweetCoordinates = tweetDict['coordinates']['coordinates']
+#            
+#            #TODO: If time permits, add in climate stations field.
+#            #return list of metar stations
+#            stationList = stationObj.getStationList(tweetCoordinates,maxStations = numStationsToReturn, stationTable = stationTable)
+#            
+#            #append station list to tweetDictionary
+#            tweetDict[desiredKeyName] = stationList
+#            
+#            #append updated dict to return list
+#            returnTweetsList.append(tweetDict)
+#        except:
+#            #dump data to error folder and continue onto next dictionary
+#            tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxStations'
+#            helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),tweetDict)
+#            continue
+#    
+#    #return dictionary
+#    return returnTweetsList
 
 
 

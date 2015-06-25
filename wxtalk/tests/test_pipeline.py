@@ -21,11 +21,11 @@ def test_get_tweet_wxstations():
     with list of wx stations and distance to wx station
     '''
     #basic test to get stations for list of dicts
-    test = pipeline.getTweetWxStations(test1in,stationTable = "climateStations")
+    test = pipeline.getTweetWxStations(test1in,numStationsToReturn = 10,stationTable = "stations",maxStations = 3)
     assert_equal(test,test1expect)
     
     #test to ensure tweet with bad data is dropped from list
-    test = pipeline.getTweetWxStations(test2in,stationTable = "climateStations")
+    test = pipeline.getTweetWxStations(test2in,numStationsToReturn = 10,stationTable = "stations",maxStations = 3)
     assert_equal(test,test2expect)
 
 
