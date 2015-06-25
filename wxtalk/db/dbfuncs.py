@@ -54,8 +54,8 @@ class MetarReport(object):
 #                    WHERE ICAO_ID = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp\
 #                    ORDER BY observation_time DESC LIMIT '+ limit +';'
         sqlstring = 'SELECT '+ sqlSelect +'\
-                    FROM weather.metar_report\
-                    WHERE ICAO_ID = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp  AND\
+                    FROM weather.metar\
+                    WHERE icao_id = \''+ metarStationID +'\'  AND observation_time <= \''+ datetimeStamp +'\'::timestamp  AND\
                                     observation_time > (\''+ datetimeStamp +'\'::timestamp - interval \'2 hours\')::timestamp\
                     ORDER BY observation_time DESC LIMIT '+ limit +';'
         try:
@@ -68,7 +68,6 @@ class MetarReport(object):
             logger1.error('DB retrieveMetarReport: %s',  error)
             raise Exception('Report could not be retrieved, perhaps wrong datestamp, stationID or sqlselect statemnt')
 
-        
     def loadMetarReport(self,metarDict):
         '''
         pass in dictionary matching format produced by wxtalk.wxcollector.createMetarTable.getMetarDict(metarString)
@@ -89,7 +88,7 @@ class MetarReport(object):
         values_str_list = [str(value) for value in values]
         values_str = "\',\'".join(values_str_list)
         #create insert string
-        sqlinsertstring = 'INSERT INTO weather.metar_report (' + columns_str + ')\
+        sqlinsertstring = 'INSERT INTO weather.metar (' + columns_str + ')\
                                  VALUES (\'' + values_str + '\');'
                                                     
 
@@ -103,7 +102,7 @@ class MetarReport(object):
                 #restablish connection, try to delete existing record and then insert in new record
                 self.con.cursor.close()
                 self.con = Connector()
-                sqldeletestring = 'DELETE FROM weather.metar_report\
+                sqldeletestring = 'DELETE FROM weather.metar\
                             WHERE ICAO_ID = \'' + metarDict['ICAO_ID'] + '\' AND observation_time = \'' + metarDict['observation_time'] + '\''
                 self.con.cursor.execute(sqldeletestring)
                 self.con.connection.commit()
@@ -117,7 +116,57 @@ class MetarReport(object):
                     #TODO: fix error logging, currently it is logging way to much, sometimes FK error still logged
                     logger1.error('DB loadMetarReport: %s',  error)
                     logger1.error('DB loadMetarReport: %s',  error.pgcode)
-                raise Exception("Record could not be deleted nor inserted.  Review original metar data, most likely a report that is not in master station list")       
+                raise Exception("Record could not be deleted nor inserted.  Review original metar data, most likely a report that is not in master station list")     
+        
+#    def loadMetarReport(self,metarDict):
+#        '''
+#        pass in dictionary matching format produced by wxtalk.wxcollector.createMetarTable.getMetarDict(metarString)
+#        loads metar report if it doesnt exist
+#        if it exists already, then assume this is updated version --> delete existing, then create new record
+#        '''
+#        
+#        #throw error if data passed in is not a dict
+#        if type(metarDict) != type({}):
+#            raise Exception("This function expects a dictionary containing metar data")
+
+#        #inspired by http://stackoverflow.com/questions/29461933/insert-python-dictionary-using-psycopg2
+#        #convert keys to column names and then create string
+#        columns = metarDict.keys()
+#        columns_str = ", ".join(columns)
+#        #convert values to column names and then create string
+#        values = [metarDict[x] for x in columns]
+#        values_str_list = [str(value) for value in values]
+#        values_str = "\',\'".join(values_str_list)
+#        #create insert string
+#        sqlinsertstring = 'INSERT INTO weather.metar_report (' + columns_str + ')\
+#                                 VALUES (\'' + values_str + '\');'
+#                                                    
+
+#        #load station into db
+#        #if exception thrown, then record likely exists, therefore delete record and try again
+#        try:
+#            self.con.cursor.execute(sqlinsertstring)
+#            self.con.connection.commit()
+#        except psycopg2.IntegrityError as error:
+#            try:
+#                #restablish connection, try to delete existing record and then insert in new record
+#                self.con.cursor.close()
+#                self.con = Connector()
+#                sqldeletestring = 'DELETE FROM weather.metar_report\
+#                            WHERE ICAO_ID = \'' + metarDict['ICAO_ID'] + '\' AND observation_time = \'' + metarDict['observation_time'] + '\''
+#                self.con.cursor.execute(sqldeletestring)
+#                self.con.connection.commit()
+#                self.con.cursor.execute(sqlinsertstring)
+#                self.con.connection.commit()
+#            except Exception as error:
+#                # if it can't be deleted or inserted, do warn me so I can review the data
+#                # 23503 = FK violation in Postgre.  This is due to the occasional METAR report that is not loaded in metar master station list
+#                # We don't want these reports in our db so we can supress error logging
+#                if error.pgcode != 23503:
+#                    #TODO: fix error logging, currently it is logging way to much, sometimes FK error still logged
+#                    logger1.error('DB loadMetarReport: %s',  error)
+#                    logger1.error('DB loadMetarReport: %s',  error.pgcode)
+#                raise Exception("Record could not be deleted nor inserted.  Review original metar data, most likely a report that is not in master station list")       
 
 
 

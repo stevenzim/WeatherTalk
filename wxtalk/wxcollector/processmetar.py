@@ -35,13 +35,15 @@ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR B
 HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+for more details of how these values are converted, see http://www.ofcm.gov/fmh-1/pdf/L-CH12.pdf
 """
 
 import os
 import re
 import datetime
 
-skyCoverDict = {"":-999.,"CLR":0.0,"SKC":0.0,"FEW":.1875,"SCT":.4375,"BKN":.75,"OVC":1.0,"OVX":1.0}
+skyCoverDict = {"":-999.,"CLR":0.0,"SKC":0.0,"FEW":.1875,"SCT":.4375,"BKN":.75,"OVC":1.0,"OVX":1.0,"VV":1.0}
 
         
 def setWindGust(windSpeed,windGust):
@@ -112,6 +114,50 @@ def setRemark(metarList):
     else:
         return metarList[21]
 
+def setOneHrPrecip(remark):
+    '''provided remark string, finds one hour precip value and converts to desired output.  We want none if there is nothing there or error'''
+    match = re.search('P\d\d\d\d', remark)
+    if match != None:
+        precip = match.group(0)
+        precip = precip[1:]
+        precip = precip[:2] +  "." +  precip[2:]
+        try:
+            precip = round(float(precip),2)
+            return precip
+        except:
+            return None
+    return None
+
+def setThreeHrPressureTendency(remark):
+    '''provided remark string, finds three hour pressure tendency and converts to desired output.  We want none if there is nothing there or error'''
+    match = re.search('5\d\d\d\d', remark)
+    if match != None:
+        pressure = match.group(0)
+        try:
+            change = float(pressure[2:4] +  "." +  pressure[4])
+            change = round(change,1)
+            tendencyCode = int(pressure[1])
+        except:
+            return None
+        if tendencyCode >3:
+            return change
+        if change == 0.00:
+            return change
+        if tendencyCode < 4:
+            return -change
+    return None    
+
+def setTornado(remark,presentWxString):
+    '''TEST to determine if tornado/funnel cloud has been reported'''
+    if setWxTypeBoolean(presentWxString,['FC']):
+        return True
+    if 'TORNADO' in remark:
+        return True
+    if 'FUNNEL CLOUD' in remark:
+        return True
+    if 'WATERSPOUT' in remark:
+        return True
+    return False
 
 def getMetarDict(metarList):
     '''Takes in a cleaned up list containing data from METAR
@@ -120,9 +166,14 @@ def getMetarDict(metarList):
     the data has key information missing (e.g. wind/temp data) and thus should not be 
     recorded'''
     presentWxString = metarList[11]
+    precipList = [setPrecipVals(presentWxString,'RA'),\
+                    setPrecipVals(presentWxString,'SN'),\
+                    setPrecipVals(presentWxString,'DZ'),\
+                    setPrecipVals(presentWxString,'UP')]
+    remark = setRemark(metarList)
     return{
         #info about report
-        'ICAO_ID' : metarList[0],                # ICAO Code e.g. KSEA
+        'icao_id' : metarList[0],                # ICAO Code e.g. KSEA
         'observation_time' : metarList[1][:-1] + '+00:00',     # Date and Time in UTC  --> Drop Z at end --> add timezone offset e.g. 2015-05-22T14:02:00
         #temps
         'temp_c' : float(metarList[2]),             # Temp C  38.6
@@ -133,20 +184,26 @@ def getMetarDict(metarList):
         'wind_gust_kt' : setWindGust(metarList[5],metarList[6]),                 # Wind Speed Knots  15
         #vis & pressure
         'visibility_statute_mi' : setFloat(metarList[7]),      # Visibility in Statute Miles   24.2
-        'altim_in_hg' : round(float(metarList[8]),2),                # Pressure in inches of Mercury rounded to 2 decimals    29.92
+        'altim_in_hg' : float(metarList[8]),                # Pressure in inches of Mercury rounded to 2 decimals    29.92
         #report correct and maintenance indicator
         'corrected' : setBool(metarList[9]),                        # Is report a correction   True
         'maintenance_indicator_on' : setBool(metarList[10]),         # Is the weather station due for maintenance  False
         #present weather values
         #TODO: The following wxtsring fields are a very basic conversion of wxstring, if time, consider a more elegant way to do this
         'wx_string' : presentWxString,                       # TODO: Should I convert this to something else or just leave it as a string, perhaps index it so easily searched in db?   e.g. VCTS +RA
-        'precip_rain': setPrecipVals(presentWxString,'RA'),     #all four precip types return 0 if not reported. 1 = light, 2 = moderate, 3 = heavy , NOTE: VC for vicinity is assumed to be present weather e.g. 1
-        'precip_snow': setPrecipVals(presentWxString,'SN'),
-        'precip_drizzle': setPrecipVals(presentWxString,'DZ'),
-        'precip_unknown': setPrecipVals(presentWxString,'UP'),
+        'precip_rain': precipList[0],     #all four precip types return 0 if not reported. 1 = light, 2 = moderate, 3 = heavy , NOTE: VC for vicinity is assumed to be present weather e.g. 1
+        'precip_snow': precipList[1],
+        'precip_drizzle': precipList[2],
+        'precip_unknown': precipList[3],
+        'precip_intensity': max(precipList),   #max intensity of all precip types
+        'precip_occuring': True if max(precipList) > 0 else False,
         'thunderstorm': setWxTypeBoolean(presentWxString,['TS']),                       #If TS in string, then tstorm occuring  True/False
         'hail_graupel_pellets': setWxTypeBoolean(presentWxString,['GR','GS','PL']),                        #If any in list then true, else false
         'fog_mist': setWxTypeBoolean(presentWxString,['BR','FG']),                            #If any in list then true, else false
+        'tornado': setTornado(remark,presentWxString),
+        #precip and pressure from remarks
+        'three_hour_pressure_tendency':setThreeHrPressureTendency(remark),
+        'one_hour_precip':setOneHrPrecip(remark),
         #Cloud cover
         'transmissivity_clouds' : 9.99,             # TODO: Transmissivity of Clouds based on NRCC paper, a very interesting value, but it will take a while to implement e.g. .96
         'max_cloud_cov' : setMaxCloudCover(metarList[12:20]),                     #Max Cloud Percentage based on METAR standards, for details see function above   e.g. .1275

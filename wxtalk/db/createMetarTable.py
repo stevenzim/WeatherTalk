@@ -11,6 +11,56 @@
 
 import psycopg2
 import sys
+from wxtalk.db import dbfuncs as db
+
+def createMetarTable():
+    #open database connection
+    d = db.Connector()
+
+    #drop existing table
+#    d.cursor.execute("DROP TABLE weather.metar;")
+#    d.connection.commit()
+
+    #create table
+    addTableCmd = "CREATE TABLE weather.metar \
+    (\
+    icao_id CHAR(4),\
+    observation_time timestamp,\
+    temp_c float,\
+    dewpoint_c float,\
+    wind_dir_degrees smallint,\
+    wind_speed_kt smallint,\
+    wind_gust_kt smallint,\
+    visibility_statute_mi float,\
+    altim_in_hg float,\
+    corrected bool,\
+    maintenance_indicator_on bool,\
+    wx_string char(20),\
+    precip_rain smallint,\
+    precip_snow smallint,\
+    precip_drizzle smallint,\
+    precip_unknown smallint,\
+    precip_intensity smallint,\
+    precip_occuring bool,\
+    thunderstorm bool,\
+    hail_graupel_pellets bool,\
+    fog_mist bool,\
+    tornado bool,\
+    three_hour_pressure_tendency float,\
+    one_hour_precip float,\
+    transmissivity_clouds float,\
+    max_cloud_cov float,\
+    metar_type char(10),\
+    remark text,\
+    uid SERIAL UNIQUE,\
+    PRIMARY KEY (ICAO_ID, observation_time),\
+    CONSTRAINT metar_report_station_id_fkey FOREIGN KEY (ICAO_ID)\
+      REFERENCES weather.metarStations (ICAO_ID) MATCH SIMPLE\
+      ON UPDATE NO ACTION ON DELETE NO ACTION\
+    );"
+
+    d.cursor.execute(addTableCmd)
+    d.connection.commit()
 
 #TODO: Uncomment this to run
 #def createMetarTable():

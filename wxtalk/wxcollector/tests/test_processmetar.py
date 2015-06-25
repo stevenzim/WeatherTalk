@@ -19,6 +19,31 @@ wxstring2 = '-TSRA FC GR' #light rain, tstorm, tornado, hail
 wxstring3 = 'DZ GS' #moderate drizzle
 
 
+#remark test data
+remark1 = 'AO2A CB DSNT NE MOV E SLP208 P0000 60000 T00960056 10124 20096 57010' #precip last hour = 0 or trace, pressure tendency = decreased 1.0 hPa in past 3 hours
+remark2 = 'AO2A  P0105 52043 TORNADO' #precip last hour = 1.05 , pressure tendency = increased 4.3 hPa in past 3 hours, tornado true
+remark3 = 'AO2A 50000 FUNNEL CLOUD' #precip null, pressure tendency 0, tornado true
+remark4 = 'AO2A WATERSPOUT' #precip null, pressure null, tornado true
+
+def test_set_one_hr_rainfall():
+    assert_equal(metar.setOneHrPrecip(remark1),0.00)
+    assert_equal(metar.setOneHrPrecip(remark2),1.05)
+    assert_equal(metar.setOneHrPrecip(remark3),None)
+    assert_equal(metar.setOneHrPrecip(remark4),None)
+
+def test_set_three_hr_pressure_tendency():
+    assert_equal(metar.setThreeHrPressureTendency(remark1),1.0)
+    assert_equal(metar.setThreeHrPressureTendency(remark2),-4.3)
+    assert_equal(metar.setThreeHrPressureTendency(remark3),0.0)
+    assert_equal(metar.setThreeHrPressureTendency(remark4),None)
+
+def test_set_tornado_bool():
+    assert_equal(metar.setTornado(remark1,wxstring1),False)
+    assert_equal(metar.setTornado(remark1,wxstring2),True)
+    assert_equal(metar.setTornado(remark2,wxstring1),True)
+    assert_equal(metar.setTornado(remark3,wxstring1),True)
+    assert_equal(metar.setTornado(remark4,wxstring1),True)
+
 def test_set_max_cloud_cover():
     '''Test to verify correct max sky cover value is returned.'''
     assert_equal(metar.setMaxCloudCover(test1[0].split(",")),test1[1])
