@@ -125,7 +125,7 @@ class MetarReport(object):
 class Stations(object):
     '''
     usage:
-    from db import dbfuncs
+    from wxtalk.db import dbfuncs
     db = dbfuncs.Stations()
     db.getStationList([-75.,44.])
     

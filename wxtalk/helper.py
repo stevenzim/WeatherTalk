@@ -1,6 +1,7 @@
 from wxtalk.externals.tweetNLP import cmuTweetTagger as tweetNLPtagger
 
 import json
+import csv
 from datetime import datetime
 from os import listdir
 from os.path import isfile, join
@@ -157,6 +158,38 @@ def getProjectPath():
     except KeyError:
         user_paths = []    
      
-     
+#converts a csv file with header to a list of dictionaries, very useful for loading this type of data into database
+def csvToDicts(filepath):
+    '''converts a csv file with header to a list of dictionaries, very useful for loading this type of data into database
+    simply pass in the full path to csv file'''
+    listOfDicts = [] 
+    keys = ''    
+    with open(filepath, mode='r') as infile:
+        keys = infile.readline()
+        keys = keys.replace("\r\n","")
+        keys = keys.split(',')
+        reader = csv.reader(infile)
+        for rows in reader:
+            currentdict = {}
+            idx = 0
+            for key in keys:
+                currentdict[key] = rows[idx]
+                idx +=1
+            listOfDicts.append(currentdict)
+    return listOfDicts
+    
+    
+#convert dict to format for sql insertion
+def keysValsToSQL(dict):
+    '''Very useful for situation when dictionary has key names that match the column names in database'''
+    #inspired by http://stackoverflow.com/questions/29461933/insert-python-dictionary-using-psycopg2
+    #convert keys to column names and then create string
+    columns = dict.keys()
+    columns_str = ", ".join(columns)
+    #convert values to column names and then create string
+    values = [dict[x] for x in columns]
+    values_str_list = [str(value) for value in values]
+    values_str = "\',\'".join(values_str_list)
+    return columns_str, values_str
 
 
