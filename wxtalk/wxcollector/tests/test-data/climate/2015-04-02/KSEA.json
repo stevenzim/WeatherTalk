@@ -1,0 +1,61 @@
+{
+    "KSEA-2015-04-02": {
+        "OBSERVATIONS": [
+            "NO SIGNIFICANT WEATHER WAS OBSERVED."
+        ],
+        "PRECIPITATION": {
+            "LIQUID": {
+                "DEPARTURE": -0.11,
+                "LAST": 0.0,
+                "NORMAL": 0.11,
+                "OBSERVED": 0.0,
+                "RECORD": 0.92,
+                "TIME": "",
+                "YEAR": 2009.0
+            },
+            "SNOWFALL": {
+                "DEPARTURE": "",
+                "LAST": 0.0,
+                "NORMAL": "",
+                "OBSERVED": 0.0,
+                "RECORD": 0.2,
+                "TIME": "",
+                "YEAR": 1975.0
+            }
+        },
+        "REPORT-DATE": "2015-04-02",
+        "SKIES": {
+            "AVERAGE SKY COVER": 0.7
+        },
+        "STATION": "KSEA",
+        "SUN": {
+            "SUNRISE": "644 AM",
+            "SUNSET": "742 PM"
+        },
+        "TEMPERATURE": {
+            "MAXIMUM": {
+                "DEPARTURE": 0.0,
+                "LAST": 58.0,
+                "NORMAL": 56.0,
+                "OBSERVED": 56.0,
+                "RECORD": 76.0,
+                "TIME": "434 PM",
+                "YEAR": 1992.0
+            },
+            "MINIMUM": {
+                "DEPARTURE": 1.0,
+                "LAST": 42.0,
+                "NORMAL": 41.0,
+                "OBSERVED": 42.0,
+                "RECORD": 30.0,
+                "TIME": "137 AM",
+                "YEAR": 1976.0
+            }
+        },
+        "WINDS": {
+            "AVERAGE WIND SPEED": 5.3,
+            "HIGHEST GUST SPEED": 15.0,
+            "HIGHEST WIND SPEED": 10.0
+        }
+    }
+}

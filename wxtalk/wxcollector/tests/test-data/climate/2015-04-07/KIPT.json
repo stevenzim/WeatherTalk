@@ -1,0 +1,64 @@
+{
+    "KIPT-2015-04-07": {
+        "OBSERVATIONS": [
+            "HEAVY RAIN",
+            "RAIN",
+            "LIGHT RAIN",
+            "FOG"
+        ],
+        "PRECIPITATION": {
+            "LIQUID": {
+                "DEPARTURE": 0.11,
+                "LAST": 0.49,
+                "NORMAL": 0.11,
+                "OBSERVED": 0.22,
+                "RECORD": 1.35,
+                "TIME": "",
+                "YEAR": 1930.0
+            },
+            "SNOWFALL": {
+                "DEPARTURE": -0.1,
+                "LAST": 0.0,
+                "NORMAL": 0.1,
+                "OBSERVED": 0.0,
+                "RECORD": 9.5,
+                "TIME": "",
+                "YEAR": 1938.0
+            }
+        },
+        "REPORT-DATE": "2015-04-07",
+        "SKIES": {
+            "AVERAGE SKY COVER": 0.9
+        },
+        "STATION": "KIPT",
+        "SUN": {
+            "SUNRISE": "640 AM",
+            "SUNSET": "740 PM"
+        },
+        "TEMPERATURE": {
+            "MAXIMUM": {
+                "DEPARTURE": -1.0,
+                "LAST": 48.0,
+                "NORMAL": 57.0,
+                "OBSERVED": "",
+                "RECORD": 89.0,
+                "TIME": "139 AM",
+                "YEAR": 2010.0
+            },
+            "MINIMUM": {
+                "DEPARTURE": 10.0,
+                "LAST": 32.0,
+                "NORMAL": 36.0,
+                "OBSERVED": "",
+                "RECORD": 15.0,
+                "TIME": "141 PM",
+                "YEAR": 1982.0
+            }
+        },
+        "WINDS": {
+            "AVERAGE WIND SPEED": 2.3,
+            "HIGHEST GUST SPEED": 11.0,
+            "HIGHEST WIND SPEED": 8.0
+        }
+    }
+}

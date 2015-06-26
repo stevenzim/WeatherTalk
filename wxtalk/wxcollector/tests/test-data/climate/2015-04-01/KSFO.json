@@ -1,0 +1,61 @@
+{
+    "KSFO-2015-04-01": {
+        "OBSERVATIONS": [
+            "NO SIGNIFICANT WEATHER WAS OBSERVED."
+        ],
+        "PRECIPITATION": {
+            "LIQUID": {
+                "DEPARTURE": -0.06,
+                "LAST": 0.62,
+                "NORMAL": 0.06,
+                "OBSERVED": 0.0,
+                "RECORD": 1.22,
+                "TIME": "",
+                "YEAR": 1974.0
+            },
+            "SNOWFALL": {
+                "DEPARTURE": "",
+                "LAST": "",
+                "NORMAL": "",
+                "OBSERVED": 0.0,
+                "RECORD": 0.0,
+                "TIME": "",
+                "YEAR": ""
+            }
+        },
+        "REPORT-DATE": "2015-04-01",
+        "SKIES": {
+            "AVERAGE SKY COVER": 0.3
+        },
+        "STATION": "KSFO",
+        "SUN": {
+            "SUNRISE": "654 AM",
+            "SUNSET": "733 PM"
+        },
+        "TEMPERATURE": {
+            "MAXIMUM": {
+                "DEPARTURE": 1.0,
+                "LAST": 59.0,
+                "NORMAL": 63.0,
+                "OBSERVED": 64.0,
+                "RECORD": 83.0,
+                "TIME": "106 PM",
+                "YEAR": 1959.0
+            },
+            "MINIMUM": {
+                "DEPARTURE": 1.0,
+                "LAST": 48.0,
+                "NORMAL": 48.0,
+                "OBSERVED": 49.0,
+                "RECORD": 37.0,
+                "TIME": "458 AM",
+                "YEAR": 1976.0
+            }
+        },
+        "WINDS": {
+            "AVERAGE WIND SPEED": 15.5,
+            "HIGHEST GUST SPEED": 38.0,
+            "HIGHEST WIND SPEED": 30.0
+        }
+    }
+}

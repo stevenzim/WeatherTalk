@@ -1,0 +1,63 @@
+{
+    "KSTC-2015-04-06": {
+        "OBSERVATIONS": [
+            "LIGHT RAIN",
+            "LIGHT SNOW",
+            "FOG"
+        ],
+        "PRECIPITATION": {
+            "LIQUID": {
+                "DEPARTURE": 0.01,
+                "LAST": 0.0,
+                "NORMAL": 0.07,
+                "OBSERVED": 0.08,
+                "RECORD": 0.83,
+                "TIME": "",
+                "YEAR": 1965.0
+            },
+            "SNOWFALL": {
+                "DEPARTURE": -0.1,
+                "LAST": 0.0,
+                "NORMAL": 0.1,
+                "OBSERVED": "",
+                "RECORD": 3.8,
+                "TIME": "",
+                "YEAR": 1923.0
+            }
+        },
+        "REPORT-DATE": "2015-04-06",
+        "SKIES": {
+            "AVERAGE SKY COVER": 1.0
+        },
+        "STATION": "KSTC",
+        "SUN": {
+            "SUNRISE": "646 AM",
+            "SUNSET": "752 PM"
+        },
+        "TEMPERATURE": {
+            "MAXIMUM": {
+                "DEPARTURE": -11.0,
+                "LAST": 60.0,
+                "NORMAL": 51.0,
+                "OBSERVED": 40.0,
+                "RECORD": 86.0,
+                "TIME": "146 PM",
+                "YEAR": 1991.0
+            },
+            "MINIMUM": {
+                "DEPARTURE": 3.0,
+                "LAST": 35.0,
+                "NORMAL": 29.0,
+                "OBSERVED": 32.0,
+                "RECORD": 2.0,
+                "TIME": "835 AM",
+                "YEAR": 1979.0
+            }
+        },
+        "WINDS": {
+            "AVERAGE WIND SPEED": 11.2,
+            "HIGHEST GUST SPEED": 28.0,
+            "HIGHEST WIND SPEED": 18.0
+        }
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "KBIS-2015-04-04": {
+        "OBSERVATIONS": [
+            "NO SIGNIFICANT WEATHER WAS OBSERVED."
+        ],
+        "PRECIPITATION": {
+            "LIQUID": {
+                "DEPARTURE": -0.04,
+                "LAST": 0.0,
+                "NORMAL": 0.04,
+                "OBSERVED": 0.0,
+                "RECORD": 1.24,
+                "TIME": "",
+                "YEAR": 1875.0
+            },
+            "SNOWFALL": {
+                "DEPARTURE": -0.2,
+                "LAST": 0.0,
+                "NORMAL": 0.2,
+                "OBSERVED": 0.0,
+                "RECORD": 3.3,
+                "TIME": "",
+                "YEAR": 1947.0
+            }
+        },
+        "REPORT-DATE": "2015-04-04",
+        "SKIES": {
+            "AVERAGE SKY COVER": 0.4
+        },
+        "STATION": "KBIS",
+        "SUN": {
+            "SUNRISE": "715 AM",
+            "SUNSET": "817 PM"
+        },
+        "TEMPERATURE": {
+            "MAXIMUM": {
+                "DEPARTURE": 7.0,
+                "LAST": 39.0,
+                "NORMAL": 51.0,
+                "OBSERVED": 58.0,
+                "RECORD": 77.0,
+                "TIME": "422 PM",
+                "YEAR": 1991.0
+            },
+            "MINIMUM": {
+                "DEPARTURE": -4.0,
+                "LAST": 27.0,
+                "NORMAL": 26.0,
+                "OBSERVED": "",
+                "RECORD": 4.0,
+                "TIME": "242 AM",
+                "YEAR": 1920.0
+            }
+        },
+        "WINDS": {
+            "AVERAGE WIND SPEED": 6.1,
+            "HIGHEST GUST SPEED": 18.0,
+            "HIGHEST WIND SPEED": 13.0
+        }
+    }
+}

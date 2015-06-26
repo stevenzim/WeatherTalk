@@ -1,0 +1,61 @@
+{
+    "KMSP-2015-04-03": {
+        "OBSERVATIONS": [
+            "NO SIGNIFICANT WEATHER WAS OBSERVED."
+        ],
+        "PRECIPITATION": {
+            "LIQUID": {
+                "DEPARTURE": -0.07,
+                "LAST": 0.68,
+                "NORMAL": 0.07,
+                "OBSERVED": 0.0,
+                "RECORD": 0.84,
+                "TIME": "",
+                "YEAR": 1974.0
+            },
+            "SNOWFALL": {
+                "DEPARTURE": -0.1,
+                "LAST": 5.0,
+                "NORMAL": 0.1,
+                "OBSERVED": 0.0,
+                "RECORD": 5.9,
+                "TIME": "",
+                "YEAR": 1974.0
+            }
+        },
+        "REPORT-DATE": "2015-04-03",
+        "SKIES": {
+            "AVERAGE SKY COVER": 0.7
+        },
+        "STATION": "KMSP",
+        "SUN": {
+            "SUNRISE": "648 AM",
+            "SUNSET": "744 PM"
+        },
+        "TEMPERATURE": {
+            "MAXIMUM": {
+                "DEPARTURE": -8.0,
+                "LAST": 40.0,
+                "NORMAL": 51.0,
+                "OBSERVED": 43.0,
+                "RECORD": 80.0,
+                "TIME": "331 PM",
+                "YEAR": 1921.0
+            },
+            "MINIMUM": {
+                "DEPARTURE": -5.0,
+                "LAST": 27.0,
+                "NORMAL": 32.0,
+                "OBSERVED": 27.0,
+                "RECORD": 9.0,
+                "TIME": "634 AM",
+                "YEAR": 1954.0
+            }
+        },
+        "WINDS": {
+            "AVERAGE WIND SPEED": 12.7,
+            "HIGHEST GUST SPEED": 29.0,
+            "HIGHEST WIND SPEED": 23.0
+        }
+    }
+}

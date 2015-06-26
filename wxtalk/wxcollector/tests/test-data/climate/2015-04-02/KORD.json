@@ -1,0 +1,63 @@
+{
+    "KORD-2015-04-02": {
+        "OBSERVATIONS": [
+            "RAIN",
+            "LIGHT RAIN",
+            "FOG"
+        ],
+        "PRECIPITATION": {
+            "LIQUID": {
+                "DEPARTURE": 0.25,
+                "LAST": "",
+                "NORMAL": 0.11,
+                "OBSERVED": 0.36,
+                "RECORD": 1.64,
+                "TIME": "",
+                "YEAR": 1983.0
+            },
+            "SNOWFALL": {
+                "DEPARTURE": -0.1,
+                "LAST": 0.0,
+                "NORMAL": 0.1,
+                "OBSERVED": 0.0,
+                "RECORD": 9.4,
+                "TIME": "",
+                "YEAR": 1975.0
+            }
+        },
+        "REPORT-DATE": "2015-04-02",
+        "SKIES": {
+            "AVERAGE SKY COVER": 0.8
+        },
+        "STATION": "KORD",
+        "SUN": {
+            "SUNRISE": "631 AM",
+            "SUNSET": "719 PM"
+        },
+        "TEMPERATURE": {
+            "MAXIMUM": {
+                "DEPARTURE": 11.0,
+                "LAST": 45.0,
+                "NORMAL": 54.0,
+                "OBSERVED": 65.0,
+                "RECORD": 82.0,
+                "TIME": "502 PM",
+                "YEAR": 1963.0
+            },
+            "MINIMUM": {
+                "DEPARTURE": 16.0,
+                "LAST": 34.0,
+                "NORMAL": 34.0,
+                "OBSERVED": "",
+                "RECORD": 18.0,
+                "TIME": "119 PM",
+                "YEAR": 1899.0
+            }
+        },
+        "WINDS": {
+            "AVERAGE WIND SPEED": 11.2,
+            "HIGHEST GUST SPEED": 28.0,
+            "HIGHEST WIND SPEED": 23.0
+        }
+    }
+}

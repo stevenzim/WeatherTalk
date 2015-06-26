@@ -1,0 +1,61 @@
+{
+    "KSLC-2015-04-05": {
+        "OBSERVATIONS": [
+            "NO SIGNIFICANT WEATHER WAS OBSERVED."
+        ],
+        "PRECIPITATION": {
+            "LIQUID": {
+                "DEPARTURE": -0.07,
+                "LAST": 0.05,
+                "NORMAL": 0.07,
+                "OBSERVED": 0.0,
+                "RECORD": 0.76,
+                "TIME": "",
+                "YEAR": 1941.0
+            },
+            "SNOWFALL": {
+                "DEPARTURE": -0.2,
+                "LAST": 0.0,
+                "NORMAL": 0.2,
+                "OBSERVED": 0.0,
+                "RECORD": 169.0,
+                "TIME": "",
+                "YEAR": 2006.0
+            }
+        },
+        "REPORT-DATE": "2015-04-05",
+        "SKIES": {
+            "AVERAGE SKY COVER": 0.1
+        },
+        "STATION": "KSLC",
+        "SUN": {
+            "SUNRISE": "704 AM",
+            "SUNSET": "758 PM"
+        },
+        "TEMPERATURE": {
+            "MAXIMUM": {
+                "DEPARTURE": 11.0,
+                "LAST": 56.0,
+                "NORMAL": 59.0,
+                "OBSERVED": 70.0,
+                "RECORD": 82.0,
+                "TIME": "254 PM",
+                "YEAR": 1959.0
+            },
+            "MINIMUM": {
+                "DEPARTURE": 11.0,
+                "LAST": 43.0,
+                "NORMAL": 37.0,
+                "OBSERVED": "",
+                "RECORD": 15.0,
+                "TIME": "155 PM",
+                "YEAR": 1955.0
+            }
+        },
+        "WINDS": {
+            "AVERAGE WIND SPEED": 13.2,
+            "HIGHEST GUST SPEED": 36.0,
+            "HIGHEST WIND SPEED": 30.0
+        }
+    }
+}

@@ -1,0 +1,62 @@
+{
+    "KSHV-2015-04-08": {
+        "OBSERVATIONS": [
+            "FOG",
+            "HAZE"
+        ],
+        "PRECIPITATION": {
+            "LIQUID": {
+                "DEPARTURE": -0.14,
+                "LAST": 0.07,
+                "NORMAL": 0.14,
+                "OBSERVED": 0.0,
+                "RECORD": 2.41,
+                "TIME": "",
+                "YEAR": 1942.0
+            },
+            "SNOWFALL": {
+                "DEPARTURE": "",
+                "LAST": "",
+                "NORMAL": "",
+                "OBSERVED": 0.0,
+                "RECORD": "",
+                "TIME": "",
+                "YEAR": ""
+            }
+        },
+        "REPORT-DATE": "2015-04-08",
+        "SKIES": {
+            "AVERAGE SKY COVER": 0.7
+        },
+        "STATION": "KSHV",
+        "SUN": {
+            "SUNRISE": "654 AM",
+            "SUNSET": "741 PM"
+        },
+        "TEMPERATURE": {
+            "MAXIMUM": {
+                "DEPARTURE": 10.0,
+                "LAST": 70.0,
+                "NORMAL": 75.0,
+                "OBSERVED": 85.0,
+                "RECORD": 89.0,
+                "TIME": "309 PM",
+                "YEAR": 1882.0
+            },
+            "MINIMUM": {
+                "DEPARTURE": 18.0,
+                "LAST": 43.0,
+                "NORMAL": 51.0,
+                "OBSERVED": 69.0,
+                "RECORD": 36.0,
+                "TIME": "635 AM",
+                "YEAR": 1938.0
+            }
+        },
+        "WINDS": {
+            "AVERAGE WIND SPEED": 11.2,
+            "HIGHEST GUST SPEED": 28.0,
+            "HIGHEST WIND SPEED": 22.0
+        }
+    }
+}
