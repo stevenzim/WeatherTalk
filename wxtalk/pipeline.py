@@ -63,6 +63,8 @@ def removeDuplicateMetar(rawMetarDir = os.path.join(helper.getProjectPath(),'wxt
             inFile = open(rawMetarDir + file, 'r')
             #print file
             for line in inFile:
+                    #TODO: Perhaps some error handling here.  Issues opening file from METAR_2015-06-04-0452Z.csv
+                    #print line
                     report = line.split(',')
                     key = report[0]+report[1]
                     metarDict[key] = line

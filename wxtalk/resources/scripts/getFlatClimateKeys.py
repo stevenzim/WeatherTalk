@@ -15,7 +15,8 @@ outDict = {}
 
 
 files = []
-for dirpath, dirnames, filenames in os.walk("."):
+datadir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/resources/data/Raw-WxTweets-MAR15-JUN18/climate'
+for dirpath, dirnames, filenames in os.walk(datadir):
     for filename in [f for f in filenames if f.endswith(".json")]:
         files.append( os.path.join(dirpath, filename))
 
