@@ -114,7 +114,7 @@ def setDateToDatetime(icaoCode,dateString):
         endDayString = dayAhead.strftime("%Y-%m-%d")
         startDateTime = dateString + " " + startTime
         endDateTime = endDayString + " " + endTime
-        print [startDateTime,endDateTime]
+        #print [startDateTime,endDateTime]
         return [startDateTime,endDateTime]
     except Exception as error:
         raise ValueError("ICAO code not in station list, or date string not in correct format")
@@ -176,7 +176,7 @@ def setClimateDict(climateFlatDict):
     for key in keysToDrop:
         climateFlatDict.pop(key,None)
         
-    datesTimes = setDateToDatetime(climateFlatDict["icao_id"],climateFlatDict["report-date"])
+    datesTimes = setDateToDatetime(climateFlatDict["station"],climateFlatDict["report-date"])
     
     return{"precipitation_liquid_departure" : setFloat(climateFlatDict,"precipitation_liquid_departure"),
         "precipitation_liquid_new_record" : setBool(climateFlatDict,"precipitation_liquid_new_record"),
@@ -241,6 +241,22 @@ def setClimateDict(climateFlatDict):
         "avg_thirty_day_winds_average_wind_speed" : -999.9
     }
 
+ 
+avg_key_days_str =["avg_two_day_",\
+        "avg_three_day_",\
+        "avg_seven_day_",\
+        "avg_thirty_day_" ]  
+avg_key_types_str =["precipitation_liquid_departure",\
+        "precipitation_liquid_observed",\
+        "precipitation_snowfall_departure",\
+        "precipitation_snowfall_observed",\
+        "temperature_maximum_departure",\
+        "temperature_maximum_observed",\
+        "temperature_minimum_departure",\
+        "temperature_minimum_observed",\
+        "winds_average_wind_speed"]
+
+
 import flatdict
 from wxtalk import helper
 import os
@@ -257,6 +273,7 @@ for dirpath, dirnames, filenames in os.walk(datadir):
         stationsDict[filename] = []
 
 files.sort() #sort files
+files.reverse() #reverse to make it easier to aggregrate
 
 #load each daily report to appropriate station key list
 #put key names in correct format
@@ -275,8 +292,53 @@ for file in files:
     stationsDictKeyName = file.split('/')[-1]  #retrieve original file name e.g. 'KSEA.json' this is the key name
     stationsDict[stationsDictKeyName].append(outputDict)
 
+        
 
 #update each field to correct output format
 #output each list of dicts of each station to a json file    
 for key in stationsDict:   
     helper.dumpJSONtoFile(indir +'/' + key,stationsDict[key])
+    
+    
+aggregrateStations ={}
+for station in stationsDict:
+    outStation = []
+    reports = stationsDict[station]
+    stationsSliced = stationsDict[station]
+    for report in reports:
+        outReport = report
+        avg2list=stationsSliced[-2:]
+        for key in avg_key_types_str:
+            #TODO: add in check here for difference between date of first report and last report
+            #     if difference doesn't match, then put 999's else sum and average
+                
+            firstDate = datetime.datetime.strptime(avg2list[0]["report_date"],"%Y-%m-%d")
+            lastDate = datetime.datetime.strptime(avg2list[-1]["report_date"],"%Y-%m-%d")
+            totalDays = firstDate - lastDate
+            deltaDays = totalDays.days
+            if deltaDays < 1:
+                for keyname in avg_key_types_str:
+                    avgKeyName = "avg_two_day_" + keyname
+                    outReport[avgKeyName] = -999.9
+            else:
+                for keyname in avg_key_types_str:
+                    avgKeyName = "avg_two_day_" + keyname
+                    currentSum = 0
+                    for subReport in avg2list:
+                        if outReport[keyname] <= -999:
+                            currentSum = -999.9
+                            break
+                        else:
+                            currentSum += outReport[keyname]
+                    outReport[avgKeyName] = currentSum               
+        stationsSliced = stationsSliced[:-1]
+        outStation.append(outReport)
+    aggregrateStations[station] = outStation
+
+    
+#update each field to correct output format
+#output each list of dicts of each station to a json file    
+for key in aggregrateStations:   
+    helper.dumpJSONtoFile(indir +'/' + key,stationsDict[key])    
+
+       
