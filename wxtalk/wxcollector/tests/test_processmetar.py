@@ -28,14 +28,14 @@ remark4 = 'AO2A WATERSPOUT' #precip null, pressure null, tornado true
 def test_set_one_hr_rainfall():
     assert_equal(metar.setOneHrPrecip(remark1),0.00)
     assert_equal(metar.setOneHrPrecip(remark2),1.05)
-    assert_equal(metar.setOneHrPrecip(remark3),None)
-    assert_equal(metar.setOneHrPrecip(remark4),None)
+    assert_equal(metar.setOneHrPrecip(remark3),-999.)
+    assert_equal(metar.setOneHrPrecip(remark4),-999.)
 
 def test_set_three_hr_pressure_tendency():
     assert_equal(metar.setThreeHrPressureTendency(remark1),1.0)
     assert_equal(metar.setThreeHrPressureTendency(remark2),-4.3)
     assert_equal(metar.setThreeHrPressureTendency(remark3),0.0)
-    assert_equal(metar.setThreeHrPressureTendency(remark4),None)
+    assert_equal(metar.setThreeHrPressureTendency(remark4),-999.)
 
 def test_set_tornado_bool():
     assert_equal(metar.setTornado(remark1,wxstring1),False)
