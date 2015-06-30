@@ -39,12 +39,17 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 for more details of how these values are converted, see http://www.ofcm.gov/fmh-1/pdf/L-CH12.pdf
 """
+import flatdict
+
+from wxtalk import helper
+from wxtalk.db import dbfuncs as db
 
 import os
+import os.path
 import re
 import datetime
 
-from wxtalk.db import dbfuncs as db
+
 
 
 def setSunToMins(sunriseString,sunsetString):
@@ -62,7 +67,7 @@ def setSunToMins(sunriseString,sunsetString):
     amTime = sunriseString.split(' ')[0]
     pmTime = sunsetString.split(' ')[0]
     amLen = len(amTime)
-
+    
     amHours = (12 - int(amTime[-amLen:-amLen+1]))
     amMins = 60 - int(amTime[-2:])
     amTotal = amHours*60 + amMins
@@ -91,7 +96,16 @@ def setTempsToCelsius(tempsInF):
         return -999.9
     else:
         return round(((tempsInF-32.0)/1.8),1)
-        
+
+
+def setDepartFromNormCelsius(tempsInF):
+    '''Convert temp in F to C'''
+    if type(tempsInF) != type(-999.9):
+        return -999.9
+    if tempsInF == -999.9:
+        return -999.9
+    else:
+        return round((tempsInF/1.8),1)        
 
 def setDateToDatetime(icaoCode,dateString):
     '''
@@ -188,15 +202,17 @@ def setClimateDict(climateFlatDict):
         "skies_average_sky_cover" : setFloat(climateFlatDict,"skies_average_sky_cover"),
         "icao_id" : climateFlatDict["station"],
         "total_sun_potential" : setSunToMins(climateFlatDict["sun_sunrise"],climateFlatDict["sun_sunset"]),
-        "temperature_maximum_departure" : setFloat(climateFlatDict,"temperature_maximum_departure"),
+        "temperature_maximum_departure" : setDepartFromNormCelsius((setFloat(climateFlatDict,"temperature_maximum_departure"))),
+        #"temperature_maximum_departure" : round((setFloat(climateFlatDict,"temperature_maximum_departure") / 1.8),1),
         "temperature_maximum_new_record" : setBool(climateFlatDict,"temperature_maximum_new_record"),
-        "temperature_maximum_observed" : setFloat(climateFlatDict,"temperature_maximum_observed"),
-        "temperature_minimum_departure" : setFloat(climateFlatDict,"temperature_minimum_departure"),
+        "temperature_maximum_observed" : setTempsToCelsius(setFloat(climateFlatDict,"temperature_maximum_observed")),
+        "temperature_minimum_departure" : setDepartFromNormCelsius((setFloat(climateFlatDict,"temperature_minimum_departure"))),
+        #"temperature_minimum_departure" : round((setFloat(climateFlatDict,"temperature_minimum_departure") / 1.8),1),
         "temperature_maximum_new_record" : setBool(climateFlatDict,"temperature_minimum_new_record"),
-        "temperature_minimum_observed" : setFloat(climateFlatDict,"temperature_minimum_observed"),
-        "winds_average_wind_speed" : setFloat(climateFlatDict,"winds_average_wind_speed"),
-        "winds_highest_gust_speed" : setFloat(climateFlatDict,"winds_highest_gust_speed"),
-        "winds_highest_wind_speed" : setFloat(climateFlatDict,"winds_highest_wind_speed"),
+        "temperature_minimum_observed" : setTempsToCelsius(setFloat(climateFlatDict,"temperature_minimum_observed")),
+        "winds_average_wind_speed" : round(setWindsToKnots(setFloat(climateFlatDict,"winds_average_wind_speed")),1),
+        "winds_highest_gust_speed" : round(setWindsToKnots(setFloat(climateFlatDict,"winds_highest_gust_speed")),1),
+        "winds_highest_wind_speed" : round(setWindsToKnots(setFloat(climateFlatDict,"winds_highest_wind_speed")),1),
         "report_start_datetime": datesTimes[0],
         "report_end_datetime": datesTimes[1],
         
@@ -257,88 +273,196 @@ avg_key_types_str =["precipitation_liquid_departure",\
         "winds_average_wind_speed"]
 
 
-import flatdict
-from wxtalk import helper
-import os
-import os.path
 
-#get all file names and build base dictionary (each station is represented by ICAO.json and values are list of all reports       
-files = []
-stationsDict = {}  # {'KSEA.json':[{},{}]
-indir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/wxcollector/tests/test-data'
-datadir = indir +  "/climate"
-for dirpath, dirnames, filenames in os.walk(datadir):
-    for filename in [f for f in filenames if f.endswith(".json")]:
-        files.append( os.path.join(dirpath, filename))
-        stationsDict[filename] = []
 
-files.sort() #sort files
-files.reverse() #reverse to make it easier to aggregrate
+def processAndAggregate():
+    '''
+    Takes all raw climate daily reports in sepecified input directory and converts keys and values to desired format.
+    Desired format includes converstion to units, aggregation of days, etc.
+    Outputs combined reports for each station to outdir
+    NOTE: This was written while I was sick, the code is very spaghetti like, if time permits I will come back and refactor.  
+    I have manually verified the output for several stations and daily conversions and aggregate versions look correct
+    '''
+    #get all file names and build base dictionary (each station is represented by ICAO.json and values are list of all reports       
+    files = []
+    stationsDict = {}  # {'KSEA.json':[{},{}]
+    #outdir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/wxcollector/tests/test-data'
+    #datadir = outdir +  "/climate"
+    filenum = 0
+    outdir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/resources/data/climateClean'
+    datadir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/resources/data/climate'
+    for dirpath, dirnames, filenames in os.walk(datadir):
+        for filename in [f for f in filenames if f.endswith(".json")]:
+            files.append( os.path.join(dirpath, filename))
+            stationsDict[filename] = []
+            filenum += 1
+            if (filenum % 100) == 0:
+                print filenum
 
-#load each daily report to appropriate station key list
-#put key names in correct format
-for file in files:
-    #try:
-    climDict = helper.loadJSONfromFile(file)
-    #print climDict
-    flatWxDict = flatdict.FlatDict(climDict[climDict.keys()[0]])
-    outputDict = {}
-    keysList = flatWxDict.keys()
-    for key in keysList:
-        outputDict[key.replace(':','_').replace(' ','_').lower()]=(flatWxDict[key])
+    files.sort() #sort files
+    files.reverse() #reverse to make it easier to aggregrate
+
+    #load each daily report to appropriate station key list
+    #put key names in correct format
+    for file in files:
+        stationCode = file.split('/')[-1].split('.')[0]
+        print stationCode
+        if stationCode[0] == 'P':
+            continue
+        print file
+        #try:
+        climDict = helper.loadJSONfromFile(file)
+        #print climDict
+        flatWxDict = flatdict.FlatDict(climDict[climDict.keys()[0]])
+        outputDict = {}
+        keysList = flatWxDict.keys()
+        for key in keysList:
+            outputDict[key.replace(':','_').replace(' ','_').lower()]=(flatWxDict[key])
+            
+        #get desired values for output dict
+        outputDict = setClimateDict(outputDict)
+        stationsDictKeyName = file.split('/')[-1]  #retrieve original file name e.g. 'KSEA.json' this is the key name
+        stationsDict[stationsDictKeyName].append(outputDict)
+
+            
+
+    #update each field to correct output format
+    #output each list of dicts of each station to a json file    
+    for key in stationsDict:   
+        helper.dumpJSONtoFile(outdir +'/' + key,stationsDict[key])
         
-    #get desired values for output dict
-    outputDict = setClimateDict(outputDict)
-    stationsDictKeyName = file.split('/')[-1]  #retrieve original file name e.g. 'KSEA.json' this is the key name
-    stationsDict[stationsDictKeyName].append(outputDict)
-
         
-
-#update each field to correct output format
-#output each list of dicts of each station to a json file    
-for key in stationsDict:   
-    helper.dumpJSONtoFile(indir +'/' + key,stationsDict[key])
-    
-    
-aggregrateStations ={}
-for station in stationsDict:
-    outStation = []
-    reports = stationsDict[station]
-    stationsSliced = stationsDict[station]
-    for report in reports:
-        outReport = report
-        avg2list=stationsSliced[-2:]
-        for key in avg_key_types_str:
-            #TODO: add in check here for difference between date of first report and last report
-            #     if difference doesn't match, then put 999's else sum and average
-                
-            firstDate = datetime.datetime.strptime(avg2list[0]["report_date"],"%Y-%m-%d")
-            lastDate = datetime.datetime.strptime(avg2list[-1]["report_date"],"%Y-%m-%d")
-            totalDays = firstDate - lastDate
-            deltaDays = totalDays.days
-            if deltaDays < 1:
-                for keyname in avg_key_types_str:
-                    avgKeyName = "avg_two_day_" + keyname
-                    outReport[avgKeyName] = -999.9
-            else:
-                for keyname in avg_key_types_str:
-                    avgKeyName = "avg_two_day_" + keyname
-                    currentSum = 0
-                    for subReport in avg2list:
-                        if outReport[keyname] <= -999:
-                            currentSum = -999.9
-                            break
+    aggregrateStations ={}
+    count = 0
+    for station in stationsDict:
+        count += 1
+        print station
+        print count
+        outStation = []
+        reports = stationsDict[station]
+        stationsSliced = stationsDict[station]
+        for report in reports:
+            outReport = report
+            avg2list=stationsSliced[:2]
+            avg3list=stationsSliced[:3]
+            avg7list=stationsSliced[:7]
+            avg30list=stationsSliced[:30]
+            for key in avg_key_types_str:
+                #TODO: add in check here for difference between date of first report and last report
+                #     if difference doesn't match, then put 999's else sum and average
+                #TWO DAY AVERAGE   
+                firstDate = datetime.datetime.strptime(avg2list[0]["report_date"],"%Y-%m-%d")
+                lastDate = datetime.datetime.strptime(avg2list[-1]["report_date"],"%Y-%m-%d")
+                totalDays = firstDate - lastDate
+                deltaDays = totalDays.days
+                #print avg2list
+                if deltaDays < 1:
+                    for keyname in avg_key_types_str:
+                        avgKeyName = "avg_two_day_" + keyname
+                        outReport[avgKeyName] = -999.9
+                else:
+                    for keyname in avg_key_types_str:
+                        avgKeyName = "avg_two_day_" + keyname
+                        currentSum = 0
+                        for subReport in avg2list:
+                            if subReport[keyname] <= -999:
+                                currentSum = -999.9
+                                break
+                            else:
+                                currentSum += subReport[keyname]
+                        if currentSum <= -999.9:
+                            outReport[avgKeyName] = -999.9
                         else:
-                            currentSum += outReport[keyname]
-                    outReport[avgKeyName] = currentSum               
-        stationsSliced = stationsSliced[:-1]
-        outStation.append(outReport)
-    aggregrateStations[station] = outStation
+                            if ("temperature" in keyname) or "wind" in keyname:
+                                outReport[avgKeyName] = round((currentSum / 2.),1)
+                            else:    
+                                outReport[avgKeyName] = round((currentSum / 2.),2)
+                #THREE DAY AVERAGE   
+                firstDate = datetime.datetime.strptime(avg3list[0]["report_date"],"%Y-%m-%d")
+                lastDate = datetime.datetime.strptime(avg3list[-1]["report_date"],"%Y-%m-%d")
+                totalDays = firstDate - lastDate
+                deltaDays = totalDays.days
+                if deltaDays < 2:
+                    for keyname in avg_key_types_str:
+                        avgKeyName = "avg_three_day_" + keyname
+                        outReport[avgKeyName] = -999.9
+                else:
+                    for keyname in avg_key_types_str:
+                        avgKeyName = "avg_three_day_" + keyname
+                        currentSum = 0
+                        for subReport in avg3list:
+                            if subReport[keyname] <= -999:
+                                currentSum = -999.9
+                                break
+                            else:
+                                currentSum += subReport[keyname]
+                        if currentSum <= -999.9:
+                            outReport[avgKeyName] = -999.9
+                        else:
+                            if ("temperature" in keyname) or "wind" in keyname:
+                                outReport[avgKeyName] = round((currentSum / 3.),1)
+                            else:    
+                                outReport[avgKeyName] = round((currentSum / 3.),2)
+                #SEVEN DAY AVERAGE   
+                firstDate = datetime.datetime.strptime(avg7list[0]["report_date"],"%Y-%m-%d")
+                lastDate = datetime.datetime.strptime(avg7list[-1]["report_date"],"%Y-%m-%d")
+                totalDays = firstDate - lastDate
+                deltaDays = totalDays.days
+                if deltaDays < 6:
+                    for keyname in avg_key_types_str:
+                        avgKeyName = "avg_seven_day_" + keyname
+                        outReport[avgKeyName] = -999.9
+                else:
+                    for keyname in avg_key_types_str:
+                        avgKeyName = "avg_seven_day_" + keyname
+                        currentSum = 0
+                        for subReport in avg7list:
+                            if subReport[keyname] <= -999:
+                                currentSum = -999.9
+                                break
+                            else:
+                                currentSum += subReport[keyname]
+                        if currentSum <= -999.9:
+                            outReport[avgKeyName] = -999.9
+                        else:
+                            if ("temperature" in keyname) or "wind" in keyname:
+                                outReport[avgKeyName] = round((currentSum / 7.),1)
+                            else:    
+                                outReport[avgKeyName] = round((currentSum / 7.),2)
+                #THIRTY DAY AVERAGE   
+                firstDate = datetime.datetime.strptime(avg30list[0]["report_date"],"%Y-%m-%d")
+                lastDate = datetime.datetime.strptime(avg30list[-1]["report_date"],"%Y-%m-%d")
+                totalDays = firstDate - lastDate
+                deltaDays = totalDays.days
+                if deltaDays < 29:
+                    for keyname in avg_key_types_str:
+                        avgKeyName = "avg_thirty_day_" + keyname
+                        outReport[avgKeyName] = -999.9
+                else:
+                    for keyname in avg_key_types_str:
+                        avgKeyName = "avg_thirty_day_" + keyname
+                        currentSum = 0
+                        for subReport in avg30list:
+                            if subReport[keyname] <= -999:
+                                currentSum = -999.9
+                                break
+                            else:
+                                currentSum += subReport[keyname]
+                        if currentSum <= -999.9:
+                            outReport[avgKeyName] = -999.9
+                        else:
+                            if ("temperature" in keyname) or "wind" in keyname:
+                                outReport[avgKeyName] = round((currentSum / 30.),1)
+                            else:    
+                                outReport[avgKeyName] = round((currentSum / 30.),2)         
+            stationsSliced = stationsSliced[1:]
+            outStation.append(outReport)
+        aggregrateStations[station] = outStation
 
-    
-#update each field to correct output format
-#output each list of dicts of each station to a json file    
-for key in aggregrateStations:   
-    helper.dumpJSONtoFile(indir +'/' + key,stationsDict[key])    
+        
+    #update each field to correct output format
+    #output each list of dicts of each station to a json file    
+    for key in aggregrateStations:   
+        helper.dumpJSONtoFile(outdir +'/' + key,aggregrateStations[key])    
 
        
