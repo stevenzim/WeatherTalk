@@ -35,36 +35,59 @@ def getWx():
     print str(totalFiles) + " total tweet files will be processed starting now...."
     
     for file in files:
+        #get canidate climate and metar stations for tweet
         st_getstation_time = time.time()
         tweetListWithWxStations = []
         try:
             currentListOfTweets = helper.loadJSONfromFile(inFilePath + file)
             print str(len(currentListOfTweets)) + " tweets to process in " + file + "."
-            tweetListWithWxStations = pipeline.getTweetWxStations(currentListOfTweets,stationTable = "climateStations")
+            tweetListWithWxStations = pipeline.getTweetWxStations(currentListOfTweets,stationTable = "stations")
             #tweetListWithWxStations = pipeline.getTweetWxStations(currentListOfTweets,stationTable = "metarStations")
             filesProcessed +=1
             print "Total files remaining = " + str(totalFiles - filesProcessed)
-        except:
+        except Exception as error:
             fileErrors +=1
-            errorFile.write("Error: getTweetWxStations for file: " + file)
+            errorFile.write("Error: getTweetWxStations for file: " + file + " ERROR: " + str(error))
             continue
         
         print("Get Stations time--- %s seconds ---" % (time.time() - st_getstation_time))
         print
         
-        st_getwxreport_time = time.time()
-        tweetsWithWx = []
+        #link tweet to metar report
+        st_getmetarreport_time = time.time()
+        tweetsWithMetar = []
         for dict in tweetListWithWxStations: 
             try:
-                tweetsWithWx.append(pipeline.getTweetWxReport(dict))
+                tweetsWithMetar.append(pipeline.getTweetMetarReport(dict))
                 totalTweetsProcessed +=1
-            except:
+            except Exception as error:
                 totalTweetErrors += 1
                 #helper.dumpJSONtoFile(inFilePath + 'errors/' + str(totalTweetErrors) + "-" + file,dict)
-                errorFile.write("Error: getTweetWxReport for file: " + file + " and tweet ID: " + str(dict["id"]) + "\n")
+                errorFile.write("ERROR: " + str(error) + " Error: getTweetMetarReport for file: " + file + " and tweet ID: " + str(dict["id"]) + "\n")
                 continue
-        helper.dumpJSONtoFile(outFilePath + file,tweetsWithWx)
-        print("Get Wx Report time--- %s seconds ---" % (time.time() - st_getwxreport_time))
+        #helper.dumpJSONtoFile(outFilePath + file,tweetsWithMetar)
+        print("Get Metar Report time--- %s seconds ---" % (time.time() - st_getmetarreport_time))
+
+
+        #link tweet to climate report
+        #   This only links tweet occuring in local time window of report (i.e. 24 hours).  That is if the tweet occurs 1 minute after start time of new report
+        # Then the uid of the new report is linked to tweet.  This is not ideal, but it is simple, can be further updated in future work.  In analysis, one should consider
+        # filtering out tweets where climate delta time is small as the report is representative of only a short window of time for the tweet
+        # That said, concern is low, because most tweets do not happen in the couple of hours after start time of report as this is start of local day when most people are sleeping
+        # and tweet rates are low
+        st_getclimatereport_time = time.time()
+        tweetsWithClimate = []
+        for dict in tweetsWithMetar: 
+            try:
+                tweetsWithClimate.append(pipeline.getTweetClimateReport(dict))
+                totalTweetsProcessed +=1
+            except Exception as error:
+                totalTweetErrors += 1
+                #helper.dumpJSONtoFile(inFilePath + 'errors/' + str(totalTweetErrors) + "-" + file,dict)
+                errorFile.write("ERROR: " + str(error) + " Error: getTweetClimateReport for file: " + file + " and tweet ID: " + str(dict["id"]) + "\n")
+                continue
+        helper.dumpJSONtoFile(outFilePath + file,tweetsWithClimate)
+        print("Get Climate Report time--- %s seconds ---" % (time.time() - st_getclimatereport_time))
         print
         print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
     
@@ -74,7 +97,7 @@ def getWx():
     
     errorFile.close()
     
-    
+   
 #example to take a set of json files of tweets with weather reports and then classify sentiment of tweet
 def getSentiment():
     start_time = time.time()
@@ -246,7 +269,7 @@ def batchLoadTweets():
         print str(totalTweetsProcessed) + " tweets loaded into DB. With total tweet errors = " + str(totalTweetErrors)
         print("Current file prep time--- %s seconds ---" % (time.time() - file_time))
 
-        print("Total elapsed time--- %s minutes ---" % (((totalFiles - (filesCompleted+fileErrors))*(time.time() - start_time))/60.)
+        #print("Total elapsed time--- %s minutes ---" % (((totalFiles - (filesCompleted+fileErrors))*(time.time() - start_time))/60.)
         print "Total files remaining = " + str(totalFiles - (filesCompleted+fileErrors))
         print "Estimated time remaining in minutes = " + str(((totalFiles - (filesCompleted+fileErrors))*(time.time() - file_time))/60.)
     

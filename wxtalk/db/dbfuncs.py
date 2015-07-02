@@ -1,7 +1,9 @@
 #author: Steven Zimmerman
 #created: 09-JUN-2015
+#modified 01-JUL-2015
 #module to retrieve wx station information from weather db
 #TODO: Refactor code in load tweets and load metar, the dictionary function to build insert strings could be changed to helper fcn
+#TODO: Create a more elegant solution for metar and climate classes, lots of this stuff could be combined.  It works, however
 
 from wxtalk import helper
 import psycopg2
@@ -13,6 +15,7 @@ import logging
 
 # set up logging to file - see previous section for more details
 #from: https://docs.python.org/2/howto/logging-cookbook.html
+#TODO: If time, look into this more
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M',
@@ -28,6 +31,83 @@ class Connector(object):
         self.conparams = connectionParams
         self.connection = psycopg2.connect(self.conparams) 
         self.cursor = self.connection.cursor()    
+
+class ClimateReport(object):
+    '''
+    usage:
+    from db import dbfuncs
+    see examples in examples/db
+    '''
+    def __init__(self):
+        #establish db connection
+        self.con = Connector()
+        
+    def retrieveClimateReport(self,climateStationID,datetimeStamp,sqlSelect = ' * ',limit = '1'):
+        '''Provided a datetime stamp and climate station ID. 
+        This function returns the most recent climate report from database relative to the station/datetime provided
+        By default, all fields are returned, however a simple change to SELECT statement will alter results
+        e.g. weather.uid will return on the uid field
+        DATETIME must be in acceptable ansi format
+        Returns a sorted list of reports, most recent first, default limit = 1'''
+        sqlstring = 'SELECT '+ sqlSelect +'\
+                    FROM weather.climate\
+                    WHERE icao_id = \''+ climateStationID +'\'  AND report_start_datetime <= \''+ datetimeStamp +'\'::timestamp  AND\
+                                    report_start_datetime > (\''+ datetimeStamp +'\'::timestamp - interval \'24 hours\')::timestamp\
+                    ORDER BY report_start_datetime DESC LIMIT '+ limit +';'
+        try:
+            self.con.cursor.execute(sqlstring)
+            return self.con.cursor.fetchall()
+        except Exception as error:
+            #restablish connection and record error
+            self.con.cursor.close()
+            self.con = Connector()
+            logger1.error('DB retrieveClimateReport: %s',  error)
+            raise Exception('Report could not be retrieved, perhaps wrong datestamp, stationID or sqlselect statemnt')
+
+    def loadClimateReport(self,climateDict):
+        '''
+        pass in dictionary matching format produced by wxtalk.wxcollector.processclimate.py setClimateDict(climateDict)
+        loads climate report into db if it doesnt exist
+        if it exists already, then assume this is updated version --> delete existing, then create new record
+        '''
+        
+        #throw error if data passed in is not a dict
+        if type(climateDict) != type({}):
+            raise Exception("This function expects a dictionary containing climate data")
+
+        #inspired by http://stackoverflow.com/questions/29461933/insert-python-dictionary-using-psycopg2
+        #convert keys to column names and then create string
+        columns = climateDict.keys()
+        columns_str = ", ".join(columns)
+        #convert values to column names and then create string
+        values = [climateDict[x] for x in columns]
+        values_str_list = [str(value) for value in values]
+        values_str = "\',\'".join(values_str_list)
+        #create insert string
+        sqlinsertstring = 'INSERT INTO weather.climate (' + columns_str + ')\
+                                 VALUES (\'' + values_str + '\');'
+                                                    
+
+        #load station into db
+        #if exception thrown, then record likely exists, therefore delete record and try again
+        try:
+            self.con.cursor.execute(sqlinsertstring)
+            self.con.connection.commit()
+        except psycopg2.IntegrityError as error:
+            try:
+                #restablish connection, try to delete existing record and then insert in new record
+                self.con.cursor.close()
+                self.con = Connector()
+                sqldeletestring = 'DELETE FROM weather.climate\
+                            WHERE icao_id = \'' + climateDict['icao_id'] + '\' AND observation_time = \'' + climateDict['observation_time'] + '\''
+                self.con.cursor.execute(sqldeletestring)
+                self.con.connection.commit()
+                self.con.cursor.execute(sqlinsertstring)
+                self.con.connection.commit()
+            except Exception as error:
+                raise Exception("Record could not be deleted nor inserted.  Review original climate data, most likely a report that is not in master station list")     
+
+
 
 class MetarReport(object):
     '''
@@ -225,7 +305,7 @@ class Stations(object):
         
         #build and return list of stations and distances    
         for record in listOfStations:
-            print record
+            #print record
             stationID = record[0]
             climateBool = record[-2]
             stationDistance = record[-1].__float__()

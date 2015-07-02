@@ -144,6 +144,7 @@ def batchLoadMetarReports(rawMetarDir = os.path.join(helper.getProjectPath(),'wx
         
         #success so delete this file
         helper.deleteFilesInList(rawMetarDir,[file])
+
     
 
 ############### TWITTER/WX PIPE ####################
@@ -239,15 +240,15 @@ def getTweetWxStations(tweetListofdicts,numStationsToReturn = 20,stationTable = 
 
 
 #STEP 2    
-def getTweetWxReport(tweetDict,reportType = 'metar'):
+def getTweetMetarReport(tweetDict):
     '''
-    Input: TweetDictionary ,reportType = 'metar' or 'climate'
-    Returns: Tweet Dictionary with 
-    key = 'metarReport' or 'climateReport'
+    Input: TweetDictionary 
+    Returns: Tweet Dictionary with metar report details
     vals = {station id, dist to station, report, deltatime since report, database uid of report}
     
+    Dumps the tweet to error folder if no weather report found
+    
     '''
-    #TODO: Add in functionality to retrieve climate report
     
     #initialise db report object
     r = db.MetarReport()
@@ -279,7 +280,7 @@ def getTweetWxReport(tweetDict,reportType = 'metar'):
     #convert report to list
     report = list(report)
     
-    #error check, raise exception and dump to file.  There was a problem with data
+    #error check, raise exception and dump to file.  There was a problem with data perhaps no report found
     if report == []:
         tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
         helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
@@ -294,14 +295,129 @@ def getTweetWxReport(tweetDict,reportType = 'metar'):
     tweetDict.pop("metar_stations")
     tweetDict["metar_station_id"] = stationID
     tweetDict["metar_station_dist"] = stationDistance
-    tweetDict["metar_report"] = report[0:1] + report[-2:-1] + report[2:-3]  #returns a tuple in same format as orginal metar.  Ordered in list of db fields
+    #tweetDict["metar_report"] = report[0:1] + report[-2:-1] + report[2:-3]  #returns a tuple in same format as orginal metar.  Ordered in list of db fields
     tweetDict["metar_delta_time_sec"] = report[-1]
     tweetDict["metar_db_uid"] = report[-3]
     
     return tweetDict
         
-        
+#STEP 3    
+def getTweetClimateReport(tweetDict):
+    '''
+    Input: TweetDictionary 
+    Returns: Tweet Dictionary with climate report details
+    vals = {station id, dist to station, report, deltatime since report, database uid of report}
+    
+    '''
+    
+    #initialise db report object
+    r = db.ClimateReport()
+    
+    #set vars
+    datestamp = tweetDict["created_at"]
+    stationList = tweetDict["climate_stations"]
+    report = []
+    stationID = ''
+    stationDistance = 0.0
+    #we want all columns + string conversion of datetime + time delta between tweet time and wx report time
+    selectString = 'uid, to_char(report_start_datetime,\'YYYY-MM-DD HH24:MI:SS\'),\
+                      extract(\'epoch\' from (\''+ datestamp + '\' - report_start_datetime))' 
+    
+    #get wx report
+    for station in stationList:
+        stationID = station[0]
+        stationDistance = station[1]
+        tempreport = r.retrieveClimateReport(stationID,datestamp,selectString)
+        #report = report[0]
+        if len(tempreport) == 0:
+            #No report available for stationID datestamp combo, therefore got to next station in list
+            continue
+        if len(tempreport) == 1:
+            #we found a report
+            report = tempreport[0]
+            break
     
     
+    #convert report to list
+    report = list(report)
+    
+    #error check, raise exception and dump to file.  There was a problem with data perhaps no report found
+    #NOTE: This might be unecssary given above code
+    if report == []:
+        tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
+        helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
+        raise Exception("No wx report retrieved, check data in the error folder")
+
+
+    #update dict by dropping list of stations and adding appropriate wx fields
+    tweetDict.pop("climate_stations")
+    tweetDict["climate_station_id"] = stationID
+    tweetDict["climate_station_dist"] = stationDistance
+    tweetDict["climate_delta_time_sec"] = report[-1]
+    tweetDict["climate_db_uid"] = report[-3]
+    
+    return tweetDict       
+    
+##STEP 2    
+#def getTweetWxReport(tweetDict,reportType = 'metar'):
+#    '''
+#    Input: TweetDictionary ,reportType = 'metar' or 'climate'
+#    Returns: Tweet Dictionary with 
+#    key = 'metarReport' or 'climateReport'
+#    vals = {station id, dist to station, report, deltatime since report, database uid of report}
+#    
+#    '''
+#    #TODO: Add in functionality to retrieve climate report
+#    
+#    #initialise db report object
+#    r = db.MetarReport()
+#    
+#    #set vars
+#    datestamp = tweetDict["created_at"]
+#    stationList = tweetDict["metar_stations"]
+#    report = []
+#    stationID = ''
+#    stationDistance = 0.0
+#    #we want all columns + string conversion of datetime + time delta between tweet time and wx report time
+#    selectString = '*, to_char(observation_time,\'YYYY-MM-DD HH24:MI:SS\'),\
+#                      extract(\'epoch\' from (\''+ datestamp + '\' - observation_time))' 
+#    
+#    #get wx report
+#    for station in stationList:
+#        stationID = station[0]
+#        stationDistance = station[1]
+#        tempreport = r.retrieveMetarReport(stationID,datestamp,selectString)
+#        #report = report[0]
+#        if len(tempreport) == 0:
+#            #No report available for stationID datestamp combo, therefore got to next station in list
+#            continue
+#        if len(tempreport) == 1:
+#            #we found a report
+#            report = tempreport[0]
+#            break
+#    
+#    #convert report to list
+#    report = list(report)
+#    
+#    #error check, raise exception and dump to file.  There was a problem with data perhaps no report found
+#    if report == []:
+#        tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
+#        helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
+#        raise Exception("No wx report retrieved, check data in the error folder")
+#    if stationID != report[0]:
+#        tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
+#        helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
+#        raise Exception("Station missmatch between retrieved report statiion = " + report[0] + "  and station ID in list provided , check data in the error folder.")
+
+#    
+#    #update dict by dropping list of stations and adding appropriate wx fields
+#    tweetDict.pop("metar_stations")
+#    tweetDict["metar_station_id"] = stationID
+#    tweetDict["metar_station_dist"] = stationDistance
+#    #tweetDict["metar_report"] = report[0:1] + report[-2:-1] + report[2:-3]  #returns a tuple in same format as orginal metar.  Ordered in list of db fields
+#    tweetDict["metar_delta_time_sec"] = report[-1]
+#    tweetDict["metar_db_uid"] = report[-3]
+#    
+#    return tweetDict    
 
 

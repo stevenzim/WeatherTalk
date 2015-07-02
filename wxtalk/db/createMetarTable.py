@@ -54,13 +54,15 @@ def createMetarTable():
     remark text,\
     uid SERIAL UNIQUE,\
     PRIMARY KEY (ICAO_ID, observation_time),\
-    CONSTRAINT metar_report_station_id_fkey FOREIGN KEY (ICAO_ID)\
-      REFERENCES weather.metarStations (ICAO_ID) MATCH SIMPLE\
+    CONSTRAINT metar_report_station_id_fkey FOREIGN KEY (icao_id)\
+      REFERENCES weather.stations (icao_id) MATCH SIMPLE\
       ON UPDATE NO ACTION ON DELETE NO ACTION\
     );"
 
     d.cursor.execute(addTableCmd)
     d.connection.commit()
+
+
 
 #TODO: Uncomment this to run
 #def createMetarTable():

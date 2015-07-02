@@ -192,23 +192,21 @@ def setClimateDict(climateFlatDict):
         
     datesTimes = setDateToDatetime(climateFlatDict["station"],climateFlatDict["report-date"])
     
-    return{"precipitation_liquid_departure" : setFloat(climateFlatDict,"precipitation_liquid_departure"),
+    return{"icao_id" : climateFlatDict["station"],
+            "report_date" : climateFlatDict["report-date"],
+        "precipitation_liquid_departure" : setFloat(climateFlatDict,"precipitation_liquid_departure"),
         "precipitation_liquid_new_record" : setBool(climateFlatDict,"precipitation_liquid_new_record"),
         "precipitation_liquid_observed" : setFloat(climateFlatDict,"precipitation_liquid_observed"),
         "precipitation_snowfall_departure" : setFloat(climateFlatDict,"precipitation_snowfall_departure"),
         "precipitation_snowfall_new_record" : setBool(climateFlatDict,"precipitation_snowfall_new_record"),
         "precipitation_snowfall_observed" : setFloat(climateFlatDict,"precipitation_snowfall_observed"),
-        "report_date" : climateFlatDict["report-date"],
         "skies_average_sky_cover" : setFloat(climateFlatDict,"skies_average_sky_cover"),
-        "icao_id" : climateFlatDict["station"],
         "total_sun_potential" : setSunToMins(climateFlatDict["sun_sunrise"],climateFlatDict["sun_sunset"]),
         "temperature_maximum_departure" : setDepartFromNormCelsius((setFloat(climateFlatDict,"temperature_maximum_departure"))),
-        #"temperature_maximum_departure" : round((setFloat(climateFlatDict,"temperature_maximum_departure") / 1.8),1),
         "temperature_maximum_new_record" : setBool(climateFlatDict,"temperature_maximum_new_record"),
         "temperature_maximum_observed" : setTempsToCelsius(setFloat(climateFlatDict,"temperature_maximum_observed")),
         "temperature_minimum_departure" : setDepartFromNormCelsius((setFloat(climateFlatDict,"temperature_minimum_departure"))),
-        #"temperature_minimum_departure" : round((setFloat(climateFlatDict,"temperature_minimum_departure") / 1.8),1),
-        "temperature_maximum_new_record" : setBool(climateFlatDict,"temperature_minimum_new_record"),
+        "temperature_minimum_new_record" : setBool(climateFlatDict,"temperature_minimum_new_record"),
         "temperature_minimum_observed" : setTempsToCelsius(setFloat(climateFlatDict,"temperature_minimum_observed")),
         "winds_average_wind_speed" : round(setWindsToKnots(setFloat(climateFlatDict,"winds_average_wind_speed")),1),
         "winds_highest_gust_speed" : round(setWindsToKnots(setFloat(climateFlatDict,"winds_highest_gust_speed")),1),
@@ -225,6 +223,7 @@ def setClimateDict(climateFlatDict):
         "avg_two_day_temperature_minimum_departure" : -999.9,
         "avg_two_day_temperature_minimum_observed" : -999.9,
         "avg_two_day_winds_average_wind_speed" : -999.9,
+        "avg_two_day_skies_average_sky_cover" : -999.9,
         
         "avg_three_day_precipitation_liquid_departure" : -999.9,
         "avg_three_day_precipitation_liquid_observed" : -999.9,
@@ -235,6 +234,7 @@ def setClimateDict(climateFlatDict):
         "avg_three_day_temperature_minimum_departure" : -999.9,
         "avg_three_day_temperature_minimum_observed" : -999.9,
         "avg_three_day_winds_average_wind_speed" : -999.9,
+        "avg_three_day_skies_average_sky_cover" : -999.9,
         
         "avg_seven_day_precipitation_liquid_departure" : -999.9,
         "avg_seven_day_precipitation_liquid_observed" : -999.9,
@@ -245,6 +245,7 @@ def setClimateDict(climateFlatDict):
         "avg_seven_day_temperature_minimum_departure" : -999.9,
         "avg_seven_day_temperature_minimum_observed" : -999.9,
         "avg_seven_day_winds_average_wind_speed" : -999.9,
+        "avg_seven_day_skies_average_sky_cover" : -999.9,
         
         "avg_thirty_day_precipitation_liquid_departure" : -999.9,
         "avg_thirty_day_precipitation_liquid_observed" : -999.9,
@@ -254,7 +255,8 @@ def setClimateDict(climateFlatDict):
         "avg_thirty_day_temperature_maximum_observed" : -999.9,
         "avg_thirty_day_temperature_minimum_departure" : -999.9,
         "avg_thirty_day_temperature_minimum_observed" : -999.9,
-        "avg_thirty_day_winds_average_wind_speed" : -999.9
+        "avg_thirty_day_winds_average_wind_speed" : -999.9,
+        "avg_thirty_day_skies_average_sky_cover" : -999.9
     }
 
  
@@ -270,7 +272,8 @@ avg_key_types_str =["precipitation_liquid_departure",\
         "temperature_maximum_observed",\
         "temperature_minimum_departure",\
         "temperature_minimum_observed",\
-        "winds_average_wind_speed"]
+        "winds_average_wind_speed",\
+        "skies_average_sky_cover"]
 
 
 
@@ -284,13 +287,14 @@ def processAndAggregate():
     I have manually verified the output for several stations and daily conversions and aggregate versions look correct
     '''
     #get all file names and build base dictionary (each station is represented by ICAO.json and values are list of all reports       
-    files = []
-    stationsDict = {}  # {'KSEA.json':[{},{}]
+
     #outdir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/wxcollector/tests/test-data'
     #datadir = outdir +  "/climate"
     filenum = 0
     outdir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/resources/data/climateClean'
     datadir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/resources/data/climate'
+    files = []
+    stationsDict = {} 
     for dirpath, dirnames, filenames in os.walk(datadir):
         for filename in [f for f in filenames if f.endswith(".json")]:
             files.append( os.path.join(dirpath, filename))
@@ -465,4 +469,24 @@ def processAndAggregate():
     for key in aggregrateStations:   
         helper.dumpJSONtoFile(outdir +'/' + key,aggregrateStations[key])    
 
-       
+
+def loadClimateReportsToDB():
+    '''Function to load all prepped climate reports into database.  To be run after processAndAggregate() function in above'''
+    datadir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/resources/data/climateClean'
+    files = []
+    for dirpath, dirnames, filenames in os.walk(datadir):
+        for filename in [f for f in filenames if f.endswith(".json")]:
+            files.append( os.path.join(dirpath, filename))
+
+
+    files.sort() #sort files
+
+    for file in files:
+        listOfClimDicts = helper.loadJSONfromFile(file)
+        print file.split('/')[-1]
+        for climReport in listOfClimDicts:
+            try:
+                s = db.ClimateReport()
+                s.loadClimateReport(climReport)
+            except Exception as error:
+                print error      

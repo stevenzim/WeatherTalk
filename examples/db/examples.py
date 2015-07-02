@@ -53,6 +53,12 @@ r.retrieveMetarReport('KSEA','Sat May 23 20:59:30 +0000 2015', 'to_char(observat
 print ("completed in--- %s seconds ---" % (time.time() - stime))
 
 
+#example to retrieve latest climatereport relative to station and time provided most recent report first
+r = db.ClimateReport()
+r.retrieveClimateReport('KSEA',helper.getDateTimeStamp(ansiFormat = True)) #returns all fields for most recent report
+r.retrieveClimateReport('KSEA','Sat May 23 20:59:30 +0000 2015') #returns all fields for report with starttime within 24 hours of tweet
+r.retrieveClimaterReport('KJFK','Sat May 23 20:59:30 +0000 2015','uid') #returns only the uid field
+
 #example to retrieve count of tweets where temp > 15
 select id from weather.tweet where sentiment_score = 1
 uid
