@@ -98,7 +98,7 @@ def getDateTimeStamp(ansiFormat = False):
   
     
 # Run TweetNLP on list of dictionaries
-def extractTweetNLPtriples(inputJSONfile,outputJSONfile):
+def extractTweetNLPtriples(inputJSONfile,outputJSONfile = None):
     '''Loads json file to list --> creates list of tweets for all dictionaries in list
     Then runs the TweetNLP tagger (from Carnegie Mellon) on list of tweets
     Results of TweetNLP tagger are then added to appropriate dictionary which is dumped to new file
@@ -132,8 +132,11 @@ def extractTweetNLPtriples(inputJSONfile,outputJSONfile):
 	    triple = idxAndTriple[1]
 	    listOfDicts[idx]['tagged_tweet_triples'] = triple
     
-    #dump list of dictionaries with triples to output folder
-    dumpJSONtoFile(outputJSONfile, listOfDicts)
+    #dump list of dictionaries with triples to output folder OR return list of dictionaries
+    if outputJSONfile == None:
+        return listOfDicts
+    else:
+        dumpJSONtoFile(outputJSONfile, listOfDicts)
 
 #A toy example to identify topics.  E.g. identify occurences of Obama in a tweet    
 def addStringTestTopic(dictionary,keyToSearch,stringToTest,keyNameToAdd):

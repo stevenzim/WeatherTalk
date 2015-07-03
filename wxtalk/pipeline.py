@@ -282,12 +282,12 @@ def getTweetMetarReport(tweetDict):
     
     #error check, raise exception and dump to file.  There was a problem with data perhaps no report found
     if report == []:
-        tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
-        helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
+        #tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
+        #helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
         raise Exception("No wx report retrieved, check data in the error folder")
     if stationID != report[0]:
-        tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
-        helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
+        #tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
+        #helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
         raise Exception("Station missmatch between retrieved report statiion = " + report[0] + "  and station ID in list provided , check data in the error folder.")
 
     
@@ -344,8 +344,8 @@ def getTweetClimateReport(tweetDict):
     #error check, raise exception and dump to file.  There was a problem with data perhaps no report found
     #NOTE: This might be unecssary given above code
     if report == []:
-        tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
-        helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
+        #tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
+        #helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
         raise Exception("No wx report retrieved, check data in the error folder")
 
 
