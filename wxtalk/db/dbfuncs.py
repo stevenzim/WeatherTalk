@@ -1,6 +1,7 @@
 #author: Steven Zimmerman
 #created: 09-JUN-2015
-#modified 01-JUL-2015
+#modified 01-JUL-2015 For Climate Reports
+#modified 04-JUL-2015 For Tweets
 #module to retrieve wx station information from weather db
 #TODO: Refactor code in load tweets and load metar, the dictionary function to build insert strings could be changed to helper fcn
 #TODO: Create a more elegant solution for metar and climate classes, lots of this stuff could be combined.  It works, however
@@ -42,17 +43,17 @@ class ClimateReport(object):
         #establish db connection
         self.con = Connector()
         
-    def retrieveClimateReport(self,climateStationID,datetimeStamp,sqlSelect = ' * ',limit = '1'):
+    def retrieveClimateReport(self,climateStationID,datetimeStamp,sqlSelect = ' * ',limit = '2'):
         '''Provided a datetime stamp and climate station ID. 
         This function returns the most recent climate report from database relative to the station/datetime provided
         By default, all fields are returned, however a simple change to SELECT statement will alter results
         e.g. weather.uid will return on the uid field
         DATETIME must be in acceptable ansi format
-        Returns a sorted list of reports, most recent first, default limit = 1'''
+        Returns a sorted list of reports, most recent first, default limit = 2'''
         sqlstring = 'SELECT '+ sqlSelect +'\
                     FROM weather.climate\
                     WHERE icao_id = \''+ climateStationID +'\'  AND report_start_datetime <= \''+ datetimeStamp +'\'::timestamp  AND\
-                                    report_start_datetime > (\''+ datetimeStamp +'\'::timestamp - interval \'24 hours\')::timestamp\
+                                    report_start_datetime > (\''+ datetimeStamp +'\'::timestamp - interval \'48 hours\')::timestamp\
                     ORDER BY report_start_datetime DESC LIMIT '+ limit +';'
         try:
             self.con.cursor.execute(sqlstring)
@@ -390,9 +391,10 @@ class Tweet(object):
         #values_str_list = [str(value) for value in values]
         values_str = "\',\'".join(values_str_list).encode('utf-8').strip()
         #create insert string
-        sqlinsertstring = 'INSERT INTO weather.tweet (' + columns_str + ')\
-                                 VALUES (\'' + values_str + '\');'
-                                                    
+#  orig-db ->>      sqlinsertstring = 'INSERT INTO weather.tweet (' + columns_str + ')\
+#                                 VALUES (\'' + values_str + '\');'
+        sqlinsertstring = 'INSERT INTO weather.tweets (' + columns_str + ')\
+                                 VALUES (\'' + values_str + '\');'                                                   
 
         #load tweet into db
         #if exception thrown, then record likely exists, therefore delete record and try again
@@ -404,7 +406,9 @@ class Tweet(object):
                 #restablish connection, try to delete existing record and then insert in new record
                 self.con.cursor.close()
                 self.con = Connector()
-                sqldeletestring = 'DELETE FROM weather.tweet\
+# orig-db ->>               sqldeletestring = 'DELETE FROM weather.tweet\
+#                            WHERE id = \'' + str(tweetDict['id']) + '\''
+                sqldeletestring = 'DELETE FROM weather.tweets\
                             WHERE id = \'' + str(tweetDict['id']) + '\''
                 self.con.cursor.execute(sqldeletestring)
                 self.con.connection.commit()

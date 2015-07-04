@@ -79,7 +79,7 @@ def getWx():
                 tweetsWithMetar.append(pipeline.getTweetMetarReport(dict))
             except Exception as error:
                 totalTweetErrors += 1
-                dict['ERROR']='Error finding metar report via pipe.getTweetMetarReport, perhaps none was available for station/time combo. Original file = ' + file.split('/')[-1]
+                dict['ERROR']='Error finding metar report via pipe.getTweetMetarReport, perhaps none was available for station/time combo. Error:' + str(error) + '. Original file = ' + file.split('/')[-1]
                 listOfErrorDicts.append(dict)
                 #helper.dumpJSONtoFile(inFilePath + 'errors/' + str(totalTweetErrors) + "-" + file,dict)
                 #errorFile.write("ERROR: " + str(error) + " Error: getTweetMetarReport for file: " + file + " and tweet ID: " + str(dict["id"]) + "\n")
@@ -101,7 +101,7 @@ def getWx():
                 tweetsWithClimate.append(pipeline.getTweetClimateReport(dict))
             except Exception as error:
                 totalTweetErrors += 1
-                dict['ERROR']='Error finding climate report via pipe.getTweetClimateReport, perhaps none was available for station/time combo. Original file = ' + file.split('/')[-1]
+                dict['ERROR']='Error finding climate report via pipe.getTweetClimateReport, perhaps none was available for station/time combo. Error:' + str(error) + '. Original file = ' + file.split('/')[-1]
                 listOfErrorDicts.append(dict)
                 #helper.dumpJSONtoFile(inFilePath + 'errors/' + str(totalTweetErrors) + "-" + file,dict)
                 #errorFile.write("ERROR: " + str(error) + " Error: getTweetClimateReport for file: " + file + " and tweet ID: " + str(dict["id"]) + "\n")
@@ -111,6 +111,9 @@ def getWx():
         print("Get Climate Report time--- %s seconds ---" % (time.time() - st_getclimatereport_time))
         print
         print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+        
+        
+        print "Estimated time remaining in minutes = " + str(((totalFiles - (filesProcessed+fileErrors))*(time.time() - file_time))/60.)
         
 
 
@@ -275,7 +278,9 @@ def getClassifications():
     print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
     print str(totalTweetsProcessed) + " tweets processed."
     print("completed in--- %s seconds ---" % (time.time() - start_time))
-    
+
+    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
+                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")    
     errorFile.close()
 
 def prepTweetsDb():
@@ -332,6 +337,9 @@ def prepTweetsDb():
     print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
     print str(totalTweetsProcessed) + " tweets processed."
     print("completed in--- %s seconds ---" % (time.time() - start_time))
+    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
+                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")    
+    errorFile.close()
     
 def batchLoadTweets():
     '''Provided a directory path containing full processed/classified tweets.'''
@@ -343,7 +351,7 @@ def batchLoadTweets():
     totalTweetErrors = 0
     
     totalFiles = len(files)
-    filesCompleted = 0
+    filesProcessed = 0
     fileErrors = 0
     
     errorFile = open(inFilePath + "errors/errorFile.log","a")
@@ -379,7 +387,7 @@ def batchLoadTweets():
                     dict['ERROR']='Error finding metar report via pipe.getTweetMetarReport, perhaps none was available for station/time combo. Error: ' + str(error) + '. Original file = ' + file.split('/')[-1]
                     listOfErrorDicts.append(dict)                    
                     continue
-            filesCompleted += 1
+            filesProcessed += 1
             if (totalTweetsInFileProcessed % 100) == 0:
                 print str(totalTweetsInFileProcessed) + " tweets loaded for current file of total tweets = " + str(totalTweetsInFile)
         except Exception as error:
@@ -387,13 +395,13 @@ def batchLoadTweets():
             os.rename(inFilePath + file,inFilePath +'errors/'+ file)
             errorFile.write("Error Processing Tweet file for DB Prep. File name: " + file + " With error: " + str(error) + '\n')
             continue
-        print str(filesCompleted) + " files loaded of " + str(totalFiles) + ". Current file = " + file
+        print str(filesProcessed) + " files loaded of " + str(totalFiles) + ". Current file = " + file
         print str(totalTweetsProcessed) + " tweets loaded into DB. With total tweet errors = " + str(totalTweetErrors)
         print("Current file prep time--- %s seconds ---" % (time.time() - file_time))
 
-        #print("Total elapsed time--- %s minutes ---" % (((totalFiles - (filesCompleted+fileErrors))*(time.time() - start_time))/60.)
-        print "Total files remaining = " + str(totalFiles - (filesCompleted+fileErrors))
-        print "Estimated time remaining in minutes = " + str(((totalFiles - (filesCompleted+fileErrors))*(time.time() - file_time))/60.)
+        #print("Total elapsed time--- %s minutes ---" % (((totalFiles - (filesProcessed+fileErrors))*(time.time() - start_time))/60.)
+        print "Total files remaining = " + str(totalFiles - (filesProcessed+fileErrors))
+        print "Estimated time remaining in minutes = " + str(((totalFiles - (filesProcessed+fileErrors))*(time.time() - file_time))/60.)
 
         #Dump dictionary errors and log details    
         dumpErrorListOfDicts(inFilePath,listOfErrorDicts)
@@ -403,10 +411,12 @@ def batchLoadTweets():
         helper.deleteFilesInList(inFilePath,[file])
     
     
-    print str(filesCompleted) + " files processed with error files = " + str(fileErrors)
+    print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
     print str(totalTweetsProcessed) + " tweets loaded into DB. With total tweet errors = " + str(totalTweetErrors)
     print("Total completion time in minutes--- %s minutes ---" % ((time.time() - start_time)/60.))   
-
+    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
+                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")    
+    errorFile.close()
 
 
 def main():

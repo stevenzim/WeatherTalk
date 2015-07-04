@@ -115,8 +115,13 @@ def createMetarTable():
 #    cursor.execute(addTableCmd)
 #    connection.commit()
 
+
+#'CREATE INDEX metar_observation_time_idx ON weather.metar (observation_time);'
+
+
+
 #'ALTER TABLE weather.metar_report ADD UNIQUE (uid);'
-#'CREATE INDEX observation_time_idx ON weather.metar_report (observation_time);'
+
 #'CREATE INDEX stationid_idx ON weather.metar_report (ICAO_ID);'
 
 #'DROP INDEX weather.observation_time_idx;'

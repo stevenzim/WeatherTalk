@@ -38,6 +38,8 @@ def createTwitterTable():
     climate_delta_time_sec float,\
     climate_station_dist float,\
     climate_station_id CHAR(4),\
+    climate_secondary_uid integer,\
+    climate_secondary_delta_time_sec float,\
     metar_uid integer,\
     metar_delta_time_sec float,\
     metar_station_dist float,\

@@ -297,7 +297,7 @@ def getTweetMetarReport(tweetDict):
     tweetDict["metar_station_dist"] = stationDistance
     #tweetDict["metar_report"] = report[0:1] + report[-2:-1] + report[2:-3]  #returns a tuple in same format as orginal metar.  Ordered in list of db fields
     tweetDict["metar_delta_time_sec"] = report[-1]
-    tweetDict["metar_db_uid"] = report[-3]
+    tweetDict["metar_uid"] = report[-3]
     
     return tweetDict
         
@@ -317,6 +317,7 @@ def getTweetClimateReport(tweetDict):
     datestamp = tweetDict["created_at"]
     stationList = tweetDict["climate_stations"]
     report = []
+    reportTwo = []
     stationID = ''
     stationDistance = 0.0
     #we want all columns + string conversion of datetime + time delta between tweet time and wx report time
@@ -332,14 +333,19 @@ def getTweetClimateReport(tweetDict):
         if len(tempreport) == 0:
             #No report available for stationID datestamp combo, therefore got to next station in list
             continue
-        if len(tempreport) == 1:
-            #we found a report
+        if len(tempreport) >= 1:
+            #we found a primary report that occured within past 48, 99.99% that it occured within past 24 hours
             report = tempreport[0]
+            #convert report to list
+            report = list(report)
+            if len(tempreport) == 2:
+                #we found a secondary report that could be useful for analysis, 100% that this report is from day before current day of tweet
+                reportTwo = tempreport[1]
+                #convert report to list
+                reportTwo = list(reportTwo)
             break
-    
-    
-    #convert report to list
-    report = list(report)
+ 
+
     
     #error check, raise exception and dump to file.  There was a problem with data perhaps no report found
     #NOTE: This might be unecssary given above code
@@ -351,11 +357,15 @@ def getTweetClimateReport(tweetDict):
 
     #update dict by dropping list of stations and adding appropriate wx fields
     tweetDict.pop("climate_stations")
+    #primary report
     tweetDict["climate_station_id"] = stationID
     tweetDict["climate_station_dist"] = stationDistance
     tweetDict["climate_delta_time_sec"] = report[-1]
-    tweetDict["climate_db_uid"] = report[-3]
-    
+    tweetDict["climate_uid"] = report[-3]
+    #secondary report
+    if reportTwo != []:
+        tweetDict["climate_secondary_delta_time_sec"] = reportTwo[-1]
+        tweetDict["climate_secondary_uid"] = reportTwo[-3]  
     return tweetDict       
     
 ##STEP 2    
