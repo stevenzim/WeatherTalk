@@ -71,7 +71,7 @@ def createMetarTable():
 #    cursor = connection.cursor()
 
 #    #drop existing table
-#    cursor.execute("DROP TABLE weather.metar_report;")
+#    cursor.execute("DROP TABLE weather.metar;")
 #    connection.commit()
 
 
@@ -80,7 +80,7 @@ def createMetarTable():
 #    cursor = connection.cursor()
 
 #    #create table
-#    addTableCmd = "CREATE TABLE weather.metar_report \
+#    addTableCmd = "CREATE TABLE weather.metar \
 #    (\
 #    ICAO_ID CHAR(4),\
 #    observation_time timestamp,\
@@ -108,7 +108,7 @@ def createMetarTable():
 #    uid SERIAL UNIQUE,\
 #    PRIMARY KEY (ICAO_ID, observation_time),\
 #    CONSTRAINT metar_report_station_id_fkey FOREIGN KEY (ICAO_ID)\
-#      REFERENCES weather.metarStations (ICAO_ID) MATCH SIMPLE\
+#      REFERENCES weather.stations (ICAO_ID) MATCH SIMPLE\
 #      ON UPDATE NO ACTION ON DELETE NO ACTION\
 #    );"
 

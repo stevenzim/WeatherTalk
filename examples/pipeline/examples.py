@@ -176,10 +176,10 @@ def getTriplesAndTopics():
             try:
                 dict = helper.addStringTestTopic(dict,'text','obama','topic_obama')
                 dict = helper.addStringTestTopic(dict,'text','adidas','topic_adidas')
+                dict = helper.addStringTestTopic(dict,'text','nike','topic_nike')
                 dict = helper.addStringTestTopic(dict,'text','boeing','topic_boeing')
                 dict = helper.addStringTestTopic(dict,'text','microsoft','topic_microsoft')
                 dict = helper.addStringTestTopic(dict,'text','tableau','topic_tableau')
-                dict = helper.addStringTestTopic(dict,'text','nike','topic_nike')
                 dict = helper.addStringTestTopic(dict,'text','verizon','topic_verizon')
                 dict = helper.addStringTestTopic(dict,'text','apple','topic_apple')
                 dict = helper.addStringTestTopic(dict,'text','samsung','topic_samsung')
