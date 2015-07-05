@@ -179,12 +179,13 @@ def getWx():
             
             #analysis of this step indicates if many tweets can't find metar, then it wasn't loaded into db, therefore we want to dump it to error file and get onto next file
             if len(listOfErrorDicts) > 100 and len(tweetsWithMetar) < 2:
-                helper.dumpJSONtoFile(inFilePath + 'errors/metar-missing-' + file,tweetsWithClimate)   
+                helper.dumpJSONtoFile(inFilePath + 'errors/metar-missing-' + file,tweetListWithWxStations)   
                 toManyErrors = True
                 break
         
         #test if there are many metar errors, if so, we want to go onto next file    
         if toManyErrors == True:
+            helper.deleteFilesInList(inFilePath,[file])
             continue
                      
         print("Get Metar Report time--- %s seconds ---" % (time.time() - st_getmetarreport_time))
@@ -203,10 +204,8 @@ def getWx():
                 tweetsWithClimate.append(pipeline.getTweetClimateReport(dict))
             except Exception as error:
                 totalTweetErrors += 1
-                dict['ERROR']='Error finding climate report via pipe.getTweetClimateReport, perhaps none was available for station/time combo. Error:' + str(error) + '. Original file = ' + file.split('/')[-1]
+                dict['ERROR']='Error finding climate report via pipe.getTweetClimateReport. Error:' + str(error) + '. Original file = ' + file.split('/')[-1]
                 listOfErrorDicts.append(dict)
-                #helper.dumpJSONtoFile(inFilePath + 'errors/' + str(totalTweetErrors) + "-" + file,dict)
-                #errorFile.write("ERROR: " + str(error) + " Error: getTweetClimateReport for file: " + file + " and tweet ID: " + str(dict["id"]) + "\n")
                 continue
         if len(tweetsWithClimate) > 0:
             helper.dumpJSONtoFile(outFilePath + file,tweetsWithClimate)

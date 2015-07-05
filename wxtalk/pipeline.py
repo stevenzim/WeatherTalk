@@ -347,12 +347,11 @@ def getTweetClimateReport(tweetDict):
  
 
     
-    #error check, raise exception and dump to file.  There was a problem with data perhaps no report found
-    #NOTE: This might be unecssary given above code
+    #As climate reports are secondary goal for project and are not an FK in database, return a dictionary without climate uids
     if report == []:
-        #tweetDict['ERROR'] = 'Error occured in pipeline getTweetWxReport'
-        #helper.dumpJSONtoFile(os.path.join(pathToErrorDir,'pipeline-'+helper.getDateTimeStamp()+'.json'),[tweetDict])
-        raise Exception("No wx report retrieved, check data in the error folder")
+        tweetDict.pop("climate_stations")
+        return tweetDict
+
 
 
     #update dict by dropping list of stations and adding appropriate wx fields
