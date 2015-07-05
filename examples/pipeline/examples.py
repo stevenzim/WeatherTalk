@@ -17,15 +17,103 @@ def convertTweetsSimple():
         except:
             print dict
 
-def dumpErrorListOfDicts(filePath,listOfErrorDicts):
+def dumpErrorListOfDicts(filePath,listOfErrorDicts,description,origFileName):
     '''Dumps dictionaries to json file, function is to make things look cleaner below'''
     if len(listOfErrorDicts) > 0:
-        helper.dumpJSONtoFile(filePath + 'errors/error-dicts-' + helper.getDateTimeStamp(True) + '.json',listOfErrorDicts)        
+        helper.dumpJSONtoFile(filePath + 'errors/error-dicts-' + description + origFileName,listOfErrorDicts)        
+
+
+#useful for disk management and shaving down size of corpus
+#takes a set files containing tweets in JSON and combines them into larger files (e.g. >15K tweets per file)
+#If tweet date before 27APR2015(date of API change) then only take 2/9 and dump remainder to other folder to process later if time permits 
+def organizeTweets():
+    start_time = time.time()
+    inFilePath = "1-CleanedTweets/"
+    outFilePath = "2-OrganizedTweets/"
+    files = helper.getListOfFiles(inFilePath)
+    files.sort()  #put oldest first
+    totalTweetsProcessed = 0
+    totalTweetErrors = 0
+    tweetsHeldOut = 0
+    
+    totalFiles = len(files)
+    filesProcessed = 0
+    fileErrors = 0
+    
+    errorFile = open(inFilePath + "errors/errorFile.log","a")
+    
+    listOfErrorDicts = []
+    listOfFilesToDelete = []
+    
+    tweetsToSetAside = []      #random subset that will be stored for later processing if time 2 of every 9 will be held out for now
+    tweetsToProcess = []
+    firstFileName = None
+    
+    print str(totalFiles) + " total tweet files will be organized...."        
+    for file in files:
+        file_time = time.time()
+        if firstFileName == None:
+            firstFileName = file
+        try:
+            print
+            print
+            print file + " is being organized."
+            data = helper.loadJSONfromFile(inFilePath +file)  
+            totalTweetsProcessed += len(data) 
+                        
+            #test if tweet occured before Twitter API change on Mon Apr 27 17:41:29 2015
+            if int(data[0]["timestamp_ms"]) < 1430156489629:
+                count = 0
+                for dict in data:
+                    if (((count % 9) != 4) and ((count % 9) != 8)):
+                        tweetsToSetAside.append(dict)
+                    else:
+                        tweetsToProcess.append(dict)
+                    count +=1
+                if len(tweetsToSetAside) > 0:
+                    helper.dumpJSONtoFile(outFilePath + "setAsideBeforeAPI/" + file,tweetsToSetAside) 
+                    tweetsHeldOut += len(tweetsToSetAside)
+                    tweetsToSetAside = []              
+            else:
+                tweetsToProcess.extend(data)
+            filesProcessed +=1
+            print "Total files remaining = " + str(totalFiles - filesProcessed)
+            
+            listOfFilesToDelete.append(file)
+        except Exception as error:
+            fileErrors +=1
+            os.rename(inFilePath + file,inFilePath +'errors/'+ file)
+            errorFile.write("Error organizing Tweet file for DB Prep. File name: " + file + " With error: " + str(error) + '\n')
+            continue
+        
+        print("Current file prep time--- %s seconds ---" % (time.time() - file_time))
+
+        print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+
+        #delete current files from inFile directory in the list of Files to delete
+        if len(tweetsToProcess) > 15000:
+            helper.dumpJSONtoFile(outFilePath + firstFileName,tweetsToProcess)
+            tweetsToProcess = []
+            firstFileName = None          
+            helper.deleteFilesInList(inFilePath,listOfFilesToDelete)
+            listOfFilesToDelete = []
+
+    #final file dump and deletes
+    if len(tweetsToProcess) > 0:
+        helper.dumpJSONtoFile(outFilePath + firstFileName,tweetsToProcess)     
+        helper.deleteFilesInList(inFilePath,listOfFilesToDelete)
+              
+    print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
+    print str(totalTweetsProcessed) + " tweets processed."
+    print("completed in--- %s seconds ---" % (time.time() - start_time))
+    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) + ",Total tweets held out=," + str(tweetsHeldOut) +\
+                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")    
+    errorFile.close()
         
 #take a set of json files of tweets and load them with wx reports and stations
 def getWx():
     start_time = time.time()
-    inFilePath = "2-CleanedTweets/"
+    inFilePath = "2-OrganizedTweets/"
     outFilePath = "3-TweetsWithWx/"
     files = helper.getListOfFiles(inFilePath)
     totalTweetsProcessed = 0
@@ -46,6 +134,10 @@ def getWx():
         #get canidate climate and metar stations for tweet
         st_getstation_time = time.time()
         tweetListWithWxStations = []
+        listOfErrorDicts = []
+        tweetsWithMetar = []
+        tweetsWithClimate = []
+        toManyErrors = False
         try:
             #load json file and dump file to error folder if there is an error e.g. corrupt file
             try:
@@ -73,7 +165,7 @@ def getWx():
         
         #link tweet to metar report
         st_getmetarreport_time = time.time()
-        tweetsWithMetar = []
+
         for dict in tweetListWithWxStations: 
             try:
                 tweetsWithMetar.append(pipeline.getTweetMetarReport(dict))
@@ -84,7 +176,17 @@ def getWx():
                 #helper.dumpJSONtoFile(inFilePath + 'errors/' + str(totalTweetErrors) + "-" + file,dict)
                 #errorFile.write("ERROR: " + str(error) + " Error: getTweetMetarReport for file: " + file + " and tweet ID: " + str(dict["id"]) + "\n")
                 continue
-
+            
+            #analysis of this step indicates if many tweets can't find metar, then it wasn't loaded into db, therefore we want to dump it to error file and get onto next file
+            if len(listOfErrorDicts) > 100 and len(tweetsWithMetar) < 2:
+                helper.dumpJSONtoFile(inFilePath + 'errors/metar-missing-' + file,tweetsWithClimate)   
+                toManyErrors = True
+                break
+        
+        #test if there are many metar errors, if so, we want to go onto next file    
+        if toManyErrors == True:
+            continue
+                     
         print("Get Metar Report time--- %s seconds ---" % (time.time() - st_getmetarreport_time))
 
 
@@ -95,7 +197,7 @@ def getWx():
         # That said, concern is low, because most tweets do not happen in the couple of hours after start time of report as this is start of local day when most people are sleeping
         # and tweet rates are low
         st_getclimatereport_time = time.time()
-        tweetsWithClimate = []
+
         for dict in tweetsWithMetar: 
             try:
                 tweetsWithClimate.append(pipeline.getTweetClimateReport(dict))
@@ -113,13 +215,13 @@ def getWx():
         print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
         
         
-        print "Estimated time remaining in minutes = " + str(((totalFiles - (filesProcessed+fileErrors))*(time.time() - file_time))/60.)
-        
+        print "Estimated time remaining in minutes = " + str(((totalFiles - (filesProcessed+fileErrors))*(time.time() - st_getstation_time))/60.)
+ 
 
 
         #Dump any remaining errors and log details of current processing to error file      
-        dumpErrorListOfDicts(inFilePath,listOfErrorDicts)
-        listOfErrorDicts = []
+        dumpErrorListOfDicts(inFilePath,listOfErrorDicts,"get-wx-",file)
+
             
         #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
         helper.deleteFilesInList(inFilePath,[file])
@@ -202,7 +304,7 @@ def getTriplesAndTopics():
         print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
 
         #Dump any remaining errors and log details of current processing to error file      
-        dumpErrorListOfDicts(inFilePath,listOfErrorDicts)
+        dumpErrorListOfDicts(inFilePath,listOfErrorDicts,"get-triples-",file)
         listOfErrorDicts = []
             
         #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
@@ -404,7 +506,7 @@ def batchLoadTweets():
         print "Estimated time remaining in minutes = " + str(((totalFiles - (filesProcessed+fileErrors))*(time.time() - file_time))/60.)
 
         #Dump dictionary errors and log details    
-        dumpErrorListOfDicts(inFilePath,listOfErrorDicts)
+        dumpErrorListOfDicts(inFilePath,listOfErrorDicts,"get-loadDB-",file)
         listOfErrorDicts = []
 
         #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
@@ -426,12 +528,12 @@ def main():
     getWx()
     print "...............Getting NLP Triples and Topics.................."
     getTriplesAndTopics()
-    print "..................Classifying.............."
-    getClassifications()
-    print "................PREPPING FOR DB.............."
-    prepTweetsDb()
-    print "..............BATCH LOADING TO DB............"
-    batchLoadTweets()
+#    print "..................Classifying.............."
+#    getClassifications()
+#    print "................PREPPING FOR DB.............."
+#    prepTweetsDb()
+#    print "..............BATCH LOADING TO DB............"
+#    batchLoadTweets()
     
     print("Total completion time in minutes--- %s minutes ---" % ((time.time() - start_time)/60.))  
     print "DONE!!!"  
