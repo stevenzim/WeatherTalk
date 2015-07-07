@@ -16,6 +16,7 @@
 
 import csv
 import json
+from random import shuffle
 
 def links_convert(text):
     '''
@@ -39,14 +40,14 @@ def sentiment_convert(s2TOs4score):
     if indexOfMax == 2: 
         return "positive"
 
-def topic_convert(s5score):
+def topic_convert(s5score,threshold):
     '''
     Takes in s5 field score defined as "Tweet not related to weather condition" 
     If this score is greater than 0.5, then return False, else True
     '''
     #TODO: Confirm this is the best threshold to use, research may indicate a better way to do this
     #      Need to research better way to do this, initially will be True if topic wx original > 0.5
-    if sentiList[-1] > 0.5: 
+    if float(s5score) < threshold: 
         return True
     else:
         return False
@@ -75,17 +76,30 @@ def buildOutputDict(csvRow,sentiList,temporalList):
     '''
     outputDict = {'id' : csvRow['id'],
                 'text_orig' : csvRow['tweet'],  
-                'text_converted' : links_convert(csvRow['tweet']),  
-                'loc_state' : csvRow['state'],
-                'loc_city' : csvRow['location'],
-                'sentiment_orig' : sentiList,
-                'sentiment_converted' : sentiment_convert(sentiList[1:4]), 
-                'temporal_orig' : temporalList,
-                'temporal_converted' : temporal_convert(temporalList), 
-                'topic_wx_orig' : sentiList[-1],
-                'topic_wx_converted' : topic_convert(sentiList[-1]),  
-                'uncertainty_score' : sentiList[0],
-                'source' : 'Kaggle'}
+                'text' : links_convert(csvRow['tweet']),  
+                #'loc_state' : csvRow['state'],
+                #'loc_city' : csvRow['location'],
+                #'sentiment_orig' : sentiList,
+                's1_conf' : float(sentiList[0]),
+                's2_conf' : float(sentiList[1]),  
+                's3_conf' : float(sentiList[2]), 
+                's4_conf' : float(sentiList[3]),  
+                's5_conf' : float(sentiList[4]),
+                'topic_wx_00' : topic_convert(sentiList[4],0.000000001),
+                'topic_wx_10' : topic_convert(sentiList[4],0.1),
+                'topic_wx_20' : topic_convert(sentiList[4],0.2),
+                'topic_wx_30' : topic_convert(sentiList[4],0.3),
+                'topic_wx_40' : topic_convert(sentiList[4],0.4), 
+                'topic_wx_50' : topic_convert(sentiList[4],0.5),
+                'topic_wx_60' : topic_convert(sentiList[4],0.6),
+                'topic_wx_70' : topic_convert(sentiList[4],0.7),
+                'topic_wx_80' : topic_convert(sentiList[4],0.8),
+                'topic_wx_90' : topic_convert(sentiList[4],0.9), 
+                'topic_wx_100' : topic_convert(sentiList[4],1.0)}                 
+                #'sentiment_converted' : sentiment_convert(sentiList[1:4]), 
+                #'temporal_orig' : temporalList,
+                #'temporal_converted' : temporal_convert(temporalList), 
+                #'source' : 'Kaggle'}
     return outputDict
 
     
@@ -94,7 +108,7 @@ def buildOutputDict(csvRow,sentiList,temporalList):
 #TODO: Could change the code from here below to be a function that takes in csv and json filenames
 myList = []
 currentRow = 1
-with open('train-edited-test.csv') as csvfile:
+with open('train.csv') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         print currentRow
@@ -117,8 +131,19 @@ with open('train-edited-test.csv') as csvfile:
             # print row['id']
             # totalRemoved += 1
 
+#SHUFFLE THE LIST FOR PREP OF TRAINING/TEST SETS
+shuffle(myList)
+sampleSize = len(myList)
+trainSize = int(.8*sampleSize)
+trainSet = myList[:trainSize]
+testSet = myList[trainSize:]
 
 #Pretty print to JSON
-#TODO: Reorganize code, so that I can import the helper function
+#output train set
+with open('train.json', 'w') as outfile:
+    json.dump(trainSet, outfile ,sort_keys=True, indent=4, separators=(',', ': '))
+    
+    
+#output test set
 with open('test.json', 'w') as outfile:
-    json.dump(myList, outfile ,sort_keys=True, indent=4, separators=(',', ': '))
+    json.dump(testSet, outfile ,sort_keys=True, indent=4, separators=(',', ': '))

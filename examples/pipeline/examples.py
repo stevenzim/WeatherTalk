@@ -113,8 +113,8 @@ def organizeTweets():
 #take a set of json files of tweets and load them with wx reports and stations
 def getWx():
     start_time = time.time()
-    inFilePath = "2-OrganizedTweets/"
-    outFilePath = "3-TweetsWithWx/"
+    inFilePath = "2-OrganizedTweets/April/"
+    outFilePath = "3-TweetsWithWx/April/"
     files = helper.getListOfFiles(inFilePath)
     totalTweetsProcessed = 0
     totalTweetErrors = 0

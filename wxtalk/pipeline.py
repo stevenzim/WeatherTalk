@@ -331,7 +331,7 @@ def getTweetClimateReport(tweetDict):
         tempreport = r.retrieveClimateReport(stationID,datestamp,selectString)
         #report = report[0]
         if len(tempreport) == 0:
-            #No report available for stationID datestamp combo, therefore got to next station in list
+            #No report available for stationID datestamp combo, therefore go to next station in list
             continue
         if len(tempreport) >= 1:
             #we found a primary report that occured within past 48, 99.99% that it occured within past 24 hours
