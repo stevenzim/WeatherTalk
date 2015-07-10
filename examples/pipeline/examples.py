@@ -28,8 +28,8 @@ def dumpErrorListOfDicts(filePath,listOfErrorDicts,description,origFileName):
 #If tweet date before 27APR2015(date of API change) then only take 2/9 and dump remainder to other folder to process later if time permits 
 def organizeTweets():
     start_time = time.time()
-    inFilePath = "1-CleanedTweets/"
-    outFilePath = "2-OrganizedTweets/"
+    inFilePath = "1-CleanedTweets/2015-March/"
+    outFilePath = "2-OrganizedTweets/March/"
     files = helper.getListOfFiles(inFilePath)
     files.sort()  #put oldest first
     totalTweetsProcessed = 0
@@ -71,7 +71,7 @@ def organizeTweets():
                         tweetsToProcess.append(dict)
                     count +=1
                 if len(tweetsToSetAside) > 0:
-                    helper.dumpJSONtoFile(outFilePath + "setAsideBeforeAPI/" + file,tweetsToSetAside) 
+                    helper.dumpJSONtoFile("2-OrganizedTweets/setAsideBeforeAPI/" + file,tweetsToSetAside) 
                     tweetsHeldOut += len(tweetsToSetAside)
                     tweetsToSetAside = []              
             else:
@@ -111,10 +111,10 @@ def organizeTweets():
     errorFile.close()
         
 #take a set of json files of tweets and load them with wx reports and stations
-def getWx():
+def getWx(monthName):
     start_time = time.time()
-    inFilePath = "2-OrganizedTweets/April/"
-    outFilePath = "3-TweetsWithWx/April/"
+    inFilePath = "2-OrganizedTweets/"+ monthName + "/"
+    outFilePath = "3-TweetsWithWx/"+ monthName + "/"
     files = helper.getListOfFiles(inFilePath)
     totalTweetsProcessed = 0
     totalTweetErrors = 0

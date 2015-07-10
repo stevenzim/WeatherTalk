@@ -7,6 +7,7 @@ from os import listdir
 from os.path import isfile, join
 import os as os
 from time import time
+import numpy as np
 
 from sklearn.metrics import classification_report
 
@@ -28,9 +29,25 @@ def dumpJSONtoFile(fileName , dataToDump):
 		json.dump(dataToDump, outfile ,sort_keys=True, indent=4, separators=(',', ': '))
 
 #produce model metrics		
-def evaluateResults(y_expected,y_predicted):
-    '''Get evaluation results e.g. Precision, Recall and F1 scores'''
-    return classification_report(y_expected,y_predicted)
+def evaluateResults(y_expected,y_predicted,y_probs = None,prob_thresh = .95):
+    '''Get evaluation results e.g. Precision, Recall and F1 scores
+        If probabilities for ys is provided then only return classification report
+        with prediction probabilities greater than threshold default 95%'''
+    if y_probs == None:
+        return classification_report(y_expected,y_predicted)
+    #now we want to only evaluate based on predictions with probability > threshold
+    #NOTE: does not have test YET
+    thresh_expected = []
+    thresh_predicted = []
+    for expect, predict, prob in zip(y_expected,y_predicted,y_probs):
+        if prob.max() > prob_thresh:
+            thresh_expected.append(expect)
+            thresh_predicted.append(predict)
+        else:
+            continue
+    return classification_report(np.asarray(thresh_expected),np.asarray(thresh_predicted))
+
+      
 		
 #drop keys and vals from list of dicts based on list of keys to drop, default is none		
 def dropKeysVals(listOfDicts, keysToDrop = []):

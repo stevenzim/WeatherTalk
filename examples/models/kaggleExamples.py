@@ -40,6 +40,10 @@ inFile = '../../wxtalk/resources/data/Kaggle/test.json'
 outFile = '../../wxtalk/resources/data/Kaggle/testTriples.json'
 helper.extractTweetNLPtriples(inFile,outFile)
 
+inFile = '../../wxtalk/resources/data/Kaggle/tweetsWxWords.json'
+outFile = '../../wxtalk/resources/data/Kaggle/tweetsWxWordsTriples.json'
+helper.extractTweetNLPtriples(inFile,outFile)
+
 #0b - live tweets
 #single file
 #inFile = '../../wxtalk/resources/data/LiveTweets/LiveTweets.json'
@@ -51,7 +55,7 @@ helper.extractTweetNLPtriples(inFile,outFile)
 #Parameters entered in below are suggested by grid_search
 ngramCountPipe = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ))])
+            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 2) ))])
 
 
 clfpipeline = Pipeline([\
@@ -92,11 +96,29 @@ clfpipeline = Pipeline([\
             ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
 
 
+def removeIdontKnows(listOfDicts):
+    data = []
+    wxCount = 0
+    for tweet in listOfDicts:
+        if tweet['s1_conf'] > 0.0:
+            continue
+        if tweet['s5_conf'] > 0.0 and tweet['s5_conf'] <1.0:
+                continue
+        if tweet['s5_conf'] == 1.0:
+            data.append(tweet)
+        if tweet['s5_conf'] == 0.0:
+            wxCount += 1
+            if wxCount > 1000:
+                continue
+            else:
+                data.append(tweet)       
+    return data
 
 
 #1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
 inFile = '../../wxtalk/resources/data/Kaggle/trainTriples.json'
-data = helper.loadJSONfromFile(inFile)           
+data = helper.loadJSONfromFile(inFile)   
+data = removeIdontKnows(data)        
 ed = tran.TriplesYsExtractor()
 triplesList, ysList = ed.transform(data,ysKeyName = "topic_wx_00")
 clfpipeline.fit(triplesList,ysList)
@@ -111,13 +133,26 @@ loadedpipe = joblib.load('../../wxtalk/resources/data/Kaggle/pickles/kaggle-prot
 loadedpipe = joblib.load('../../wxtalk/resources/data/Kaggle/pickles/kaggle-proto.pkl')
 #test
 inFile = '../../wxtalk/resources/data/Kaggle/testTriples.json'
-data = helper.loadJSONfromFile(inFile)           
+data = helper.loadJSONfromFile(inFile)  
+data = removeIdontKnows(data)         
 ed = tran.TriplesYsExtractor()
 triplesList, expected_ys = ed.transform(data,ysKeyName = "topic_wx_00")
 predicted_ys = loadedpipe.predict(triplesList)
 print helper.evaluateResults(expected_ys,predicted_ys)
 
-
+#create corpus original train + live tweets without wx words
+#AND Build Model
+#PROMISING RESULTS WITH SGD AND UNIGRAMS AND COUNT VEC
+kaggleFile = '../../wxtalk/resources/data/Kaggle/trainTriples.json'
+kaggle = helper.loadJSONfromFile(kaggleFile)
+liveFile = '../../wxtalk/resources/data/Kaggle/tweetsWxWordsTriples.json'
+live = helper.loadJSONfromFile(liveFile)
+kaggle.extend(live)
+ed = tran.TriplesYsExtractor()
+triplesList, ysList = ed.transform(kaggle,ysKeyName = "topic_wx_00")
+clfpipeline.fit(triplesList,ysList)
+joblib.dump(clfpipeline, '../../wxtalk/resources/data/Kaggle/pickles/kaggle-proto.pkl') 
+loadedpipe = joblib.load('../../wxtalk/resources/data/Kaggle/pickles/kaggle-proto.pkl')
 
 
 #1f - Example of Live Data Pipeline --> predict on live Tweets.  Attach prediction/result to each dictionary
@@ -144,6 +179,7 @@ for dict in data:
     count += 1
 
 helper.dumpJSONtoFile(outFile,data)   #dump live tweets with classifer predictions added to json
+
 
 
 

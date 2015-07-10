@@ -12,6 +12,7 @@ from wxtalk import helper
 
 import string
 
+
 from sklearn.pipeline import (Pipeline,FeatureUnion)
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import (CountVectorizer, TfidfTransformer, TfidfVectorizer)
@@ -84,8 +85,10 @@ features = FeatureUnion([
 
 clfpipeline = Pipeline([\
             ('features',features),
+            ('clf',SGDClassifier(loss = 'log',alpha=1e-05,n_iter=50,penalty='elasticnet'))])
+clfpipeline = Pipeline([\
+            ('features',features),
             ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
-
          
 ##nestpipline example
 nestedfeatures = FeatureUnion([
@@ -212,6 +215,52 @@ for dict in data:
 
 helper.dumpJSONtoFile(outFile,data)   #dump live tweets with classifer predictions added to json
 
+
+#1g WITH PREDICTION PROBS
+#classifier with ability for probability prediction
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',SGDClassifier(loss = 'log',alpha=1e-05,n_iter=50,penalty='elasticnet'))])
+#Build model
+inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
+clfpipeline.fit(triplesList,ysList)
+joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
+loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')            
+#dev with probability
+inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(triplesList)
+probs_ys = loadedpipe.predict_proba(triplesList)
+print helper.evaluateResults(expected_ys,predicted_ys,y_probs=probs_ys,prob_thresh=.98)
+#live subset based on t-hold
+inFile = '../../wxtalk/resources/data/LiveTweets/live2tweets.json'
+outFile = '../../wxtalk/resources/data/LiveTweets/live2tweetsTriples.json'
+helper.extractTweetNLPtriples(inFile,outFile)
+loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
+inFile = '../../wxtalk/resources/data/LiveTweets/live2tweetsTriples.json'
+outFile = '../../wxtalk/resources/data/LiveTweets/live2tweetsScored.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList = ed.transform(data)
+predicted_ys = loadedpipe.predict(triplesList)
+probs_ys = loadedpipe.predict_proba(triplesList)
+sentimentList = predicted_ys.tolist()
+#TODO: Create a fully working function out of this, needs to be tested
+#       Should also have error handling for when counts don't match
+#TODO: You could also add in topic classification here e.g. dict["topic_wx"] = topic_wx[count]
+count = 0 
+for dict in data:
+    keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
+    dict["sentiment_score"] = sentimentList[count]
+    dict["sentiment_prob"] = probs_ys[count].max()
+    count += 1
+
+helper.dumpJSONtoFile(outFile,data)   #dump live tweets with classifer predictions added to json
 
 
 
