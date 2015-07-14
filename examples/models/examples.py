@@ -17,6 +17,7 @@ from sklearn.pipeline import (Pipeline,FeatureUnion)
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import (CountVectorizer, TfidfTransformer, TfidfVectorizer)
 from sklearn.linear_model import SGDClassifier
+from sklearn.naive_bayes import MultinomialNB
 
 import sklearn.externals.joblib as joblib
 
@@ -89,6 +90,17 @@ clfpipeline = Pipeline([\
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
+
+#baseline 
+ngramCountPipe = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ))])
+
+clfpipeline = Pipeline([\
+            ('tf-idf',ngramCountPipe),
+            ('clf',MultinomialNB())])
+         
+
          
 ##nestpipline example
 nestedfeatures = FeatureUnion([

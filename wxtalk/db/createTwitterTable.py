@@ -46,9 +46,13 @@ def createTwitterTable():
     metar_station_id CHAR(4),\
     sentiment_class smallint,\
     sentiment_score float,\
+    sentiment_probability float,\
     sentiment_positive boolean,\
+    sentiment_pos_probability float,\
     sentiment_negative boolean,\
+    sentiment_neg_probability float,\
     sentiment_neutral boolean,\
+    sentiment_neut_probability float,\
     weather_class smallint,\
     weather_score float,\
     topic_obama boolean,\
@@ -66,17 +70,22 @@ def createTwitterTable():
       ON UPDATE NO ACTION ON DELETE NO ACTION,\
     CONSTRAINT tweet_metar_report_uid_fkey FOREIGN KEY (metar_uid)\
       REFERENCES weather.metar (uid) MATCH SIMPLE\
-      ON UPDATE NO ACTION ON DELETE NO ACTION,\
-    CONSTRAINT tweet_climate_station_icao_id_fkey FOREIGN KEY (climate_station_id)\
-      REFERENCES weather.stations (icao_id) MATCH SIMPLE\
-      ON UPDATE NO ACTION ON DELETE NO ACTION,\
-    CONSTRAINT tweet_climate_report_uid_fkey FOREIGN KEY (climate_uid)\
-      REFERENCES weather.climate (uid) MATCH SIMPLE\
       ON UPDATE NO ACTION ON DELETE NO ACTION);"
-
+      
     cursor.execute(addTableCmd)
     connection.commit()
 
+
+
+
+
+#FK constrains on climate reports
+#    CONSTRAINT tweet_climate_station_icao_id_fkey FOREIGN KEY (climate_station_id)\
+#      REFERENCES weather.stations (icao_id) MATCH SIMPLE\
+#      ON UPDATE NO ACTION ON DELETE NO ACTION,\
+#    CONSTRAINT tweet_climate_report_uid_fkey FOREIGN KEY (climate_uid)\
+#      REFERENCES weather.climate (uid) MATCH SIMPLE\
+#      ON UPDATE NO ACTION ON DELETE NO ACTION)
 
 #'CREATE INDEX tweet_metar_report_uid_idx ON weather.tweet (metar_db_uid);'
 #'CREATE INDEX tweet_creation_idx ON weather.tweet (created_at);'
