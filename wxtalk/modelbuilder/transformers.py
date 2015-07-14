@@ -100,6 +100,111 @@ class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
         return listToReturn
 
 
+class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
+    """Extract lexical features from each document which can then be passed to DictVectorizer
+    This transformer is an adaptation of papers/lexicons discussed in section 3 of
+    http://www.saifmohammad.com/WebPages/lexicons.html
+    Pass in a list of tweets/document triples extracted from twitter NLP and return features proposed in paper.
+    Options include lexicon = NRCHash or NRC140, gramTypes = unigrams/bigrams/pairs, tagType = token,hashtag,caps"""
+    def __init__(self):
+        self.lexicon = None
+        self.gramType = None
+        self.tagType = None
+
+        #lexicon file details
+        #NRC 140 lexicon path and files
+        self.NRC140Path = helper.getProjectPath() +  '/wxtalk/resources/lexicons/NRC-Sent140/'       
+        self.NRC140files = {'unigram': self.NRC140Path + 'unigrams140.json',\
+                            'bigram': self.NRC140Path + 'bigrams140.json',\
+                            'pairs': self.NRC140Path + 'pairs140.json'}
+        #NRC Hashtag lexicon path and files
+        self.NRCHashPath = helper.getProjectPath() +  '/wxtalk/resources/lexicons/NRC-Hash/'       
+        self.NRCHashfiles = {'unigram': self.NRCHashPath + 'unigramsHash.json',\
+                            'bigram': self.NRCHashPath + 'bigramsHash.json',\
+                            'pairs': self.NRCHashPath + 'pairsHash.json'} 
+
+    def setLexicon(self,lexicon):
+        '''Load desired lexicon based on input values'''
+        if lexicon == 'NRC140':
+            print "Step2"
+            print self.NRC140files[self.gramType]
+            self.lexicon = helper.loadJSONfromFile(self.NRC140files[self.gramType])
+            #print self.lexicon
+        elif lexicon == 'NRCHash':
+            self.lexicon = helper.loadJSONfromFile(self.NRCHashfiles[self.gramType]) 
+        else:
+            raise TypeError("You need to provide a correct lexicon and or gramType")      
+ 
+    def getListOfTags(self,listOfTriples):
+        '''Provided list of document/tweet triples, return list of tags based on the gramType and tagType
+        unigram will only extract single tokens, bigrams extracts window of tokens'''
+        #TODO: gramType = Bigrams and pairs
+        #TODO: tagType = Caps, Hashtags
+        listOfTagsAllTriples = []
+        for tripleSetCurrentDoc in listOfTriples:
+            listOfTagsCurrentDoc = []
+            for triple in tripleSetCurrentDoc:
+                lowerToken = triple[0].lower()
+                listOfTagsCurrentDoc.append(lowerToken)
+            listOfTagsAllTriples.append(listOfTagsCurrentDoc)
+        return listOfTagsAllTriples
+                
+                   
+    def getListOfScores(self,listOfTagsAllDocs):
+        '''Provided list of document/tweet tags (e.g. unigrams extracted from set of document triples), 
+        return list of lexicon scores based on occurance in lexicon'''
+        listOfScoresAllDocs = []
+        for tagsCurrentDoc in listOfTagsAllDocs:
+            currentDocScores = []
+            for tag in tagsCurrentDoc:
+                if tag in self.lexicon.keys():
+                    currentDocScores.append(float(self.lexicon[tag]))
+            if currentDocScores ==[]:
+                #we need to put 0.0 for neutral score for none found and to prevent errors in further processing
+                listOfScoresAllDocs.append([0.0])
+            else:
+                listOfScoresAllDocs.append(currentDocScores)
+        return listOfScoresAllDocs
+    
+    def getPositives(self,score):
+        '''Provided scores, return only score if positive'''
+        if score > 0.0:
+            return score
+            
+    def getLastPositiveScore(self,listOfPosScores):
+        '''If no positive scores return 0.0 else, return score of last pos score'''
+        if listOfPosScores == []:
+            return 0.0
+        else:
+            return listOfPosScores[-1]
+                        
+        
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples,lexicon,gramType = 'unigram',tagType = 'token'):
+        '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
+        NRC lexicon and options'''
+        self.gramType = gramType
+        self.tagType = tagType
+        self.setLexicon(lexicon)
+        #self.lexicon = self.setLexicon(lexicon)
+        
+
+        #print self.lexicon
+        
+        listOfTagsAllDocs = self.getListOfTags(listOfTriples)
+        listOfScoresAllDocs = self.getListOfScores(listOfTagsAllDocs)
+                       
+        listOfFeatures = [{'total_count_posi': len(filter(self.getPositives,scores)),\
+                    'total_score': round(sum(scores),3),\
+                    'max_score': round(max(scores),3),\
+                    'score_last_posi_token':round(self.getLastPositiveScore(filter(self.getPositives,scores)),3)}\
+                     for scores in listOfScoresAllDocs]
+        return listOfFeatures
+
+
+
 class CustomCountVectorizer(BaseEstimator, TransformerMixin):
     '''
     Custom count vectorizer IDEALLY allows for vocabulary to be accessed after pipeline.transform is runs

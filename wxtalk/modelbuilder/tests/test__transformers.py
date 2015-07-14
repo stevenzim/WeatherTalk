@@ -53,3 +53,38 @@ def test_text_features_extractor():
     assert_equal(featureDict[1],{"hashtag_present":True})
 
 
+#lexicon tests
+listOfTriples4 = [[['#Hello','#',.9],['world','N',.9]]]
+#140
+#    "world": "0.551",
+nrc140FeaturesUnigrams = {'total_count_posi':1,
+                     'total_score':.551,
+                     'max_score':.551,
+                     'score_last_posi_token':.551}
+                     
+#hash
+#    "#hello": "2.018",
+#    "world": "0.384",
+nrcHashFeaturesUnigrams = {'total_count_posi':2,
+                     'total_score':2.402,
+                     'max_score':2.018,
+                     'score_last_posi_token': 0.384}
+                     
+def test_nrc_140_features_extractor():
+    '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
+    d = transformers.NRCLexiconsExtractor()
+    featureDict = d.transform(listOfTriples4,lexicon = 'NRC140',gramType = 'unigram',tagType = 'token')
+    #test1 - unigrams/single doc/NRC140
+    assert_equal(featureDict[0],nrc140FeaturesUnigrams) 
+                   
+def test_nrc_hash_features_extractor():
+    '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
+    d = transformers.NRCLexiconsExtractor()
+    featureDict = d.transform(listOfTriples4,lexicon = 'NRCHash',gramType = 'unigram',tagType = 'token')
+    #test1 - unigrams/single doc/NRCHash
+    assert_equal(featureDict[0],nrcHashFeaturesUnigrams)
+
+
+    
+    
+
