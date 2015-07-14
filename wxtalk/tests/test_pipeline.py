@@ -52,13 +52,13 @@ def test_output_tweet_json_with_wx():
     as well as other specified key/vals
     '''
     #test to get wx station for nearest station for list of dicts
-    test = pipeline.getTweetWxReport(tweetWxtest1in[0])
+    test = pipeline.getTweetMetarReport(tweetWxtest1in[0])
     helper.dumpJSONtoFile(os.path.join(projPathToData,'temp.json'),test)
     test = helper.loadJSONfromFile(os.path.join(projPathToData,'temp.json'))
     assert_equal(test,tweetWxtest1expect[0])
     
     #test to get wx station for next nearest station.  e.g. when nearest station does not have a report available
-    test = pipeline.getTweetWxReport(tweetWxtest2in[0])
+    test = pipeline.getTweetMetarReport(tweetWxtest2in[0])
     helper.dumpJSONtoFile(os.path.join(projPathToData,'temp.json'),test)
     test = helper.loadJSONfromFile(os.path.join(projPathToData,'temp.json'))
     assert_equal(test,tweetWxtest2expect[0])
