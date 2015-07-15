@@ -140,12 +140,39 @@ features = FeatureUnion([
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
+            
     #svm with params similar to NRC
 #clfpipeline = Pipeline([\
 #            ('features',features),
 #            ('clf',SVC(C=.005,kernel='rbf',probability=False))])
 
-         
+#baseline +  POS counts
+ngramCountPipe = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ))])
+
+posCounts = Pipeline([\
+            ('lex-feats-dict',tran.POScountExtractor()),\
+            ('pos-vec',tran.DictVectorizer())])
+            
+features = FeatureUnion([
+            ('ngrams',ngramCountPipe),
+            ('pos-feats',posCounts)])
+    #sgd
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])    
+            
+#baseline +  POS counts + Auto Lex  --> Must load pipelines appropriately
+features = FeatureUnion([
+            ('ngrams',ngramCountPipe),
+            ('lex-feats',lexAutofeatures),
+            ('pos-feats',posCounts)])
+    #sgd
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])            
+     
 ##nestpipline example
 nestedfeatures = FeatureUnion([
             ('ngrams-idf',Pipeline([\
