@@ -2,7 +2,8 @@ from wxtalk import helper
 
 import string #necessary for analyzer option for feature extractors to split unicode and strings
 import time
-from functools import partial
+from functools import partial  #used for lexical transformer
+from itertools import islice #used for lexical transformer
 
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import (Pipeline,FeatureUnion)
@@ -136,19 +137,38 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
             self.lexicon = lexicon
         else:
             raise TypeError("You need to provide a correct lexicon and or gramType")      
+
+
+    def window(self,seq, n=2):
+        #taken from:https://docs.python.org/release/2.3.5/lib/itertools-example.html
+        "Returns a sliding window (of width n) over data from the iterable"
+        "   s -> (s0,s1,...s[n-1]), (s1,s2,...,sn), ...                   "
+        it = iter(seq)
+        result = tuple(islice(it, n))
+        if len(result) == n:
+            yield result    
+        for elem in it:
+            result = result[1:] + (elem,)
+            yield result
  
     def getListOfTags(self,listOfTriples):
         '''Provided list of document/tweet triples, return list of tags based on the gramType and tagType
         unigram will only extract single tokens, bigrams extracts window of tokens'''
-        #TODO: gramType = Bigrams and pairs
+        #TODO: gramType = pairs --> See details of this in "Sentiment Analysis of Short Informal Texts"
+               # with unigrams and bigrams only, we get approx +.05 F-score, so perhaps this extra step will not provide a big gain, looking for quick wins
         #TODO: tagType = Caps, Hashtags
+               #I have not found anything specific to show how this is done, nor any specifics to show it will work
+               #hence these features are low priority PERHAPS remove option all together
         listOfTagsAllTriples = []
         for tripleSetCurrentDoc in listOfTriples:
-            listOfTagsCurrentDoc = []
-            for triple in tripleSetCurrentDoc:
-                lowerToken = triple[0].lower()
-                listOfTagsCurrentDoc.append(lowerToken)
-            listOfTagsAllTriples.append(listOfTagsCurrentDoc)
+            lowerTokens = map(lambda triple: (triple[0].lower()), tripleSetCurrentDoc)
+            if self.gramType == 'unigram':
+                listOfTagsAllTriples.append(lowerTokens)
+            if self.gramType == 'bigram':
+                listOfBigrams = []
+                for terms in self.window(lowerTokens,n=2):
+                    listOfBigrams.append(' '.join(terms))
+                listOfTagsAllTriples.append(listOfBigrams)
         return listOfTagsAllTriples
                 
                    
@@ -191,21 +211,40 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
         NRC lexicon and options'''
         self.setLexicon(self.lexicon)
 
-        start_time = time.time()
+        #start_time = time.time()
         listOfTagsAllDocs = self.getListOfTags(listOfTriples)
-        print("ListOfTags Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+        #print("ListOfTags Total elapsed time--- %s seconds ---" % (time.time() - start_time))
         listOfScoresAllDocs = self.getListOfScores(listOfTagsAllDocs)
-        print("ListOfScores Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+        #print("ListOfScores Total elapsed time--- %s seconds ---" % (time.time() - start_time))
                        
         listOfFeatures = [{'total_count_posi': len(filter(self.getPositives,scores)),\
                     'total_score': round(sum(scores),3),\
                     'max_score': round(max(scores),3),\
                     'score_last_posi_token':round(self.getLastPositiveScore(filter(self.getPositives,scores)),3)}\
                      for scores in listOfScoresAllDocs]
-        print("ListofFeats Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+        #print("ListofFeats Total elapsed time--- %s seconds ---" % (time.time() - start_time))
         return listOfFeatures
 
+class POScountExtractor(BaseEstimator, TransformerMixin):
+    '''Adaptation of POS count features used in both NRC 2013/2014 Semeval submissions'''
 
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples):
+        '''Transform list of Triples containing document/tweet triples to desired dictionary format of POS counts'''              
+        listOfPOSdicts = []
+        for tripleSetCurrentDoc in listOfTriples:
+            #reset local POS dict
+            localPOSdict = {'!': 0, '#': 0, '$': 0, '&': 0, ',': 0, 'A': 0,\
+                '@': 0, 'E': 0, 'D': 0, 'G': 0, 'M': 0, 'L': 0, \
+                'O': 0, 'N': 0, 'P': 0, 'S': 0, 'R': 0, 'U': 0,\
+                 'T': 0, 'V': 0, 'Y': 0, 'X': 0, 'Z': 0, '^': 0, '~': 0}
+            docPOStags = map(lambda triple: (triple[1]), tripleSetCurrentDoc)
+            for tag in docPOStags:
+                localPOSdict[tag] += 1
+            listOfPOSdicts.append(localPOSdict)
+        return listOfPOSdicts
 
 class CustomCountVectorizer(BaseEstimator, TransformerMixin):
     '''

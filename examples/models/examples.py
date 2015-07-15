@@ -115,15 +115,23 @@ ngramCountPipe = Pipeline([\
             ('docs',tran.DocsExtractor()),\
             ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ))])
 
-lex140Pipe = Pipeline([\
+lex140Unis = Pipeline([\
             ('lex-feats-dict',tran.NRCLexiconsExtractor(lexicon = 'NRC140',gramType = 'unigram',tagType = 'token')),\
             ('lex-feats-vec',tran.DictVectorizer())])
-lexHashPipe = Pipeline([\
+lexHashUnis = Pipeline([\
             ('lex-feats-dict',tran.NRCLexiconsExtractor(lexicon = 'NRCHash',gramType = 'unigram',tagType = 'token')),\
             ('lex-feats-vec',tran.DictVectorizer())])
+lex140Bis = Pipeline([\
+            ('lex-feats-dict',tran.NRCLexiconsExtractor(lexicon = 'NRC140',gramType = 'bigram',tagType = 'token')),\
+            ('lex-feats-vec',tran.DictVectorizer())])
+lexHashBis = Pipeline([\
+            ('lex-feats-dict',tran.NRCLexiconsExtractor(lexicon = 'NRCHash',gramType = 'bigram',tagType = 'token')),\
+            ('lex-feats-vec',tran.DictVectorizer())])
 lexAutofeatures = FeatureUnion([
-            ('lex-nrc140-vec',lex140Pipe),
-            ('lex-nrchash-vec',lexHashPipe)])
+            ('lex-nrc140-vec',lex140Unis),
+            ('lex-nrchash-vec',lexHashUnis),
+            ('lex-nrc140-vec',lex140Bis),
+            ('lex-nrchash-vec',lexHashBis)])
             
 features = FeatureUnion([
             ('ngrams',ngramCountPipe),
@@ -133,9 +141,9 @@ clfpipeline = Pipeline([\
             ('features',features),
             ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
     #svm with params similar to NRC
-clfpipeline = Pipeline([\
-            ('features',features),
-            ('clf',SVC(C=.005,kernel='rbf',probability=False))])
+#clfpipeline = Pipeline([\
+#            ('features',features),
+#            ('clf',SVC(C=.005,kernel='rbf',probability=False))])
 
          
 ##nestpipline example
