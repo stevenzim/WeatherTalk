@@ -72,19 +72,31 @@ nrcHashFeaturesUnigrams = {'total_count_posi':2,
                      
 def test_nrc_140_features_extractor():
     '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
-    d = transformers.NRCLexiconsExtractor()
-    featureDict = d.transform(listOfTriples4,lexicon = 'NRC140',gramType = 'unigram',tagType = 'token')
+    d = transformers.NRCLexiconsExtractor(lexicon = 'NRC140',gramType = 'unigram',tagType = 'token')
+    featureDict = d.transform(listOfTriples4)
     #test1 - unigrams/single doc/NRC140
     assert_equal(featureDict[0],nrc140FeaturesUnigrams) 
                    
 def test_nrc_hash_features_extractor():
     '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
-    d = transformers.NRCLexiconsExtractor()
-    featureDict = d.transform(listOfTriples4,lexicon = 'NRCHash',gramType = 'unigram',tagType = 'token')
+    d = transformers.NRCLexiconsExtractor(lexicon = 'NRCHash',gramType = 'unigram',tagType = 'token')
+    featureDict = d.transform(listOfTriples4,)
     #test1 - unigrams/single doc/NRCHash
     assert_equal(featureDict[0],nrcHashFeaturesUnigrams)
 
-
+#def test_nrc_140_features_extractor():
+#    '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
+#    d = transformers.NRCLexiconsExtractor(lexicon = 'NRC140')
+#    featureDict = d.transform(listOfTriples4,lexicon = 'NRC140',gramType = 'unigram',tagType = 'token')
+#    #test1 - unigrams/single doc/NRC140
+#    assert_equal(featureDict[0],nrc140FeaturesUnigrams) 
+#                   
+#def test_nrc_hash_features_extractor():
+#    '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
+#    d = transformers.NRCLexiconsExtractor(lexicon = 'NRC140')
+#    featureDict = d.transform(listOfTriples4,lexicon = 'NRCHash',gramType = 'unigram',tagType = 'token')
+#    #test1 - unigrams/single doc/NRCHash
+#    assert_equal(featureDict[0],nrcHashFeaturesUnigrams)
     
     
 

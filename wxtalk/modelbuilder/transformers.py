@@ -1,6 +1,8 @@
 from wxtalk import helper
 
 import string #necessary for analyzer option for feature extractors to split unicode and strings
+import time
+from functools import partial
 
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import (Pipeline,FeatureUnion)
@@ -106,10 +108,10 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
     http://www.saifmohammad.com/WebPages/lexicons.html
     Pass in a list of tweets/document triples extracted from twitter NLP and return features proposed in paper.
     Options include lexicon = NRCHash or NRC140, gramTypes = unigrams/bigrams/pairs, tagType = token,hashtag,caps"""
-    def __init__(self):
-        self.lexicon = None
-        self.gramType = None
-        self.tagType = None
+    def __init__(self,lexicon,gramType = 'unigram',tagType = 'token'):
+        self.lexicon = lexicon
+        self.gramType = gramType
+        self.tagType = tagType
 
         #lexicon file details
         #NRC 140 lexicon path and files
@@ -126,12 +128,12 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
     def setLexicon(self,lexicon):
         '''Load desired lexicon based on input values'''
         if lexicon == 'NRC140':
-            print "Step2"
-            print self.NRC140files[self.gramType]
             self.lexicon = helper.loadJSONfromFile(self.NRC140files[self.gramType])
-            #print self.lexicon
         elif lexicon == 'NRCHash':
             self.lexicon = helper.loadJSONfromFile(self.NRCHashfiles[self.gramType]) 
+        elif type(lexicon) == type({}):
+            #this case put here to handle situation when dict is already loaded (e.g. when loading a pickle file)
+            self.lexicon = lexicon
         else:
             raise TypeError("You need to provide a correct lexicon and or gramType")      
  
@@ -154,17 +156,19 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
         '''Provided list of document/tweet tags (e.g. unigrams extracted from set of document triples), 
         return list of lexicon scores based on occurance in lexicon'''
         listOfScoresAllDocs = []
+        keyNames = set(self.lexicon.keys()) 
         for tagsCurrentDoc in listOfTagsAllDocs:
             currentDocScores = []
             for tag in tagsCurrentDoc:
-                if tag in self.lexicon.keys():
-                    currentDocScores.append(float(self.lexicon[tag]))
+                if tag in keyNames:
+                    currentDocScores.append(self.lexicon[tag])
             if currentDocScores ==[]:
                 #we need to put 0.0 for neutral score for none found and to prevent errors in further processing
                 listOfScoresAllDocs.append([0.0])
             else:
                 listOfScoresAllDocs.append(currentDocScores)
-        return listOfScoresAllDocs
+        #convert everything to float
+        return map(partial(map,float),listOfScoresAllDocs)
     
     def getPositives(self,score):
         '''Provided scores, return only score if positive'''
@@ -182,25 +186,23 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples,lexicon,gramType = 'unigram',tagType = 'token'):
+    def transform(self, listOfTriples):
         '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
         NRC lexicon and options'''
-        self.gramType = gramType
-        self.tagType = tagType
-        self.setLexicon(lexicon)
-        #self.lexicon = self.setLexicon(lexicon)
-        
+        self.setLexicon(self.lexicon)
 
-        #print self.lexicon
-        
+        start_time = time.time()
         listOfTagsAllDocs = self.getListOfTags(listOfTriples)
+        print("ListOfTags Total elapsed time--- %s seconds ---" % (time.time() - start_time))
         listOfScoresAllDocs = self.getListOfScores(listOfTagsAllDocs)
+        print("ListOfScores Total elapsed time--- %s seconds ---" % (time.time() - start_time))
                        
         listOfFeatures = [{'total_count_posi': len(filter(self.getPositives,scores)),\
                     'total_score': round(sum(scores),3),\
                     'max_score': round(max(scores),3),\
                     'score_last_posi_token':round(self.getLastPositiveScore(filter(self.getPositives,scores)),3)}\
                      for scores in listOfScoresAllDocs]
+        print("ListofFeats Total elapsed time--- %s seconds ---" % (time.time() - start_time))
         return listOfFeatures
 
 

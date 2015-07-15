@@ -18,6 +18,7 @@ from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import (CountVectorizer, TfidfTransformer, TfidfVectorizer)
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
 
 import sklearn.externals.joblib as joblib
 
@@ -97,9 +98,44 @@ ngramCountPipe = Pipeline([\
             ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ))])
 
 clfpipeline = Pipeline([\
-            ('tf-idf',ngramCountPipe),
+            ('ng-count',ngramCountPipe),
             ('clf',MultinomialNB())])
-         
+            
+#baseline with SGD
+ngramCountPipe = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ))])
+
+clfpipeline = Pipeline([\
+            ('ng-count',ngramCountPipe),
+            ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
+            
+#baseline +  NRC auto lexicon 
+ngramCountPipe = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ))])
+
+lex140Pipe = Pipeline([\
+            ('lex-feats-dict',tran.NRCLexiconsExtractor(lexicon = 'NRC140',gramType = 'unigram',tagType = 'token')),\
+            ('lex-feats-vec',tran.DictVectorizer())])
+lexHashPipe = Pipeline([\
+            ('lex-feats-dict',tran.NRCLexiconsExtractor(lexicon = 'NRCHash',gramType = 'unigram',tagType = 'token')),\
+            ('lex-feats-vec',tran.DictVectorizer())])
+lexAutofeatures = FeatureUnion([
+            ('lex-nrc140-vec',lex140Pipe),
+            ('lex-nrchash-vec',lexHashPipe)])
+            
+features = FeatureUnion([
+            ('ngrams',ngramCountPipe),
+            ('lex-feats',lexAutofeatures)])
+    #sgd
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
+    #svm with params similar to NRC
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',SVC(C=.005,kernel='rbf',probability=False))])
 
          
 ##nestpipline example
@@ -248,7 +284,7 @@ ed = tran.TriplesYsExtractor()
 triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
 predicted_ys = loadedpipe.predict(triplesList)
 probs_ys = loadedpipe.predict_proba(triplesList)
-print helper.evaluateResults(expected_ys,predicted_ys,y_probs=probs_ys,prob_thresh=.98)
+print helper.evaluateResults(expected_ys,predicted_ys,y_probs=probs_ys,prob_thresh=.999999)
 #live subset based on t-hold
 inFile = '../../wxtalk/resources/data/LiveTweets/live2tweets.json'
 outFile = '../../wxtalk/resources/data/LiveTweets/live2tweetsTriples.json'
