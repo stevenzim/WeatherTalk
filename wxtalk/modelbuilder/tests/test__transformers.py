@@ -53,11 +53,49 @@ def test_text_features_extractor():
     assert_equal(featureDict[1],{"hashtag_present":True})
 
 
-#lexicon tests
+####----lexicon tests
 listOfTriples4 = [[['#Hello','#',.9],['world','N',.9]]]
 listOfTriples5 = [[['ADORE','V',.9],['him','N',.9],['back','N',.9]]]
-#listOfTriples5 = [[['Just','T',.9],['a','T',.9],['busy','T',.9],['day','T',.9]]]
 
+####manual lexicons
+#bing and liu / listOfTriples5
+#    "adore": 1.0,
+bingLiuFeatures ={'total_count_posi':1,
+                     'total_score':1.0,
+                     'max_score':1.0,
+                     'score_last_posi_token':1.0}
+#MPQA / listOfTriples5
+#    "adore": 1.0,
+#    "back": 1.0,
+mpqaFeatures ={'total_count_posi':2,
+                     'total_score':2.0,
+                     'max_score':1.0,
+                     'score_last_posi_token':1.0}
+                     
+#NRC emotions / listOfTriples5
+#    "adore": 1.0,
+nrcEmotionFeatures ={'total_count_posi':1,
+                     'total_score':1.0,
+                     'max_score':1.0,
+                     'score_last_posi_token':1.0}
+
+def test_manual_lexicon_features_extractor():
+    '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
+    #test1 - single doc/BingLiu
+    d = transformers.NRCLexiconsExtractor(lexicon = 'BingLiu')
+    featureDict = d.transform(listOfTriples5)
+    assert_equal(featureDict[0],bingLiuFeatures) 
+    #test2 - single doc/MPQA
+    d = transformers.NRCLexiconsExtractor(lexicon = 'MPQA')
+    featureDict = d.transform(listOfTriples5)
+    assert_equal(featureDict[0],mpqaFeatures) 
+    #test3 - single doc/NRCemotions
+    d = transformers.NRCLexiconsExtractor(lexicon = 'NRCemotion')
+    featureDict = d.transform(listOfTriples5)
+    assert_equal(featureDict[0],nrcEmotionFeatures) 
+
+
+####automatic lexicons
 #140 / listOfTriples4
 #    "world": "0.551",
 nrc140FeaturesUnigrams = {'total_count_posi':1,
@@ -72,20 +110,7 @@ nrc140FeaturesBigrams = {'total_count_posi':1,
                      'total_score':.869,
                      'max_score':1.435,
                      'score_last_posi_token':1.435}
-                     
-#140 pairs / listOfTriples6 Test data when time permits create pairs functionality
-#    "just---busy": "-0.18",
-#    "just---busy day": "-0.202",  
-#    "just a---day": "5",                   
 
-#hash  / listOfTriples4
-#    "#hello": "2.018",
-#    "world": "0.384",
-nrcHashFeaturesUnigrams = {'total_count_posi':2,
-                     'total_score':2.402,
-                     'max_score':2.018,
-                     'score_last_posi_token': 0.384}
-        
 def test_nrc_140_features_extractor():
     '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
     #test1 - unigrams/single doc/NRC140
@@ -96,11 +121,21 @@ def test_nrc_140_features_extractor():
     d = transformers.NRCLexiconsExtractor(lexicon = 'NRC140',gramType = 'bigram',tagType = 'token')
     featureDict = d.transform(listOfTriples5)
     assert_equal(featureDict[0],nrc140FeaturesBigrams) 
-                   
+                                                   
+
+#hash  / listOfTriples4
+#    "#hello": "2.018",
+#    "world": "0.384",
+nrcHashFeaturesUnigrams = {'total_count_posi':2,
+                     'total_score':2.402,
+                     'max_score':2.018,
+                     'score_last_posi_token': 0.384}
+        
+
 def test_nrc_hash_features_extractor():
     '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
     d = transformers.NRCLexiconsExtractor(lexicon = 'NRCHash',gramType = 'unigram',tagType = 'token')
-    featureDict = d.transform(listOfTriples4,)
+    featureDict = d.transform(listOfTriples4)
     #test1 - unigrams/single doc/NRCHash
     assert_equal(featureDict[0],nrcHashFeaturesUnigrams)
 

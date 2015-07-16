@@ -114,7 +114,19 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
         self.gramType = gramType
         self.tagType = tagType
 
-        #lexicon file details
+
+        ###manual lexicon file details
+        #Bing Liu lexicon path and files
+        self.BingLiuPath = helper.getProjectPath() +  '/wxtalk/resources/lexicons/BingLiu/'       
+        self.BingLiufile = {'unigram': self.BingLiuPath + 'BingLiu.json'}
+        #MPQA lexicon path and files
+        self.MPQAPath = helper.getProjectPath() +  '/wxtalk/resources/lexicons/MPQA/'       
+        self.MPQAfile = {'unigram': self.MPQAPath + 'MPQA.json'}
+        #NRCemotion lexicon path and files
+        self.NRCemotionPath = helper.getProjectPath() +  '/wxtalk/resources/lexicons/NRC-emotion/'       
+        self.NRCemotionfile = {'unigram': self.NRCemotionPath + 'NRC-emotion.json'}
+
+        ###automatic lexicon file details
         #NRC 140 lexicon path and files
         self.NRC140Path = helper.getProjectPath() +  '/wxtalk/resources/lexicons/NRC-Sent140/'       
         self.NRC140files = {'unigram': self.NRC140Path + 'unigrams140.json',\
@@ -128,7 +140,13 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
 
     def setLexicon(self,lexicon):
         '''Load desired lexicon based on input values'''
-        if lexicon == 'NRC140':
+        if lexicon == 'BingLiu':
+            self.lexicon = helper.loadJSONfromFile(self.BingLiufile[self.gramType])
+        elif lexicon == 'MPQA':
+            self.lexicon = helper.loadJSONfromFile(self.MPQAfile[self.gramType]) 
+        elif lexicon == 'NRCemotion':
+            self.lexicon = helper.loadJSONfromFile(self.NRCemotionfile[self.gramType]) 
+        elif lexicon == 'NRC140':
             self.lexicon = helper.loadJSONfromFile(self.NRC140files[self.gramType])
         elif lexicon == 'NRCHash':
             self.lexicon = helper.loadJSONfromFile(self.NRCHashfiles[self.gramType]) 
@@ -140,7 +158,7 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
 
 
     def window(self,seq, n=2):
-        #taken from:https://docs.python.org/release/2.3.5/lib/itertools-example.html
+        #adapted from:https://docs.python.org/release/2.3.5/lib/itertools-example.html
         "Returns a sliding window (of width n) over data from the iterable"
         "   s -> (s0,s1,...s[n-1]), (s1,s2,...,sn), ...                   "
         it = iter(seq)

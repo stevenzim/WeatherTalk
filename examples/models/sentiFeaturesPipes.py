@@ -8,7 +8,9 @@ import string
 from sklearn.pipeline import (Pipeline,FeatureUnion)
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import (CountVectorizer, TfidfTransformer, TfidfVectorizer)
+
 from sklearn.linear_model import SGDClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
 
@@ -79,7 +81,7 @@ wordGramCount = Pipeline([\
 #TODO: investigate options for ngram range (they use 3,5 in paper)
 charGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=char,max_df= 0.75,max_features=50000,ngram_range=(3, 3) ))])
+            ('count',tran.CountVectorizer(analyzer='char',max_df= 0.75,max_features=50000,ngram_range=(3, 3) ))])
 
 
 ###-------------Negation----------------###
@@ -124,13 +126,15 @@ elongated, emoticons, punctuations,all caps, hashtags
 
 
 #***********My features*************
-#TODO:
+#TODO: Implement option in lexicons to put score of last polar feature less than 0 and minimum polar score
 
+
+#^^^^^^^^^^^^^^^^^FEATURE UNION^^^^^^^^^^^^^^^^^^^^^^^#
 features = FeatureUnion([
             #('lex-man-feats',lexManualfeatures),
             ('lex-auto-feats',lexAutoFeatures),
             ('word-gram-count',wordGramCount),
-            ('char-gram-count',wordGramCount),
+            ('char-gram-count',charGramCount),
             #('negate-feats',negateFeatures),
             ('pos-count',posCounts),
             #('cmu-cluster',cmuClusterFeatures),
@@ -144,6 +148,53 @@ features = FeatureUnion([
             #('my-feats',originalFeatures)
             ]) 
 
+#^^^^^^^^^^^^^^^^^CLASSIFIERS^^^^^^^^^^^^^^^^^^^^^^^#
+#TODO: Play with params, and probabilistic params
+#NB
+#clfpipeline = Pipeline([\
+#            ('features',features),
+#            ('clf',MultinomialNB())])
+
+#SGD
 clfpipeline = Pipeline([\
-            ('ng-count',ngramCountPipe),
+            ('features',features),
             ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
+
+#Logistic Regression / MaxEnt with KLUE best settings
+#clfpipeline = Pipeline([\
+#            ('features',features),
+#            ('clf',LogisticRegression(penalty = 'l1',C = 0.3))])
+            
+#^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
+#1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
+inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
+clfpipeline.fit(triplesList,ysList)
+joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
+loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
+
+#1e - predict on dev/test data and output precision, recall f1
+'''Must complete steps in 1d  and load clfpipeline first'''
+### DEV 2015
+inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(triplesList)
+print helper.evaluateResults(expected_ys,predicted_ys)
+### TEST 2015
+inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(triplesList)
+print helper.evaluateResults(expected_ys,predicted_ys)
+### TEST 2013
+inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(triplesList)
+print helper.evaluateResults(expected_ys,predicted_ys)
