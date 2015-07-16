@@ -29,13 +29,27 @@ import logging
 #########################################
 
 ###---------------lexicons-----------###
+
 ### -- manual -- ###
-#TODO: Waiting for response from authors
-# NRC Emotion Lex
-# MPQA
 # Bing Liu
+bingLiu = Pipeline([\
+            ('lex-feats-dict',tran.NRCLexiconsExtractor(lexicon = 'BingLiu')),\
+            ('lex-feats-vec',tran.DictVectorizer())])
 
+# MPQA
+MPQA = Pipeline([\
+            ('lex-feats-dict',tran.NRCLexiconsExtractor(lexicon = 'MPQA')),\
+            ('lex-feats-vec',tran.DictVectorizer())])
 
+# NRC Emotion Lex
+NRCemotion= Pipeline([\
+            ('lex-feats-dict',tran.NRCLexiconsExtractor(lexicon = 'NRCemotion')),\
+            ('lex-feats-vec',tran.DictVectorizer())])
+            
+lexManualFeatures = FeatureUnion([
+            ('lex-BingLiu-vec',bingLiu),
+            ('lex-MPQA-vec',MPQA),
+            ('lex-nrcemotion-vec',NRCemotion)])            
 
 ### -- automatic -- ###
 #NOTE: only unigram and bigram features implemented.  
@@ -131,7 +145,7 @@ elongated, emoticons, punctuations,all caps, hashtags
 
 #^^^^^^^^^^^^^^^^^FEATURE UNION^^^^^^^^^^^^^^^^^^^^^^^#
 features = FeatureUnion([
-            #('lex-man-feats',lexManualfeatures),
+            ('lex-man-feats',lexManualFeatures),
             ('lex-auto-feats',lexAutoFeatures),
             ('word-gram-count',wordGramCount),
             ('char-gram-count',charGramCount),
@@ -161,10 +175,18 @@ clfpipeline = Pipeline([\
             ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
 
 #Logistic Regression / MaxEnt with KLUE best settings
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = 0.3))])
+            
+#SVM with NRC 2013 settings ---NOTE: No luck with results so far it always predicts neautral
 #clfpipeline = Pipeline([\
 #            ('features',features),
-#            ('clf',LogisticRegression(penalty = 'l1',C = 0.3))])
-            
+#            ('clf',SVC(C=.005,kernel='rbf',probability=False))])
+#clfpipeline = Pipeline([\
+#            ('features',features),
+#            ('clf',SVC(kernel='rbf'))])
+       
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
 #1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
 inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
@@ -198,3 +220,4 @@ ed = tran.TriplesYsExtractor()
 triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
 predicted_ys = loadedpipe.predict(triplesList)
 print helper.evaluateResults(expected_ys,predicted_ys)
+
