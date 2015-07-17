@@ -43,50 +43,50 @@ def test_hashtag_counts():
     assert_equal(featureDict[0],hashTrip2)  
 
 ##elongated words
-#elongTrip3 ={'total_count_elong':0} 
-#elongTrip4 ={'total_count_elong':3} 
-#def test_elongated_word_counts():
-#    '''Test to confirm correct counts of elongated words returned'''    
-#    #test1 - elongated words counts/single doc
-#    d = transformers.elongWordCountExtractor()
-#    featureDict = d.transform(listOfTriples3)
-#    assert_equal(featureDict[0],elongTrip3)     
-#    #test2 - elongated words counts/single doc
-#    d = transformers.elongWordCountExtractor()
-#    featureDict = d.transform(listOfTriples4)
-#    assert_equal(featureDict[0],elongTrip4)  
+elongTrip3 ={'total_count_elong':0} 
+elongTrip4 ={'total_count_elong':3} 
+def test_elongated_word_counts():
+    '''Test to confirm correct counts of elongated words returned'''    
+    #test1 - elongated words counts/single doc
+    d = transformers.elongWordCountExtractor()
+    featureDict = d.transform(listOfTriples3)
+    assert_equal(featureDict[0],elongTrip3)     
+    #test2 - elongated words counts/single doc
+    d = transformers.elongWordCountExtractor()
+    featureDict = d.transform(listOfTriples4)
+    assert_equal(featureDict[0],elongTrip4)  
 
 
 ##Punctuation
-#puncTrip5 = {'count_contig_seq_excaim':0,
-#            'count_contig_seq_question':0,
-#            'count_contig_seq_both':0,
-#            'last_toke_contain_quest':False,
-#            'last_toke_contain_exclaim':True}
-#puncTrip6 = {'count_contig_seq_exclaim':1,
-#            'count_contig_seq_question':1,
-#            'count_contig_seq_both':1,
-#            'last_toke_contain_quest':True,
-#            'last_toke_contain_exclaim':True}            
-#puncTrip7 = {'count_contig_seq_exclaim':2,
-#            'count_contig_seq_question':1,
-#            'count_contig_seq_both':0,
-#            'last_toke_contain_quest':True,
-#            'last_toke_contain_exclaim':False}  
-#def test_punctuation_features():
-#    '''Test to confirm correct features returned for punctuation'''    
-#    #test1 - punctuation feastures/single doc
-#    d = transformers.punctuationFeatureExtractor()
-#    featureDict = d.transform(listOfTriples5)
-#    assert_equal(featureDict[0],puncTrip5)     
-#    #test2 - punctuation feastures/single doc
-#    d = transformers.punctuationFeatureExtractor()
-#    featureDict = d.transform(listOfTriples6)
-#    assert_equal(featureDict[0],puncTrip6)                
-#    #test3 - punctuation feastures/single doc
-#    d = transformers.punctuationFeatureExtractor()
-#    featureDict = d.transform(listOfTriples7)
-#    assert_equal(featureDict[0],puncTrip7)    
+puncTrip5 = {'count_contig_seq_exclaim':0,
+            'count_contig_seq_question':0,
+            'count_contig_seq_both':0,
+            'last_toke_contain_quest':False,
+            'last_toke_contain_exclaim':True}
+puncTrip6 = {'count_contig_seq_exclaim':1,
+            'count_contig_seq_question':1,
+            'count_contig_seq_both':1,
+            'last_toke_contain_quest':True,
+            'last_toke_contain_exclaim':True}            
+puncTrip7 = {'count_contig_seq_exclaim':2,
+            'count_contig_seq_question':1,
+            'count_contig_seq_both':0,
+            'last_toke_contain_quest':True,
+            'last_toke_contain_exclaim':False}  
+def test_punctuation_features():
+    '''Test to confirm correct features returned for punctuation'''    
+    #test1 - punctuation feastures/single doc
+    d = transformers.punctuationFeatureExtractor()
+    featureDict = d.transform(listOfTriples5)
+    assert_equal(featureDict[0],puncTrip5)     
+    #test2 - punctuation feastures/single doc
+    d = transformers.punctuationFeatureExtractor()
+    featureDict = d.transform(listOfTriples6)
+    assert_equal(featureDict[0],puncTrip6)                
+    #test3 - punctuation feastures/single doc
+    d = transformers.punctuationFeatureExtractor()
+    featureDict = d.transform(listOfTriples7)
+    assert_equal(featureDict[0],puncTrip7)    
 
 
 

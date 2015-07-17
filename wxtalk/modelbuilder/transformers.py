@@ -2,6 +2,7 @@ from wxtalk import helper
 
 import string #necessary for analyzer option for feature extractors to split unicode and strings
 import time
+import re
 from functools import partial  #used for lexical transformer
 from itertools import islice #used for lexical transformer
 
@@ -15,6 +16,7 @@ first = lambda x: (x[0])
 second = lambda x: (x[1])
 last = lambda x: (x[-1])
 lower = lambda x:  x.lower()
+
 
 class TriplesYsExtractor(BaseEstimator, TransformerMixin):
     '''Provided a list of dictionaries containing triples created by Twitter NLP
@@ -308,11 +310,36 @@ class elongWordCountExtractor(BaseEstimator, TransformerMixin):
 
     def transform(self, listOfTriples):
         '''Transform list of Triples containing document/tweet triples to desired dictionary format of elongated counts'''              
-        hashtagCountDicts = []
+        elongCountDicts = []
+        regex = re.compile(r'(\w)\1{2,}')  #regex to match 3 or more repeating chars e.g. 'helllo' but not 'hello'
         for tripleSetCurrentDoc in listOfTriples:
-            hashtagCountDicts.append({'total_count_hash':len(filter(lambda x: x=='#', map(second, tripleSetCurrentDoc)))})
-        return hashtagCountDicts
+            elongCountDicts.append({'total_count_elong':len(filter(lambda token: token if ((regex.search(token)) !=None) else None,map(first, tripleSetCurrentDoc)))})
+        return elongCountDicts
         
+
+class punctuationFeatureExtractor(BaseEstimator, TransformerMixin):
+    '''Adaptation of punctuation feature extraction used in both NRC 2013/2014 Semeval submissions
+    Should return counts where !!,!?,?? or more consecutive ! & ? occur and True if last token contains ! and True if last token contains ?'''
+
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples):
+        '''Transform list of Triples containing document/tweet triples to desired dictionary format of elongated counts'''              
+        punctuationCountDicts = []
+        reExclaim = re.compile(r'!{2,}')  #regex to match consecutive exclamation marks
+        reQuest = re.compile(r'\?{2,}')  #regex to match consecutive question marks
+        reBoth = re.compile(r'(!\?|\?!){1,}')  #regex to match consecutive question marks
+        for tripleSetCurrentDoc in listOfTriples:
+            punctuationCountDicts.append(
+            {'count_contig_seq_exclaim':len(filter(lambda token: token if ((reExclaim.search(token)) !=None) else None,map(first, tripleSetCurrentDoc))),
+            'count_contig_seq_question':len(filter(lambda token: token if ((reQuest.search(token)) !=None) else None,map(first, tripleSetCurrentDoc))),
+            'count_contig_seq_both':len(filter(lambda token: token if ((reBoth.search(token)) !=None) else None,map(first, tripleSetCurrentDoc))),
+            'last_toke_contain_quest':'?' in first(last(tripleSetCurrentDoc)),
+            'last_toke_contain_exclaim':'!' in first(last(tripleSetCurrentDoc))
+            })
+        return punctuationCountDicts
+
         
 class CustomCountVectorizer(BaseEstimator, TransformerMixin):
     '''
