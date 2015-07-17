@@ -13,6 +13,7 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
 
 import sklearn.externals.joblib as joblib
 
@@ -89,13 +90,13 @@ lexAutoFeatures = FeatureUnion([
 wordGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
             ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ,binary=False))])
-wordGramCount = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 1) ,binary=False))]) 
-            
-wordGramCount = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 3) ,binary=True))])                 
+#wordGramCount = Pipeline([\
+#            ('docs',tran.DocsExtractor()),\
+#            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 1) ,binary=False))]) 
+#            
+#wordGramCount = Pipeline([\
+#            ('docs',tran.DocsExtractor()),\
+#            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 3) ,binary=True))])                 
      
 #char-grams
 #TODO: Waiting to hear back from authors regarding window position, is accross entire tweet or individual words
@@ -103,9 +104,9 @@ wordGramCount = Pipeline([\
 charGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
             ('count',tran.CountVectorizer(analyzer='char',max_df= 0.75,max_features=50000,ngram_range=(3, 3) ))])
-charGramCount = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer='char',ngram_range=(3, 5) ,binary=True))])
+#charGramCount = Pipeline([\
+#            ('docs',tran.DocsExtractor()),\
+#            ('count',tran.CountVectorizer(analyzer='char',ngram_range=(3, 5) ,binary=True))])
 
 ###-------------Negation----------------###
 #TODO: Least clear of remaining task, therefor lowest priority
@@ -113,7 +114,7 @@ charGramCount = Pipeline([\
             
 ###--------------POS -------------------###
 posCounts = Pipeline([\
-            ('lex-feats-dict',tran.POScountExtractor()),\
+            ('pos-counts-dict',tran.POScountExtractor()),\
             ('pos-vec',tran.DictVectorizer())])
             
 ###---------------clusters--------------###
@@ -125,22 +126,30 @@ posCounts = Pipeline([\
 
 ###---------------encodings-------------###
 #ALL CAPS
-#TODO: The number of words with all chars in upper
+allCapsCount = Pipeline([\
+            ('caps-counts-dict',tran.capsCountExtractor()),\
+            ('caps-vec',tran.DictVectorizer())])
 
 #HASH TAGS
-#TODO: The number of hashtags
+hashTagCount = Pipeline([\
+            ('hashtag-counts-dict',tran.hashCountExtractor()),\
+            ('hashtag-vec',tran.DictVectorizer())])
 
+#elongated words
+elongatedWordCount = Pipeline([\
+            ('elong-counts-dict',tran.elongWordCountExtractor()),\
+            ('elong-vec',tran.DictVectorizer())])
 #punctuations
-#TODO: Whether the last token contains an exclamation or question mark
-#TODO: Lowest priority of ecodings: The # of contiguous seqs of exclamation marks, question marks and both exclamation and question marks
+puncFeatures = Pipeline([\
+            ('punct-features-dict',tran.punctuationFeatureExtractor()),\
+            ('punct-vec',tran.DictVectorizer())])
 
 #emoticons
 #TODO: get response from authors OPTION --> Use 'E' POS tag to test for presence of emoticon
 #TODO: presence or absence of postive and negative emoticons at any position in the tweets
 #TODO: whether the last token is a positve or negative emoticon
 
-#elongated words
-#TODO: The number of words with one character repeated more than once
+
 
 
 #**********Other papers features***
@@ -158,16 +167,16 @@ features = FeatureUnion([
             ('lex-man-feats',lexManualFeatures),
             ('lex-auto-feats',lexAutoFeatures),
             ('word-gram-count',wordGramCount),
-            ('char-gram-count',charGramCount),
+            #('char-gram-count',charGramCount),
             #('negate-feats',negateFeatures),
             ('pos-count',posCounts),
             #('cmu-cluster',cmuClusterFeatures),
             #('emoti-cluster',emotiClusterFeatures),
-            #('all-caps-count',allCapsCount),
-            #('hashtags-count',hashTagCount),
-            #('punctuation-feats',puncFeatures),
+            ('all-caps-count',allCapsCount),
+            ('hashtags-count',hashTagCount),
+            ('elong-count',elongatedWordCount),
+            ('punctuation-feats',puncFeatures),
             #('emoti-feats',emotiFeatures),
-            #('elong-count',elongatedWordCount),
             #('feats-other-papers', otherPaperFeatures),
             ('rtrgo-encode-feats', rtrgoFeatures),
             #('my-feats',originalFeatures)
@@ -186,6 +195,11 @@ clfpipeline = Pipeline([\
             ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
 
 #Logistic Regression / MaxEnt with KLUE best settings
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = 0.3))])
+
+#random_forest
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',LogisticRegression(penalty = 'l1',C = 0.3))])
