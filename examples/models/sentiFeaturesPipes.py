@@ -89,6 +89,7 @@ lexAutoFeatures = FeatureUnion([
 wordGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
             ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ))])
+                
      
 #char-grams
 #TODO: Waiting to hear back from authors regarding window position, is accross entire tweet or individual words
@@ -115,7 +116,6 @@ posCounts = Pipeline([\
 #TODO: Use wikipedia per 2013 paper
 
 ###---------------encodings-------------###
-elongated, emoticons, punctuations,all caps, hashtags
 #ALL CAPS
 #TODO: The number of words with all chars in upper
 
@@ -135,9 +135,11 @@ elongated, emoticons, punctuations,all caps, hashtags
 #TODO: The number of words with one character repeated more than once
 
 
-#**********Other papers 2 features***
+#**********Other papers features***
 #TODO: Decide which ones, very much like the features from KLUE paper
-
+rtrgoFeatures = Pipeline([\
+            ('text-feats-dict',tran.TextFeaturesExtractor(keysToDrop=[])),\
+            ('text-feats-vec',tran.DictVectorizer())])
 
 #***********My features*************
 #TODO: Implement option in lexicons to put score of last polar feature less than 0 and minimum polar score
@@ -148,7 +150,7 @@ features = FeatureUnion([
             ('lex-man-feats',lexManualFeatures),
             ('lex-auto-feats',lexAutoFeatures),
             ('word-gram-count',wordGramCount),
-            ('char-gram-count',charGramCount),
+            #('char-gram-count',charGramCount),
             #('negate-feats',negateFeatures),
             ('pos-count',posCounts),
             #('cmu-cluster',cmuClusterFeatures),
@@ -159,6 +161,7 @@ features = FeatureUnion([
             #('emoti-feats',emotiFeatures),
             #('elong-count',elongatedWordCount),
             #('feats-other-papers', otherPaperFeatures),
+            ('rtrgo-encode-feats', rtrgoFeatures),
             #('my-feats',originalFeatures)
             ]) 
 
@@ -188,33 +191,65 @@ clfpipeline = Pipeline([\
 #            ('clf',SVC(kernel='rbf'))])
        
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
-#1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
+def testingPipeline(ysKeyName='sentiment_num'):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
+    #1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
+    print "Building Model"
+    inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
+    data = helper.loadJSONfromFile(inFile)           
+    ed = tran.TriplesYsExtractor()
+    triplesList, ysList = ed.transform(data,ysKeyName = ysKeyName)
+    clfpipeline.fit(triplesList,ysList)
+    joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
+    loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
+    
+    #1e - predict on dev/test data and output precision, recall f1
+    '''Must complete steps in 1d  and load clfpipeline first'''
+    ### DEV 2015
+    inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
+    data = helper.loadJSONfromFile(inFile)           
+    ed = tran.TriplesYsExtractor()
+    triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+    predicted_ys = loadedpipe.predict(triplesList)
+    print "Results DEV 2015"
+    print helper.evaluateResults(expected_ys,predicted_ys)
+    ### TEST 2015
+    inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
+    data = helper.loadJSONfromFile(inFile)           
+    ed = tran.TriplesYsExtractor()
+    triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+    predicted_ys = loadedpipe.predict(triplesList)
+    print "Results TEST 2015"
+    print helper.evaluateResults(expected_ys,predicted_ys)
+    ### TEST 2013
+    inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
+    data = helper.loadJSONfromFile(inFile)           
+    ed = tran.TriplesYsExtractor()
+    triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+    predicted_ys = loadedpipe.predict(triplesList)
+    print "Results TEST 2013"
+    print helper.evaluateResults(expected_ys,predicted_ys)
+
+#^^^^^^^^^^^^^^^Train/Dev --> Test 2015^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#TRAIN 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
 data = helper.loadJSONfromFile(inFile)           
 ed = tran.TriplesYsExtractor()
 triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
-clfpipeline.fit(triplesList,ysList)
-joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
-loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
-
-#1e - predict on dev/test data and output precision, recall f1
-'''Must complete steps in 1d  and load clfpipeline first'''
 ### DEV 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
 data = helper.loadJSONfromFile(inFile)           
 ed = tran.TriplesYsExtractor()
-triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
-predicted_ys = loadedpipe.predict(triplesList)
-print helper.evaluateResults(expected_ys,predicted_ys)
+triplesListDev, expected_ysDev = ed.transform(data,ysKeyName = 'sentiment_num')
+
+#Combine into one train set and build model
+triplesList.extend(triplesListDev), ysList.extend(expected_ysDev)
+clfpipeline.fit(triplesList,ysList)
+joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
+loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
+
+#PREDICT ON TEST 2015
 ### TEST 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
-data = helper.loadJSONfromFile(inFile)           
-ed = tran.TriplesYsExtractor()
-triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
-predicted_ys = loadedpipe.predict(triplesList)
-print helper.evaluateResults(expected_ys,predicted_ys)
-### TEST 2013
-inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
 data = helper.loadJSONfromFile(inFile)           
 ed = tran.TriplesYsExtractor()
 triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')

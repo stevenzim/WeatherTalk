@@ -10,8 +10,11 @@ from sklearn.pipeline import (Pipeline,FeatureUnion)
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import (CountVectorizer, TfidfTransformer, TfidfVectorizer)
 
-
-
+#some useful f's for transformers
+first = lambda x: (x[0])
+second = lambda x: (x[1])
+last = lambda x: (x[-1])
+lower = lambda x:  x.lower()
 
 class TriplesYsExtractor(BaseEstimator, TransformerMixin):
     '''Provided a list of dictionaries containing triples created by Twitter NLP
@@ -179,7 +182,7 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
                #hence these features are low priority PERHAPS remove option all together
         listOfTagsAllTriples = []
         for tripleSetCurrentDoc in listOfTriples:
-            lowerTokens = map(lambda triple: (triple[0].lower()), tripleSetCurrentDoc)
+            lowerTokens = map(lower,map(first, tripleSetCurrentDoc))
             if self.gramType == 'unigram':
                 listOfTagsAllTriples.append(lowerTokens)
             if self.gramType == 'bigram':
@@ -258,7 +261,28 @@ class POScountExtractor(BaseEstimator, TransformerMixin):
                 '@': 0, 'E': 0, 'D': 0, 'G': 0, 'M': 0, 'L': 0, \
                 'O': 0, 'N': 0, 'P': 0, 'S': 0, 'R': 0, 'U': 0,\
                  'T': 0, 'V': 0, 'Y': 0, 'X': 0, 'Z': 0, '^': 0, '~': 0}
-            docPOStags = map(lambda triple: (triple[1]), tripleSetCurrentDoc)
+            docPOStags = map(second, tripleSetCurrentDoc)
+            for tag in docPOStags:
+                localPOSdict[tag] += 1
+            listOfPOSdicts.append(localPOSdict)
+        return listOfPOSdicts
+
+class countExtractor(BaseEstimator, TransformerMixin):
+    '''Adaptation of POS count features used in both NRC 2013/2014 Semeval submissions'''
+
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples):
+        '''Transform list of Triples containing document/tweet triples to desired dictionary format of POS counts'''              
+        listOfPOSdicts = []
+        for tripleSetCurrentDoc in listOfTriples:
+            #reset local POS dict
+            localPOSdict = {'!': 0, '#': 0, '$': 0, '&': 0, ',': 0, 'A': 0,\
+                '@': 0, 'E': 0, 'D': 0, 'G': 0, 'M': 0, 'L': 0, \
+                'O': 0, 'N': 0, 'P': 0, 'S': 0, 'R': 0, 'U': 0,\
+                 'T': 0, 'V': 0, 'Y': 0, 'X': 0, 'Z': 0, '^': 0, '~': 0}
+            docPOStags = map(second, tripleSetCurrentDoc)
             for tag in docPOStags:
                 localPOSdict[tag] += 1
             listOfPOSdicts.append(localPOSdict)
