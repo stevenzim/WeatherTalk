@@ -485,7 +485,7 @@ X = X[:3] #take first 3
 
 #simple string split on corpus to learn dictionary
 #dictionary is then dumped to json
-vectorizer =  CountVectorizer(analyzer=string.split, min_df=1) #string.split is a trick mentioned in scikit section4.2.3.10.
+vectorizer =  CountVectorizer(analyzer=string.split, min_df=1,binary='True') #string.split is a trick mentioned in scikit section4.2.3.10.
 unigrams  = vectorizer.fit_transform(X)
 vocab = vectorizer.vocabulary_
 helper.dumpJSONtoFile('../../wxtalk/resources/data/SemEval/SemEvalVocabulary.json',vocab)

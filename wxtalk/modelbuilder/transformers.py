@@ -266,28 +266,54 @@ class POScountExtractor(BaseEstimator, TransformerMixin):
                 localPOSdict[tag] += 1
             listOfPOSdicts.append(localPOSdict)
         return listOfPOSdicts
+        
 
-class countExtractor(BaseEstimator, TransformerMixin):
-    '''Adaptation of POS count features used in both NRC 2013/2014 Semeval submissions'''
+###---------------encoding transformers-------------###
+class capsCountExtractor(BaseEstimator, TransformerMixin):
+    '''Adaptation of Capital count features used in both NRC 2013/2014 Semeval submissions
+    Should count the total number of all caps words including hashtags for each tweet'''
 
     def fit(self, x,y=None):
         return self
 
     def transform(self, listOfTriples):
-        '''Transform list of Triples containing document/tweet triples to desired dictionary format of POS counts'''              
-        listOfPOSdicts = []
-        for tripleSetCurrentDoc in listOfTriples:
-            #reset local POS dict
-            localPOSdict = {'!': 0, '#': 0, '$': 0, '&': 0, ',': 0, 'A': 0,\
-                '@': 0, 'E': 0, 'D': 0, 'G': 0, 'M': 0, 'L': 0, \
-                'O': 0, 'N': 0, 'P': 0, 'S': 0, 'R': 0, 'U': 0,\
-                 'T': 0, 'V': 0, 'Y': 0, 'X': 0, 'Z': 0, '^': 0, '~': 0}
-            docPOStags = map(second, tripleSetCurrentDoc)
-            for tag in docPOStags:
-                localPOSdict[tag] += 1
-            listOfPOSdicts.append(localPOSdict)
-        return listOfPOSdicts
+        '''Transform list of Triples containing document/tweet triples to desired dictionary format of capitilized token counts'''      
+     
+        capsCountDicts = []
+        for tripleSetCurrentDoc in listOfTriples:   
+            capsCountDicts.append({'total_count_caps':len(filter(lambda x: x.isupper(), map(first, tripleSetCurrentDoc)))} )
+        return capsCountDicts
 
+
+class hashCountExtractor(BaseEstimator, TransformerMixin):
+    '''Adaptation of hashtag counts used in both NRC 2013/2014 Semeval submissions
+    Should count the total number of hashtags for each tweet'''
+
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples):
+        '''Transform list of Triples containing document/tweet triples to desired dictionary format of hashtag counts'''              
+        hashtagCountDicts = []
+        for tripleSetCurrentDoc in listOfTriples:
+            hashtagCountDicts.append({'total_count_hash':len(filter(lambda x: x=='#', map(second, tripleSetCurrentDoc)))})
+        return hashtagCountDicts
+
+class elongWordCountExtractor(BaseEstimator, TransformerMixin):
+    '''Adaptation of elongated word counts used in both NRC 2013/2014 Semeval submissions
+    Should count the total number of words with more than 2 consecutive same characters (e.g. wooorld matchs, woorld does not) for each tweet'''
+
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples):
+        '''Transform list of Triples containing document/tweet triples to desired dictionary format of elongated counts'''              
+        hashtagCountDicts = []
+        for tripleSetCurrentDoc in listOfTriples:
+            hashtagCountDicts.append({'total_count_hash':len(filter(lambda x: x=='#', map(second, tripleSetCurrentDoc)))})
+        return hashtagCountDicts
+        
+        
 class CustomCountVectorizer(BaseEstimator, TransformerMixin):
     '''
     Custom count vectorizer IDEALLY allows for vocabulary to be accessed after pipeline.transform is runs

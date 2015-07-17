@@ -88,8 +88,14 @@ lexAutoFeatures = FeatureUnion([
 
 wordGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ))])
-                
+            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ,binary=False))])
+wordGramCount = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 1) ,binary=False))]) 
+            
+wordGramCount = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 3) ,binary=False))])                 
      
 #char-grams
 #TODO: Waiting to hear back from authors regarding window position, is accross entire tweet or individual words
@@ -97,7 +103,9 @@ wordGramCount = Pipeline([\
 charGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
             ('count',tran.CountVectorizer(analyzer='char',max_df= 0.75,max_features=50000,ngram_range=(3, 3) ))])
-
+charGramCount = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(analyzer='char',ngram_range=(3, 5) ,binary=False))])
 
 ###-------------Negation----------------###
 #TODO: Least clear of remaining task, therefor lowest priority
@@ -168,9 +176,9 @@ features = FeatureUnion([
 #^^^^^^^^^^^^^^^^^CLASSIFIERS^^^^^^^^^^^^^^^^^^^^^^^#
 #TODO: Play with params, and probabilistic params
 #NB
-#clfpipeline = Pipeline([\
-#            ('features',features),
-#            ('clf',MultinomialNB())])
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',MultinomialNB())])
 
 #SGD
 clfpipeline = Pipeline([\
@@ -186,9 +194,9 @@ clfpipeline = Pipeline([\
 #clfpipeline = Pipeline([\
 #            ('features',features),
 #            ('clf',SVC(C=.005,kernel='rbf',probability=False))])
-#clfpipeline = Pipeline([\
-#            ('features',features),
-#            ('clf',SVC(kernel='rbf'))])
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',SVC(kernel='rbf'))])
        
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
 def testingPipeline(ysKeyName='sentiment_num'):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"

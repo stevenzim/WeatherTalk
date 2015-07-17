@@ -27,20 +27,20 @@ def test_caps_counts():
     featureDict = d.transform(listOfTriples2)
     assert_equal(featureDict[0],capsTrip2)  
 
-## the number of hashtags
-#hashTrip1 ={'total_count_hash':1}
-#hashTrip2 ={'total_count_hash':2}
+# the number of hashtags
+hashTrip1 ={'total_count_hash':1}
+hashTrip2 ={'total_count_hash':2}
 
-#def test_hashtag_counts():
-#    '''Test to confirm correct counts of hashtags is returned'''    
-#    #test1 - hashtags counts/single doc
-#    d = transformers.hashCountExtractor()
-#    featureDict = d.transform(listOfTriples1)
-#    assert_equal(featureDict[0],hashTrip1)     
-#    #test2 - hashtags counts/single doc
-#    d = transformers.hashCountExtractor()
-#    featureDict = d.transform(listOfTriples2)
-#    assert_equal(featureDict[0],hashTrip2)  
+def test_hashtag_counts():
+    '''Test to confirm correct counts of hashtags is returned'''    
+    #test1 - hashtags counts/single doc
+    d = transformers.hashCountExtractor()
+    featureDict = d.transform(listOfTriples1)
+    assert_equal(featureDict[0],hashTrip1)     
+    #test2 - hashtags counts/single doc
+    d = transformers.hashCountExtractor()
+    featureDict = d.transform(listOfTriples2)
+    assert_equal(featureDict[0],hashTrip2)  
 
 ##elongated words
 #elongTrip3 ={'total_count_elong':0} 
