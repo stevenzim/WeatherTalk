@@ -178,7 +178,7 @@ features = FeatureUnion([
             ('punctuation-feats',puncFeatures),
             #('emoti-feats',emotiFeatures),
             #('feats-other-papers', otherPaperFeatures),
-            ('rtrgo-encode-feats', rtrgoFeatures),
+            #('rtrgo-encode-feats', rtrgoFeatures),
             #('my-feats',originalFeatures)
             ]) 
 
@@ -192,7 +192,10 @@ clfpipeline = Pipeline([\
 #SGD
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
+            ('clf',SGDClassifier(alpha=1e-05,n_iter=10,penalty='l1'))])
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',SGDClassifier(n_iter=50,penalty = 'l2'))])
 
 #Logistic Regression / MaxEnt with KLUE best settings
 clfpipeline = Pipeline([\
@@ -202,7 +205,7 @@ clfpipeline = Pipeline([\
 #random_forest
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = 0.3))])
+            ('clf',RandomForestClassifier(n_estimators=10))])
             
 #SVM with NRC 2013 settings ---NOTE: No luck with results so far it always predicts neautral
 #clfpipeline = Pipeline([\
@@ -211,7 +214,43 @@ clfpipeline = Pipeline([\
 #clfpipeline = Pipeline([\
 #            ('features',features),
 #            ('clf',SVC(kernel='rbf'))])
-       
+
+#-------------GRIDSEARCH----------------
+inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
+
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',SGDClassifier())])
+parameters = {
+    'clf__alpha': (0.00001, 0.000001),
+    'clf__penalty': ('l1','l2', 'elasticnet'),
+    'clf__n_iter': (10, 50, 80),
+}
+
+
+if __name__ == "__main__":
+    # multiprocessing requires the fork to happen in a __main__ protected
+    # block
+    # find the best parameters for both the feature extraction and the
+    # classifier
+    #example 2a not nested pipe
+    grid_search = GridSearchCV(clfpipeline, parameters, n_jobs=-1, verbose=1)
+    print("Performing grid search...")
+    print("pipeline:", [name for name, _ in clfpipeline.steps])
+    print("parameters:")
+    pprint(parameters)
+    t0 = time()    
+    grid_search.fit(triplesList, ysList)
+    print("done in %0.3fs" % (time() - t0))
+    print()
+    print("Best score: %0.3f" % grid_search.best_score_)
+    print("Best parameters set:")
+    best_parameters = grid_search.best_estimator_.get_params()
+    for param_name in sorted(parameters.keys()):
+        print("\t%s: %r" % (param_name, best_parameters[param_name]))       
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
 def testingPipeline(ysKeyName='sentiment_num'):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
     #1d - full pipeline with dump of model to pickle and then reload and predict on unseen data

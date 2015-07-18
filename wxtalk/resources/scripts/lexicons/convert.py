@@ -121,21 +121,33 @@ def createNRCemotions(inFileName='NRC-emotion-lexicon.txt',outFileName='NRC-emot
     iFile.close()
     helper.dumpJSONtoFile(outFileName,outDict)   
     
-def createKLUE(fileName='emoticons_wikipedia.txt',outFileName='KLUE.json'):
+def createKLUE(fileName='emoticons_wikipedia.txt',emotiFile='KLUEemoticon.json',acroFile='KLUEacronym.json'):
     #TODO: Seperate emoticons and acronyms
-    '''Put KLUE emoticons/acronym/senti scores in dictionary'''
+    '''Put KLUE emoticons/acronym/senti scores in appropriate dicts and write to file'''
     iFile = open(fileName,'r')
    
-    outDict = {}
+    emoticonDict = {}
+    acronymDict = {}
     
+    acronyms = False
     #load emoticons/terms/score
     for line in iFile:
         line = line.split()
-        #set term and score in dict
-        if line[1] == 'positive':
-            outDict[line[0]] = 1.0
+        if line[0] == '10q':
+            acronyms = True
+        if acronyms == False:
+            #set term and score in emoticon dict
+            if line[1] == 'positive':
+                emoticonDict[line[0]] = 1.0
+            else:
+                emoticonDict[line[0]] = -1.0
         else:
-            outDict[line[0]] = -1.0
+            #set term and score in acronym dict
+            if line[1] == 'positive':
+                acronymDict[line[0]] = 1.0
+            else:
+                acronymDict[line[0]] = -1.0
     iFile.close()
     
-    helper.dumpJSONtoFile(outFileName,outDict)
+    helper.dumpJSONtoFile(emotiFile,emoticonDict)
+    helper.dumpJSONtoFile(acroFile,acronymDict)

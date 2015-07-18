@@ -118,6 +118,8 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
         self.lexicon = lexicon
         self.gramType = gramType
         self.tagType = tagType
+        
+        self.lexiconOrig = lexicon
 
 
         ###manual lexicon file details
@@ -339,6 +341,71 @@ class punctuationFeatureExtractor(BaseEstimator, TransformerMixin):
             'last_toke_contain_exclaim':'!' in first(last(tripleSetCurrentDoc))
             })
         return punctuationCountDicts
+
+
+
+class NRCemoticonExtractor(BaseEstimator, TransformerMixin):
+    """Extract emoticon features from each document which can then be passed to DictVectorizer
+    This transformer is an adaptation of papers/lexicons discussed in section 3 of
+    http://www.saifmohammad.com/WebPages/lexicons.html
+    Pass in a list of tweets/document triples extracted from twitter NLP and return emoticon features proposed in paper.
+    NOTE: The KLUE emoticon dictionary has been used for these features as NRC authors did not provide a clear enough dictionary for 
+    identifying pos/neg emoticons"""
+    def __init__(self,lexicon):
+        self.lexicon = lexicon
+
+        ###emoticon lexicon file details
+        #KLUE emoticon lexicon path and files
+        self.KLUEemoticonPath = helper.getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/'       
+        self.KLUEemoticonFile = self.KLUEemoticonPath + 'KLUEemoticon.json'
+
+
+    def setLexicon(self,lexicon):
+        '''Load desired lexicon based on input values'''
+        if lexicon == 'emoticon':
+            self.lexicon = helper.loadJSONfromFile(self.KLUEemoticonFile )
+        elif type(lexicon) == type({}):
+            #this case put here to handle situation when dict is already loaded (e.g. when loading a pickle file)
+            self.lexicon = lexicon
+        else:
+            raise TypeError("You need to provide a correct lexicon")      
+                   
+        
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples):
+        '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
+        NRC lexicon and options'''
+        self.setLexicon(self.lexicon)
+        keyNames = set(self.lexicon.keys()) 
+        
+        greaterZero = lambda x: True if (x>0.0) else False
+        lessZero = lambda x: True if (x<0.0) else False
+
+        #start_time = time.time()
+        #print("ListOfTags Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+        #print("ListOfScores Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+        
+        emoticonFeatureDicts = []
+        for tripleSetCurrentDoc in listOfTriples:
+            tokens = map(first,tripleSetCurrentDoc)
+            emoticonScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tokens)
+            posBools = map(greaterZero,emoticonScores)
+            negBools = map(lessZero,emoticonScores)  
+            print tokens
+            print emoticonScores
+            print posBools
+            print negBools
+            emoticonFeatureDicts.append({'positive_emoticon_present': any(posBools),\
+                                'negative_emoticon_present': any(negBools),\
+                                'last_emoticon_pos': last(posBools),\
+                                'last_emoticon_neg':last(negBools)})
+
+        #print("ListofFeats Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+        return emoticonFeatureDicts
+
+
 
         
 class CustomCountVectorizer(BaseEstimator, TransformerMixin):
