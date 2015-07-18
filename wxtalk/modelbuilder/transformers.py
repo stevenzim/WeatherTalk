@@ -18,6 +18,8 @@ last = lambda x: (x[-1])
 lower = lambda x:  x.lower()
 
 
+
+
 class TriplesYsExtractor(BaseEstimator, TransformerMixin):
     '''Provided a list of dictionaries containing triples created by Twitter NLP
     --> return a list of TweetNLP triples representing each tweet
@@ -118,51 +120,6 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
         self.lexicon = lexicon
         self.gramType = gramType
         self.tagType = tagType
-        
-        self.lexiconOrig = lexicon
-
-
-        ###manual lexicon file details
-        #Bing Liu lexicon path and files
-        self.BingLiuPath = helper.getProjectPath() +  '/wxtalk/resources/lexicons/BingLiu/'       
-        self.BingLiufile = {'unigram': self.BingLiuPath + 'BingLiu.json'}
-        #MPQA lexicon path and files
-        self.MPQAPath = helper.getProjectPath() +  '/wxtalk/resources/lexicons/MPQA/'       
-        self.MPQAfile = {'unigram': self.MPQAPath + 'MPQA.json'}
-        #NRCemotion lexicon path and files
-        self.NRCemotionPath = helper.getProjectPath() +  '/wxtalk/resources/lexicons/NRC-emotion/'       
-        self.NRCemotionfile = {'unigram': self.NRCemotionPath + 'NRC-emotion.json'}
-
-        ###automatic lexicon file details
-        #NRC 140 lexicon path and files
-        self.NRC140Path = helper.getProjectPath() +  '/wxtalk/resources/lexicons/NRC-Sent140/'       
-        self.NRC140files = {'unigram': self.NRC140Path + 'unigrams140.json',\
-                            'bigram': self.NRC140Path + 'bigrams140.json',\
-                            'pairs': self.NRC140Path + 'pairs140.json'}
-        #NRC Hashtag lexicon path and files
-        self.NRCHashPath = helper.getProjectPath() +  '/wxtalk/resources/lexicons/NRC-Hash/'       
-        self.NRCHashfiles = {'unigram': self.NRCHashPath + 'unigramsHash.json',\
-                            'bigram': self.NRCHashPath + 'bigramsHash.json',\
-                            'pairs': self.NRCHashPath + 'pairsHash.json'} 
-
-    def setLexicon(self,lexicon):
-        '''Load desired lexicon based on input values'''
-        if lexicon == 'BingLiu':
-            self.lexicon = helper.loadJSONfromFile(self.BingLiufile[self.gramType])
-        elif lexicon == 'MPQA':
-            self.lexicon = helper.loadJSONfromFile(self.MPQAfile[self.gramType]) 
-        elif lexicon == 'NRCemotion':
-            self.lexicon = helper.loadJSONfromFile(self.NRCemotionfile[self.gramType]) 
-        elif lexicon == 'NRC140':
-            self.lexicon = helper.loadJSONfromFile(self.NRC140files[self.gramType])
-        elif lexicon == 'NRCHash':
-            self.lexicon = helper.loadJSONfromFile(self.NRCHashfiles[self.gramType]) 
-        elif type(lexicon) == type({}):
-            #this case put here to handle situation when dict is already loaded (e.g. when loading a pickle file)
-            self.lexicon = lexicon
-        else:
-            raise TypeError("You need to provide a correct lexicon and or gramType")      
-
 
     def window(self,seq, n=2):
         #adapted from:https://docs.python.org/release/2.3.5/lib/itertools-example.html
@@ -234,20 +191,17 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
     def transform(self, listOfTriples):
         '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
         NRC lexicon and options'''
-        self.setLexicon(self.lexicon)
 
-        #start_time = time.time()
+        self.lexicon =  helper.loadLexicon(self.lexicon,self.gramType)
+
         listOfTagsAllDocs = self.getListOfTags(listOfTriples)
-        #print("ListOfTags Total elapsed time--- %s seconds ---" % (time.time() - start_time))
         listOfScoresAllDocs = self.getListOfScores(listOfTagsAllDocs)
-        #print("ListOfScores Total elapsed time--- %s seconds ---" % (time.time() - start_time))
                        
         listOfFeatures = [{'total_count_posi': len(filter(self.getPositives,scores)),\
                     'total_score': round(sum(scores),3),\
                     'max_score': round(max(scores),3),\
                     'score_last_posi_token':round(self.getLastPositiveScore(filter(self.getPositives,scores)),3)}\
                      for scores in listOfScoresAllDocs]
-        #print("ListofFeats Total elapsed time--- %s seconds ---" % (time.time() - start_time))
         return listOfFeatures
 
 class POScountExtractor(BaseEstimator, TransformerMixin):
@@ -354,55 +308,29 @@ class NRCemoticonExtractor(BaseEstimator, TransformerMixin):
     def __init__(self,lexicon):
         self.lexicon = lexicon
 
-        ###emoticon lexicon file details
-        #KLUE emoticon lexicon path and files
-        self.KLUEemoticonPath = helper.getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/'       
-        self.KLUEemoticonFile = self.KLUEemoticonPath + 'KLUEemoticon.json'
-
-
-    def setLexicon(self,lexicon):
-        '''Load desired lexicon based on input values'''
-        if lexicon == 'emoticon':
-            self.lexicon = helper.loadJSONfromFile(self.KLUEemoticonFile )
-        elif type(lexicon) == type({}):
-            #this case put here to handle situation when dict is already loaded (e.g. when loading a pickle file)
-            self.lexicon = lexicon
-        else:
-            raise TypeError("You need to provide a correct lexicon")      
-                   
-        
     def fit(self, x,y=None):
         return self
 
     def transform(self, listOfTriples):
         '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
         NRC lexicon and options'''
-        self.setLexicon(self.lexicon)
+        
+        self.lexicon = helper.loadLexicon(self.lexicon)
         keyNames = set(self.lexicon.keys()) 
         
         greaterZero = lambda x: True if (x>0.0) else False
         lessZero = lambda x: True if (x<0.0) else False
-
-        #start_time = time.time()
-        #print("ListOfTags Total elapsed time--- %s seconds ---" % (time.time() - start_time))
-        #print("ListOfScores Total elapsed time--- %s seconds ---" % (time.time() - start_time))
-        
+       
         emoticonFeatureDicts = []
         for tripleSetCurrentDoc in listOfTriples:
             tokens = map(first,tripleSetCurrentDoc)
             emoticonScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tokens)
             posBools = map(greaterZero,emoticonScores)
             negBools = map(lessZero,emoticonScores)  
-            print tokens
-            print emoticonScores
-            print posBools
-            print negBools
             emoticonFeatureDicts.append({'positive_emoticon_present': any(posBools),\
                                 'negative_emoticon_present': any(negBools),\
                                 'last_emoticon_pos': last(posBools),\
                                 'last_emoticon_neg':last(negBools)})
-
-        #print("ListofFeats Total elapsed time--- %s seconds ---" % (time.time() - start_time))
         return emoticonFeatureDicts
 
 

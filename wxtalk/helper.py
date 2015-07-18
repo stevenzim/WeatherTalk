@@ -212,4 +212,58 @@ def keysValsToSQL(dict):
     values_str = "\',\'".join(values_str_list)
     return columns_str, values_str
 
+def loadLexicon(lexicon,gramType = None):
+    '''Load desired lexicon based on input values e.g. lexicon = 'BingLiu and gramType = 'unigram' '''
+    #TODO: Throw exception error if GramType None and lexicon requires unigram or bigram
 
+     ###manual lexicon file details
+    #Bing Liu lexicon path and files
+    BingLiuPath = getProjectPath() +  '/wxtalk/resources/lexicons/BingLiu/'       
+    BingLiufile = {'unigram': BingLiuPath + 'BingLiu.json'}
+    #MPQA lexicon path and files
+    MPQAPath = getProjectPath() +  '/wxtalk/resources/lexicons/MPQA/'       
+    MPQAfile = {'unigram': MPQAPath + 'MPQA.json'}
+    #NRCemotion lexicon path and files
+    NRCemotionPath = getProjectPath() +  '/wxtalk/resources/lexicons/NRC-emotion/'       
+    NRCemotionfile = {'unigram': NRCemotionPath + 'NRC-emotion.json'}
+
+    ###automatic lexicon file details
+    #NRC 140 lexicon path and files
+    NRC140Path = getProjectPath() +  '/wxtalk/resources/lexicons/NRC-Sent140/'       
+    NRC140files = {'unigram': NRC140Path + 'unigrams140.json',\
+                        'bigram': NRC140Path + 'bigrams140.json',\
+                        'pairs': NRC140Path + 'pairs140.json'}
+    #NRC Hashtag lexicon path and files
+    NRCHashPath = getProjectPath() +  '/wxtalk/resources/lexicons/NRC-Hash/'       
+    NRCHashfiles = {'unigram': NRCHashPath + 'unigramsHash.json',\
+                        'bigram': NRCHashPath + 'bigramsHash.json',\
+                        'pairs': NRCHashPath + 'pairsHash.json'} 
+    
+    #KLUE Emoticon path and file
+    KLUEemoticonFile = getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/KLUEemoticon.json'       
+
+    #KLUE acronym path and file
+    KLUEacronymFile = getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/KLUEemoticon.json'   
+
+    #load appropriate file
+    if lexicon == 'BingLiu':
+        lexicon = loadJSONfromFile(BingLiufile[gramType])
+    elif lexicon == 'MPQA':
+        lexicon = loadJSONfromFile(MPQAfile[gramType]) 
+    elif lexicon == 'NRCemotion':
+        lexicon = loadJSONfromFile(NRCemotionfile[gramType]) 
+    elif lexicon == 'NRC140':
+        lexicon = loadJSONfromFile(NRC140files[gramType])
+    elif lexicon == 'NRCHash':
+        lexicon = loadJSONfromFile(NRCHashfiles[gramType]) 
+    elif lexicon == 'emoticon':
+        lexicon = loadJSONfromFile(KLUEemoticonFile )
+    elif lexicon == 'acronym':
+        lexicon = loadJSONfromFile(KLUEacronymFile )
+    elif type(lexicon) == type({}):
+        #this case put here to handle situation when dict is already loaded (e.g. when loading a pickle file)
+        lexicon = lexicon
+    else:
+        raise TypeError("You need to provide a correct lexicon and or gramType") 
+        
+    return lexicon
