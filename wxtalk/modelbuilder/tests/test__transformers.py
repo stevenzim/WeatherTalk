@@ -17,6 +17,8 @@ listOfDocsFeats = [doc1features,doc2features]
 listOfTriples2 = [[['#Hello','#',.9],['Woorrlld','N',.9]]]
 listOfTriples3 = [listOfTriples2[0],listOfTriples2[0]]
 
+listOfTriplesURL = [[['https://hello.com','U',.9],['http://hello.com','U',.9]]]
+listOfTriplesUSER = [[['@me','@',.9],['@you','@',.9]]]
 
 def test_triples_and_ys_extractor():
     '''test to confirm triples and ys(expected output) are correctly extracted from list of dicts'''
@@ -39,6 +41,10 @@ def test_docs_extractor():
     assert_equal(d.transform(listOfTriples2),['hello woorrlld'])
     #multiple docs test
     assert_equal(d.transform(listOfTriples3),['hello woorrlld','hello woorrlld'])    
+    #URL test
+    assert_equal(d.transform(listOfTriplesURL),['URL URL'])
+    #USER test
+    assert_equal(d.transform(listOfTriplesUSER),['USER USER'])
 
 def test_text_features_extractor():
     '''test to confirm features are correctly extracted from triples'''
@@ -57,27 +63,40 @@ def test_text_features_extractor():
 listOfTriples4 = [[['#Hello','#',.9],['world','N',.9]]]
 listOfTriples5 = [[['ADORE','V',.9],['him','N',.9],['back','N',.9]]]
 
+
 ####manual lexicons
 #bing and liu / listOfTriples5
 #    "adore": 1.0,
-bingLiuFeatures ={'total_count_posi':1,
-                     'total_score':1.0,
-                     'max_score':1.0,
-                     'score_last_posi_token':1.0}
+bingLiuFeatures ={'total_count_pos':1,
+                 'total_score_pos':1.0,
+                 'max_score_pos':1.0,
+                 'score_last_pos':1.0,
+                 'total_count_neg':0,
+                 'total_score_neg':0.0,
+                 'min_score_neg':0.0,
+                 'score_last_neg':0.0}
 #MPQA / listOfTriples5
 #    "adore": 1.0,
 #    "back": 1.0,
-mpqaFeatures ={'total_count_posi':2,
-                     'total_score':2.0,
-                     'max_score':1.0,
-                     'score_last_posi_token':1.0}
+mpqaFeatures ={'total_count_pos':2,
+                 'total_score_pos':2.0,
+                 'max_score_pos':1.0,
+                 'score_last_pos':1.0,
+                 'total_count_neg':0,
+                 'total_score_neg':0.0,
+                 'min_score_neg':0.0,
+                 'score_last_neg':0.0}
                      
 #NRC emotions / listOfTriples5
 #    "adore": 1.0,
-nrcEmotionFeatures ={'total_count_posi':1,
-                     'total_score':1.0,
-                     'max_score':1.0,
-                     'score_last_posi_token':1.0}
+nrcEmotionFeatures ={'total_count_pos':1,
+                 'total_score_pos':1.0,
+                 'max_score_pos':1.0,
+                 'score_last_pos':1.0,
+                 'total_count_neg':0,
+                 'total_score_neg':0.0,
+                 'min_score_neg':0.0,
+                 'score_last_neg':0.0}
 
 def test_manual_lexicon_features_extractor():
     '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
@@ -98,18 +117,29 @@ def test_manual_lexicon_features_extractor():
 ####automatic lexicons
 #140 / listOfTriples4
 #    "world": "0.551",
-nrc140FeaturesUnigrams = {'total_count_posi':1,
-                     'total_score':.551,
-                     'max_score':.551,
-                     'score_last_posi_token':.551}
+nrc140FeaturesUnigrams = {'total_count_pos':1,
+                 'total_score_pos':.551,
+                 'max_score_pos':.551,
+                 'score_last_pos':.551,
+                 'total_count_neg':0,
+                 'total_score_neg':0.0,
+                 'min_score_neg':0.0,
+                 'score_last_neg':0.0}
+
+
                      
 #140 bigrams / listOfTriples5
 #    "adore him": "1.435",
 #    "him back": "-0.566",
-nrc140FeaturesBigrams = {'total_count_posi':1,
-                     'total_score':.869,
-                     'max_score':1.435,
-                     'score_last_posi_token':1.435}
+nrc140FeaturesBigrams = {'total_count_pos':1,
+                 'total_score_pos':1.435,
+                 'max_score_pos':1.435,
+                 'score_last_pos':1.435,
+                 'total_count_neg':1,
+                 'total_score_neg':-0.566,
+                 'min_score_neg':-0.566,
+                 'score_last_neg':-0.566}
+
 
 def test_nrc_140_features_extractor():
     '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
@@ -126,11 +156,16 @@ def test_nrc_140_features_extractor():
 #hash  / listOfTriples4
 #    "#hello": "2.018",
 #    "world": "0.384",
-nrcHashFeaturesUnigrams = {'total_count_posi':2,
-                     'total_score':2.402,
-                     'max_score':2.018,
-                     'score_last_posi_token': 0.384}
-        
+nrcHashFeaturesUnigrams = {'total_count_pos':2,
+                 'total_score_pos':2.402,
+                 'max_score_pos':2.018,
+                 'score_last_pos':0.384,
+                 'total_count_neg':0,
+                 'total_score_neg':0.0,
+                 'min_score_neg':0.0,
+                 'score_last_neg':0.0}
+
+      
 
 def test_nrc_hash_features_extractor():
     '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
@@ -138,6 +173,7 @@ def test_nrc_hash_features_extractor():
     featureDict = d.transform(listOfTriples4)
     #test1 - unigrams/single doc/NRCHash
     assert_equal(featureDict[0],nrcHashFeaturesUnigrams)
+
 
 #POS count tests
 posCountsTriples5 = {'!': 0, '#': 0, '$': 0, '&': 0, ',': 0, 'A': 0,\
@@ -155,3 +191,25 @@ def test_pos_features_counts():
     featureDict = d.transform([listOfTriples5[0],listOfTriples5[0]])
     assert_equal(featureDict[0],posCountsTriples5)
     assert_equal(featureDict[1],posCountsTriples5)
+    
+    
+#negation counts
+negateTriples1 = [[["No","D",0.823],["one","N",0.5694],["enjoys","V",0.9992],["it","O",0.9884],[".",",",0.9991],["Ha","!",0.9701]]]
+negateTriples2 = [[["I","O",0.9943],["wouldn't","V",0.9993],["do","V",1.0],["it","O",0.9895],[".",",",0.9993],["Never","!",0.826],["?",",",0.9982]]]
+negateExpect1 ={'negation_count':1} 
+negateExpect2 ={'negation_count':2} 
+def test_negated_segment_counts():
+    '''Test to confirm correct counts of negated segments returned'''    
+    #test1 - negated segment counts/single doc - no segments
+    d = transformers.negatedSegmentCountExtractor()
+    featureDict = d.transform(listOfTriples2)
+    assert_equal(featureDict[0],{'negation_count':0})     
+    #test2 - negated segment counts/single doc - 1 segments
+    d = transformers.negatedSegmentCountExtractor()
+    featureDict = d.transform(negateTriples1)
+    assert_equal(featureDict[0],negateExpect1)   
+    #test3 - negated segment counts/single doc - 2 segments
+    d = transformers.negatedSegmentCountExtractor()
+    featureDict = d.transform(negateTriples2)
+    assert_equal(featureDict[0],negateExpect2)       
+    

@@ -87,29 +87,31 @@ lexAutoFeatures = FeatureUnion([
 ## word-grams
 #TODO: Investigate non-contiguous tokens (to time consuming for project, future work)
 
-wordGramCount = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ,binary=False))])
+#wordGramCount = Pipeline([\
+#            ('docs',tran.DocsExtractor()),\
+#            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ,binary=False))])
 #wordGramCount = Pipeline([\
 #            ('docs',tran.DocsExtractor()),\
 #            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 1) ,binary=False))]) 
 #            
-#wordGramCount = Pipeline([\
-#            ('docs',tran.DocsExtractor()),\
-#            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 3) ,binary=True))])                 
+wordGramCount = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 4) ,binary=False))])                 
      
 #char-grams
 #TODO: Waiting to hear back from authors regarding window position, is accross entire tweet or individual words
 #TODO: investigate options for ngram range (they use 3,5 in paper)
-charGramCount = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer='char',max_df= 0.75,max_features=50000,ngram_range=(3, 3) ))])
 #charGramCount = Pipeline([\
 #            ('docs',tran.DocsExtractor()),\
-#            ('count',tran.CountVectorizer(analyzer='char',ngram_range=(3, 5) ,binary=True))])
+#            ('count',tran.CountVectorizer(analyzer='char',max_df= 0.75,max_features=50000,ngram_range=(3, 3) ))])
+charGramCount = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(analyzer='char',ngram_range=(3, 5) ,binary=True))])
 
 ###-------------Negation----------------###
-#TODO: Least clear of remaining task, therefor lowest priority
+negateCounts = Pipeline([\
+            ('negate-counts-dict',tran.negatedSegmentCountExtractor()),\
+            ('negate-vec',tran.DictVectorizer())])
  
             
 ###--------------POS -------------------###
@@ -145,9 +147,9 @@ puncFeatures = Pipeline([\
             ('punct-vec',tran.DictVectorizer())])
 
 #emoticons
-#TODO: get response from authors OPTION --> Use 'E' POS tag to test for presence of emoticon
-#TODO: presence or absence of postive and negative emoticons at any position in the tweets
-#TODO: whether the last token is a positve or negative emoticon
+emotiFeatures = Pipeline([\
+            ('emoti-features-dict',tran.NRCemoticonExtractor('emoticon')),\
+            ('emoti-vec',tran.DictVectorizer())])
 
 
 
@@ -167,8 +169,8 @@ features = FeatureUnion([
             ('lex-man-feats',lexManualFeatures),
             ('lex-auto-feats',lexAutoFeatures),
             ('word-gram-count',wordGramCount),
-            #('char-gram-count',charGramCount),
-            #('negate-feats',negateFeatures),
+            ('char-gram-count',charGramCount),
+            ('negate-feats',negateCounts),
             ('pos-count',posCounts),
             #('cmu-cluster',cmuClusterFeatures),
             #('emoti-cluster',emotiClusterFeatures),
@@ -176,7 +178,7 @@ features = FeatureUnion([
             ('hashtags-count',hashTagCount),
             ('elong-count',elongatedWordCount),
             ('punctuation-feats',puncFeatures),
-            #('emoti-feats',emotiFeatures),
+            ('emoti-feats',emotiFeatures),
             #('feats-other-papers', otherPaperFeatures),
             #('rtrgo-encode-feats', rtrgoFeatures),
             #('my-feats',originalFeatures)
@@ -192,7 +194,7 @@ clfpipeline = Pipeline([\
 #SGD
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',SGDClassifier(alpha=1e-05,n_iter=10,penalty='l1'))])
+            ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',SGDClassifier(n_iter=50,penalty = 'l2'))])
@@ -211,46 +213,10 @@ clfpipeline = Pipeline([\
 #clfpipeline = Pipeline([\
 #            ('features',features),
 #            ('clf',SVC(C=.005,kernel='rbf',probability=False))])
-#clfpipeline = Pipeline([\
-#            ('features',features),
-#            ('clf',SVC(kernel='rbf'))])
-
-#-------------GRIDSEARCH----------------
-inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
-data = helper.loadJSONfromFile(inFile)           
-ed = tran.TriplesYsExtractor()
-triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
-
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',SGDClassifier())])
-parameters = {
-    'clf__alpha': (0.00001, 0.000001),
-    'clf__penalty': ('l1','l2', 'elasticnet'),
-    'clf__n_iter': (10, 50, 80),
-}
+            ('clf',SVC(C=.005,kernel='linear',probability=False))])
 
-
-if __name__ == "__main__":
-    # multiprocessing requires the fork to happen in a __main__ protected
-    # block
-    # find the best parameters for both the feature extraction and the
-    # classifier
-    #example 2a not nested pipe
-    grid_search = GridSearchCV(clfpipeline, parameters, n_jobs=-1, verbose=1)
-    print("Performing grid search...")
-    print("pipeline:", [name for name, _ in clfpipeline.steps])
-    print("parameters:")
-    pprint(parameters)
-    t0 = time()    
-    grid_search.fit(triplesList, ysList)
-    print("done in %0.3fs" % (time() - t0))
-    print()
-    print("Best score: %0.3f" % grid_search.best_score_)
-    print("Best parameters set:")
-    best_parameters = grid_search.best_estimator_.get_params()
-    for param_name in sorted(parameters.keys()):
-        print("\t%s: %r" % (param_name, best_parameters[param_name]))       
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
 def testingPipeline(ysKeyName='sentiment_num'):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
     #1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
@@ -290,6 +256,51 @@ def testingPipeline(ysKeyName='sentiment_num'):  #options -->         'sentiment
     print "Results TEST 2013"
     print helper.evaluateResults(expected_ys,predicted_ys)
 
+#^^^^^^^^^^^^^^^^^^^^GRIDSEARCH^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
+
+#clfpipeline = Pipeline([\
+#            ('features',features),
+#            ('clf',SGDClassifier())])
+#parameters = {
+#    'clf__alpha': (0.00001, 0.000001),
+#    'clf__penalty': ('l1','l2', 'elasticnet'),
+#    'clf__n_iter': (10, 50, 80),
+#}
+
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',SVC())])
+parameters = {
+    'clf__C': (.05,.01, 0.005,.001),
+    'clf__kernel': ('linear',),
+}
+
+if __name__ == "__main__":
+    # multiprocessing requires the fork to happen in a __main__ protected
+    # block
+    # find the best parameters for both the feature extraction and the
+    # classifier
+    #example 2a not nested pipe
+    grid_search = GridSearchCV(clfpipeline, parameters, n_jobs=-1, verbose=1)
+    print("Performing grid search...")
+    print("pipeline:", [name for name, _ in clfpipeline.steps])
+    print("parameters:")
+    pprint(parameters)
+    t0 = time()    
+    grid_search.fit(triplesList, ysList)
+    print("done in %0.3fs" % (time() - t0))
+    print()
+    print("Best score: %0.3f" % grid_search.best_score_)
+    print("Best parameters set:")
+    best_parameters = grid_search.best_estimator_.get_params()
+    for param_name in sorted(parameters.keys()):
+        print("\t%s: %r" % (param_name, best_parameters[param_name]))       
+
+
 #^^^^^^^^^^^^^^^Train/Dev --> Test 2015^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #TRAIN 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
@@ -299,7 +310,7 @@ triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
 ### DEV 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TriplesYsExtractor()
+ed = tran.TriplesYsExt bbbbbbbbbbbbbb4ractor()
 triplesListDev, expected_ysDev = ed.transform(data,ysKeyName = 'sentiment_num')
 
 #Combine into one train set and build model
@@ -317,3 +328,12 @@ triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
 predicted_ys = loadedpipe.predict(triplesList)
 print helper.evaluateResults(expected_ys,predicted_ys)
 
+
+### TEST 2013
+inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(triplesList)
+print "Results TEST 2013"
+print helper.evaluateResults(expected_ys,predicted_ys)

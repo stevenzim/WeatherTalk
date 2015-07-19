@@ -16,7 +16,11 @@ first = lambda x: (x[0])
 second = lambda x: (x[1])
 last = lambda x: (x[-1])
 lower = lambda x:  x.lower()
-
+greaterZeroBool = lambda x: True if (x>0.0) else False
+lessZeroBool = lambda x: True if (x<0.0) else False
+greaterZeroVal = lambda x: x if (x>0.0) else 0.0
+lessZeroVal = lambda x: x if (x<0.0) else 0.0
+true = lambda x: True if (x==True) else False
 
 
 
@@ -61,6 +65,10 @@ class DocsExtractor(BaseEstimator, TransformerMixin):
                 token = triple[0]
                 token = token.lower()
                 token = token.replace("#","")
+                if triple[1] == 'U' :
+                    token = 'URL'
+                if triple[1] == '@' :
+                    token = 'USER'
                 tokenList.append(token)
             normalisedDocsList.append(' '.join(tokenList))
         return normalisedDocsList
@@ -171,19 +179,8 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
                 listOfScoresAllDocs.append(currentDocScores)
         #convert everything to float
         return map(partial(map,float),listOfScoresAllDocs)
-    
-    def getPositives(self,score):
-        '''Provided scores, return only score if positive'''
-        if score > 0.0:
-            return score
-            
-    def getLastPositiveScore(self,listOfPosScores):
-        '''If no positive scores return 0.0 else, return score of last pos score'''
-        if listOfPosScores == []:
-            return 0.0
-        else:
-            return listOfPosScores[-1]
-                        
+  
+                      
         
     def fit(self, x,y=None):
         return self
@@ -191,17 +188,24 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
     def transform(self, listOfTriples):
         '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
         NRC lexicon and options'''
-
+        
+        lastSentiScore = lambda x: last(x) if (len(x) >0) else 0.0
         self.lexicon =  helper.loadLexicon(self.lexicon,self.gramType)
 
         listOfTagsAllDocs = self.getListOfTags(listOfTriples)
         listOfScoresAllDocs = self.getListOfScores(listOfTagsAllDocs)
                        
-        listOfFeatures = [{'total_count_posi': len(filter(self.getPositives,scores)),\
-                    'total_score': round(sum(scores),3),\
-                    'max_score': round(max(scores),3),\
-                    'score_last_posi_token':round(self.getLastPositiveScore(filter(self.getPositives,scores)),3)}\
-                     for scores in listOfScoresAllDocs]
+        listOfFeatures = [{#pos scores
+                            'total_count_pos': len(filter(true,map(greaterZeroBool,scores))),\
+                            'total_score_pos': round(sum(filter(greaterZeroVal,scores)),3),\
+                            'max_score_pos': round(max(map(greaterZeroVal,scores)),3),\
+                            'score_last_pos':round(lastSentiScore(filter(greaterZeroVal,scores)),3),\
+                            #neg scores
+                            'total_count_neg': len(filter(true,map(lessZeroBool,scores))),\
+                            'total_score_neg': round(sum(filter(lessZeroVal,scores)),3),\
+                            'min_score_neg': round(min(map(lessZeroVal,scores)),3),\
+                            'score_last_neg':round(lastSentiScore(filter(lessZeroVal,scores)),3)}\
+                            for scores in listOfScoresAllDocs]
         return listOfFeatures
 
 class POScountExtractor(BaseEstimator, TransformerMixin):
@@ -224,7 +228,47 @@ class POScountExtractor(BaseEstimator, TransformerMixin):
                 localPOSdict[tag] += 1
             listOfPOSdicts.append(localPOSdict)
         return listOfPOSdicts
+###---------------negation transformer -------------###
+class negatedSegmentCountExtractor(BaseEstimator, TransformerMixin):
+    '''Adaptation of negation count feature extraction used in both NRC 2013/2014 Semeval submissions
+    Originally from Pang et al., 2002.  Regular expression from Christopher potts http://sentiment.christopherpotts.net/lingstruc.html.
+    Also helpful was Webis: An Ensemble for Twitter Sentiment Detection (Hagen, MatthiasPotthast, MartinBuchner, Michel Stein, Benno'''
+    #TODO: Future work would further investigate with authors if the _NEG tag added to token was implemented with lexicons.  Based on research, there is no evidence this was implemented,
+    #however wording in literature may indicate otherwise
+    #NOTE: If you do want to include these in unigrams, perhaps consider adding the _NEG as a preprocessing step after NLP triple tagger
+    def fit(self, x,y=None):
+        return self
         
+    def countNegatedContexts(self,tripleSetCurrentDoc):
+        '''Function to get the count of negation contexts in tweets, an adaptation of code from 
+        Webis: An Ensemble for Twitter Sentiment Detection (Hagen, MatthiasPotthast, MartinBuchner, Michel Stein, Benno'''
+        lowerTokens = map(lower,map(first, tripleSetCurrentDoc))
+        negationCount = 0
+    	negativeBool = False;
+    	for token in lowerTokens:
+    	    negateRe = re.match(r'(?:never|no|nothing|nowhere|noone|none|not|\
+    	                            havent|hasnt|hadnt|cant|couldnt|shouldnt|wont|\
+    	                            wouldnt|dont|doesnt|didnt|isnt|arent|aint)|.*nt|.*n\'t',token)
+            if negateRe:
+                negativeBool = True
+            if negativeBool:  
+                endNegateRe = re.match(r'[.:;!?]$',token)
+                if endNegateRe:
+                    negativeBool = False
+                    negationCount += 1
+                #else:
+	                #token = token + '_NEG'
+        return negationCount
+
+    def transform(self, listOfTriples):
+        '''Transform list of Triples containing document/tweet triples to desired dictionary format of negated context counts'''              
+        negatedContextCountDicts = []
+        for tripleSetCurrentDoc in listOfTriples:
+            negatedContextCountDicts.append(
+            {'negation_count':self.countNegatedContexts(tripleSetCurrentDoc)
+            })
+        return negatedContextCountDicts
+      
 
 ###---------------encoding transformers-------------###
 class capsCountExtractor(BaseEstimator, TransformerMixin):
@@ -318,22 +362,18 @@ class NRCemoticonExtractor(BaseEstimator, TransformerMixin):
         self.lexicon = helper.loadLexicon(self.lexicon)
         keyNames = set(self.lexicon.keys()) 
         
-        greaterZero = lambda x: True if (x>0.0) else False
-        lessZero = lambda x: True if (x<0.0) else False
-       
+ 
         emoticonFeatureDicts = []
         for tripleSetCurrentDoc in listOfTriples:
             tokens = map(first,tripleSetCurrentDoc)
             emoticonScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tokens)
-            posBools = map(greaterZero,emoticonScores)
-            negBools = map(lessZero,emoticonScores)  
+            posBools = map(greaterZeroBool,emoticonScores)
+            negBools = map(lessZeroBool,emoticonScores)  
             emoticonFeatureDicts.append({'positive_emoticon_present': any(posBools),\
                                 'negative_emoticon_present': any(negBools),\
                                 'last_emoticon_pos': last(posBools),\
                                 'last_emoticon_neg':last(negBools)})
         return emoticonFeatureDicts
-
-
 
         
 class CustomCountVectorizer(BaseEstimator, TransformerMixin):
