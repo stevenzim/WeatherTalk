@@ -3,7 +3,18 @@ from wxtalk.modelbuilder import transformers
 from wxtalk import helper
 
 
+    
 
+def test_porter_stemmer():
+    '''Test porter stemmer'''
+    doc = ['lovely jubbly']
+    d = transformers.StemExtractor()
+    #test1 1 doc
+    stems = d.transform(doc)
+    assert_equal(stems,['love jubbl'])
+    #test1 2 docs
+    stems = d.transform([doc[0],doc[0]])
+    assert_equal(stems,['love jubbl','love jubbl'])
 
 
 listOfDicts = [{'doc': 'abc', 'triple': [0,5,6],'expect':True},\
@@ -296,3 +307,5 @@ def test_klue_polarity_features_extractor():
     d = transformers.KLUEpolarityExtractor(lexicon='klue-both')
     featureDict = d.transform(acroemotiTriples1)
     assert_equal(featureDict[0],acroemotiPolarity1)
+    
+

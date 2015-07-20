@@ -158,13 +158,31 @@ emotiFeatures = Pipeline([\
 
 #**********Other papers features***
 #TODO: Decide which ones, very much like the features from KLUE paper
+#RTRGO/prototype
 rtrgoFeatures = Pipeline([\
             ('text-feats-dict',tran.TextFeaturesExtractor(keysToDrop=[])),\
             ('text-feats-vec',tran.DictVectorizer())])
+#KLUE
+KLUEwordgrams = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 2) ,binary=True,min_df=5))])
+
+KLUEstems = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('stems',tran.StemExtractor()),\
+            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 2) ,binary=True,min_df=5))])
 
 KLUEtokenCount = Pipeline([\
             ('token-count-dict',tran.TokenCountExtractor()),\
             ('token-count-vec',tran.DictVectorizer())])
+            
+KLUEpolarity = Pipeline([\
+            ('polarity-dict',tran.KLUEpolarityExtractor('klue-both')),\
+            ('polarity-vec',tran.DictVectorizer())])
+            
+KLUEemotiacro = Pipeline([\
+            ('emoti-acro-dict',tran.KLUEpolarityExtractor('klue-both')),\
+            ('emoti-acro-vec',tran.DictVectorizer())])
 
 
 #***********My features*************
@@ -172,6 +190,7 @@ KLUEtokenCount = Pipeline([\
 
 
 #^^^^^^^^^^^^^^^^^FEATURE UNION^^^^^^^^^^^^^^^^^^^^^^^#
+#NRC features
 features = FeatureUnion([
             ('lex-man-feats',lexManualFeatures),
             ('lex-auto-feats',lexAutoFeatures),
@@ -189,6 +208,47 @@ features = FeatureUnion([
             #('feats-other-papers', otherPaperFeatures),
 #            ('rtrgo-encode-feats', rtrgoFeatures),
             #('klue-token-count', KLUEtokenCount),
+            #('my-feats',originalFeatures)
+            ]) 
+
+#KLUE features
+features = FeatureUnion([
+            ('word-gram-count',KLUEwordgrams),
+            ('stem-gram-count',KLUEstems),
+            #('negate-feats',negateCounts),
+            #('pos-count',posCounts),
+            #('cmu-cluster',cmuClusterFeatures),
+            #('all-caps-count',allCapsCount),
+            #('hashtags-count',hashTagCount),
+            #('elong-count',elongatedWordCount),
+            #('punctuation-feats',puncFeatures),
+            #('emoti-feats',emotiFeatures),
+            ('klue-token-count', KLUEtokenCount),
+            ('klue-polarity', KLUEpolarity),
+            ('klue-emoti-acro', KLUEemotiacro),
+            #('my-feats',originalFeatures)
+            ])
+            
+#favourite features
+features = FeatureUnion([
+            ('lex-man-feats',lexManualFeatures),
+            ('lex-auto-feats',lexAutoFeatures),
+            ('word-gram-count',KLUEwordgrams),
+            ('stem-gram-count',KLUEstems),
+            ('negate-feats',negateCounts),
+            ('pos-count',posCounts),
+            ('cmu-cluster',cmuClusterFeatures),
+            #('emoti-cluster',emotiClusterFeatures),
+            ('all-caps-count',allCapsCount),
+            ('hashtags-count',hashTagCount),
+            ('elong-count',elongatedWordCount),
+            ('punctuation-feats',puncFeatures),
+            ('emoti-feats',emotiFeatures),
+            #('feats-other-papers', otherPaperFeatures),
+#            ('rtrgo-encode-feats', rtrgoFeatures),
+            ('klue-token-count', KLUEtokenCount),
+            ('klue-polarity', KLUEpolarity),
+            ('klue-emoti-acro', KLUEemotiacro),
             #('my-feats',originalFeatures)
             ]) 
 
@@ -211,6 +271,9 @@ clfpipeline = Pipeline([\
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',LogisticRegression(penalty = 'l1',C = 0.3))])
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l2',C = 0.05))])
 
 #random_forest
 clfpipeline = Pipeline([\
@@ -225,9 +288,9 @@ clfpipeline = Pipeline([\
             ('features',features),
             ('clf',SVC(C=.005,kernel='linear',probability=False))])
 
-#clfpipeline = Pipeline([\
-#            ('features',features),
-#            ('clf',LinearSVC(C=.05,))])
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',LinearSVC(C=.05))])
 
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
 def NRCtestingPipeline(clfpipeline,ysKeyName='sentiment_num',negateTweet = True):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
@@ -283,14 +346,22 @@ triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
 #    'clf__n_iter': (10, 50, 80),
 #}
 
+#clfpipeline = Pipeline([\
+#            ('features',features),
+#            ('clf',SVC())])
+#parameters = {
+#    'clf__C': (.05,.01, 0.005,.001),
+#    'clf__kernel': ('linear',),
+#}
+
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',SVC())])
+            ('clf',LogisticRegression())])
 parameters = {
-    'clf__C': (.05,.01, 0.005,.001),
-    'clf__kernel': ('linear',),
+    'clf__C': (5.0,.5,.05,.005),
+    'clf__penalty': ('l1','l2'),
+    #'clf__multi_class' : ('ovr', 'multinomial')
 }
-
 if __name__ == "__main__":
     # multiprocessing requires the fork to happen in a __main__ protected
     # block

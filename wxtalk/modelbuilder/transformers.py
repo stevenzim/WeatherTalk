@@ -11,6 +11,8 @@ from sklearn.pipeline import (Pipeline,FeatureUnion)
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import (CountVectorizer, TfidfTransformer, TfidfVectorizer)
 
+from nltk.stem.porter import PorterStemmer
+
 #some useful f's for transformers
 first = lambda x: (x[0])
 second = lambda x: (x[1])
@@ -23,6 +25,27 @@ lessZeroVal = lambda x: x if (x<0.0) else 0.0
 true = lambda x: True if (x==True) else False
 removeNegateStr = lambda token: token.replace('_NEG','')  #removes any negation string that may have been added in TriplesYsExtractor
 
+
+
+
+class StemExtractor(BaseEstimator, TransformerMixin):
+    '''stems tokens with porter stemmer
+        input should be docoument string produced by DocsExtractor e.g. 'lovely jubbly' will be split on spaces
+        '''
+    def __init__(self):
+        self.stemmer = PorterStemmer()
+        
+    def fit(self, x, y=None):
+        return self
+
+    def transform(self, listOfNormalisedDocs):
+        '''with normalised tweets from docs extract, return stem strings in same format'''
+        stemmedDocsList = []  #list of stemmed docs to output
+        for doc in listOfNormalisedDocs:
+            tokens = doc.split()
+            stems = map(lambda token: self.stemmer.stem(token),tokens)
+            stemmedDocsList.append(' '.join(stems))
+        return stemmedDocsList
 
 class TriplesYsExtractor(BaseEstimator, TransformerMixin):
     '''Provided a list of dictionaries containing triples created by Twitter NLP
