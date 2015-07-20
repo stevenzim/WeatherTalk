@@ -261,4 +261,38 @@ def test_docs_extractor():
     assert_equal(d.transform(clusterTriples2),['0000 1111010101011'])  
 
   
-    
+#KLUE AFINN polarity 
+#    "abandon": -2.0,
+#    "fear": -2.0, 
+#    "aboard": 1.0, 
+afinnTriples1 = [[["aboard","D",0.823],["ABANDON_NEG","N",0.5694],["fear","d",0.5694]]]
+afinnTriples2 = [[["I","D",0.823],["Tableau","N",0.5694]]]
+afinnPolarity1 = {'total_count_pos':1,
+                 'total_count_neg':2,
+                 'total_count_polar':3,
+                 'mean_polarity':-1.0}
+afinnPolarity2 = {'total_count_pos':0,
+                 'total_count_neg':0,
+                 'total_count_polar':0.0,
+                 'mean_polarity':0.0}
+#KLUE emoticon/acronym polarity 
+#    ")x": -1.0,
+#    "*alol*": 1.0,      
+acroemotiTriples1 = [[[")x","E",0.823],["*alol*","N",0.5694]]]
+acroemotiPolarity1 = {'total_count_pos':1,
+                 'total_count_neg':1,
+                 'total_count_polar':2,
+                 'mean_polarity':0.0}
+def test_klue_polarity_features_extractor():
+    '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
+    d = transformers.KLUEpolarityExtractor()
+    #test1 - multiple items in dict
+    featureDict = d.transform(afinnTriples1)
+    assert_equal(featureDict[0],afinnPolarity1)
+    #test2 - no items in dict
+    featureDict = d.transform(afinnTriples2)
+    assert_equal(featureDict[0],afinnPolarity2)
+    #test2 - no items in dict
+    d = transformers.KLUEpolarityExtractor(lexicon='klue-both')
+    featureDict = d.transform(acroemotiTriples1)
+    assert_equal(featureDict[0],acroemotiPolarity1)

@@ -21,6 +21,7 @@ lessZeroBool = lambda x: True if (x<0.0) else False
 greaterZeroVal = lambda x: x if (x>0.0) else 0.0
 lessZeroVal = lambda x: x if (x<0.0) else 0.0
 true = lambda x: True if (x==True) else False
+removeNegateStr = lambda token: token.replace('_NEG','')  #removes any negation string that may have been added in TriplesYsExtractor
 
 
 class TriplesYsExtractor(BaseEstimator, TransformerMixin):
@@ -157,7 +158,7 @@ class ClusterExtractor(BaseEstimator, TransformerMixin):
             for triple in currentDocTriples:
                 #normalise each token to match CMU expected format
                 token = triple[0]
-                token = token.replace('_NEG','')  #remove any negation that may have been added in TriplesYsExtractor
+                token = removeNegateStr(token)
                 token = token.lower()
                 
                 #get cluster id and update token
@@ -167,48 +168,7 @@ class ClusterExtractor(BaseEstimator, TransformerMixin):
             CMUclusterIDlist.append(' '.join(tokenList))
         return CMUclusterIDlist
 
-class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
-    """Extract features from each document which can then be passed to DictVectorizer
-    NOTE: you can pass in list of keys to drop, where key name is representitive of features
-    you don't want"""
-    #TODO: Dealwith/Debug situation when no additional features will be added
-    #      fit transform does not like it when all features are removed.
-    #      WORKAROUND IS TO REMOVE THIS STEP FROM PIPELINE
-    def __init__(self,keysToDrop=[]):
-        #added this to allow for grid search to work.  Per discussuion:
-        # http://stackoverflow.com/questions/23174964/how-to-gridsearch-over-transform-arguments-within-a-pipeline-in-scikit-learn
-        # BaseEstimator requires __init__ in order for GridSearchCV to iterate over passed in params
-        self.keysToDrop = keysToDrop
-    
-    def boolTest(self, docTripleSet,tripleIdx,stringToTest):
-        '''
-        docTripleSet = tripleSet for current document
-        tripleIdx --> 0 = token, 1 = POS tag, 2 = confidence
-        itemToTest --> Will test if this string exist in current document tokens/POS_TaggedText
-        breaks out when True occurs
-        '''
-        #TODO: change this to re.search and also consider adding functionality for confidence score
-        #TODO: optionally consider adding in exception error for confidence score to prevent it from being used
-        for triple in docTripleSet:
-            if triple[tripleIdx] == stringToTest:
-                return True
-                break
-        return False
-            
 
-    def fit(self, x,y=None):
-        return self
-
-    def transform(self, listOfTriples,keysToDrop=[]):
-        if keysToDrop != []:
-            self.keysToDrop = keysToDrop
-            
-        listOfStats = [{'questmark_present': self.boolTest(tripleSetCurrentDoc,0,'?'),\
-                    'urloremail_present': self.boolTest(tripleSetCurrentDoc,1,'U'),\
-                    "hashtag_present":self.boolTest(tripleSetCurrentDoc,1,'#')}\
-                     for tripleSetCurrentDoc in listOfTriples]
-        listToReturn = helper.dropKeysVals(listOfStats, self.keysToDrop)
-        return listToReturn
 
 
 class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
@@ -465,6 +425,7 @@ class NRCemoticonExtractor(BaseEstimator, TransformerMixin):
         emoticonFeatureDicts = []
         for tripleSetCurrentDoc in listOfTriples:
             tokens = map(first,tripleSetCurrentDoc)
+            tokens = map(removeNegateStr,tokens)
             emoticonScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tokens)
             posBools = map(greaterZeroBool,emoticonScores)
             negBools = map(lessZeroBool,emoticonScores)  
@@ -488,8 +449,90 @@ class TokenCountExtractor(BaseEstimator, TransformerMixin):
         for tripleSetCurrentDoc in listOfTriples:   
             tokenCountDicts.append({'token_count':len(tripleSetCurrentDoc)} )
         return tokenCountDicts
+
+class KLUEpolarityExtractor(BaseEstimator, TransformerMixin):
+    """Extract emoticon features from each document which can then be passed to DictVectorizer
+    This transformer is an adaptation of of the KLUE Semeval 2013 submission
+    Pass in a list of tweets/document triples extracted from twitter NLP and desired polarity features for
+    AFINN lexicon.
+    """
+    def __init__(self,lexicon='klue-afinn'):
+        self.lexicon = lexicon
+
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples):
+        '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
+        KLUE polarity dictionary converter'''
         
+        self.lexicon = helper.loadLexicon(self.lexicon)
+        keyNames = set(self.lexicon.keys()) 
+        emoticonFeatureDicts = []
+        for tripleSetCurrentDoc in listOfTriples:
+            tokens = map(first,tripleSetCurrentDoc)
+            tokens = map(removeNegateStr,tokens)
+            tokens = map(lower,tokens)
+            #scores = map(lambda token: self.lexicon[token],tokens)
+            emoticonScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tokens)
+            posBools = map(greaterZeroBool,emoticonScores)
+            negBools = map(lessZeroBool,emoticonScores)  
+            numPos = len(filter(true,posBools))
+            numNeg = len(filter(true,negBools))
+            numPolarTokens = numPos + numNeg
+            if numPolarTokens == 0.0: #avoid division by zero
+                numPolarTokens = 1.0
+            totalScore = sum(emoticonScores)
+            meanScore = totalScore/(numPolarTokens)
+            emoticonFeatureDicts.append({'total_count_pos': numPos,\
+                                'total_count_neg': numNeg,\
+                                'total_count_polar': numPos + numNeg,\
+                                'mean_polarity':meanScore})
+        return emoticonFeatureDicts        
         
+#--------prototype stuff-------------        
+class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
+    """Extract features from each document which can then be passed to DictVectorizer
+    NOTE: you can pass in list of keys to drop, where key name is representitive of features
+    you don't want"""
+    #TODO: Dealwith/Debug situation when no additional features will be added
+    #      fit transform does not like it when all features are removed.
+    #      WORKAROUND IS TO REMOVE THIS STEP FROM PIPELINE
+    def __init__(self,keysToDrop=[]):
+        #added this to allow for grid search to work.  Per discussuion:
+        # http://stackoverflow.com/questions/23174964/how-to-gridsearch-over-transform-arguments-within-a-pipeline-in-scikit-learn
+        # BaseEstimator requires __init__ in order for GridSearchCV to iterate over passed in params
+        self.keysToDrop = keysToDrop
+    
+    def boolTest(self, docTripleSet,tripleIdx,stringToTest):
+        '''
+        docTripleSet = tripleSet for current document
+        tripleIdx --> 0 = token, 1 = POS tag, 2 = confidence
+        itemToTest --> Will test if this string exist in current document tokens/POS_TaggedText
+        breaks out when True occurs
+        '''
+        #TODO: change this to re.search and also consider adding functionality for confidence score
+        #TODO: optionally consider adding in exception error for confidence score to prevent it from being used
+        for triple in docTripleSet:
+            if triple[tripleIdx] == stringToTest:
+                return True
+                break
+        return False
+            
+
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples,keysToDrop=[]):
+        if keysToDrop != []:
+            self.keysToDrop = keysToDrop
+            
+        listOfStats = [{'questmark_present': self.boolTest(tripleSetCurrentDoc,0,'?'),\
+                    'urloremail_present': self.boolTest(tripleSetCurrentDoc,1,'U'),\
+                    "hashtag_present":self.boolTest(tripleSetCurrentDoc,1,'#')}\
+                     for tripleSetCurrentDoc in listOfTriples]
+        listToReturn = helper.dropKeysVals(listOfStats, self.keysToDrop)
+        return listToReturn        
 class CustomCountVectorizer(BaseEstimator, TransformerMixin):
     '''
     Custom count vectorizer IDEALLY allows for vocabulary to be accessed after pipeline.transform is runs

@@ -151,3 +151,13 @@ def createKLUE(fileName='emoticons_wikipedia.txt',emotiFile='KLUEemoticon.json',
     
     helper.dumpJSONtoFile(emotiFile,emoticonDict)
     helper.dumpJSONtoFile(acroFile,acronymDict)
+
+def createKLUEafinnLexi():    
+    origFile = open('AFINN-111.txt','r')
+    outputLexicon = {}
+    
+    for line in origFile:
+        line = line.split('\t')
+        outputLexicon[line[0]] = float(line[1])
+    
+    helper.dumpJSONtoFile('AFINN.json',outputLexicon)

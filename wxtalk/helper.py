@@ -239,14 +239,22 @@ def loadLexicon(lexicon,gramType = None):
                         'bigram': NRCHashPath + 'bigramsHash.json',\
                         'pairs': NRCHashPath + 'pairsHash.json'} 
     
+  
+    
+    #CMU cluster lexicon path/file
+    CMUclusterLexFile = getProjectPath() + '/wxtalk/resources/lexicons/CMU/CMU-cluster-lexicon.json'
+    
     #KLUE Emoticon path and file
     KLUEemoticonFile = getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/KLUEemoticon.json'       
 
     #KLUE acronym path and file
-    KLUEacronymFile = getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/KLUEemoticon.json'   
+    KLUEacronymFile = getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/KLUEemoticon.json' 
     
-    #CMU cluster lexicon path/file
-    CMUclusterLexFile = getProjectPath() + '/wxtalk/resources/lexicons/CMU/CMU-cluster-lexicon.json'
+    #KLUE Combined Emoticon/Acronym path and file
+    KLUEemotiANDacroFile = getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/KLUEemotiANDacro.json'       
+
+    #KLUE AFINN path and file
+    KLUEafinnFile = getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/AFINN.json'    
 
     #load appropriate file
     if lexicon == 'BingLiu':
@@ -259,12 +267,16 @@ def loadLexicon(lexicon,gramType = None):
         lexicon = loadJSONfromFile(NRC140files[gramType])
     elif lexicon == 'NRCHash':
         lexicon = loadJSONfromFile(NRCHashfiles[gramType]) 
+    elif lexicon == 'cmu-cluster-lex':
+        lexicon = loadJSONfromFile(CMUclusterLexFile)
     elif lexicon == 'emoticon':
         lexicon = loadJSONfromFile(KLUEemoticonFile )
     elif lexicon == 'acronym':
         lexicon = loadJSONfromFile(KLUEacronymFile )
-    elif lexicon == 'cmu-cluster-lex':
-        lexicon = loadJSONfromFile(CMUclusterLexFile)
+    elif lexicon == 'klue-both':
+        lexicon = loadJSONfromFile(KLUEemotiANDacroFile )
+    elif lexicon == 'klue-afinn':
+        lexicon = loadJSONfromFile(KLUEafinnFile )
     elif type(lexicon) == type({}):
         #this case put here to handle situation when dict is already loaded (e.g. when loading a pickle file)
         lexicon = lexicon
