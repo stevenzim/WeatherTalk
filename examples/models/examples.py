@@ -507,4 +507,5 @@ X2.append('happy happy :) :) no') #append a new unseen example
 unigrams  = vectorizer.fit_transform(X2)
 unigrams.toarray()  #now you will see added on vector with new word counts, still with original dictionary
 
+clusterVec = [[[':-)'],[ ':)'],[ ':D'],[ ':o)'],[ ':]'],[ ':3'],[ ':c)'],[ ':>'],[ '=]'],[ '8)'],[ '=)'],[ ':}'],[ ':^)'],[ ':っ)']]]
 

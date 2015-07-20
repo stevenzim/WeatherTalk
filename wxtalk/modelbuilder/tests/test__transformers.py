@@ -74,7 +74,8 @@ def test_text_features_extractor():
 ####----lexicon tests
 listOfTriples4 = [[['#Hello','#',.9],['world','N',.9]]]
 listOfTriples5 = [[['ADORE','V',.9],['him','N',.9],['back','N',.9]]]
-
+listOfNegatedTriples4 = [[['#Hello_NEG','#',.9],['world_NEG','N',.9]]]
+listOfNegatedTriples5 = [[['ADORE_NEG','V',.9],['him_NEG','N',.9],['back_NEG','N',.9]]]
 
 ####manual lexicons
 #bing and liu / listOfTriples5
@@ -123,6 +124,10 @@ def test_manual_lexicon_features_extractor():
     #test3 - single doc/NRCemotions
     d = transformers.NRCLexiconsExtractor(lexicon = 'NRCemotion')
     featureDict = d.transform(listOfTriples5)
+    assert_equal(featureDict[0],nrcEmotionFeatures) 
+    #test4 - single doc/NRCemotions - confirm same score for negated triples
+    d = transformers.NRCLexiconsExtractor(lexicon = 'NRCemotion')
+    featureDict = d.transform(listOfNegatedTriples5)
     assert_equal(featureDict[0],nrcEmotionFeatures) 
 
 
@@ -232,6 +237,28 @@ def test_token_counts():
     #test1 - token counts
     d = transformers.TokenCountExtractor()
     featureDict = d.transform(listOfTriples2)
-    assert_equal(featureDict[0],{'token_count':2})     
+    assert_equal(featureDict[0],{'token_count':2})  
+    
+    
+    
+#cluster
+#"i": "0000"
+#"tableau": "1111010101011"
+#"hell": "010101100",
+#"no": "1111111110",
+#"88888": None
+clusterTriples1 = [[["Hell","D",0.823],["no","N",0.5694],["88888","d",0.5694]]]
+clusterTriples2 = [[["I","D",0.823],["Tableau","N",0.5694]]]
+
+def test_docs_extractor():
+    '''Test to confirm list of normalised docs are returned provided triples containing tokens'''
+    d = transformers.ClusterExtractor()
+    #no docs test
+    assert_equal(d.transform([]),[])
+    #single doc test - ensure case when none returned that nothing is attached at end of string
+    assert_equal(d.transform(clusterTriples1),['010101100 1111111110'])
+    #single doc test
+    assert_equal(d.transform(clusterTriples2),['0000 1111010101011'])  
+
   
     

@@ -93,7 +93,17 @@ class TriplesYsExtractor(BaseEstimator, TransformerMixin):
  
 class DocsExtractor(BaseEstimator, TransformerMixin):
     '''Provided a list of documents containing TweetNLP triples.  
-    Fully extract and normalize the text to string format necessary for Doc or Idf vectorizers'''
+    Fully extract and normalize the text to string format necessary for Doc or Idf vectorizers
+    Per preprocessing from NRC, RTRGO, GU-MLT-LT
+    This is in preparation of n-gram extraction
+    You can pass in various normalizaion options
+    The output normalisedDocsList can then be passed to count or tfidf vectorizer'''
+    def __init__(self,lowercase=True,hashNormalise=True,digitNormalise=False,urlNormalise = True,userNameNormalise=True):
+        self.lowercase = lowercase
+        self.hashNormalise = hashNormalise
+        self.digitNormalise = digitNormalise
+        self.urlNormalise = urlNormalise
+        self.userNameNormalise = userNameNormalise
     def fit(self, x, y=None):
         return self
     def transform(self, listOfDocumentsWithTriples):
@@ -107,16 +117,55 @@ class DocsExtractor(BaseEstimator, TransformerMixin):
                 #TODO: Could create different normalisation functions/options to try
                 #TODO: Create a test to verify this works
                 token = triple[0]
-                token = token.lower()
-                token = token.replace("#","")
-                if triple[1] == 'U' :
-                    token = 'URL'
-                if triple[1] == '@' :
-                    token = 'USER'  
+                if self.lowercase:
+                    token = token.lower()
+                if self.hashNormalise:
+                    token = token.replace("#","")
+                if self.digitNormalise:
+                    token =  re.sub(r'\d', '0', token)  #replace all digits with 0 per GU-MLT-LT
+                if self.urlNormalise:
+                    if triple[1] == 'U' :
+                        token = 'URL'
+                if self.userNameNormalise:
+                    if triple[1] == '@' :
+                        token = 'USER'  
                 tokenList.append(token)
             normalisedDocsList.append(' '.join(tokenList))
         return normalisedDocsList
 
+
+class ClusterExtractor(BaseEstimator, TransformerMixin):
+    '''Provided a list of documents containing TweetNLP triples that may have been negated.  
+    Extract a list of CMU cluster IDs
+    As no python wrapper for the CMU tagger was found, this is a custom solution
+    For more about the CMU cluster tagger see: http://www.ark.cs.cmu.edu/TweetNLP/
+    The output CMUclusterIDlist can then be passed to count or tfidf vectorizer
+        lexicon was created from cmu cluster file.  3 steps give overview of how it was done.  Vocabulary file must be loaded into count/tfidf vectorizer for accurate counts
+        see convertCMUorig.py in resources/scripts/CMUclusterScript/
+        1- built a vocabulary to load into CountVectorizer should be 1000 cluster vals  Key = binary value Val = feature number
+        2- created a lexicon/dictionary with key = token and val equal to binary value
+        3- For each tweet build a string of binary cluster vals that can be split on string.split.   If token not in lexicon, add nothing to list
+    '''
+    def fit(self, x, y=None):
+        return self
+    def transform(self, listOfDocumentsWithTriples):
+        clusterLexicon =  helper.loadLexicon('cmu-cluster-lex')
+        clusterWords = set(clusterLexicon.keys())
+        CMUclusterIDlist = []  #list of id strings concatenated together and to return, each item in list is one tweet
+        for currentDocTriples in listOfDocumentsWithTriples:
+            tokenList = []
+            for triple in currentDocTriples:
+                #normalise each token to match CMU expected format
+                token = triple[0]
+                token = token.replace('_NEG','')  #remove any negation that may have been added in TriplesYsExtractor
+                token = token.lower()
+                
+                #get cluster id and update token
+                if token in clusterWords:
+                    tokenList.append(clusterLexicon[token])
+                                
+            CMUclusterIDlist.append(' '.join(tokenList))
+        return CMUclusterIDlist
 
 class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
     """Extract features from each document which can then be passed to DictVectorizer
@@ -174,7 +223,7 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
         self.tagType = tagType
 
     def window(self,seq, n=2):
-        #adapted from:https://docs.python.org/release/2.3.5/lib/itertools-example.html
+        #Taken from example found here: from:https://docs.python.org/release/2.3.5/lib/itertools-example.html
         "Returns a sliding window (of width n) over data from the iterable"
         "   s -> (s0,s1,...s[n-1]), (s1,s2,...,sn), ...                   "
         it = iter(seq)
@@ -196,6 +245,7 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
         listOfTagsAllTriples = []
         for tripleSetCurrentDoc in listOfTriples:
             lowerTokens = map(lower,map(first, tripleSetCurrentDoc))
+            lowerTokens = map(lambda token: token.replace('_neg',''),lowerTokens)  #remove negation tags
             if self.gramType == 'unigram':
                 listOfTagsAllTriples.append(lowerTokens)
             if self.gramType == 'bigram':

@@ -244,6 +244,9 @@ def loadLexicon(lexicon,gramType = None):
 
     #KLUE acronym path and file
     KLUEacronymFile = getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/KLUEemoticon.json'   
+    
+    #CMU cluster lexicon path/file
+    CMUclusterLexFile = getProjectPath() + '/wxtalk/resources/lexicons/CMU/CMU-cluster-lexicon.json'
 
     #load appropriate file
     if lexicon == 'BingLiu':
@@ -260,6 +263,8 @@ def loadLexicon(lexicon,gramType = None):
         lexicon = loadJSONfromFile(KLUEemoticonFile )
     elif lexicon == 'acronym':
         lexicon = loadJSONfromFile(KLUEacronymFile )
+    elif lexicon == 'cmu-cluster-lex':
+        lexicon = loadJSONfromFile(CMUclusterLexFile)
     elif type(lexicon) == type({}):
         #this case put here to handle situation when dict is already loaded (e.g. when loading a pickle file)
         lexicon = lexicon

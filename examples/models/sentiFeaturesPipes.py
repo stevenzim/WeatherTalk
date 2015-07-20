@@ -94,7 +94,7 @@ lexAutoFeatures = FeatureUnion([
 
 wordGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 4) ,binary=True))])                 
+            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 4) ,binary=True,min_df=10))])                 
      
 #char-grams
 #TODO: Waiting to hear back from authors regarding window position, is accross entire tweet or individual words
@@ -104,7 +104,7 @@ wordGramCount = Pipeline([\
 #            ('count',tran.CountVectorizer(analyzer='char',max_df= 0.75,max_features=50000,ngram_range=(3, 3) ))])
 charGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer='char',ngram_range=(3, 5) ,binary=True))])
+            ('count',tran.CountVectorizer(analyzer='char',ngram_range=(3, 5) ,binary=True,min_df=10))])
 
 ###-------------Negation----------------###
 negateCounts = Pipeline([\
@@ -119,7 +119,11 @@ posCounts = Pipeline([\
             
 ###---------------clusters--------------###
 #CMU 1000
-#TODO:
+cmuClusterFeatures = Pipeline([\
+            ('clusters',tran.ClusterExtractor()),\
+            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 1) ,binary=False,\
+                     vocabulary = helper.loadJSONfromFile(helper.getProjectPath() + '/wxtalk/resources/lexicons/CMU/CMU-cluster-vocab.json')))])    
+
 
 #EMOTICON
 #TODO: Use wikipedia per 2013 paper
@@ -175,7 +179,7 @@ features = FeatureUnion([
             ('char-gram-count',charGramCount),
             ('negate-feats',negateCounts),
             ('pos-count',posCounts),
-            #('cmu-cluster',cmuClusterFeatures),
+            ('cmu-cluster',cmuClusterFeatures),
             #('emoti-cluster',emotiClusterFeatures),
             ('all-caps-count',allCapsCount),
             ('hashtags-count',hashTagCount),
@@ -221,17 +225,17 @@ clfpipeline = Pipeline([\
             ('features',features),
             ('clf',SVC(C=.005,kernel='linear',probability=False))])
 
-clfpipeline = Pipeline([\
-            ('features',features),
-            ('clf',LinearSVC(C=.05,))])
+#clfpipeline = Pipeline([\
+#            ('features',features),
+#            ('clf',LinearSVC(C=.05,))])
 
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
-def testingPipeline(clfpipeline,ysKeyName='sentiment_num'):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
+def NRCtestingPipeline(clfpipeline,ysKeyName='sentiment_num',negateTweet = True):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
     #1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
     print "Building Model"
     inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TriplesYsExtractor()
+    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
     triplesList, ysList = ed.transform(data,ysKeyName = ysKeyName)
     clfpipeline.fit(triplesList,ysList)
     joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
@@ -242,7 +246,7 @@ def testingPipeline(clfpipeline,ysKeyName='sentiment_num'):  #options -->       
     ### DEV 2015
     inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TriplesYsExtractor()
+    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
     triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
     predicted_ys = loadedpipe.predict(triplesList)
     print "Results DEV 2015"
@@ -250,7 +254,7 @@ def testingPipeline(clfpipeline,ysKeyName='sentiment_num'):  #options -->       
     ### TEST 2015
     inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TriplesYsExtractor()
+    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
     triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
     predicted_ys = loadedpipe.predict(triplesList)
     print "Results TEST 2015"
@@ -258,7 +262,7 @@ def testingPipeline(clfpipeline,ysKeyName='sentiment_num'):  #options -->       
     ### TEST 2013
     inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TriplesYsExtractor()
+    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
     triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
     predicted_ys = loadedpipe.predict(triplesList)
     print "Results TEST 2013"
