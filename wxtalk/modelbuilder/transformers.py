@@ -275,10 +275,14 @@ class POScountExtractor(BaseEstimator, TransformerMixin):
         
 
 ###---------------negation transformer -------------###
+
+
 class negatedSegmentCountExtractor(BaseEstimator, TransformerMixin):
     '''Adaptation of negation count feature extraction used in both NRC 2013/2014 Semeval submissions
     Originally from Pang et al., 2002.  Regular expression from Christopher potts http://sentiment.christopherpotts.net/lingstruc.html.
-    Also helpful was Webis: An Ensemble for Twitter Sentiment Detection (Hagen, MatthiasPotthast, MartinBuchner, Michel Stein, Benno'''
+    Also helpful was Webis: An Ensemble for Twitter Sentiment Detection (Hagen, MatthiasPotthast, MartinBuchner, Michel Stein, Benno
+    
+    FOR ACCURATE COUNT REQUIRES  TRIPLES YS TRANSFORMER TO BE RUN WITH negateTweet = True'''
     #TODO: Future work would further investigate with authors if the _NEG tag added to token was implemented with lexicons.  Based on research, there is no evidence this was implemented,
     #however wording in literature may indicate otherwise
     #NOTE: If you do want to include these in unigrams, perhaps consider adding the _NEG as a preprocessing step after NLP triple tagger
@@ -286,24 +290,23 @@ class negatedSegmentCountExtractor(BaseEstimator, TransformerMixin):
         return self
         
     def countNegatedContexts(self,tripleSetCurrentDoc):
-        '''Function to get the count of negation contexts in tweets, an adaptation of code from 
-        Webis: An Ensemble for Twitter Sentiment Detection (Hagen, MatthiasPotthast, MartinBuchner, Michel Stein, Benno'''
-        lowerTokens = map(lower,map(first, tripleSetCurrentDoc))
+        '''Function to get the count of negation contexts in tweets, where a negation context is each time 
+        a tweet switches not negative context to a negative context,an adaptation of code from 
+       Webis: An Ensemble for Twitter Sentiment Detection (Hagen, MatthiasPotthast, MartinBuchner, Michel Stein, Benno'''
+        negatedTokenBools = map(lambda token: '_NEG' in token ,map(first, tripleSetCurrentDoc))
+        negatedSegment = False
         negationCount = 0
-    	negativeBool = False;
-    	for token in lowerTokens:
-    	    negateRe = re.match(r'(?:never|no|nothing|nowhere|noone|none|not|\
-    	                            havent|hasnt|hadnt|cant|couldnt|shouldnt|wont|\
-    	                            wouldnt|dont|doesnt|didnt|isnt|arent|aint)|.*nt|.*n\'t',token)
-            if negateRe:
-                negativeBool = True
-            if negativeBool:  
-                endNegateRe = re.match(r'[.:;!?]$',token)
-                if endNegateRe:
-                    negativeBool = False
-                    negationCount += 1
-                else:
-	                token = token + '_NEG'
+        for curBool in negatedTokenBools:
+            if curBool:
+                negatedSegment = True
+            if negatedSegment:
+                if curBool == False:
+                    negationCount +=1
+                    negatedSegment = False
+        if negatedSegment:
+            #handle situation when no punctuation or end of tweet occurs
+            negationCount +=1
+
         return negationCount
 
     def transform(self, listOfTriples):

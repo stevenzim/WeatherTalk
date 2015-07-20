@@ -204,10 +204,9 @@ def test_pos_features_counts():
     assert_equal(featureDict[0],posCountsTriples5)
     assert_equal(featureDict[1],posCountsTriples5)
     
-    
 #negation counts
-negateTriples1 = [[["No","D",0.823],["one","N",0.5694],["enjoys","V",0.9992],["it","O",0.9884],[".",",",0.9991],["Ha","!",0.9701]]]
-negateTriples2 = [[["I","O",0.9943],["wouldn't","V",0.9993],["do","V",1.0],["it","O",0.9895],[".",",",0.9993],["Never","!",0.826],["?",",",0.9982]]]
+negateTriples1 = [[["No_NEG","D",0.823],["one_NEG","N",0.5694],["enjoys_NEG","V",0.9992],["it_NEG","O",0.9884],[".",",",0.9991],["Ha","!",0.9701]]]
+negateTriples2 = [[["I","O",0.9943],["wouldn't_NEG","V",0.9993],["do_NEG","V",1.0],["it_NEG","O",0.9895],[".",",",0.9993],["Never_NEG","!",0.826]]]
 negateExpect1 ={'negation_count':1} 
 negateExpect2 ={'negation_count':2} 
 def test_negated_segment_counts():
@@ -223,7 +222,8 @@ def test_negated_segment_counts():
     #test3 - negated segment counts/single doc - 2 segments
     d = transformers.negatedSegmentCountExtractor()
     featureDict = d.transform(negateTriples2)
-    assert_equal(featureDict[0],negateExpect2)  
+    assert_equal(featureDict[0],negateExpect2)      
+ 
     
     
 #token counts
