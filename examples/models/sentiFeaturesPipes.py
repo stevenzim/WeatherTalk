@@ -13,6 +13,7 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 
 import sklearn.externals.joblib as joblib
@@ -90,13 +91,10 @@ lexAutoFeatures = FeatureUnion([
 #wordGramCount = Pipeline([\
 #            ('docs',tran.DocsExtractor()),\
 #            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ,binary=False))])
-#wordGramCount = Pipeline([\
-#            ('docs',tran.DocsExtractor()),\
-#            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 1) ,binary=False))]) 
-#            
+
 wordGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 4) ,binary=False))])                 
+            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 4) ,binary=True))])                 
      
 #char-grams
 #TODO: Waiting to hear back from authors regarding window position, is accross entire tweet or individual words
@@ -160,6 +158,11 @@ rtrgoFeatures = Pipeline([\
             ('text-feats-dict',tran.TextFeaturesExtractor(keysToDrop=[])),\
             ('text-feats-vec',tran.DictVectorizer())])
 
+KLUEtokenCount = Pipeline([\
+            ('token-count-dict',tran.TokenCountExtractor()),\
+            ('token-count-vec',tran.DictVectorizer())])
+
+
 #***********My features*************
 #TODO: Implement option in lexicons to put score of last polar feature less than 0 and minimum polar score
 
@@ -180,7 +183,8 @@ features = FeatureUnion([
             ('punctuation-feats',puncFeatures),
             ('emoti-feats',emotiFeatures),
             #('feats-other-papers', otherPaperFeatures),
-            #('rtrgo-encode-feats', rtrgoFeatures),
+#            ('rtrgo-encode-feats', rtrgoFeatures),
+            #('klue-token-count', KLUEtokenCount),
             #('my-feats',originalFeatures)
             ]) 
 
@@ -217,8 +221,12 @@ clfpipeline = Pipeline([\
             ('features',features),
             ('clf',SVC(C=.005,kernel='linear',probability=False))])
 
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',LinearSVC(C=.05,))])
+
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
-def testingPipeline(ysKeyName='sentiment_num'):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
+def testingPipeline(clfpipeline,ysKeyName='sentiment_num'):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
     #1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
     print "Building Model"
     inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
@@ -310,7 +318,7 @@ triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
 ### DEV 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TriplesYsExt bbbbbbbbbbbbbb4ractor()
+ed = tran.TriplesYsExtractor()
 triplesListDev, expected_ysDev = ed.transform(data,ysKeyName = 'sentiment_num')
 
 #Combine into one train set and build model

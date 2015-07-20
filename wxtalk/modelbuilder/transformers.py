@@ -23,26 +23,68 @@ lessZeroVal = lambda x: x if (x<0.0) else 0.0
 true = lambda x: True if (x==True) else False
 
 
-
 class TriplesYsExtractor(BaseEstimator, TransformerMixin):
     '''Provided a list of dictionaries containing triples created by Twitter NLP
     --> return a list of TweetNLP triples representing each tweet
     if option ysKeyname is provided, then list containing expected results is also returned
     triplesList and ysList can be passed to pipeline
     options - ykey = keyname containing expected results, necessary for training'''
+    def __init__(self,negateTweet = False):
+        self.negateTokenBool = False    #boolean value to determine whether current token should be negated if True then _NEG is attached to token
+        self.negateTweet = negateTweet #user specified, if True, then tokens for tweets will have negation run on them, otherwise false.
+
+    def setNegate(self,tripleIn):
+        '''Per multiple research papers, indications are that _NEG should be added to negated components of a tweet
+        Takes an NLP tripleset from tweet tagger and returns tripleset with _NEG added appropriately'''
+        #TODO: additional test for negation
+        #NOTE: hash symbols are not removed from front of corpus, which will add minor noise
+        token = tripleIn[0]
+        posTag = tripleIn[1]
+        score = tripleIn[2]
+        tripleOut = []
+        
+        #RE from christopherpotts
+        negateRe = re.match(r'(?:never|no|nothing|nowhere|noone|none|not|\
+        havent|hasnt|hadnt|cant|couldnt|shouldnt|wont|\
+        wouldnt|dont|doesnt|didnt|isnt|arent|aint)$|.*nt$|.*n\'t$',lower(token))
+        if negateRe:
+            self.negateTokenBool = True
+        if self.negateTokenBool:  
+            endNegateRe = re.match(r'[.:;!?]$',token)
+            if endNegateRe:
+                self.negateTokenBool = False
+                return [token,posTag,score]
+            else:
+                token = token + '_NEG'
+                return [token,posTag,score]
+        else:
+            return [token,posTag,score]
+
     def fit(self, x, y=None):
         return self
+
     def transform(self, listOfDicts ,\
         triplesKeyName = "tagged_tweet_triples", ysKeyName=None):
-        #TODO: Consider throwing error message if y's key name doesn't exist in dictionary
         #TODO: Rather than hard coding default keynames, perhaps change it to required args
         #       with an error thrown if keyname does not exist
+        #global negativeBool
         triplesList = [] #list of triples
         ysList = [] #list of expected ys
-        for dict in listOfDicts:
-            triplesList.append(dict[triplesKeyName])
-            if ysKeyName != None:
-                ysList.append(dict[ysKeyName])
+        
+        if self.negateTweet:
+            #run negation if self.negateTweet = True
+            for dict in listOfDicts:
+                negatedTriples = map(lambda triple: self.setNegate(triple),dict[triplesKeyName])
+                triplesList.append(negatedTriples)
+                if ysKeyName != None:
+                    ysList.append(dict[ysKeyName])
+                self.negateTokenBool = False #reset negateTokenBool at the end of each tweet
+        else:
+            #don't run negation and just keep original tokens
+            for dict in listOfDicts:
+                triplesList.append(dict[triplesKeyName])
+                if ysKeyName != None:
+                    ysList.append(dict[ysKeyName])                
         if ysKeyName != None:
             return triplesList, ysList  #we want to grab expected results
         else:
@@ -58,6 +100,8 @@ class DocsExtractor(BaseEstimator, TransformerMixin):
         normalisedDocsList = []  #list of docs to output
         for currentDocTriples in listOfDocumentsWithTriples:
             tokenList = []
+            negationCount = 0
+            negativeBool = False
             for triple in currentDocTriples:
                 #normalise each token per RTRGO paper
                 #TODO: Could create different normalisation functions/options to try
@@ -68,7 +112,7 @@ class DocsExtractor(BaseEstimator, TransformerMixin):
                 if triple[1] == 'U' :
                     token = 'URL'
                 if triple[1] == '@' :
-                    token = 'USER'
+                    token = 'USER'  
                 tokenList.append(token)
             normalisedDocsList.append(' '.join(tokenList))
         return normalisedDocsList
@@ -228,6 +272,8 @@ class POScountExtractor(BaseEstimator, TransformerMixin):
                 localPOSdict[tag] += 1
             listOfPOSdicts.append(localPOSdict)
         return listOfPOSdicts
+        
+
 ###---------------negation transformer -------------###
 class negatedSegmentCountExtractor(BaseEstimator, TransformerMixin):
     '''Adaptation of negation count feature extraction used in both NRC 2013/2014 Semeval submissions
@@ -256,8 +302,8 @@ class negatedSegmentCountExtractor(BaseEstimator, TransformerMixin):
                 if endNegateRe:
                     negativeBool = False
                     negationCount += 1
-                #else:
-	                #token = token + '_NEG'
+                else:
+	                token = token + '_NEG'
         return negationCount
 
     def transform(self, listOfTriples):
@@ -375,6 +421,21 @@ class NRCemoticonExtractor(BaseEstimator, TransformerMixin):
                                 'last_emoticon_neg':last(negBools)})
         return emoticonFeatureDicts
 
+#------KLUE FEATURES -----
+#----token count----
+class TokenCountExtractor(BaseEstimator, TransformerMixin):
+    '''KLUE paper used token counts as feature, hence here it is implement.  Simply take the length of tweet triple.'''
+
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples):
+        '''Transform list of Triples to a list of counts of token'''      
+        tokenCountDicts = []
+        for tripleSetCurrentDoc in listOfTriples:   
+            tokenCountDicts.append({'token_count':len(tripleSetCurrentDoc)} )
+        return tokenCountDicts
+        
         
 class CustomCountVectorizer(BaseEstimator, TransformerMixin):
     '''

@@ -2,6 +2,10 @@ from nose.tools import *
 from wxtalk.modelbuilder import transformers
 from wxtalk import helper
 
+
+
+
+
 listOfDicts = [{'doc': 'abc', 'triple': [0,5,6],'expect':True},\
                  {'doc': 'def', 'triple': [1,2,3],'expect':False}]
 listOfTriples1 = [[['?',',',.9]],\
@@ -20,6 +24,9 @@ listOfTriples3 = [listOfTriples2[0],listOfTriples2[0]]
 listOfTriplesURL = [[['https://hello.com','U',.9],['http://hello.com','U',.9]]]
 listOfTriplesUSER = [[['@me','@',.9],['@you','@',.9]]]
 
+triplesToNegate1 = [{"tagged_tweet_triples":[['No','a',.9],['!','.',.9],['Yes','a',.9],['snow','a',.9],['!','.',.9]]}]
+expectedNegation1 =[[['No_NEG','a',.9],['!','.',.9],['Yes','a',.9],['snow','a',.9],['!','.',.9]]]
+
 def test_triples_and_ys_extractor():
     '''test to confirm triples and ys(expected output) are correctly extracted from list of dicts'''
     #test 1, triples only
@@ -31,6 +38,11 @@ def test_triples_and_ys_extractor():
     triples, ys = d.transform(listOfDicts,'triple','expect')
     assert_equal(triples,[[0,5,6],[1,2,3]])
     assert_equal(ys,[True,False])
+    #test 3, negate tokens intriples and ys
+    d = transformers.TriplesYsExtractor(negateTweet=True)
+    triples= d.transform(triplesToNegate1)
+    assert_equal(triples,expectedNegation1)
+
 
 def test_docs_extractor():
     '''Test to confirm list of normalised docs are returned provided triples containing tokens'''
@@ -211,5 +223,15 @@ def test_negated_segment_counts():
     #test3 - negated segment counts/single doc - 2 segments
     d = transformers.negatedSegmentCountExtractor()
     featureDict = d.transform(negateTriples2)
-    assert_equal(featureDict[0],negateExpect2)       
+    assert_equal(featureDict[0],negateExpect2)  
+    
+    
+#token counts
+def test_token_counts():
+    '''Test to confirm correct counts of tokens for each tweet'''    
+    #test1 - token counts
+    d = transformers.TokenCountExtractor()
+    featureDict = d.transform(listOfTriples2)
+    assert_equal(featureDict[0],{'token_count':2})     
+  
     

@@ -95,11 +95,11 @@ def buildOutputDict(csvRow,sentiList,temporalList):
                 'topic_wx_70' : topic_convert(sentiList[4],0.7),
                 'topic_wx_80' : topic_convert(sentiList[4],0.8),
                 'topic_wx_90' : topic_convert(sentiList[4],0.9), 
-                'topic_wx_100' : topic_convert(sentiList[4],1.0)}                 
+                'topic_wx_100' : topic_convert(sentiList[4],1.0),                 
                 #'sentiment_converted' : sentiment_convert(sentiList[1:4]), 
                 #'temporal_orig' : temporalList,
                 #'temporal_converted' : temporal_convert(temporalList), 
-                #'source' : 'Kaggle'}
+                'source' : 'Kaggle'}
     return outputDict
 
     
