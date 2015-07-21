@@ -62,7 +62,9 @@ def createMPQA(inFileName='mpqa.tff',outFileName='MPQA.json'):
     iFile = open(inFileName,'r')
     outDict = {}
     for line in iFile:
+        subjectivityVal = 0
         elements = line.split(' ')
+        subjectivity = elements[0].split('=')[1]
         elements = elements[2] + '=' + elements[-1]  #get the word and polarity elements and make it look like --> 'word1=abandoned=priorpolarity=negative'
         elements = elements.split('=') #split elements --> looks like --> ['word1', 'abandoned', 'priorpolarity', 'negative']
         elements = map(lambda x: x.strip(),elements) #clean up unwanted characters i.e. carriage returns and whitespace
@@ -76,10 +78,15 @@ def createMPQA(inFileName='mpqa.tff',outFileName='MPQA.json'):
                 else:
                     outDict[elements[1] ] = 0.0
                     continue
+        if subjectivity == "strongsubj":
+        #similar to Webis 2015, increase strenght of polarity if word is strongly subjective
+            subjectivityVal = 5.0
+        else:
+            subjectivityVal = 1.0
         if elements[-1] == 'positive':
-            outDict[elements[1]] = 1.0
+            outDict[elements[1]] = subjectivityVal * 1.0
         elif elements[-1] == 'negative':
-            outDict[elements[1]] = -1.0
+            outDict[elements[1]] = subjectivityVal * -1.0
         else:
             continue
     iFile.close()
@@ -161,3 +168,36 @@ def createKLUEafinnLexi():
         outputLexicon[line[0]] = float(line[1])
     
     helper.dumpJSONtoFile('AFINN.json',outputLexicon)
+    
+def createSentiWordNet(inFileName='SentiWordNet_3.0.0.txt',outFileName='SentiWord.json'):  
+    '''Conversion of sentiwordnet lexicon to desired format.  An adapation of code from Webis paper'''
+    iFile = open(inFileName,'r')
+    outDict = {}
+    for line in iFile:
+        line = line.split('\t')
+        if len(line) ==6:
+            word = line[4]
+            word = word.split()[0]
+            word = word.split('#')[0]
+            outDict[word + '+'] = float(line[2])
+            outDict[word + '-'] = float(line[3])
+    iFile.close()
+    helper.dumpJSONtoFile(outFileName,outDict)             
+            
+            
+#	protected Map<String, Double> loadSentiWordNet() throws FileNotFoundException{
+#		Map<String, Double> sentiWordMap = new HashMap<String, Double>();
+#		File file = new File("resources/lexi/SentiWordNet_3.0.0.txt");
+#		Scanner scanner = new Scanner(file);
+#		while (scanner.hasNextLine()) {
+#			String[] line = scanner.nextLine().split("\t");
+#			if (line.length == 6){
+#				for (String word : line[4].split(" ")){
+#					sentiWordMap.put(word.split("")[0] + "+", Double.valueOf(line[2]));
+#					sentiWordMap.put(word.split("")[0] + "-", Double.valueOf(line[3]));
+#				}
+#			}
+#		}
+#		scanner.close();
+#		return sentiWordMap;
+#	}

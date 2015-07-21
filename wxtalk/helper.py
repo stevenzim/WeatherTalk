@@ -256,6 +256,9 @@ def loadLexicon(lexicon,gramType = None):
     #KLUE AFINN path and file
     KLUEafinnFile = getProjectPath() +  '/wxtalk/resources/lexicons/KLUE/AFINN.json'    
 
+    #SentiWordNet path and file
+    SentiWordNetFile = getProjectPath() +  '/wxtalk/resources/lexicons/SentiWordNet/SentiWord.json'  
+
     #load appropriate file
     if lexicon == 'BingLiu':
         lexicon = loadJSONfromFile(BingLiufile[gramType])
@@ -277,6 +280,8 @@ def loadLexicon(lexicon,gramType = None):
         lexicon = loadJSONfromFile(KLUEemotiANDacroFile )
     elif lexicon == 'klue-afinn':
         lexicon = loadJSONfromFile(KLUEafinnFile )
+    elif lexicon == 'SentiWord':
+        lexicon = loadJSONfromFile(SentiWordNetFile )
     elif type(lexicon) == type({}):
         #this case put here to handle situation when dict is already loaded (e.g. when loading a pickle file)
         lexicon = lexicon

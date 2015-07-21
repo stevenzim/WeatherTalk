@@ -24,7 +24,7 @@ greaterZeroVal = lambda x: x if (x>0.0) else 0.0
 lessZeroVal = lambda x: x if (x<0.0) else 0.0
 true = lambda x: True if (x==True) else False
 removeNegateStr = lambda token: token.replace('_NEG','')  #removes any negation string that may have been added in TriplesYsExtractor
-
+collapseToken = lambda token: re.sub(r'(.)\1+', r'\1\1', token) #collapse 3 or more characters down to 2
 
 
 
@@ -122,12 +122,13 @@ class DocsExtractor(BaseEstimator, TransformerMixin):
     This is in preparation of n-gram extraction
     You can pass in various normalizaion options
     The output normalisedDocsList can then be passed to count or tfidf vectorizer'''
-    def __init__(self,lowercase=True,hashNormalise=True,digitNormalise=False,urlNormalise = True,userNameNormalise=True):
+    def __init__(self,lowercase=True,hashNormalise=True,digitNormalise=False,urlNormalise = True,userNameNormalise=True,collapseTweet = False):
         self.lowercase = lowercase
         self.hashNormalise = hashNormalise
         self.digitNormalise = digitNormalise
         self.urlNormalise = urlNormalise
         self.userNameNormalise = userNameNormalise
+        self.collapseTweet = collapseTweet
     def fit(self, x, y=None):
         return self
     def transform(self, listOfDocumentsWithTriples):
@@ -152,7 +153,9 @@ class DocsExtractor(BaseEstimator, TransformerMixin):
                         token = 'URL'
                 if self.userNameNormalise:
                     if triple[1] == '@' :
-                        token = 'USER'  
+                        token = 'USER' 
+                if self.collapseTweet:  #replace 3 or more repeating characters with 2
+                    token = collapseToken(token)
                 tokenList.append(token)
             normalisedDocsList.append(' '.join(tokenList))
         return normalisedDocsList
@@ -477,7 +480,7 @@ class KLUEpolarityExtractor(BaseEstimator, TransformerMixin):
     """Extract emoticon features from each document which can then be passed to DictVectorizer
     This transformer is an adaptation of of the KLUE Semeval 2013 submission
     Pass in a list of tweets/document triples extracted from twitter NLP and desired polarity features for
-    AFINN lexicon.
+    AFINN lexicon. Note: optional lexicons also include klue-both, klue-emoticon and klue-acronym.
     """
     def __init__(self,lexicon='klue-afinn'):
         self.lexicon = lexicon
@@ -491,28 +494,57 @@ class KLUEpolarityExtractor(BaseEstimator, TransformerMixin):
         
         self.lexicon = helper.loadLexicon(self.lexicon)
         keyNames = set(self.lexicon.keys()) 
-        emoticonFeatureDicts = []
+        polarityFeatureDicts = []
         for tripleSetCurrentDoc in listOfTriples:
             tokens = map(first,tripleSetCurrentDoc)
             tokens = map(removeNegateStr,tokens)
             tokens = map(lower,tokens)
-            #scores = map(lambda token: self.lexicon[token],tokens)
-            emoticonScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tokens)
-            posBools = map(greaterZeroBool,emoticonScores)
-            negBools = map(lessZeroBool,emoticonScores)  
+            polarityScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tokens)
+            posBools = map(greaterZeroBool,polarityScores)
+            negBools = map(lessZeroBool,polarityScores)  
             numPos = len(filter(true,posBools))
             numNeg = len(filter(true,negBools))
             numPolarTokens = numPos + numNeg
             if numPolarTokens == 0.0: #avoid division by zero
                 numPolarTokens = 1.0
-            totalScore = sum(emoticonScores)
+            totalScore = sum(polarityScores)
             meanScore = totalScore/(numPolarTokens)
-            emoticonFeatureDicts.append({'total_count_pos': numPos,\
+            polarityFeatureDicts.append({'total_count_pos': numPos,\
                                 'total_count_neg': numNeg,\
                                 'total_count_polar': numPos + numNeg,\
                                 'mean_polarity':meanScore})
-        return emoticonFeatureDicts        
+        return polarityFeatureDicts        
+
+#-----GUMLT FEATURES -----
+class GUMLTsentiWordNetExtractor(BaseEstimator, TransformerMixin):
+    """
+    Converts a list of post nlp tagging tokens into total positive and total negative scores retrieved from SentiWordNEt lexicon
+    Per GUMLT Semeval 2013 and Webis 2015 papers
+    """
+    def __init__(self,lexicon='SentiWord'):
+        self.lexicon = lexicon
+
+    def fit(self, x,y=None):
+        return self
+
+    def transform(self, listOfTriples):
+        '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
+        GUMLT format'''
         
+        self.lexicon = helper.loadLexicon(self.lexicon)
+        keyNames = set(self.lexicon.keys()) 
+        polarityFeatureDicts = []
+        for tripleSetCurrentDoc in listOfTriples:
+            tokens = map(first,tripleSetCurrentDoc)
+            tokens = map(removeNegateStr,tokens)
+            tokens = map(lower,tokens)
+            tokens = map(collapseToken,tokens)
+            posPolarityScores = map(lambda token: self.lexicon[token+'+'] if ((token+'+') in keyNames)  else 0.0 ,tokens)
+            negPolarityScores = map(lambda token: self.lexicon[token+'-'] if ((token+'-') in keyNames)  else 0.0 ,tokens)
+            polarityFeatureDicts.append({'sum_pos': sum(posPolarityScores),\
+                                'sum_neg': sum(negPolarityScores)})
+        return polarityFeatureDicts   
+    
 #--------prototype stuff-------------        
 class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
     """Extract features from each document which can then be passed to DictVectorizer

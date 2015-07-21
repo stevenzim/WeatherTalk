@@ -103,8 +103,8 @@ bingLiuFeatures ={'total_count_pos':1,
 #    "adore": 1.0,
 #    "back": 1.0,
 mpqaFeatures ={'total_count_pos':2,
-                 'total_score_pos':2.0,
-                 'max_score_pos':1.0,
+                 'total_score_pos':6.0,
+                 'max_score_pos':5.0,
                  'score_last_pos':1.0,
                  'total_count_neg':0,
                  'total_score_neg':0.0,
@@ -295,7 +295,7 @@ acroemotiPolarity1 = {'total_count_pos':1,
                  'total_count_polar':2,
                  'mean_polarity':0.0}
 def test_klue_polarity_features_extractor():
-    '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
+    '''test to confirm KLUE afinn lexicon features are correctly extracted from triples'''
     d = transformers.KLUEpolarityExtractor()
     #test1 - multiple items in dict
     featureDict = d.transform(afinnTriples1)
@@ -308,4 +308,27 @@ def test_klue_polarity_features_extractor():
     featureDict = d.transform(acroemotiTriples1)
     assert_equal(featureDict[0],acroemotiPolarity1)
     
-
+#GU-MLT SentiWordNet
+#    "approximation+": 0.125,
+#    "approximation-": 0.125,
+gumltTriples1 = [[["my","D",0.823],["approximation","N",0.5694]]]
+gumltTriples2 = [[["I","D",0.823],["Will","N",0.5694]]]
+gumltTriples3 = [[["myy","D",0.823],["appproximation","N",0.5694]]]
+gumltPolarity1 = {'sum_pos':0.125,
+                 'sum_neg':0.125}
+gumltPolarity2 = {'sum_pos':0.0,
+                 'sum_neg':0.0}
+gumltPolarity3 = {'sum_pos':0.125,
+                 'sum_neg':0.125}                 
+def test_gumlt_sentiwordnet_polarity_features_extractor():
+    '''test to confirm GUMLT sentiwordnet lexicon features are correctly extracted from triples'''
+    d = transformers.GUMLTsentiWordNetExtractor()
+    #test1 - both neg and pos
+    featureDict = d.transform(gumltTriples1)
+    assert_equal(featureDict[0],gumltPolarity1)
+    #test2 - score is 0
+    featureDict = d.transform(gumltTriples2)
+    assert_equal(featureDict[0],gumltPolarity2)    
+    #test3 - both neg and pos with collapsed word
+    featureDict = d.transform(gumltTriples1)
+    assert_equal(featureDict[0],gumltPolarity1)

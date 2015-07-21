@@ -266,7 +266,9 @@ clfpipeline = Pipeline([\
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',SGDClassifier(n_iter=50,penalty = 'l2'))])
-
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',SGDClassifier(n_iter=50,penalty = 'l1'))])
 #Logistic Regression / MaxEnt with KLUE best settings
 clfpipeline = Pipeline([\
             ('features',features),
@@ -274,6 +276,10 @@ clfpipeline = Pipeline([\
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',LogisticRegression(penalty = 'l2',C = 0.05))])
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = 0.5))])
+
 
 #random_forest
 clfpipeline = Pipeline([\
@@ -346,22 +352,22 @@ triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
 #    'clf__n_iter': (10, 50, 80),
 #}
 
-#clfpipeline = Pipeline([\
-#            ('features',features),
-#            ('clf',SVC())])
-#parameters = {
-#    'clf__C': (.05,.01, 0.005,.001),
-#    'clf__kernel': ('linear',),
-#}
-
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression())])
+            ('clf',SVC())])
 parameters = {
     'clf__C': (5.0,.5,.05,.005),
-    'clf__penalty': ('l1','l2'),
-    #'clf__multi_class' : ('ovr', 'multinomial')
+    'clf__kernel': ('linear','sigmoid'),
 }
+
+#clfpipeline = Pipeline([\
+#            ('features',features),
+#            ('clf',LogisticRegression())])
+#parameters = {
+#    'clf__C': (5.0,.5,.05,.005),
+#    'clf__penalty': ('l1','l2'),
+#    'clf__multi_class' : ('ovr', 'multinomial')
+#}
 if __name__ == "__main__":
     # multiprocessing requires the fork to happen in a __main__ protected
     # block
