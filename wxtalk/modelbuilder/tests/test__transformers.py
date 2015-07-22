@@ -276,7 +276,7 @@ def test_docs_extractor():
 #    "abandon": -2.0,
 #    "fear": -2.0, 
 #    "aboard": 1.0, 
-afinnTriples1 = [[["aboard","D",0.823],["ABANDON_NEG","N",0.5694],["fear","d",0.5694]]]
+afinnTriples1 = [[["aboard","D",0.823],["ABANDON","N",0.5694],["fear","d",0.5694]]]
 afinnTriples2 = [[["I","D",0.823],["Tableau","N",0.5694]]]
 afinnPolarity1 = {'total_count_pos':1,
                  'total_count_neg':2,

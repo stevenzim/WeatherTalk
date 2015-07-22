@@ -10,7 +10,7 @@ from time import time
 import numpy as np
 
 from sklearn.metrics import classification_report
-
+from sklearn.metrics import f1_score
 
 #load json
 def loadJSONfromFile(fileName):	
@@ -35,7 +35,7 @@ def evaluateResults(y_expected,y_predicted,y_probs = None,prob_thresh = .95):
         with prediction probabilities greater than threshold default 95%'''
     if y_probs == None:
         return classification_report(y_expected,y_predicted)
-    #now we want to only evaluate based on predictions with probability > threshold
+    #below usefule for when you want to only evaluate based on predictions with probability > threshold
     #NOTE: does not have test YET
     thresh_expected = []
     thresh_predicted = []

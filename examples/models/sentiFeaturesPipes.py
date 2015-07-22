@@ -90,11 +90,15 @@ lexAutoFeatures = FeatureUnion([
 
 #wordGramCount = Pipeline([\
 #            ('docs',tran.DocsExtractor()),\
-#            ('count',tran.CountVectorizer(analyzer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ,binary=False))])
+#            ('count',tran.CountVectorizer(tokenizer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ,binary=False))])
 
 wordGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 4) ,binary=True,min_df=10))])                 
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 4) ,binary=True,min_df=5))])                 
+
+NRCwordgrams = Pipeline([\
+            ('docs',tran.DocsExtractor()),\
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 4) ,binary=True,min_df=5))])  
      
 #char-grams
 #TODO: Waiting to hear back from authors regarding window position, is accross entire tweet or individual words
@@ -102,9 +106,9 @@ wordGramCount = Pipeline([\
 #charGramCount = Pipeline([\
 #            ('docs',tran.DocsExtractor()),\
 #            ('count',tran.CountVectorizer(analyzer='char',max_df= 0.75,max_features=50000,ngram_range=(3, 3) ))])
-charGramCount = Pipeline([\
+NRCchargrams = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer='char',ngram_range=(3, 5) ,binary=True,min_df=10))])
+            ('count',tran.CountVectorizer(tokenizer=string.split,analyzer='char',ngram_range=(3, 5) ,binary=True,min_df=5))])
 
 ###-------------Negation----------------###
 negateCounts = Pipeline([\
@@ -121,7 +125,7 @@ posCounts = Pipeline([\
 #CMU 1000
 cmuClusterFeatures = Pipeline([\
             ('clusters',tran.ClusterExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 1) ,binary=False,\
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 1) ,binary=False,\
                      vocabulary = helper.loadJSONfromFile(helper.getProjectPath() + '/wxtalk/resources/lexicons/CMU/CMU-cluster-vocab.json')))])    
 
 
@@ -164,25 +168,77 @@ rtrgoFeatures = Pipeline([\
             ('text-feats-vec',tran.DictVectorizer())])
 #KLUE
 KLUEwordgrams = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 2) ,binary=True,min_df=5))])
+            ('docs',tran.DocsExtractor(hashNormalise=False)),\
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=5))])
 
 KLUEstems = Pipeline([\
             ('docs',tran.DocsExtractor()),\
             ('stems',tran.StemExtractor()),\
-            ('count',tran.CountVectorizer(analyzer=string.split,ngram_range=(1, 2) ,binary=True,min_df=5))])
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=5))])
 
 KLUEtokenCount = Pipeline([\
             ('token-count-dict',tran.TokenCountExtractor()),\
             ('token-count-vec',tran.DictVectorizer())])
             
 KLUEpolarity = Pipeline([\
-            ('polarity-dict',tran.KLUEpolarityExtractor('klue-both')),\
+            ('polarity-dict',tran.KLUEpolarityExtractor('klue-afinn')),\
             ('polarity-vec',tran.DictVectorizer())])
-            
+#KLUEpolarity = Pipeline([\
+#            ('docs',tran.DocsExtractor(hashNormalise=False)),\
+#            ('polarity-dict',tran.KLUEpolarityExtractor('klue-afinn')),\
+#            ('polarity-vec',tran.DictVectorizer())])
+
 KLUEemotiacro = Pipeline([\
             ('emoti-acro-dict',tran.KLUEpolarityExtractor('klue-both')),\
-            ('emoti-acro-vec',tran.DictVectorizer())])
+            ('emoti-acro-vec',tran.DictVectorizer())])            
+#KLUEemotiacro = Pipeline([\
+#            ('docs',tran.DocsExtractor(hashNormalise=False)),\
+#            ('emoti-acro-dict',tran.KLUEpolarityExtractor('klue-both')),\
+#            ('emoti-acro-vec',tran.DictVectorizer())])
+#KLUE features
+features = FeatureUnion([
+            ('word-gram-count',KLUEwordgrams),
+            #('stem-gram-count',KLUEstems),
+            ('negate-feats',negateCounts),
+            #('pos-count',posCounts),
+            #('cmu-cluster',cmuClusterFeatures),
+            #('all-caps-count',allCapsCount),
+            #('hashtags-count',hashTagCount),
+            #('elong-count',elongatedWordCount),
+            #('punctuation-feats',puncFeatures),
+            #('emoti-feats',emotiFeatures),
+            ('klue-token-count', KLUEtokenCount),
+            ('klue-polarity', KLUEpolarity),
+            ('klue-emoti-acro', KLUEemotiacro),
+            #('my-feats',originalFeatures)
+            ])
+testTweet = helper.loadJSONfromFile('KLUE-1tweet.json')
+testTriples = helper.extractTweetNLPtriples('KLUE-1tweet.json')
+ed = tran.TriplesYsExtractor(negateTweet=True)
+testTriplesList = ed.transform(testTriples) 
+testFeatureExtract = features.fit_transform(testTriplesList) 
+    
+KLUEwordgrams.fit_transform(testTriplesList) 
+wordGramTest = ['your not_neg happy_neg :(_neg ']
+vectorizer = tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=1)
+wordgrams  = vectorizer.fit_transform(wordGramTest)
+vectorizer.vocabulary_
+KLUEstems.fit_transform(testTriplesList) 
+KLUEtokenCount.fit_transform(testTriplesList) 
+KLUEpolarity.fit_transform(testTriplesList) 
+KLUEemotiacro.fit_transform(testTriplesList)  
+#----------------            
+#GU-MLT
+GUMLTwordGrams = Pipeline([\
+            ('docs',tran.DocsExtractor(collapseTweet = True)),\
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 1) ,binary=True))])
+GUMLTstems = Pipeline([\
+            ('docs',tran.DocsExtractor(collapseTweet = True)),\
+            ('stems',tran.StemExtractor()),\
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 1) ,binary=True))])
+GUMLTpolarity = Pipeline([\
+            ('polarity-dict',tran.GUMLTsentiWordNetExtractor()),\
+            ('polarity-vec',tran.DictVectorizer())])
 
 
 #***********My features*************
@@ -194,9 +250,9 @@ KLUEemotiacro = Pipeline([\
 features = FeatureUnion([
             ('lex-man-feats',lexManualFeatures),
             ('lex-auto-feats',lexAutoFeatures),
-            ('word-gram-count',wordGramCount),
-            ('char-gram-count',charGramCount),
-            ('negate-feats',negateCounts),
+            ('word-gram-count',NRCwordgrams),
+            ('char-gram-count',NRCchargrams),
+            #('negate-feats',negateCounts),
             ('pos-count',posCounts),
             ('cmu-cluster',cmuClusterFeatures),
             #('emoti-cluster',emotiClusterFeatures),
@@ -211,21 +267,21 @@ features = FeatureUnion([
             #('my-feats',originalFeatures)
             ]) 
 
-#KLUE features
+
+
+#GM-MLT features
 features = FeatureUnion([
-            ('word-gram-count',KLUEwordgrams),
-            ('stem-gram-count',KLUEstems),
-            #('negate-feats',negateCounts),
+            ('word-gram-count',GUMLTwordGrams),
+            ('stem-gram-count',GUMLTstems ),
+            ('negate-feats',negateCounts),
             #('pos-count',posCounts),
-            #('cmu-cluster',cmuClusterFeatures),
+            ('cmu-cluster',cmuClusterFeatures),
             #('all-caps-count',allCapsCount),
             #('hashtags-count',hashTagCount),
             #('elong-count',elongatedWordCount),
             #('punctuation-feats',puncFeatures),
             #('emoti-feats',emotiFeatures),
-            ('klue-token-count', KLUEtokenCount),
-            ('klue-polarity', KLUEpolarity),
-            ('klue-emoti-acro', KLUEemotiacro),
+            ('gmmlt-polarity', GUMLTpolarity),
             #('my-feats',originalFeatures)
             ])
             
@@ -272,13 +328,16 @@ clfpipeline = Pipeline([\
 #Logistic Regression / MaxEnt with KLUE best settings
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = 0.3))])
+            ('clf',LogisticRegression(penalty = 'l1',C = .6))])
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l2',C = 0.05))])
+            ('clf',LogisticRegression(penalty = 'l2',C = .05))])
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = 0.5))])
+            ('clf',LogisticRegression(penalty = 'l2',C = 0.15))])
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l2',C = 0.5))])
 
 
 #random_forest
@@ -287,16 +346,16 @@ clfpipeline = Pipeline([\
             ('clf',RandomForestClassifier(n_estimators=10))])
             
 #SVM with NRC 2013 settings ---NOTE: No luck with results so far it always predicts neautral
-#clfpipeline = Pipeline([\
-#            ('features',features),
-#            ('clf',SVC(C=.005,kernel='rbf',probability=False))])
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',SVC(C=.005,kernel='linear',probability=False))])
-
+#clfpipeline = Pipeline([\
+#            ('features',features),
+#            ('clf',SVC(C=.5,kernel='linear',probability=False))])
+            
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LinearSVC(C=.05))])
+            ('clf',LinearSVC(C=.55))])
 
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
 def NRCtestingPipeline(clfpipeline,ysKeyName='sentiment_num',negateTweet = True):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
@@ -320,6 +379,7 @@ def NRCtestingPipeline(clfpipeline,ysKeyName='sentiment_num',negateTweet = True)
     predicted_ys = loadedpipe.predict(triplesList)
     print "Results DEV 2015"
     print helper.evaluateResults(expected_ys,predicted_ys)
+    
     ### TEST 2015
     inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
     data = helper.loadJSONfromFile(inFile)           
@@ -328,6 +388,7 @@ def NRCtestingPipeline(clfpipeline,ysKeyName='sentiment_num',negateTweet = True)
     predicted_ys = loadedpipe.predict(triplesList)
     print "Results TEST 2015"
     print helper.evaluateResults(expected_ys,predicted_ys)
+    
     ### TEST 2013
     inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
     data = helper.loadJSONfromFile(inFile)           
@@ -368,6 +429,7 @@ parameters = {
 #    'clf__penalty': ('l1','l2'),
 #    'clf__multi_class' : ('ovr', 'multinomial')
 #}
+
 if __name__ == "__main__":
     # multiprocessing requires the fork to happen in a __main__ protected
     # block
@@ -426,3 +488,27 @@ triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
 predicted_ys = loadedpipe.predict(triplesList)
 print "Results TEST 2013"
 print helper.evaluateResults(expected_ys,predicted_ys)
+
+#output 2013 predictions to file for semeval official scorer
+outFile = '2013-predicitons.json'         
+sentimentList = predicted_ys.tolist()
+#TODO: Create a fully working function out of this, needs to be tested
+#       Should also have error handling for when counts don't match
+#TODO: You could also add in topic classification here e.g. dict["topic_wx"] = topic_wx[count]
+count = 0 
+for dict in data:
+    keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
+    dict["sentiment_score"] = sentimentList[count]
+    count += 1
+
+goldFile = open('gold2013.tsv','w')
+predFile = open('pred2103.tsv','w')
+
+strScore = lambda score: "negative" if (score == -1) else ("positive" if (score == 1) else "neutral")
+for dict in data:
+    goldFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + dict["sentiment_orig"] + '\t' + dict["text"] + '\n')
+    predFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + strScore(dict["sentiment_score"]) + '\t' + dict["text"] + '\n')
+
+goldFile.close()
+predFile.close()
+helper.dumpJSONtoFile(outFile,data) 

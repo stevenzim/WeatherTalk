@@ -18,6 +18,7 @@ first = lambda x: (x[0])
 second = lambda x: (x[1])
 last = lambda x: (x[-1])
 lower = lambda x:  x.lower()
+upper = lambda x:  x.upper()
 greaterZeroBool = lambda x: True if (x>0.0) else False
 lessZeroBool = lambda x: True if (x<0.0) else False
 greaterZeroVal = lambda x: x if (x>0.0) else 0.0
@@ -40,11 +41,18 @@ class StemExtractor(BaseEstimator, TransformerMixin):
 
     def transform(self, listOfNormalisedDocs):
         '''with normalised tweets from docs extract, return stem strings in same format'''
+        #print "Stemmer"
+        #print listOfNormalisedDocs
         stemmedDocsList = []  #list of stemmed docs to output
         for doc in listOfNormalisedDocs:
             tokens = doc.split()
+            tokens=map(upper,tokens) #TODO:remove if this doesn't improve things
+            tokens = map(removeNegateStr,tokens) #TODO:remove if this doesn't improve things
+            tokens = map(lower,tokens) #TODO:remove if this doesn't improve things
             stems = map(lambda token: self.stemmer.stem(token),tokens)
             stemmedDocsList.append(' '.join(stems))
+        
+        #print stemmedDocsList
         return stemmedDocsList
 
 class TriplesYsExtractor(BaseEstimator, TransformerMixin):
@@ -66,6 +74,15 @@ class TriplesYsExtractor(BaseEstimator, TransformerMixin):
         posTag = tripleIn[1]
         score = tripleIn[2]
         tripleOut = []
+        
+        
+        
+        #TEST REMOVE IF THIS DOESN'T WORK!!!!!!!!!!!!
+        token = token.lower()
+        if (posTag == 'U') or (posTag == '@'):
+            #token = 'URL'
+            token = ''  
+            return [token,posTag,score]      
         
         #RE from christopherpotts
         negateRe = re.match(r'(?:never|no|nothing|nowhere|noone|none|not|\
@@ -92,6 +109,8 @@ class TriplesYsExtractor(BaseEstimator, TransformerMixin):
         #TODO: Rather than hard coding default keynames, perhaps change it to required args
         #       with an error thrown if keyname does not exist
         #global negativeBool
+        #print "TriplesYsExtractor" 
+        #print listOfDicts
         triplesList = [] #list of triples
         ysList = [] #list of expected ys
         
@@ -108,7 +127,9 @@ class TriplesYsExtractor(BaseEstimator, TransformerMixin):
             for dict in listOfDicts:
                 triplesList.append(dict[triplesKeyName])
                 if ysKeyName != None:
-                    ysList.append(dict[ysKeyName])                
+                    ysList.append(dict[ysKeyName])  
+        
+        #print triplesList             
         if ysKeyName != None:
             return triplesList, ysList  #we want to grab expected results
         else:
@@ -132,6 +153,8 @@ class DocsExtractor(BaseEstimator, TransformerMixin):
     def fit(self, x, y=None):
         return self
     def transform(self, listOfDocumentsWithTriples):
+        #print "DocsExtractor"
+        #print listOfDocumentsWithTriples
         normalisedDocsList = []  #list of docs to output
         for currentDocTriples in listOfDocumentsWithTriples:
             tokenList = []
@@ -150,14 +173,18 @@ class DocsExtractor(BaseEstimator, TransformerMixin):
                     token =  re.sub(r'\d', '0', token)  #replace all digits with 0 per GU-MLT-LT
                 if self.urlNormalise:
                     if triple[1] == 'U' :
-                        token = 'URL'
+                        #token = 'URL'
+                        token = ''
                 if self.userNameNormalise:
                     if triple[1] == '@' :
-                        token = 'USER' 
+#                        token = 'USER'
+                        token = '' 
                 if self.collapseTweet:  #replace 3 or more repeating characters with 2
                     token = collapseToken(token)
                 tokenList.append(token)
             normalisedDocsList.append(' '.join(tokenList))
+        
+        #print normalisedDocsList
         return normalisedDocsList
 
 
@@ -176,6 +203,8 @@ class ClusterExtractor(BaseEstimator, TransformerMixin):
     def fit(self, x, y=None):
         return self
     def transform(self, listOfDocumentsWithTriples):
+        #print "ClusterExtractor"  
+        #print listOfDocumentsWithTriples  
         clusterLexicon =  helper.loadLexicon('cmu-cluster-lex')
         clusterWords = set(clusterLexicon.keys())
         CMUclusterIDlist = []  #list of id strings concatenated together and to return, each item in list is one tweet
@@ -192,6 +221,9 @@ class ClusterExtractor(BaseEstimator, TransformerMixin):
                     tokenList.append(clusterLexicon[token])
                                 
             CMUclusterIDlist.append(' '.join(tokenList))
+            
+        
+        #print CMUclusterIDlist
         return CMUclusterIDlist
 
 
@@ -268,7 +300,8 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
     def transform(self, listOfTriples):
         '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
         NRC lexicon and options'''
-        
+        #print "NRC Lexicon Extract"
+        #print listOfTriples
         lastSentiScore = lambda x: last(x) if (len(x) >0) else 0.0
         self.lexicon =  helper.loadLexicon(self.lexicon,self.gramType)
 
@@ -286,6 +319,8 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
                             'min_score_neg': round(min(map(lessZeroVal,scores)),3),\
                             'score_last_neg':round(lastSentiScore(filter(lessZeroVal,scores)),3)}\
                             for scores in listOfScoresAllDocs]
+        
+        #print listOfFeatures
         return listOfFeatures
 
 class POScountExtractor(BaseEstimator, TransformerMixin):
@@ -295,7 +330,9 @@ class POScountExtractor(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, listOfTriples):
-        '''Transform list of Triples containing document/tweet triples to desired dictionary format of POS counts'''              
+        '''Transform list of Triples containing document/tweet triples to desired dictionary format of POS counts'''   
+        #print "POScountExtractor"
+        #print listOfTriples           
         listOfPOSdicts = []
         for tripleSetCurrentDoc in listOfTriples:
             #reset local POS dict
@@ -307,6 +344,8 @@ class POScountExtractor(BaseEstimator, TransformerMixin):
             for tag in docPOStags:
                 localPOSdict[tag] += 1
             listOfPOSdicts.append(localPOSdict)
+        
+        #print listOfPOSdicts
         return listOfPOSdicts
         
 
@@ -329,6 +368,8 @@ class negatedSegmentCountExtractor(BaseEstimator, TransformerMixin):
         '''Function to get the count of negation contexts in tweets, where a negation context is each time 
         a tweet switches not negative context to a negative context,an adaptation of code from 
        Webis: An Ensemble for Twitter Sentiment Detection (Hagen, MatthiasPotthast, MartinBuchner, Michel Stein, Benno'''
+        #print "negatedSegmentCountExtractor"
+        #print tripleSetCurrentDoc
         negatedTokenBools = map(lambda token: '_NEG' in token ,map(first, tripleSetCurrentDoc))
         negatedSegment = False
         negationCount = 0
@@ -352,6 +393,8 @@ class negatedSegmentCountExtractor(BaseEstimator, TransformerMixin):
             negatedContextCountDicts.append(
             {'negation_count':self.countNegatedContexts(tripleSetCurrentDoc)
             })
+        
+        #print negatedContextCountDicts
         return negatedContextCountDicts
       
 
@@ -471,9 +514,12 @@ class TokenCountExtractor(BaseEstimator, TransformerMixin):
 
     def transform(self, listOfTriples):
         '''Transform list of Triples to a list of counts of token'''      
+        #print "TokenCountExtractor"
+        #print listOfTriples
         tokenCountDicts = []
         for tripleSetCurrentDoc in listOfTriples:   
             tokenCountDicts.append({'token_count':len(tripleSetCurrentDoc)} )
+        #print tokenCountDicts
         return tokenCountDicts
 
 class KLUEpolarityExtractor(BaseEstimator, TransformerMixin):
@@ -484,6 +530,7 @@ class KLUEpolarityExtractor(BaseEstimator, TransformerMixin):
     """
     def __init__(self,lexicon='klue-afinn'):
         self.lexicon = lexicon
+        self.lex_orig = lexicon   #TODO:remove if this doesn't improve things
 
     def fit(self, x,y=None):
         return self
@@ -491,13 +538,16 @@ class KLUEpolarityExtractor(BaseEstimator, TransformerMixin):
     def transform(self, listOfTriples):
         '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
         KLUE polarity dictionary converter'''
-        
+        #print "KLUEpolarityExtractor"
+        #print listOfTriples
         self.lexicon = helper.loadLexicon(self.lexicon)
         keyNames = set(self.lexicon.keys()) 
         polarityFeatureDicts = []
         for tripleSetCurrentDoc in listOfTriples:
             tokens = map(first,tripleSetCurrentDoc)
-            tokens = map(removeNegateStr,tokens)
+            #TODO:remove if this doesn't improve things:
+            if self.lex_orig == 'klue-both':
+                tokens = map(removeNegateStr,tokens)
             tokens = map(lower,tokens)
             polarityScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tokens)
             posBools = map(greaterZeroBool,polarityScores)
@@ -513,6 +563,7 @@ class KLUEpolarityExtractor(BaseEstimator, TransformerMixin):
                                 'total_count_neg': numNeg,\
                                 'total_count_polar': numPos + numNeg,\
                                 'mean_polarity':meanScore})
+        #print polarityFeatureDicts
         return polarityFeatureDicts        
 
 #-----GUMLT FEATURES -----
