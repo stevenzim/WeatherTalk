@@ -13,6 +13,9 @@ from sklearn.feature_extraction.text import (CountVectorizer, TfidfTransformer, 
 
 from nltk.stem.porter import PorterStemmer
 
+import pprint
+
+
 #some useful f's for transformers
 first = lambda x: (x[0])
 second = lambda x: (x[1])
@@ -28,204 +31,182 @@ removeNegateStr = lambda token: token.replace('_NEG','')  #removes any negation 
 collapseToken = lambda token: re.sub(r'(.)\1+', r'\1\1', token) #collapse 3 or more characters down to 2
 
 
+class TweetTransformer(BaseEstimator, TransformerMixin):
+    '''
+    Represents one Tweet and saves some features and the preprocessed versions of the Tweet
+    adapted from Webis 2015 Semeval Java Code
 
-class StemExtractor(BaseEstimator, TransformerMixin):
-    '''stems tokens with porter stemmer
-        input should be docoument string produced by DocsExtractor e.g. 'lovely jubbly' will be split on spaces
-        '''
-    def __init__(self):
-        self.stemmer = PorterStemmer()
-        
-    def fit(self, x, y=None):
-        return self
-
-    def transform(self, listOfNormalisedDocs):
-        '''with normalised tweets from docs extract, return stem strings in same format'''
-        #print "Stemmer"
-        #print listOfNormalisedDocs
-        stemmedDocsList = []  #list of stemmed docs to output
-        for doc in listOfNormalisedDocs:
-            tokens = doc.split()
-            tokens=map(upper,tokens) #TODO:remove if this doesn't improve things
-            tokens = map(removeNegateStr,tokens) #TODO:remove if this doesn't improve things
-            tokens = map(lower,tokens) #TODO:remove if this doesn't improve things
-            stems = map(lambda token: self.stemmer.stem(token),tokens)
-            stemmedDocsList.append(' '.join(stems))
-        
-        #print stemmedDocsList
-        return stemmedDocsList
-
-class TriplesYsExtractor(BaseEstimator, TransformerMixin):
-    '''Provided a list of dictionaries containing triples created by Twitter NLP
-    --> return a list of TweetNLP triples representing each tweet
-    if option ysKeyname is provided, then list containing expected results is also returned
-    triplesList and ysList can be passed to pipeline
-    options - ykey = keyname containing expected results, necessary for training'''
-    def __init__(self,negateTweet = False):
-        self.negateTokenBool = False    #boolean value to determine whether current token should be negated if True then _NEG is attached to token
-        self.negateTweet = negateTweet #user specified, if True, then tokens for tweets will have negation run on them, otherwise false.
-
-    def setNegate(self,tripleIn):
-        '''Per multiple research papers, indications are that _NEG should be added to negated components of a tweet
-        Takes an NLP tripleset from tweet tagger and returns tripleset with _NEG added appropriately'''
-        #TODO: additional test for negation
-        #NOTE: hash symbols are not removed from front of corpus, which will add minor noise
-        token = tripleIn[0]
-        posTag = tripleIn[1]
-        score = tripleIn[2]
-        tripleOut = []
-        
-        
-        
-        #TEST REMOVE IF THIS DOESN'T WORK!!!!!!!!!!!!
-        token = token.lower()
-        if (posTag == 'U') or (posTag == '@'):
-            #token = 'URL'
-            token = ''  
-            return [token,posTag,score]      
-        
-        #RE from christopherpotts
-        negateRe = re.match(r'(?:never|no|nothing|nowhere|noone|none|not|\
-        havent|hasnt|hadnt|cant|couldnt|shouldnt|wont|\
-        wouldnt|dont|doesnt|didnt|isnt|arent|aint)$|.*nt$|.*n\'t$',lower(token))
-        if negateRe:
-            self.negateTokenBool = True
-        if self.negateTokenBool:  
-            endNegateRe = re.match(r'[.:;!?]$',token)
-            if endNegateRe:
-                self.negateTokenBool = False
-                return [token,posTag,score]
-            else:
-                token = token + '_NEG'
-                return [token,posTag,score]
-        else:
-            return [token,posTag,score]
-
-    def fit(self, x, y=None):
-        return self
-
-    def transform(self, listOfDicts ,\
-        triplesKeyName = "tagged_tweet_triples", ysKeyName=None):
-        #TODO: Rather than hard coding default keynames, perhaps change it to required args
-        #       with an error thrown if keyname does not exist
-        #global negativeBool
-        #print "TriplesYsExtractor" 
-        #print listOfDicts
-        triplesList = [] #list of triples
-        ysList = [] #list of expected ys
-        
-        if self.negateTweet:
-            #run negation if self.negateTweet = True
-            for dict in listOfDicts:
-                negatedTriples = map(lambda triple: self.setNegate(triple),dict[triplesKeyName])
-                triplesList.append(negatedTriples)
-                if ysKeyName != None:
-                    ysList.append(dict[ysKeyName])
-                self.negateTokenBool = False #reset negateTokenBool at the end of each tweet
-        else:
-            #don't run negation and just keep original tokens
-            for dict in listOfDicts:
-                triplesList.append(dict[triplesKeyName])
-                if ysKeyName != None:
-                    ysList.append(dict[ysKeyName])  
-        
-        #print triplesList             
-        if ysKeyName != None:
-            return triplesList, ysList  #we want to grab expected results
-        else:
-            return triplesList    #no expected results, therefore don't return ys
-
- 
-class DocsExtractor(BaseEstimator, TransformerMixin):
-    '''Provided a list of documents containing TweetNLP triples.  
-    Fully extract and normalize the text to string format necessary for Doc or Idf vectorizers
-    Per preprocessing from NRC, RTRGO, GU-MLT-LT
-    This is in preparation of n-gram extraction
-    You can pass in various normalizaion options
-    The output normalisedDocsList can then be passed to count or tfidf vectorizer'''
-    def __init__(self,lowercase=True,hashNormalise=True,digitNormalise=False,urlNormalise = True,userNameNormalise=True,collapseTweet = False):
-        self.lowercase = lowercase
+    This object is created for each tweet that passes through pipeline.  
+    This will be incorporated in the TriplesYsExtractor to initialize tweet representation for all 
+    following pipelines and feature unions
+    The optional params are
+    1  - user normalisation string - optional None removes token and any string will replace any username 
+            anything else is put in place. i.e. 'USER' will be put into token string (and thus included in unigram vocab)
+    2  - url normalisation string - optional None removes token and 
+            anything else is put in place. i.e. 'URL' will be put into token string (and thus included in unigram vocab)
+    3  - hashNormalise will remove #symbol from tweets
+    4  - digitNormalise will replace all digits with a 0
+    Expected param for tweet transformation is
+    1 - list of dicts containing original tweet text and extracted nlp triples
+    Optional params
+    1 - key name for triples list in dict if different from default
+    2 - key name for expected classes e.g. Ys.  default is None
+    '''
+    def __init__(self,userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False):
+        '''init object'''
+        #input params
+        self.userNorm = userNorm  #None removes token
+        self.urlNorm = urlNorm  #None removes
         self.hashNormalise = hashNormalise
         self.digitNormalise = digitNormalise
-        self.urlNormalise = urlNormalise
-        self.userNameNormalise = userNameNormalise
-        self.collapseTweet = collapseTweet
-    def fit(self, x, y=None):
-        return self
-    def transform(self, listOfDocumentsWithTriples):
-        #print "DocsExtractor"
-        #print listOfDocumentsWithTriples
-        normalisedDocsList = []  #list of docs to output
-        for currentDocTriples in listOfDocumentsWithTriples:
-            tokenList = []
-            negationCount = 0
-            negativeBool = False
-            for triple in currentDocTriples:
-                #normalise each token per RTRGO paper
-                #TODO: Could create different normalisation functions/options to try
-                #TODO: Create a test to verify this works
-                token = triple[0]
-                if self.lowercase:
-                    token = token.lower()
-                if self.hashNormalise:
-                    token = token.replace("#","")
-                if self.digitNormalise:
-                    token =  re.sub(r'\d', '0', token)  #replace all digits with 0 per GU-MLT-LT
-                if self.urlNormalise:
-                    if triple[1] == 'U' :
-                        #token = 'URL'
-                        token = ''
-                if self.userNameNormalise:
-                    if triple[1] == '@' :
-#                        token = 'USER'
-                        token = '' 
-                if self.collapseTweet:  #replace 3 or more repeating characters with 2
-                    token = collapseToken(token)
-                tokenList.append(token)
-            normalisedDocsList.append(' '.join(tokenList))
         
-        #print normalisedDocsList
-        return normalisedDocsList
+        #raw input vals
+        self.rawTweet = None          #the raw tweet text
+        self.cmuRawTextTriples = None #triples extracted from cmu tagger for raw text
+        self.raw_token_list = None
 
+        #normalised tweet vals
+        self.normalised_token_list = None
+        self.normalised_string = None
 
-class ClusterExtractor(BaseEstimator, TransformerMixin):
-    '''Provided a list of documents containing TweetNLP triples that may have been negated.  
-    Extract a list of CMU cluster IDs
-    As no python wrapper for the CMU tagger was found, this is a custom solution
-    For more about the CMU cluster tagger see: http://www.ark.cs.cmu.edu/TweetNLP/
-    The output CMUclusterIDlist can then be passed to count or tfidf vectorizer
-        lexicon was created from cmu cluster file.  3 steps give overview of how it was done.  Vocabulary file must be loaded into count/tfidf vectorizer for accurate counts
-        see convertCMUorig.py in resources/scripts/CMUclusterScript/
-        1- built a vocabulary to load into CountVectorizer should be 1000 cluster vals  Key = binary value Val = feature number
-        2- created a lexicon/dictionary with key = token and val equal to binary value
-        3- For each tweet build a string of binary cluster vals that can be split on string.split.   If token not in lexicon, add nothing to list
-    '''
-    def fit(self, x, y=None):
-        return self
-    def transform(self, listOfDocumentsWithTriples):
-        #print "ClusterExtractor"  
-        #print listOfDocumentsWithTriples  
-        clusterLexicon =  helper.loadLexicon('cmu-cluster-lex')
-        clusterWords = set(clusterLexicon.keys())
-        CMUclusterIDlist = []  #list of id strings concatenated together and to return, each item in list is one tweet
-        for currentDocTriples in listOfDocumentsWithTriples:
-            tokenList = []
-            for triple in currentDocTriples:
-                #normalise each token to match CMU expected format
-                token = triple[0]
-                token = removeNegateStr(token)
-                token = token.lower()
+        #tweet stems
+        self.stem_list = None
+        self.stem_string = None
+
+        #negated tweet vals
+        self.negated_list = None
+        self.negated_string = None
+        self.negated_count = None
+
+        #collapsed tokens of normalised tweet tokens
+        self.collapsed_token_list = None
+	    
+    def setNormalisedTweet(self):
+        '''sets normalised list and string value based on raw token list'''
+        updatedTokenList = []  
+        for triple in self.cmuRawTextTriples:
+            token = triple[0]
+            pos = triple[1]
+            if (pos =='@') and (self.userNorm == None):
+                continue
+            if (pos =='U') and (self.urlNorm == None):
+                continue            
+            if (pos =='@'):
+                token = self.userNorm
+            if (pos =='U'):
+                token = self.urlNorm    
+            if self.hashNormalise:
+                token = token.replace("#","")
+            if self.digitNormalise:
+                token =  re.sub(r'\d', '0', token)  #replace all digits with 0 per GU-MLT-LT
+            token = token.lower()
+            updatedTokenList.append(token)
+        self.normalised_token_list = updatedTokenList
+        self.normalised_string = ' '.join(updatedTokenList)
+        print self.normalised_token_list
+        print self.normalised_string
+    
+    def setTweetStems(self):
+        '''sets stems list and string values based on normalised token list'''
+        stemmer = PorterStemmer()
+        self.stem_list = map(lambda token: stemmer.stem(token),self.normalised_token_list)
+        self.stem_string = ' '.join(self.stem_list )
+        print self.stem_list
+        print self.stem_string
+       
+    def setTweetNegationVals(self):
+        '''sets negation list, string  and count values based on normalised token list  
+        Adaptation of negation count/feature extraction used in both NRC 2013/2014 Semeval submissions
+        Originally from Pang et al., 2002.  Regular expression from Christopher potts http://sentiment.christopherpotts.net/lingstruc.html.
+        Also helpful was Webis: An Ensemble for Twitter Sentiment Detection (Hagen, MatthiasPotthast, MartinBuchner, Michel Stein, Benno'''
+        negatedTokenList = []
+        negateTokenBool = False
+        negateCount = 0   
+        
+        for token in self.normalised_token_list:
+            #RE from christopherpotts
+            negateRe = re.match(r'(?:never|no|nothing|nowhere|noone|none|not|\
+            havent|hasnt|hadnt|cant|couldnt|shouldnt|wont|\
+            wouldnt|dont|doesnt|didnt|isnt|arent|aint)$|.*nt$|.*n\'t$',token)
+            if negateRe:
+                negateTokenBool = True
+            if negateTokenBool:  
+                endNegateRe = re.match(r'[.:;!?]$',token)
+                if endNegateRe:
+                    negateTokenBool = False
+                    negatedTokenList.append(token)
+                    negateCount += 1
+                else:
+                    token = token + '_NEG'
+                    negatedTokenList.append(token)
+            else:
+                negatedTokenList.append(token)    
                 
-                #get cluster id and update token
-                if token in clusterWords:
-                    tokenList.append(clusterLexicon[token])
-                                
-            CMUclusterIDlist.append(' '.join(tokenList))
-            
-        
-        #print CMUclusterIDlist
-        return CMUclusterIDlist
+        if (negateCount ==0) and (negateTokenBool ==True):
+            negateCount = 1   
 
+        self.negated_list = negatedTokenList
+        self.negated_string = ' '.join(negatedTokenList)
+        self.negated_count = negateCount
+        
+        print self.negated_list
+        print self.negated_string
+        print self.negated_count
+        
+    def setCollapsedTweetVals(self):
+        '''sets list of collapsed tokens based on normalised token list'''
+        self.collapsed_token_list = map(collapseToken,self.normalised_token_list)
+        print self.collapsed_token_list
+        
+
+    def getPipelineTweetDict(self):
+        '''Builds and returns the internal tweet representation for pipeline'''
+        self.setNormalisedTweet()
+        self.setTweetStems()
+        self.setTweetNegationVals()
+        self.setCollapsedTweetVals()
+        
+        pipelineTweet = {'nlp_triples' : self.cmuRawTextTriples,\
+                        'raw_string' : self.rawTweet,\
+                        'raw_token_list' : self.raw_token_list,\
+                        'pos_token_list' : map(second,self.cmuRawTextTriples),\
+                        'normalised_token_list' : self.normalised_token_list,\
+                        'normalised_string' : self.normalised_string,\
+                        'stem_list' : self.stem_list,\
+                        'stem_string' : self.stem_string,\
+                        'negated_token_list' : self.negated_list,\
+                        'negated_string' : self.negated_string,\
+                        'collapsed_token_list' : self.collapsed_token_list,\
+                        'negation_count' : self.negated_count,\
+                        'stanford_token_list' : None,\
+                        'stanford_pos_list' : None}
+        return pipelineTweet
+
+    def fit(self, x, y=None):
+        return self
+
+    def transform(self, listOfTweetsWithTriples,\
+        triplesKeyName = "tagged_tweet_triples", ysKeyName=None):
+            '''Transforms a set of tweets tagged with nlp triples to desired format for pipeline'''
+            transformedTweetList = []
+            expectedYsList =[]
+            for currentTweet in listOfTweetsWithTriples:
+                self.rawTweet = currentTweet['text']
+                self.cmuRawTextTriples = currentTweet[triplesKeyName]
+                self.raw_token_list = map(first,self.cmuRawTextTriples)
+                transformedTweetList.append(self.getPipelineTweetDict())
+                if ysKeyName != None:
+                    expectedYsList.append(dict[ysKeyName])   
+            
+#            pp = pprint.PrettyPrinter(indent=4)
+#            pp.pprint(transformedTweetList)
+            #print triplesList             
+            if ysKeyName != None:
+                #these values returned for when you are training model
+                return transformedTweetList, expectedYsList  #
+            else:
+                #values returned for unseen data with unknown classes
+                return transformedTweetList                                
 
 
 
@@ -233,12 +214,16 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
     """Extract lexical features from each document which can then be passed to DictVectorizer
     This transformer is an adaptation of papers/lexicons discussed in section 3 of
     http://www.saifmohammad.com/WebPages/lexicons.html
-    Pass in a list of tweets/document triples extracted from twitter NLP and return features proposed in paper.
-    Options include lexicon = NRCHash or NRC140, gramTypes = unigrams/bigrams/pairs, tagType = token,hashtag,caps"""
-    def __init__(self,lexicon,gramType = 'unigram',tagType = 'token'):
+    Pass in a list of transformed tweets and keyname containining tweet tokens in desired format 
+    and returns features proposed in paper.
+    Options include lexicon = NRCHash or NRC140, gramTypes = unigrams/bigrams/pairs, tagType = token,hashtag,caps
+    param tokenListKeyName is the key name in transformed tweet input that contains desired token format list """
+    def __init__(self,lexicon,gramType = 'unigram',tagType = 'token',tokenListKeyName = 'negated_token_list'):
         self.lexicon = lexicon
         self.gramType = gramType
         self.tagType = tagType
+        
+        self.tokenListKeyName = tokenListKeyName
 
     def window(self,seq, n=2):
         #Taken from example found here: from:https://docs.python.org/release/2.3.5/lib/itertools-example.html
@@ -252,63 +237,62 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
             result = result[1:] + (elem,)
             yield result
  
-    def getListOfTags(self,listOfTriples):
-        '''Provided list of document/tweet triples, return list of tags based on the gramType and tagType
+    def getListOfNgrams(self,transformedTweets):
+        '''Provided list of transformed tweets, return list of ngrams based on the gramType and tagType
         unigram will only extract single tokens, bigrams extracts window of tokens'''
         #TODO: gramType = pairs --> See details of this in "Sentiment Analysis of Short Informal Texts"
                # with unigrams and bigrams only, we get approx +.05 F-score, so perhaps this extra step will not provide a big gain, looking for quick wins
         #TODO: tagType = Caps, Hashtags
-               #I have not found anything specific to show how this is done, nor any specifics to show it will work
+               #Have not found anything specific to show how this is done, nor any specifics to show it will work
                #hence these features are low priority PERHAPS remove option all together
-        listOfTagsAllTriples = []
-        for tripleSetCurrentDoc in listOfTriples:
-            lowerTokens = map(lower,map(first, tripleSetCurrentDoc))
-            lowerTokens = map(lambda token: token.replace('_neg',''),lowerTokens)  #remove negation tags
+        ngramsAllTweets = []
+        for tweet in transformedTweets:
             if self.gramType == 'unigram':
-                listOfTagsAllTriples.append(lowerTokens)
+                ngramsAllTweets.append(tweet[self.tokenListKeyName])
             if self.gramType == 'bigram':
                 listOfBigrams = []
-                for terms in self.window(lowerTokens,n=2):
+                for terms in self.window(tweet[self.tokenListKeyName],n=2):
                     listOfBigrams.append(' '.join(terms))
-                listOfTagsAllTriples.append(listOfBigrams)
-        return listOfTagsAllTriples
+                ngramsAllTweets.append(listOfBigrams)
+        return ngramsAllTweets
                 
                    
-    def getListOfScores(self,listOfTagsAllDocs):
-        '''Provided list of document/tweet tags (e.g. unigrams extracted from set of document triples), 
+    def getListOfScores(self,listOfngramsAllTweets):
+        '''Provided list of document/tweet ngrams (e.g. unigrams extracted from set of transformed tweets), 
         return list of lexicon scores based on occurance in lexicon'''
-        listOfScoresAllDocs = []
+        listOfScoresAllTweets = []
         keyNames = set(self.lexicon.keys()) 
-        for tagsCurrentDoc in listOfTagsAllDocs:
-            currentDocScores = []
-            for tag in tagsCurrentDoc:
+        for tagsCurrentTweet in listOfngramsAllTweets:
+            currentTweetScores = []
+            for tag in tagsCurrentTweet:
                 if tag in keyNames:
-                    currentDocScores.append(self.lexicon[tag])
-            if currentDocScores ==[]:
-                #we need to put 0.0 for neutral score for none found and to prevent errors in further processing
-                listOfScoresAllDocs.append([0.0])
+                    currentTweetScores.append(self.lexicon[tag])
+            if currentTweetScores ==[]:
+                #put 0.0 for neutral score for none found... to prevent errors in further processing
+                listOfScoresAllTweets.append([0.0])
             else:
-                listOfScoresAllDocs.append(currentDocScores)
+                listOfScoresAllTweets.append(currentTweetScores)
+        
         #convert everything to float
-        return map(partial(map,float),listOfScoresAllDocs)
+        return map(partial(map,float),listOfScoresAllTweets)
   
                       
         
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples):
-        '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
+    def transform(self, transformedTweets):
+        '''Transform list of Tweets in internal format containing desired token format to retrieve desired
         NRC lexicon and options'''
         #print "NRC Lexicon Extract"
-        #print listOfTriples
+        #print transformedTweets
         lastSentiScore = lambda x: last(x) if (len(x) >0) else 0.0
         self.lexicon =  helper.loadLexicon(self.lexicon,self.gramType)
 
-        listOfTagsAllDocs = self.getListOfTags(listOfTriples)
-        listOfScoresAllDocs = self.getListOfScores(listOfTagsAllDocs)
+        ngramsAllTweets = self.getListOfNgrams(transformedTweets)  #a list of desired ngram for all tweets passed in
+        scoresAllTweets = self.getListOfScores(ngramsAllTweets)  #a list of scores for list of all ngrams passed in
                        
-        listOfFeatures = [{#pos scores
+        lexiconFeatures = [{#pos scores
                             'total_count_pos': len(filter(true,map(greaterZeroBool,scores))),\
                             'total_score_pos': round(sum(filter(greaterZeroVal,scores)),3),\
                             'max_score_pos': round(max(map(greaterZeroVal,scores)),3),\
@@ -318,184 +302,169 @@ class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
                             'total_score_neg': round(sum(filter(lessZeroVal,scores)),3),\
                             'min_score_neg': round(min(map(lessZeroVal,scores)),3),\
                             'score_last_neg':round(lastSentiScore(filter(lessZeroVal,scores)),3)}\
-                            for scores in listOfScoresAllDocs]
+                            for scores in scoresAllTweets]
         
-        #print listOfFeatures
-        return listOfFeatures
-
+        #print lexiconFeatures
+        return lexiconFeatures 
+        
+        
 class POScountExtractor(BaseEstimator, TransformerMixin):
     '''Adaptation of POS count features used in both NRC 2013/2014 Semeval submissions'''
+    #TODO: Future work would consider both boolean and count values, currently only counts returned
+    def __init__(self,posListKeyName = 'pos_token_list'):
+        self.posListKeyName= posListKeyName #name of key containing list of pos tags
 
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples):
-        '''Transform list of Triples containing document/tweet triples to desired dictionary format of POS counts'''   
+    def transform(self, transformedTweets):
+        '''Transform list of transformed tweets in containing list of POS tags, returns desired dictionary format of POS counts'''   
         #print "POScountExtractor"
-        #print listOfTriples           
+        #print transformedTweets           
         listOfPOSdicts = []
-        for tripleSetCurrentDoc in listOfTriples:
+        
+        for tweet in transformedTweets:
             #reset local POS dict
             localPOSdict = {'!': 0, '#': 0, '$': 0, '&': 0, ',': 0, 'A': 0,\
                 '@': 0, 'E': 0, 'D': 0, 'G': 0, 'M': 0, 'L': 0, \
                 'O': 0, 'N': 0, 'P': 0, 'S': 0, 'R': 0, 'U': 0,\
                  'T': 0, 'V': 0, 'Y': 0, 'X': 0, 'Z': 0, '^': 0, '~': 0}
-            docPOStags = map(second, tripleSetCurrentDoc)
-            for tag in docPOStags:
+            for tag in tweet[self.posListKeyName]:
                 localPOSdict[tag] += 1
             listOfPOSdicts.append(localPOSdict)
         
         #print listOfPOSdicts
         return listOfPOSdicts
         
-
-###---------------negation transformer -------------###
-
-
-class negatedSegmentCountExtractor(BaseEstimator, TransformerMixin):
-    '''Adaptation of negation count feature extraction used in both NRC 2013/2014 Semeval submissions
-    Originally from Pang et al., 2002.  Regular expression from Christopher potts http://sentiment.christopherpotts.net/lingstruc.html.
-    Also helpful was Webis: An Ensemble for Twitter Sentiment Detection (Hagen, MatthiasPotthast, MartinBuchner, Michel Stein, Benno
-    
-    FOR ACCURATE COUNT REQUIRES  TRIPLES YS TRANSFORMER TO BE RUN WITH negateTweet = True'''
+class NegationCountExtractor(BaseEstimator, TransformerMixin):
+    '''For full details of how negation count is created see setTweetNegationVals in TweetTransformer.
+    Returns list of dicts containing negation counts'''
     #TODO: Future work would further investigate with authors if the _NEG tag added to token was implemented with lexicons.  Based on research, there is no evidence this was implemented,
     #however wording in literature may indicate otherwise
     #NOTE: If you do want to include these in unigrams, perhaps consider adding the _NEG as a preprocessing step after NLP triple tagger
+    
+    def __init__(self,negationCountKeyName = 'negation_count'):
+        self.negationCountKeyName= negationCountKeyName #name of key containing negation count value
+        
     def fit(self, x,y=None):
         return self
         
-    def countNegatedContexts(self,tripleSetCurrentDoc):
-        '''Function to get the count of negation contexts in tweets, where a negation context is each time 
-        a tweet switches not negative context to a negative context,an adaptation of code from 
-       Webis: An Ensemble for Twitter Sentiment Detection (Hagen, MatthiasPotthast, MartinBuchner, Michel Stein, Benno'''
-        #print "negatedSegmentCountExtractor"
-        #print tripleSetCurrentDoc
-        negatedTokenBools = map(lambda token: '_NEG' in token ,map(first, tripleSetCurrentDoc))
-        negatedSegment = False
-        negationCount = 0
-        for curBool in negatedTokenBools:
-            if curBool:
-                negatedSegment = True
-            if negatedSegment:
-                if curBool == False:
-                    negationCount +=1
-                    negatedSegment = False
-        if negatedSegment:
-            #handle situation when no punctuation or end of tweet occurs
-            negationCount +=1
-
-        return negationCount
-
-    def transform(self, listOfTriples):
-        '''Transform list of Triples containing document/tweet triples to desired dictionary format of negated context counts'''              
-        negatedContextCountDicts = []
-        for tripleSetCurrentDoc in listOfTriples:
-            negatedContextCountDicts.append(
-            {'negation_count':self.countNegatedContexts(tripleSetCurrentDoc)
-            })
+    def transform(self, transformedTweets):
+        '''Transform list of transformed tweets in containing list of POS tags, returns desired dictionary format of POS counts'''   
+        #print "NegationcountExtractor"
+        #print transformedTweets           
+        listOfNegationCountdicts = []
         
-        #print negatedContextCountDicts
-        return negatedContextCountDicts
-      
-
+        for tweet in transformedTweets:
+            listOfNegationCountdicts.append( {self.negationCountKeyName: tweet[self.negationCountKeyName]})
+        
+        #print listOfNegationCountdicts
+        return listOfNegationCountdicts
+        
 ###---------------encoding transformers-------------###
-class capsCountExtractor(BaseEstimator, TransformerMixin):
+class CapsCountExtractor(BaseEstimator, TransformerMixin):
     '''Adaptation of Capital count features used in both NRC 2013/2014 Semeval submissions
     Should count the total number of all caps words including hashtags for each tweet'''
-
+    def __init__(self,tokenListKeyName= 'raw_token_list'):
+        self.tokenListKeyName= tokenListKeyName #name of key containing tokens to search/count all caps
+        
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples):
+    def transform(self, transformedTweets):
         '''Transform list of Triples containing document/tweet triples to desired dictionary format of capitilized token counts'''      
-     
         capsCountDicts = []
-        for tripleSetCurrentDoc in listOfTriples:   
-            capsCountDicts.append({'total_count_caps':len(filter(lambda x: x.isupper(), map(first, tripleSetCurrentDoc)))} )
+        for tweet in transformedTweets:   
+            capsCountDicts.append({'total_count_caps':len(filter(lambda x: x.isupper(), tweet[self.tokenListKeyName]))} )
         return capsCountDicts
 
 
-class hashCountExtractor(BaseEstimator, TransformerMixin):
+class HashCountExtractor(BaseEstimator, TransformerMixin):
     '''Adaptation of hashtag counts used in both NRC 2013/2014 Semeval submissions
     Should count the total number of hashtags for each tweet'''
+    def __init__(self,posListKeyName= 'pos_token_list'):
+        self.posListKeyName= posListKeyName #name of key containing tokens to search/count all caps
 
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples):
+    def transform(self, transformedTweets):
         '''Transform list of Triples containing document/tweet triples to desired dictionary format of hashtag counts'''              
         hashtagCountDicts = []
-        for tripleSetCurrentDoc in listOfTriples:
-            hashtagCountDicts.append({'total_count_hash':len(filter(lambda x: x=='#', map(second, tripleSetCurrentDoc)))})
+        for tweet in transformedTweets:
+            hashtagCountDicts.append({'total_count_hash':len(filter(lambda x: x=='#', tweet[self.posListKeyName]))})
         return hashtagCountDicts
 
-class elongWordCountExtractor(BaseEstimator, TransformerMixin):
+class ElongWordCountExtractor(BaseEstimator, TransformerMixin):
     '''Adaptation of elongated word counts used in both NRC 2013/2014 Semeval submissions
-    Should count the total number of words with more than 2 consecutive same characters (e.g. wooorld matchs, woorld does not) for each tweet'''
+    Should count the total number of words with more than 2 consecutive same characters (e.g. wooorld matches, woorld does not) for each tweet'''
+    def __init__(self,tokenListKeyName= 'normalised_token_list'):
+        self.tokenListKeyName= tokenListKeyName #name of key containing tokens to search/count all elongated words
 
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples):
-        '''Transform list of Triples containing document/tweet triples to desired dictionary format of elongated counts'''              
+    def transform(self, transformedTweets):
+        '''Transform list of Triples containing document/tweet tokens to desired dictionary format of elongated counts'''              
         elongCountDicts = []
         regex = re.compile(r'(\w)\1{2,}')  #regex to match 3 or more repeating chars e.g. 'helllo' but not 'hello'
-        for tripleSetCurrentDoc in listOfTriples:
-            elongCountDicts.append({'total_count_elong':len(filter(lambda token: token if ((regex.search(token)) !=None) else None,map(first, tripleSetCurrentDoc)))})
+        for tweet in transformedTweets:
+            elongCountDicts.append({'total_count_elong':len(filter(lambda token: token if ((regex.search(token)) !=None) else None,tweet[self.tokenListKeyName]))})
         return elongCountDicts
         
 
-class punctuationFeatureExtractor(BaseEstimator, TransformerMixin):
+class PunctuationFeatureExtractor(BaseEstimator, TransformerMixin):
     '''Adaptation of punctuation feature extraction used in both NRC 2013/2014 Semeval submissions
     Should return counts where !!,!?,?? or more consecutive ! & ? occur and True if last token contains ! and True if last token contains ?'''
-
+    def __init__(self,tokenListKeyName= 'normalised_token_list'):
+        self.tokenListKeyName= tokenListKeyName #name of key containing tokens to search/count punctuation features
+        
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples):
-        '''Transform list of Triples containing document/tweet triples to desired dictionary format of elongated counts'''              
+    def transform(self, transformedTweets):
+        '''Transform list of Triples containing document/tweet tokens to desired dictionary format of elongated counts'''              
         punctuationCountDicts = []
         reExclaim = re.compile(r'!{2,}')  #regex to match consecutive exclamation marks
         reQuest = re.compile(r'\?{2,}')  #regex to match consecutive question marks
         reBoth = re.compile(r'(!\?|\?!){1,}')  #regex to match consecutive question marks
-        for tripleSetCurrentDoc in listOfTriples:
+        for tweet in transformedTweets:
             punctuationCountDicts.append(
-            {'count_contig_seq_exclaim':len(filter(lambda token: token if ((reExclaim.search(token)) !=None) else None,map(first, tripleSetCurrentDoc))),
-            'count_contig_seq_question':len(filter(lambda token: token if ((reQuest.search(token)) !=None) else None,map(first, tripleSetCurrentDoc))),
-            'count_contig_seq_both':len(filter(lambda token: token if ((reBoth.search(token)) !=None) else None,map(first, tripleSetCurrentDoc))),
-            'last_toke_contain_quest':'?' in first(last(tripleSetCurrentDoc)),
-            'last_toke_contain_exclaim':'!' in first(last(tripleSetCurrentDoc))
+            {'count_contig_seq_exclaim':len(filter(lambda token: token if ((reExclaim.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
+            'count_contig_seq_question':len(filter(lambda token: token if ((reQuest.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
+            'count_contig_seq_both':len(filter(lambda token: token if ((reBoth.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
+            'last_toke_contain_quest':'?' in last(tweet[self.tokenListKeyName]),
+            'last_toke_contain_exclaim':'!' in last(tweet[self.tokenListKeyName])
             })
         return punctuationCountDicts
 
 
-
-class NRCemoticonExtractor(BaseEstimator, TransformerMixin):
-    """Extract emoticon features from each document which can then be passed to DictVectorizer
+#emoticon lexicons
+class EmoticonExtractor(BaseEstimator, TransformerMixin):
+    """Extract emoticon features from each tweet which can then be passed to DictVectorizer
     This transformer is an adaptation of papers/lexicons discussed in section 3 of
     http://www.saifmohammad.com/WebPages/lexicons.html
     Pass in a list of tweets/document triples extracted from twitter NLP and return emoticon features proposed in paper.
     NOTE: The KLUE emoticon dictionary has been used for these features as NRC authors did not provide a clear enough dictionary for 
     identifying pos/neg emoticons"""
-    def __init__(self,lexicon):
-        self.lexicon = lexicon
+    #TODO: Future work would try the regular expression used in Webis paper rather than lexicon
+    def __init__(self,lexicon,tokenListKeyName= 'raw_token_list'):
+        self.lexicon = lexicon #name of lexicon to use
+        self.tokenListKeyName= tokenListKeyName #name of key containing tokens to search/count emoticon features
 
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples):
-        '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
-        NRC lexicon and options'''
+    def transform(self, transformedTweets):
+        '''Transform list of Triples containing document/tweet tokens to desired vector format for specificied
+         lexicon and options'''
         
         self.lexicon = helper.loadLexicon(self.lexicon)
         keyNames = set(self.lexicon.keys()) 
         
- 
         emoticonFeatureDicts = []
-        for tripleSetCurrentDoc in listOfTriples:
-            tokens = map(first,tripleSetCurrentDoc)
-            tokens = map(removeNegateStr,tokens)
-            emoticonScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tokens)
+        for tweet in transformedTweets:
+            emoticonScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tweet[self.tokenListKeyName])
             posBools = map(greaterZeroBool,emoticonScores)
             negBools = map(lessZeroBool,emoticonScores)  
             emoticonFeatureDicts.append({'positive_emoticon_present': any(posBools),\
@@ -503,22 +472,58 @@ class NRCemoticonExtractor(BaseEstimator, TransformerMixin):
                                 'last_emoticon_pos': last(posBools),\
                                 'last_emoticon_neg':last(negBools)})
         return emoticonFeatureDicts
-
+        
+#clusters
+class ClusterExtractor(BaseEstimator, TransformerMixin):
+    '''Provided a list of transformed tweets  
+    Extract a list of CMU cluster IDs
+    As no python wrapper for the CMU tagger was found, this is a custom solution
+    For more about the CMU cluster tagger see: http://www.ark.cs.cmu.edu/TweetNLP/
+    The output CMUclusterIDlist can then be passed to count or tfidf vectorizer
+        The lexicon was created from cmu cluster file.  3 steps give overview of how it was done.  Vocabulary file must be loaded into count/tfidf vectorizer for accurate counts
+        see convertCMUorig.py in resources/scripts/CMUclusterScript/
+        1- built a vocabulary to load into CountVectorizer should be 1000 cluster vals  Key = binary value Val = feature number
+        2- created a lexicon/dictionary with key = token and val equal to binary value
+        3- For each tweet build a string of binary cluster vals that can be split on string.split.   If token not in lexicon, add nothing to list
+    '''
+    def __init__(self,tokenListKeyName= 'normalised_token_list'):
+        self.tokenListKeyName= tokenListKeyName #name of key containing tokens to search for cluster ids, raw_token_list etc are also valid options
+        
+    def fit(self, x, y=None):
+        return self
+        
+    def transform(self, transformedTweets):
+        #print "ClusterExtractor"  
+        #print transformedTweets  
+        clusterLexicon =  helper.loadLexicon('cmu-cluster-lex')
+        clusterWords = set(clusterLexicon.keys())
+        CMUclusterIDlist = []  #list of id strings concatenated together and to return, each item in list is one tweet
+        for tweet in transformedTweets:
+            currentClusterList = []
+            for token in tweet[self.tokenListKeyName]:
+                if token in clusterWords:
+                    currentClusterList.append(clusterLexicon[token])
+            CMUclusterIDlist.append(' '.join(currentClusterList))
+        #print CMUclusterIDlist
+        return CMUclusterIDlist
+        
 #------KLUE FEATURES -----
 #----token count----
 class TokenCountExtractor(BaseEstimator, TransformerMixin):
     '''KLUE paper used token counts as feature, hence here it is implement.  Simply take the length of tweet triple.'''
-
+    def __init__(self,tokenListKeyName= 'normalised_token_list'):
+        self.tokenListKeyName= tokenListKeyName #name of key containing tokens to count
+        
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples):
+    def transform(self, transformedTweets):
         '''Transform list of Triples to a list of counts of token'''      
         #print "TokenCountExtractor"
-        #print listOfTriples
+        #print transformedTweets
         tokenCountDicts = []
-        for tripleSetCurrentDoc in listOfTriples:   
-            tokenCountDicts.append({'token_count':len(tripleSetCurrentDoc)} )
+        for tweet in transformedTweets: 
+            tokenCountDicts.append({'token_count':len(tweet[self.tokenListKeyName])} )
         #print tokenCountDicts
         return tokenCountDicts
 
@@ -528,28 +533,25 @@ class KLUEpolarityExtractor(BaseEstimator, TransformerMixin):
     Pass in a list of tweets/document triples extracted from twitter NLP and desired polarity features for
     AFINN lexicon. Note: optional lexicons also include klue-both, klue-emoticon and klue-acronym.
     """
-    def __init__(self,lexicon='klue-afinn'):
+    def __init__(self,lexicon='klue-afinn',tokenListKeyName= 'stem_list'):
         self.lexicon = lexicon
         self.lex_orig = lexicon   #TODO:remove if this doesn't improve things
+        self.tokenListKeyName= tokenListKeyName #name of key containing tokens to search lexicon default is stem_list per Webis paper, raw_token_list etc are also valid options
+
 
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples):
-        '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
+    def transform(self, transformedTweets):
+        '''Transform list of tweets containing specified tweet tokens to desired vector format for specificied
         KLUE polarity dictionary converter'''
         #print "KLUEpolarityExtractor"
-        #print listOfTriples
+        #print transformedTweets
         self.lexicon = helper.loadLexicon(self.lexicon)
         keyNames = set(self.lexicon.keys()) 
         polarityFeatureDicts = []
-        for tripleSetCurrentDoc in listOfTriples:
-            tokens = map(first,tripleSetCurrentDoc)
-            #TODO:remove if this doesn't improve things:
-            if self.lex_orig == 'klue-both':
-                tokens = map(removeNegateStr,tokens)
-            tokens = map(lower,tokens)
-            polarityScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tokens)
+        for tweet in transformedTweets:
+            polarityScores = map(lambda token: self.lexicon[token] if (token in keyNames)  else 0.0 ,tweet[self.tokenListKeyName])
             posBools = map(greaterZeroBool,polarityScores)
             negBools = map(lessZeroBool,polarityScores)  
             numPos = len(filter(true,posBools))
@@ -564,96 +566,30 @@ class KLUEpolarityExtractor(BaseEstimator, TransformerMixin):
                                 'total_count_polar': numPos + numNeg,\
                                 'mean_polarity':meanScore})
         #print polarityFeatureDicts
-        return polarityFeatureDicts        
-
+        return polarityFeatureDicts   
+        
 #-----GUMLT FEATURES -----
 class GUMLTsentiWordNetExtractor(BaseEstimator, TransformerMixin):
     """
-    Converts a list of post nlp tagging tokens into total positive and total negative scores retrieved from SentiWordNEt lexicon
+    Converts a list of transformed tweet token lists into total positive and total negative scores retrieved from SentiWordNEt lexicon
     Per GUMLT Semeval 2013 and Webis 2015 papers
     """
-    def __init__(self,lexicon='SentiWord'):
+    def __init__(self,lexicon='SentiWord',tokenListKeyName= 'negated_token_list'):
         self.lexicon = lexicon
+        self.tokenListKeyName= tokenListKeyName #name of key containing tokens to search lexicon
 
     def fit(self, x,y=None):
         return self
 
-    def transform(self, listOfTriples):
-        '''Transform list of Triples containing document/tweet triples to desired vector format for specificied
+    def transform(self, transformedTweets):
+        '''Transform list transformed tweets containing specified token list to desired vector format for specificied
         GUMLT format'''
-        
         self.lexicon = helper.loadLexicon(self.lexicon)
         keyNames = set(self.lexicon.keys()) 
         polarityFeatureDicts = []
-        for tripleSetCurrentDoc in listOfTriples:
-            tokens = map(first,tripleSetCurrentDoc)
-            tokens = map(removeNegateStr,tokens)
-            tokens = map(lower,tokens)
-            tokens = map(collapseToken,tokens)
-            posPolarityScores = map(lambda token: self.lexicon[token+'+'] if ((token+'+') in keyNames)  else 0.0 ,tokens)
-            negPolarityScores = map(lambda token: self.lexicon[token+'-'] if ((token+'-') in keyNames)  else 0.0 ,tokens)
+        for tweet in transformedTweets:
+            posPolarityScores = map(lambda token: self.lexicon[token+'+'] if ((token+'+') in keyNames)  else 0.0 ,tweet[self.tokenListKeyName])
+            negPolarityScores = map(lambda token: self.lexicon[token+'-'] if ((token+'-') in keyNames)  else 0.0 ,tweet[self.tokenListKeyName])
             polarityFeatureDicts.append({'sum_pos': sum(posPolarityScores),\
                                 'sum_neg': sum(negPolarityScores)})
-        return polarityFeatureDicts   
-    
-#--------prototype stuff-------------        
-class TextFeaturesExtractor(BaseEstimator, TransformerMixin):
-    """Extract features from each document which can then be passed to DictVectorizer
-    NOTE: you can pass in list of keys to drop, where key name is representitive of features
-    you don't want"""
-    #TODO: Dealwith/Debug situation when no additional features will be added
-    #      fit transform does not like it when all features are removed.
-    #      WORKAROUND IS TO REMOVE THIS STEP FROM PIPELINE
-    def __init__(self,keysToDrop=[]):
-        #added this to allow for grid search to work.  Per discussuion:
-        # http://stackoverflow.com/questions/23174964/how-to-gridsearch-over-transform-arguments-within-a-pipeline-in-scikit-learn
-        # BaseEstimator requires __init__ in order for GridSearchCV to iterate over passed in params
-        self.keysToDrop = keysToDrop
-    
-    def boolTest(self, docTripleSet,tripleIdx,stringToTest):
-        '''
-        docTripleSet = tripleSet for current document
-        tripleIdx --> 0 = token, 1 = POS tag, 2 = confidence
-        itemToTest --> Will test if this string exist in current document tokens/POS_TaggedText
-        breaks out when True occurs
-        '''
-        #TODO: change this to re.search and also consider adding functionality for confidence score
-        #TODO: optionally consider adding in exception error for confidence score to prevent it from being used
-        for triple in docTripleSet:
-            if triple[tripleIdx] == stringToTest:
-                return True
-                break
-        return False
-            
-
-    def fit(self, x,y=None):
-        return self
-
-    def transform(self, listOfTriples,keysToDrop=[]):
-        if keysToDrop != []:
-            self.keysToDrop = keysToDrop
-            
-        listOfStats = [{'questmark_present': self.boolTest(tripleSetCurrentDoc,0,'?'),\
-                    'urloremail_present': self.boolTest(tripleSetCurrentDoc,1,'U'),\
-                    "hashtag_present":self.boolTest(tripleSetCurrentDoc,1,'#')}\
-                     for tripleSetCurrentDoc in listOfTriples]
-        listToReturn = helper.dropKeysVals(listOfStats, self.keysToDrop)
-        return listToReturn        
-class CustomCountVectorizer(BaseEstimator, TransformerMixin):
-    '''
-    Custom count vectorizer IDEALLY allows for vocabulary to be accessed after pipeline.transform is runs
-    Still struggling with how to do this.
-    '''
-    #TODO: REMOVE THIS WHEN PROTOTYPE COMPLETE
-    def __init__(self,ngram_range=(1, 1),vocabulary=None,norm='l2'):
-        self.countVec =  CountVectorizer(analyzer=string.split, min_df=1,\
-                            ngram_range = ngram_range,vocabulary=vocabulary)
-        self.ngramArray = None
-        self.vocabulary = None
-    def fit(self, x, y=None):
-        return self
-    def transform(self, listOfDocs):
-        self.ngramArray = self.countVec.fit_transform(listOfDocs)
-        self.vocabulary = self.countVec.vocabulary_
-        return self.ngramArray, self.vocabulary
-
+        return polarityFeatureDicts

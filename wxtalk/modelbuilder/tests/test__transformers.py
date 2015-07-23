@@ -2,95 +2,82 @@ from nose.tools import *
 from wxtalk.modelbuilder import transformers
 from wxtalk import helper
 
+testRawTweet1 = "Your Not happy :( @user"
+testTriple1 = [{"tagged_tweet_triples":[['Your', 'L', 0.7166], ['Not', 'R', 0.9968], ['happy', 'A', 0.9872], [':(', 'E', 0.955], ['@user', '@', 0.9974]],\
+                "text":testRawTweet1}]
+testExpected1 = [{'nlp_triples' : testTriple1[0]["tagged_tweet_triples"],\
+                'raw_string' : testRawTweet1,\
+                'raw_token_list' : ['Your', 'Not', 'happy', ':(', '@user'],\
+                'pos_token_list' : ['L', 'R', 'A', 'E', '@'],\
+                'normalised_token_list' : ['your', 'not', 'happy', ':('],\
+                'normalised_string' : 'your not happy :(',\
+                'stem_list' : ['your', 'not', 'happi', ':('],\
+                'stem_string' : 'your not happi :(',\
+                'negated_token_list' : ['your', 'not_NEG', 'happy_NEG', ':(_NEG'],\
+                'negated_string' : 'your not_NEG happy_NEG :(_NEG',\
+                'collapsed_token_list' : ['your', 'not', 'happy', ':('],\
+                'negation_count' : 1,\
+                'stanford_token_list' : None,\
+                'stanford_pos_list' : None}]
+                
 
-    
+                
+testRawTweet2 = "I am happpppppyyyyyy"
+testTriple2 = [{"tagged_tweet_triples":[['I', 'L', 0.7166], ['am', 'R', 0.9968], ['happpppppyyyyyy', 'A', 0.9872]],\
+                "text":testRawTweet2}]   
+testExpected2 = [{'nlp_triples' : testTriple2[0]["tagged_tweet_triples"],\
+                'raw_string' : testRawTweet2,\
+                'raw_token_list' : ['I', 'am', 'happpppppyyyyyy'],\
+                'pos_token_list' : ['L', 'R', 'A'],\
+                'normalised_token_list' : ['i', 'am', 'happpppppyyyyyy'],\
+                'normalised_string' : "i am happpppppyyyyyy",\
+                'stem_list' : ['i', 'am', 'happpppppyyyyyy'],\
+                'stem_string' : "i am happpppppyyyyyy",\
+                'negated_token_list' : ['i', 'am', 'happpppppyyyyyy'],\
+                'negated_string' : "i am happpppppyyyyyy",\
+                'collapsed_token_list' : ['i', 'am', 'happyy'],\
+                'negation_count' : 0,\
+                'stanford_token_list' : None,\
+                'stanford_pos_list' : None}]
 
-def test_porter_stemmer():
-    '''Test porter stemmer'''
-    doc = ['lovely jubbly']
-    d = transformers.StemExtractor()
-    #test1 1 doc
-    stems = d.transform(doc)
-    assert_equal(stems,['love jubbl'])
-    #test1 2 docs
-    stems = d.transform([doc[0],doc[0]])
-    assert_equal(stems,['love jubbl','love jubbl'])
-
-
-listOfDicts = [{'doc': 'abc', 'triple': [0,5,6],'expect':True},\
-                 {'doc': 'def', 'triple': [1,2,3],'expect':False}]
-listOfTriples1 = [[['?',',',.9]],\
-                   [['hello','#',.9],['http://you.com','U',.9]]] #doc 2
-doc1features = {"questmark_present":True,
-                "urloremail_present":False,
-                "hashtag_present":False}
-doc2features = {"questmark_present":False,
-                "urloremail_present":True,
-                "hashtag_present":True}
-listOfDocsFeats = [doc1features,doc2features]
-
-listOfTriples2 = [[['#Hello','#',.9],['Woorrlld','N',.9]]]
-listOfTriples3 = [listOfTriples2[0],listOfTriples2[0]]
-
-listOfTriplesURL = [[['https://hello.com','U',.9],['http://hello.com','U',.9]]]
-listOfTriplesUSER = [[['@me','@',.9],['@you','@',.9]]]
-
-triplesToNegate1 = [{"tagged_tweet_triples":[['No','a',.9],['!','.',.9],['Yes','a',.9],['snow','a',.9],['!','.',.9]]}]
-expectedNegation1 =[[['No_NEG','a',.9],['!','.',.9],['Yes','a',.9],['snow','a',.9],['!','.',.9]]]
-
-def test_triples_and_ys_extractor():
-    '''test to confirm triples and ys(expected output) are correctly extracted from list of dicts'''
-    #test 1, triples only
-    d = transformers.TriplesYsExtractor()
-    triples = d.transform(listOfDicts,'triple')
-    assert_equal(triples,[[0,5,6],[1,2,3]])
-    #test 2, triples and ys
-    d = transformers.TriplesYsExtractor()
-    triples, ys = d.transform(listOfDicts,'triple','expect')
-    assert_equal(triples,[[0,5,6],[1,2,3]])
-    assert_equal(ys,[True,False])
-    #test 3, negate tokens intriples and ys
-    d = transformers.TriplesYsExtractor(negateTweet=True)
-    triples= d.transform(triplesToNegate1)
-    assert_equal(triples,expectedNegation1)
-
-
-def test_docs_extractor():
-    '''Test to confirm list of normalised docs are returned provided triples containing tokens'''
-    d = transformers.DocsExtractor()
-    #no docs test
-    assert_equal(d.transform([]),[])
-    #single doc test
-    assert_equal(d.transform(listOfTriples2),['hello woorrlld'])
-    #multiple docs test
-    assert_equal(d.transform(listOfTriples3),['hello woorrlld','hello woorrlld'])    
-    #URL test
-    assert_equal(d.transform(listOfTriplesURL),['URL URL'])
-    #USER test
-    assert_equal(d.transform(listOfTriplesUSER),['USER USER'])
-
-def test_text_features_extractor():
-    '''test to confirm features are correctly extracted from triples'''
-    d = transformers.TextFeaturesExtractor()
-    featureDict = d.transform(listOfTriples1)
-    #test1 - all features test
-    assert_equal(featureDict[0],listOfDocsFeats[0]) #doc1 has question mark
-    assert_equal(featureDict[1],listOfDocsFeats[1]) #doc2 has url and hashtag
-    #test2 -question and urlemail removed
-    featureDict = d.transform(listOfTriples1,['questmark_present',"urloremail_present"])
-    assert_equal(featureDict[0],{"hashtag_present":False})
-    assert_equal(featureDict[1],{"hashtag_present":True})
+testRawTweet3 = "Your Not happy :( @user"
+testTriple3 = [{"tagged_tweet_triples":[['Your', 'L', 0.7166], ['Not', 'R', 0.9968], ['happy', 'A', 0.9872], [':(', 'E', 0.955], ['@user', '@', 0.9974]],\
+                "text":testRawTweet3}]  
+testExpected3 = [{'nlp_triples' : testTriple3[0]["tagged_tweet_triples"],\
+                'raw_string' : testRawTweet3,\
+                'raw_token_list' : ['Your', 'Not', 'happy', ':(', '@user'],\
+                'pos_token_list' : ['L', 'R', 'A', 'E', '@'],\
+                'normalised_token_list' : ['your', 'not', 'happy', ':(','user'],\
+                'normalised_string' : 'your not happy :( user',\
+                'stem_list' : ['your', 'not', 'happi', ':(','user'],\
+                'stem_string' : 'your not happi :( user',\
+                'negated_token_list' : ['your', 'not_NEG', 'happy_NEG', ':(_NEG','user_NEG'],\
+                'negated_string' : 'your not_NEG happy_NEG :(_NEG user_NEG',\
+                'collapsed_token_list' : ['your', 'not', 'happy', ':(','user'],\
+                'negation_count' : 1,\
+                'stanford_token_list' : None,\
+                'stanford_pos_list' : None}]
 
 
-####----lexicon tests
-listOfTriples4 = [[['#Hello','#',.9],['world','N',.9]]]
-listOfTriples5 = [[['ADORE','V',.9],['him','N',.9],['back','N',.9]]]
-listOfNegatedTriples4 = [[['#Hello_NEG','#',.9],['world_NEG','N',.9]]]
-listOfNegatedTriples5 = [[['ADORE_NEG','V',.9],['him_NEG','N',.9],['back_NEG','N',.9]]]
+def test_tweet():
+    '''Test to ensure tweet representation is properly built and returned'''
+    #test 1 - everything + no user / no url in return
+    t = transformers.TweetTransformer(userNorm = None,urlNorm = None)
+    assert_equal(t.transform(testTriple1),testExpected1)
+    #test 2 - everything + collapsing
+    t = transformers.TweetTransformer(userNorm = '',urlNorm = '')
+    assert_equal(t.transform(testTriple2),testExpected2)
+    #test 3 - everything + url/user normalised to USER/URL(note, same functionality so only testing user switch
+    t = transformers.TweetTransformer(userNorm = 'USER',urlNorm = 'URL')
+    assert_equal(t.transform(testTriple3),testExpected3)
 
-####manual lexicons
-#bing and liu / listOfTriples5
-#    "adore": 1.0,
+#----------------------lexicon tests
+
+transformedTweets1 = [{'negated_token_list':['adore','him','back']}]
+transformedTweets2 = [{'negated_token_list':['#hello','world']}]
+#-------------manual lexicons
+##bing and liu / transformedTweets1
+##    "adore": 1.0,
 bingLiuFeatures ={'total_count_pos':1,
                  'total_score_pos':1.0,
                  'max_score_pos':1.0,
@@ -99,9 +86,9 @@ bingLiuFeatures ={'total_count_pos':1,
                  'total_score_neg':0.0,
                  'min_score_neg':0.0,
                  'score_last_neg':0.0}
-#MPQA / listOfTriples5
-#    "adore": 1.0,
-#    "back": 1.0,
+##MPQA / transformedTweets1
+##    "adore": 1.0,
+##    "back": 1.0,
 mpqaFeatures ={'total_count_pos':2,
                  'total_score_pos':6.0,
                  'max_score_pos':5.0,
@@ -110,9 +97,9 @@ mpqaFeatures ={'total_count_pos':2,
                  'total_score_neg':0.0,
                  'min_score_neg':0.0,
                  'score_last_neg':0.0}
-                     
-#NRC emotions / listOfTriples5
-#    "adore": 1.0,
+#                     
+##NRC emotions / transformedTweets1
+##    "adore": 1.0,
 nrcEmotionFeatures ={'total_count_pos':1,
                  'total_score_pos':1.0,
                  'max_score_pos':1.0,
@@ -126,25 +113,22 @@ def test_manual_lexicon_features_extractor():
     '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
     #test1 - single doc/BingLiu
     d = transformers.NRCLexiconsExtractor(lexicon = 'BingLiu')
-    featureDict = d.transform(listOfTriples5)
+    featureDict = d.transform(transformedTweets1)
     assert_equal(featureDict[0],bingLiuFeatures) 
     #test2 - single doc/MPQA
     d = transformers.NRCLexiconsExtractor(lexicon = 'MPQA')
-    featureDict = d.transform(listOfTriples5)
+    featureDict = d.transform(transformedTweets1)
     assert_equal(featureDict[0],mpqaFeatures) 
     #test3 - single doc/NRCemotions
     d = transformers.NRCLexiconsExtractor(lexicon = 'NRCemotion')
-    featureDict = d.transform(listOfTriples5)
-    assert_equal(featureDict[0],nrcEmotionFeatures) 
-    #test4 - single doc/NRCemotions - confirm same score for negated triples
-    d = transformers.NRCLexiconsExtractor(lexicon = 'NRCemotion')
-    featureDict = d.transform(listOfNegatedTriples5)
+    featureDict = d.transform(transformedTweets1)
     assert_equal(featureDict[0],nrcEmotionFeatures) 
 
 
-####automatic lexicons
-#140 / listOfTriples4
-#    "world": "0.551",
+
+#--------automatic lexicons
+##NRC140lexi / transformedTweets2
+##    "world": "0.551",
 nrc140FeaturesUnigrams = {'total_count_pos':1,
                  'total_score_pos':.551,
                  'max_score_pos':.551,
@@ -155,10 +139,10 @@ nrc140FeaturesUnigrams = {'total_count_pos':1,
                  'score_last_neg':0.0}
 
 
-                     
-#140 bigrams / listOfTriples5
-#    "adore him": "1.435",
-#    "him back": "-0.566",
+#                     
+##NRC140lexi bigrams / transformedTweets1
+##    "adore him": "1.435",
+##    "him back": "-0.566",
 nrc140FeaturesBigrams = {'total_count_pos':1,
                  'total_score_pos':1.435,
                  'max_score_pos':1.435,
@@ -169,21 +153,21 @@ nrc140FeaturesBigrams = {'total_count_pos':1,
                  'score_last_neg':-0.566}
 
 
-def test_nrc_140_features_extractor():
+def test_nrc_140_lexicon_features_extractor():
     '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
     #test1 - unigrams/single doc/NRC140
     d = transformers.NRCLexiconsExtractor(lexicon = 'NRC140',gramType = 'unigram',tagType = 'token')
-    featureDict = d.transform(listOfTriples4)
+    featureDict = d.transform(transformedTweets2)
     assert_equal(featureDict[0],nrc140FeaturesUnigrams) 
     #test2 - bigrams/single doc/NRC140
     d = transformers.NRCLexiconsExtractor(lexicon = 'NRC140',gramType = 'bigram',tagType = 'token')
-    featureDict = d.transform(listOfTriples5)
+    featureDict = d.transform(transformedTweets1)
     assert_equal(featureDict[0],nrc140FeaturesBigrams) 
-                                                   
+#                                                   
 
-#hash  / listOfTriples4
-#    "#hello": "2.018",
-#    "world": "0.384",
+##nrc hash lexicon / transformedTweets1
+##    "#hello": "2.018",
+##    "world": "0.384",
 nrcHashFeaturesUnigrams = {'total_count_pos':2,
                  'total_score_pos':2.402,
                  'max_score_pos':2.018,
@@ -193,18 +177,17 @@ nrcHashFeaturesUnigrams = {'total_count_pos':2,
                  'min_score_neg':0.0,
                  'score_last_neg':0.0}
 
-      
-
-def test_nrc_hash_features_extractor():
+def test_nrc_hash_lexicon_features_extractor():
     '''test to confirm NRC 140 lexicon features are correctly extracted from triples'''
     d = transformers.NRCLexiconsExtractor(lexicon = 'NRCHash',gramType = 'unigram',tagType = 'token')
-    featureDict = d.transform(listOfTriples4)
+    featureDict = d.transform(transformedTweets2)
     #test1 - unigrams/single doc/NRCHash
     assert_equal(featureDict[0],nrcHashFeaturesUnigrams)
 
 
-#POS count tests
-posCountsTriples5 = {'!': 0, '#': 0, '$': 0, '&': 0, ',': 0, 'A': 0,\
+#-----------POS count tests
+transformedTweetsPOS1 = [{'pos_token_list':['V','N','N']}]
+posCountsTweets1 = {'!': 0, '#': 0, '$': 0, '&': 0, ',': 0, 'A': 0,\
                 '@': 0, 'E': 0, 'D': 0, 'G': 0, 'M': 0, 'L': 0, \
                 'O': 0, 'N': 2, 'P': 0, 'S': 0, 'R': 0, 'U': 0,\
                  'T': 0, 'V': 1, 'Y': 0, 'X': 0, 'Z': 0, '^': 0, '~': 0}
@@ -212,72 +195,163 @@ def test_pos_features_counts():
     '''Test to confirm correct POS counts extracted for provided triples'''    
     #test1 - POS counts/single doc
     d = transformers.POScountExtractor()
-    featureDict = d.transform(listOfTriples5)
-    assert_equal(featureDict[0],posCountsTriples5)     
+    featureDict = d.transform(transformedTweetsPOS1)
+    assert_equal(featureDict[0],posCountsTweets1)     
     #test2 - POS counts/multi doc
     d = transformers.POScountExtractor()
-    featureDict = d.transform([listOfTriples5[0],listOfTriples5[0]])
-    assert_equal(featureDict[0],posCountsTriples5)
-    assert_equal(featureDict[1],posCountsTriples5)
+    featureDict = d.transform([transformedTweetsPOS1[0],transformedTweetsPOS1[0]])
+    assert_equal(featureDict[0],posCountsTweets1)
+    assert_equal(featureDict[1],posCountsTweets1)
     
-#negation counts
-negateTriples1 = [[["No_NEG","D",0.823],["one_NEG","N",0.5694],["enjoys_NEG","V",0.9992],["it_NEG","O",0.9884],[".",",",0.9991],["Ha","!",0.9701]]]
-negateTriples2 = [[["I","O",0.9943],["wouldn't_NEG","V",0.9993],["do_NEG","V",1.0],["it_NEG","O",0.9895],[".",",",0.9993],["Never_NEG","!",0.826]]]
-negateExpect1 ={'negation_count':1} 
-negateExpect2 ={'negation_count':2} 
+    
+#------------negation counts
 def test_negated_segment_counts():
     '''Test to confirm correct counts of negated segments returned'''    
-    #test1 - negated segment counts/single doc - no segments
-    d = transformers.negatedSegmentCountExtractor()
-    featureDict = d.transform(listOfTriples2)
-    assert_equal(featureDict[0],{'negation_count':0})     
-    #test2 - negated segment counts/single doc - 1 segments
-    d = transformers.negatedSegmentCountExtractor()
-    featureDict = d.transform(negateTriples1)
-    assert_equal(featureDict[0],negateExpect1)   
-    #test3 - negated segment counts/single doc - 2 segments
-    d = transformers.negatedSegmentCountExtractor()
-    featureDict = d.transform(negateTriples2)
-    assert_equal(featureDict[0],negateExpect2)      
- 
+    #test1 - negated segment counts/single doc
+    d = transformers.NegationCountExtractor()
+    featureDict = d.transform(testExpected1)
+    assert_equal(featureDict[0],{'negation_count':1})     
+    #test2 - negated segment counts/multi doc - 1 segments
+    d = transformers.NegationCountExtractor()
+    featureDict = d.transform([testExpected1[0],testExpected2[0]])
+    assert_equal(featureDict[0],{'negation_count':1})   
+    assert_equal(featureDict[1],{'negation_count':0})   
     
+#------------encodings
+capsTweets1 = [{'raw_token_list' : ['#Hello', 'Woorrlld']}]
+capsTweets2 = [{'raw_token_list' : ['ADORE', '#him','#BACK']}]
+def test_caps_counts():
+    '''Test to confirm correct counts of Capitilized words is returned'''    
+    #test1 - Caps counts/single doc
+    d = transformers.CapsCountExtractor()
+    featureDict = d.transform(capsTweets1)
+    assert_equal(featureDict[0],{'total_count_caps':0})     
+    #test2 - Caps counts/single doc
+    d = transformers.CapsCountExtractor()
+    featureDict = d.transform(capsTweets2)
+    assert_equal(featureDict[0],{'total_count_caps':2})  
+
+hashTweets1 = [{'pos_token_list' : ['#', 'N']}]
+hashTweets2 = [{'pos_token_list' : ['V', '#','#']}]
+def test_hashtag_counts():
+    '''Test to confirm correct counts of hashtags is returned'''    
+    #test1 - hashtags counts/single doc
+    d = transformers.HashCountExtractor()
+    featureDict = d.transform(hashTweets1)
+    assert_equal(featureDict[0],{'total_count_hash':1})     
+    #test2 - hashtags counts/single doc
+    d = transformers.HashCountExtractor()
+    featureDict = d.transform(hashTweets2)
+    assert_equal(featureDict[0],{'total_count_hash':2}) 
     
-#token counts
-def test_token_counts():
-    '''Test to confirm correct counts of tokens for each tweet'''    
-    #test1 - token counts
-    d = transformers.TokenCountExtractor()
-    featureDict = d.transform(listOfTriples2)
-    assert_equal(featureDict[0],{'token_count':2})  
+elongatedTweets1 = [{'normalised_token_list' : ["hello","worlld"]}]
+elongatedTweets2 = [{'normalised_token_list' : ["hellooo","#wooorld","yyyyes","!!!!"]}]
+def test_elongated_word_counts():
+    '''Test to confirm correct counts of elongated words returned'''    
+    #test1 - elongated words counts/single doc
+    d = transformers.ElongWordCountExtractor()
+    featureDict = d.transform(elongatedTweets1)
+    assert_equal(featureDict[0],{'total_count_elong':0} )     
+    #test2 - elongated words counts/single doc
+    d = transformers.ElongWordCountExtractor()
+    featureDict = d.transform(elongatedTweets2)
+    assert_equal(featureDict[0],{'total_count_elong':3} )  
     
+##Punctuation
+punctuationTweets1 = [{'normalised_token_list' : ["hello","worlld","!"]}]
+punctuationTweets2 = [{'normalised_token_list' : ["hello","???","worlld","!!!","me","!?!?!?"]}]
+punctuationTweets3 = [{'normalised_token_list' : ["hello","!!!","worlld","!!!","me","???"]}]
+punct1 = {'count_contig_seq_exclaim':0,
+            'count_contig_seq_question':0,
+            'count_contig_seq_both':0,
+            'last_toke_contain_quest':False,
+            'last_toke_contain_exclaim':True}
+punct2 = {'count_contig_seq_exclaim':1,
+            'count_contig_seq_question':1,
+            'count_contig_seq_both':1,
+            'last_toke_contain_quest':True,
+            'last_toke_contain_exclaim':True}            
+punct3 = {'count_contig_seq_exclaim':2,
+            'count_contig_seq_question':1,
+            'count_contig_seq_both':0,
+            'last_toke_contain_quest':True,
+            'last_toke_contain_exclaim':False}  
+def test_punctuation_features():
+    '''Test to confirm correct features returned for punctuation'''    
+    #test1 - punctuation feastures/single doc
+    d = transformers.PunctuationFeatureExtractor()
+    featureDict = d.transform(punctuationTweets1)
+    assert_equal(featureDict[0],punct1)     
+    #test2 - punctuation feastures/single doc
+    d = transformers.PunctuationFeatureExtractor()
+    featureDict = d.transform(punctuationTweets2)
+    assert_equal(featureDict[0],punct2)                
+    #test3 - punctuation feastures/single doc
+    d = transformers.PunctuationFeatureExtractor()
+    featureDict = d.transform(punctuationTweets3)
+    assert_equal(featureDict[0],punct3)   
     
-    
-#cluster
+#emoticons
+emoticonTweets1 = [{'raw_token_list' : ['#Hello', 'Woorrlld']}]
+emoticonTweets2 = [{'raw_token_list' : [':-)', '#him',':-(']}]
+emoticonTrip1 ={'positive_emoticon_present':False,
+                'negative_emoticon_present':False,
+                'last_emoticon_pos':False,
+                'last_emoticon_neg':False} 
+emoticonTrip2 ={'positive_emoticon_present':True,
+                'negative_emoticon_present':True,
+                'last_emoticon_pos':False,
+                'last_emoticon_neg':True} 
+
+def test_emoticons_lexicon_features():
+    '''Test to confirm correct vals returned for emoticon features'''    
+    #test1 - No emoticons/single doc
+    d = transformers.EmoticonExtractor(lexicon = 'emoticon')
+    featureDict = d.transform(emoticonTweets1)
+    assert_equal(featureDict[0],emoticonTrip1)     
+    #test2 - Several emoticons/single doc
+    d = transformers.EmoticonExtractor(lexicon = 'emoticon')
+    featureDict = d.transform(emoticonTweets2)
+    assert_equal(featureDict[0],emoticonTrip2)  
+
+#clusters
 #"i": "0000"
 #"tableau": "1111010101011"
 #"hell": "010101100",
 #"no": "1111111110",
 #"88888": None
-clusterTriples1 = [[["Hell","D",0.823],["no","N",0.5694],["88888","d",0.5694]]]
-clusterTriples2 = [[["I","D",0.823],["Tableau","N",0.5694]]]
-
-def test_docs_extractor():
-    '''Test to confirm list of normalised docs are returned provided triples containing tokens'''
+clusterTweet1  = [{'normalised_token_list' :["hell","no","88888"]}]
+clusterTweet2  = [{'normalised_token_list' :["i","tableau"]}]
+def test_clusters_extractor():
+    '''Test to confirm concatenated cluster id strings are returned provided transformed tweets'''
     d = transformers.ClusterExtractor()
     #no docs test
     assert_equal(d.transform([]),[])
     #single doc test - ensure case when none returned that nothing is attached at end of string
-    assert_equal(d.transform(clusterTriples1),['010101100 1111111110'])
+    assert_equal(d.transform(clusterTweet1),['010101100 1111111110'])
     #single doc test
-    assert_equal(d.transform(clusterTriples2),['0000 1111010101011'])  
+    assert_equal(d.transform(clusterTweet2),['0000 1111010101011'])
+    #multi doc test
+    assert_equal(d.transform([clusterTweet1[0],clusterTweet2[0]]),['010101100 1111111110','0000 1111010101011'])
+    
 
-  
+    
+#-----------KLUE features
+#token counts
+normalisedTweets1 = [{'normalised_token_list' : ["hello","worlld","!"]}]
+def test_token_counts():
+    '''Test to confirm correct counts of tokens for each tweet'''    
+    #test1 - token counts
+    d = transformers.TokenCountExtractor()
+    featureDict = d.transform(normalisedTweets1)
+    assert_equal(featureDict[0],{'token_count':3})  
+
 #KLUE AFINN polarity 
 #    "abandon": -2.0,
 #    "fear": -2.0, 
 #    "aboard": 1.0, 
-afinnTriples1 = [[["aboard","D",0.823],["ABANDON","N",0.5694],["fear","d",0.5694]]]
-afinnTriples2 = [[["I","D",0.823],["Tableau","N",0.5694]]]
+afinnTweet1 = [{"stem_list":["aboard","abandon","fear"]}]
+afinnTweet2 = [{"normalised_token_list":["i","tableau"]}]
 afinnPolarity1 = {'total_count_pos':1,
                  'total_count_neg':2,
                  'total_count_polar':3,
@@ -289,7 +363,7 @@ afinnPolarity2 = {'total_count_pos':0,
 #KLUE emoticon/acronym polarity 
 #    ")x": -1.0,
 #    "*alol*": 1.0,      
-acroemotiTriples1 = [[[")x","E",0.823],["*alol*","N",0.5694]]]
+acroemotiTweet1 = [{"normalised_token_list":[")x","*alol*"]}]
 acroemotiPolarity1 = {'total_count_pos':1,
                  'total_count_neg':1,
                  'total_count_polar':2,
@@ -298,22 +372,23 @@ def test_klue_polarity_features_extractor():
     '''test to confirm KLUE afinn lexicon features are correctly extracted from triples'''
     d = transformers.KLUEpolarityExtractor()
     #test1 - multiple items in dict
-    featureDict = d.transform(afinnTriples1)
+    featureDict = d.transform(afinnTweet1)
     assert_equal(featureDict[0],afinnPolarity1)
     #test2 - no items in dict
-    featureDict = d.transform(afinnTriples2)
+    d = transformers.KLUEpolarityExtractor(tokenListKeyName="normalised_token_list" )
+    featureDict = d.transform(afinnTweet2)
     assert_equal(featureDict[0],afinnPolarity2)
     #test2 - no items in dict
-    d = transformers.KLUEpolarityExtractor(lexicon='klue-both')
-    featureDict = d.transform(acroemotiTriples1)
+    d = transformers.KLUEpolarityExtractor('klue-both',"normalised_token_list" )
+    featureDict = d.transform(acroemotiTweet1)
     assert_equal(featureDict[0],acroemotiPolarity1)
     
-#GU-MLT SentiWordNet
+#-----------GU-MLT SentiWordNet lexicon features
 #    "approximation+": 0.125,
 #    "approximation-": 0.125,
-gumltTriples1 = [[["my","D",0.823],["approximation","N",0.5694]]]
-gumltTriples2 = [[["I","D",0.823],["Will","N",0.5694]]]
-gumltTriples3 = [[["myy","D",0.823],["appproximation","N",0.5694]]]
+gumltTweet1 = [{"negated_token_list":["my","approximation"]}]
+gumltTweet2 = [{"negated_token_list":["i","will"]}]
+gumltTweet3 = [{"collapsed_token_list":["myy","approximation"]}]
 gumltPolarity1 = {'sum_pos':0.125,
                  'sum_neg':0.125}
 gumltPolarity2 = {'sum_pos':0.0,
@@ -324,11 +399,12 @@ def test_gumlt_sentiwordnet_polarity_features_extractor():
     '''test to confirm GUMLT sentiwordnet lexicon features are correctly extracted from triples'''
     d = transformers.GUMLTsentiWordNetExtractor()
     #test1 - both neg and pos
-    featureDict = d.transform(gumltTriples1)
+    featureDict = d.transform(gumltTweet1)
     assert_equal(featureDict[0],gumltPolarity1)
     #test2 - score is 0
-    featureDict = d.transform(gumltTriples2)
+    featureDict = d.transform(gumltTweet2)
     assert_equal(featureDict[0],gumltPolarity2)    
     #test3 - both neg and pos with collapsed word
-    featureDict = d.transform(gumltTriples1)
-    assert_equal(featureDict[0],gumltPolarity1)
+    d = transformers.GUMLTsentiWordNetExtractor(tokenListKeyName= "collapsed_token_list")
+    featureDict = d.transform(gumltTweet3)
+    assert_equal(featureDict[0],gumltPolarity3)
