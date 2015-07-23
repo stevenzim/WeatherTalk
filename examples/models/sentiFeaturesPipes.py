@@ -213,8 +213,8 @@ features = FeatureUnion([
             #('my-feats',originalFeatures)
             ])
 testTweet = helper.loadJSONfromFile('KLUE-1tweet.json')
-testTriples = helper.extractTweetNLPtriples('KLUE-1tweet.json')
-ed = tran.TriplesYsExtractor(negateTweet=True)
+testTweets = helper.extractTweetNLPtriples('KLUE-1tweet.json')
+ed = tran.TweetTransformer(negateTweet=True)
 testTriplesList = ed.transform(testTriples) 
 testFeatureExtract = features.fit_transform(testTriplesList) 
     
@@ -363,9 +363,9 @@ def NRCtestingPipeline(clfpipeline,ysKeyName='sentiment_num',negateTweet = True)
     print "Building Model"
     inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
-    triplesList, ysList = ed.transform(data,ysKeyName = ysKeyName)
-    clfpipeline.fit(triplesList,ysList)
+    ed = tran.TweetTransformer(negateTweet=negateTweet)
+    tweetsList, ysList = ed.transform(data,ysKeyName = ysKeyName)
+    clfpipeline.fit(tweetsList,ysList)
     joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
     loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
     
@@ -374,35 +374,35 @@ def NRCtestingPipeline(clfpipeline,ysKeyName='sentiment_num',negateTweet = True)
     ### DEV 2015
     inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
-    triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
-    predicted_ys = loadedpipe.predict(triplesList)
+    ed = tran.TweetTransformer(negateTweet=negateTweet)
+    tweetsList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+    predicted_ys = loadedpipe.predict(tweetsList)
     print "Results DEV 2015"
     print helper.evaluateResults(expected_ys,predicted_ys)
     
     ### TEST 2015
     inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
-    triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
-    predicted_ys = loadedpipe.predict(triplesList)
+    ed = tran.TweetTransformer(negateTweet=negateTweet)
+    tweetsList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+    predicted_ys = loadedpipe.predict(tweetsList)
     print "Results TEST 2015"
     print helper.evaluateResults(expected_ys,predicted_ys)
     
     ### TEST 2013
     inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
-    triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
-    predicted_ys = loadedpipe.predict(triplesList)
+    ed = tran.TweetTransformer(negateTweet=negateTweet)
+    tweetsList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+    predicted_ys = loadedpipe.predict(tweetsList)
     print "Results TEST 2013"
     print helper.evaluateResults(expected_ys,predicted_ys)
 
 #^^^^^^^^^^^^^^^^^^^^GRIDSEARCH^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TriplesYsExtractor()
-triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
+ed = tran.TweetTransformer()
+tweetsList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
 
 #clfpipeline = Pipeline([\
 #            ('features',features),
@@ -442,7 +442,7 @@ if __name__ == "__main__":
     print("parameters:")
     pprint(parameters)
     t0 = time()    
-    grid_search.fit(triplesList, ysList)
+    grid_search.fit(tweetsList, ysList)
     print("done in %0.3fs" % (time() - t0))
     print()
     print("Best score: %0.3f" % grid_search.best_score_)
@@ -456,17 +456,17 @@ if __name__ == "__main__":
 #TRAIN 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TriplesYsExtractor()
-triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
+ed = tran.TweetTransformer()
+tweetsList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
 ### DEV 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TriplesYsExtractor()
-triplesListDev, expected_ysDev = ed.transform(data,ysKeyName = 'sentiment_num')
+ed = tran.TweetTransformer()
+tweetsListDev, expected_ysDev = ed.transform(data,ysKeyName = 'sentiment_num')
 
 #Combine into one train set and build model
-triplesList.extend(triplesListDev), ysList.extend(expected_ysDev)
-clfpipeline.fit(triplesList,ysList)
+tweetsList.extend(tweetsListDev), ysList.extend(expected_ysDev)
+clfpipeline.fit(tweetsList,ysList)
 joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
 loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
 
@@ -474,18 +474,18 @@ loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
 ### TEST 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TriplesYsExtractor()
-triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
-predicted_ys = loadedpipe.predict(triplesList)
+ed = tran.TweetTransformer()
+tweetsList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(tweetsList)
 print helper.evaluateResults(expected_ys,predicted_ys)
 
 
 ### TEST 2013
 inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TriplesYsExtractor()
-triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
-predicted_ys = loadedpipe.predict(triplesList)
+ed = tran.TweetTransformer()
+tweetsList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(tweetsList)
 print "Results TEST 2013"
 print helper.evaluateResults(expected_ys,predicted_ys)
 

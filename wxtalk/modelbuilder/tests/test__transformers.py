@@ -59,7 +59,7 @@ testExpected3 = [{'nlp_triples' : testTriple3[0]["tagged_tweet_triples"],\
                 'stanford_pos_list' : None}]
 
 
-def test_tweet():
+def test_tweet_transformer():
     '''Test to ensure tweet representation is properly built and returned'''
     #test 1 - everything + no user / no url in return
     t = transformers.TweetTransformer(userNorm = None,urlNorm = None)
@@ -71,6 +71,17 @@ def test_tweet():
     t = transformers.TweetTransformer(userNorm = 'USER',urlNorm = 'URL')
     assert_equal(t.transform(testTriple3),testExpected3)
 
+def test_transformed_tweet_vals_extractor():
+    '''Test to ensure transformed tweet vals are correctly pulled from transformed tweet'''
+    #test 1 - default negated
+    t = transformers.DocsExtractor()
+    assert_equal(t.transform(testExpected3),['your not_NEG happy_NEG :(_NEG user_NEG'])
+    #test 1 - other field
+    t = transformers.DocsExtractor('normalised_string')
+    assert_equal(t.transform(testExpected3),['your not happy :( user'])
+    #test 3 - default multiDoc
+    t = transformers.DocsExtractor()
+    assert_equal(t.transform([testExpected1[0],testExpected3[0]]),['your not_NEG happy_NEG :(_NEG','your not_NEG happy_NEG :(_NEG user_NEG'])
 #----------------------lexicon tests
 
 transformedTweets1 = [{'negated_token_list':['adore','him','back']}]

@@ -208,6 +208,21 @@ class TweetTransformer(BaseEstimator, TransformerMixin):
                 #values returned for unseen data with unknown classes
                 return transformedTweetList                                
 
+class DocsExtractor(BaseEstimator, TransformerMixin):
+    '''Provided a list of transformer tweets.  
+    return a list of desired values from transformed tweet based on input key name
+    negated_string is default per Webis paper.  The transformed output can be passed to tf/idf or count vectorizer
+    '''
+    def __init__(self,transformedTweetKeyName = 'negated_string'):
+        self.transformedTweetKeyName= transformedTweetKeyName #name of key containing list desired vals
+
+    def fit(self, x, y=None):
+        return self
+
+    def transform(self, transformedTweets):
+        #print "DocsExtractor"
+        #print transformedTweets
+        return map(lambda tweet: tweet[self.transformedTweetKeyName], transformedTweets)
 
 
 class NRCLexiconsExtractor(BaseEstimator, TransformerMixin):
