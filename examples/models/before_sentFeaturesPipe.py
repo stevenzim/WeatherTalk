@@ -1,5 +1,5 @@
 #for all examples
-from wxtalk.modelbuilder import transformers as tran
+from wxtalk.modelbuilder import z_transformers as tran
 from wxtalk import helper
 
 import string
@@ -94,11 +94,11 @@ lexAutoFeatures = FeatureUnion([
 
 wordGramCount = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 4) ,binary=True,min_df=1))])                 
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 4) ,binary=True,min_df=5))])                 
 
 NRCwordgrams = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 4) ,binary=True,min_df=1))])  
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 4) ,binary=True,min_df=5))])  
      
 #char-grams
 #TODO: Waiting to hear back from authors regarding window position, is accross entire tweet or individual words
@@ -108,11 +108,13 @@ NRCwordgrams = Pipeline([\
 #            ('count',tran.CountVectorizer(analyzer='char',max_df= 0.75,max_features=50000,ngram_range=(3, 3) ))])
 NRCchargrams = Pipeline([\
             ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(tokenizer=string.split,analyzer='char',ngram_range=(3, 5) ,binary=True,min_df=1))])
-NRCchargrams = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(analyzer='char',ngram_range=(3, 5) ,binary=True,min_df=1))])
+            ('count',tran.CountVectorizer(tokenizer=string.split,analyzer='char',ngram_range=(3, 5) ,binary=True,min_df=5))])
 
+###-------------Negation----------------###
+negateCounts = Pipeline([\
+            ('negate-counts-dict',tran.negatedSegmentCountExtractor()),\
+            ('negate-vec',tran.DictVectorizer())])
+ 
             
 ###--------------POS -------------------###
 posCounts = Pipeline([\
@@ -133,56 +135,53 @@ cmuClusterFeatures = Pipeline([\
 ###---------------encodings-------------###
 #ALL CAPS
 allCapsCount = Pipeline([\
-            ('caps-counts-dict',tran.CapsCountExtractor()),\
+            ('caps-counts-dict',tran.capsCountExtractor()),\
             ('caps-vec',tran.DictVectorizer())])
 
 #HASH TAGS
 hashTagCount = Pipeline([\
-            ('hashtag-counts-dict',tran.HashCountExtractor()),\
+            ('hashtag-counts-dict',tran.hashCountExtractor()),\
             ('hashtag-vec',tran.DictVectorizer())])
 
 #elongated words
 elongatedWordCount = Pipeline([\
-            ('elong-counts-dict',tran.ElongWordCountExtractor()),\
+            ('elong-counts-dict',tran.elongWordCountExtractor()),\
             ('elong-vec',tran.DictVectorizer())])
 #punctuations
 puncFeatures = Pipeline([\
-            ('punct-features-dict',tran.PunctuationFeatureExtractor()),\
+            ('punct-features-dict',tran.punctuationFeatureExtractor()),\
             ('punct-vec',tran.DictVectorizer())])
 
 #emoticons
 emotiFeatures = Pipeline([\
-            ('emoti-features-dict',tran.EmoticonExtractor('emoticon')),\
+            ('emoti-features-dict',tran.NRCemoticonExtractor('emoticon')),\
             ('emoti-vec',tran.DictVectorizer())])
 
-###-------------Negation----------------###
-negateCounts = Pipeline([\
-            ('negate-counts-dict',tran.NegationCountExtractor()),\
-            ('negate-vec',tran.DictVectorizer())])
- 
+
 
 
 #**********Other papers features***
 #TODO: Decide which ones, very much like the features from KLUE paper
 #RTRGO/prototype
-#rtrgoFeatures = Pipeline([\
-#            ('text-feats-dict',tran.TextFeaturesExtractor(keysToDrop=[])),\
-#            ('text-feats-vec',tran.DictVectorizer())])
+rtrgoFeatures = Pipeline([\
+            ('text-feats-dict',tran.TextFeaturesExtractor(keysToDrop=[])),\
+            ('text-feats-vec',tran.DictVectorizer())])
 #KLUE
 KLUEwordgrams = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=1))])
+            ('docs',tran.DocsExtractor(hashNormalise=False)),\
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=5))])
 
 KLUEstems = Pipeline([\
-            ('docs',tran.DocsExtractor('stem_string')),\
-            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=1))])
+            ('docs',tran.DocsExtractor()),\
+            ('stems',tran.StemExtractor()),\
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=5))])
 
 KLUEtokenCount = Pipeline([\
             ('token-count-dict',tran.TokenCountExtractor()),\
             ('token-count-vec',tran.DictVectorizer())])
             
 KLUEpolarity = Pipeline([\
-            ('polarity-dict',tran.KLUEpolarityExtractor('klue-afinn',tokenListKeyName= 'negated_token_list')),\
+            ('polarity-dict',tran.KLUEpolarityExtractor('klue-afinn')),\
             ('polarity-vec',tran.DictVectorizer())])
 #KLUEpolarity = Pipeline([\
 #            ('docs',tran.DocsExtractor(hashNormalise=False)),\
@@ -190,7 +189,7 @@ KLUEpolarity = Pipeline([\
 #            ('polarity-vec',tran.DictVectorizer())])
 
 KLUEemotiacro = Pipeline([\
-            ('emoti-acro-dict',tran.KLUEpolarityExtractor('klue-both',tokenListKeyName= 'normalised_token_list')),\
+            ('emoti-acro-dict',tran.KLUEpolarityExtractor('klue-both')),\
             ('emoti-acro-vec',tran.DictVectorizer())])            
 #KLUEemotiacro = Pipeline([\
 #            ('docs',tran.DocsExtractor(hashNormalise=False)),\
@@ -213,14 +212,9 @@ features = FeatureUnion([
             ('klue-emoti-acro', KLUEemotiacro),
             #('my-feats',originalFeatures)
             ])
-            
-clfpipeline = Pipeline([\
-            ('features',features),
-            ('clf',LogisticRegression(penalty = 'l2',C = 0.25))])
-            
 testTweet = helper.loadJSONfromFile('KLUE-1tweet.json')
-testTweets = helper.extractTweetNLPtriples('KLUE-1tweet.json')
-ed = tran.TweetTransformer(negateTweet=True)
+testTriples = helper.extractTweetNLPtriples('KLUE-1tweet.json')
+ed = tran.TriplesYsExtractor(negateTweet=True)
 testTriplesList = ed.transform(testTriples) 
 testFeatureExtract = features.fit_transform(testTriplesList) 
     
@@ -364,14 +358,14 @@ clfpipeline = Pipeline([\
             ('clf',LinearSVC(C=.55))])
 
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
-def testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = None,hashNormalise=True,digitNormalise=False):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
+def NRCtestingPipeline(clfpipeline,ysKeyName='sentiment_num',negateTweet = True):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
     #1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
     print "Building Model"
     inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
-    tweetsList, ysList = ed.transform(data,ysKeyName = ysKeyName)
-    clfpipeline.fit(tweetsList,ysList)
+    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
+    triplesList, ysList = ed.transform(data,ysKeyName = ysKeyName)
+    clfpipeline.fit(triplesList,ysList)
     joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
     loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
     
@@ -380,109 +374,36 @@ def testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = 
     ### DEV 2015
     inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
-    tweetsList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
-    predicted_ys = loadedpipe.predict(tweetsList)
+    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
+    triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+    predicted_ys = loadedpipe.predict(triplesList)
     print "Results DEV 2015"
     print helper.evaluateResults(expected_ys,predicted_ys)
     
-#    ### TEST 2015
-#    inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
-#    data = helper.loadJSONfromFile(inFile)           
-#    ed = tran.TweetTransformer()
-#    tweetsList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
-#    predicted_ys = loadedpipe.predict(tweetsList)
-#    print "Results TEST 2015"
-#    print helper.evaluateResults(expected_ys,predicted_ys)
-#    
-    ### TEST 2013
-    inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
-    data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
-    tweetsList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
-    predicted_ys = loadedpipe.predict(tweetsList)
-    print "Results TEST 2013"
-    print helper.evaluateResults(expected_ys,predicted_ys)
-
-
-#^^^^^^^^^^^^^^^Train/Dev --> Test 2015^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-def finalTest(clfpipeline,ysKeyName = 'sentiment_num',userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False):
-    print "Building Model"
-    #TRAIN 2015
-    inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
-    data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
-    tweetsList, ysList = ed.transform(data,ysKeyName = ysKeyName)
-    ### DEV 2015
-    inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
-    data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
-    tweetsListDev, expected_ysDev = ed.transform(data,ysKeyName = ysKeyName)
-    
-    #Combine into one train set and build model
-    tweetsList.extend(tweetsListDev), ysList.extend(expected_ysDev)
-    clfpipeline.fit(tweetsList,ysList)
-    joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
-    loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
-        
-    #PREDICT ON TEST 2015
     ### TEST 2015
-    #inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
-    #data = helper.loadJSONfromFile(inFile)           
-    #ed = tran.TweetTransformer()
-    #tweetsList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
-    #predicted_ys = loadedpipe.predict(tweetsList)
-    #print helper.evaluateResults(expected_ys,predicted_ys)
-    print "Model built, prediction results"
+    inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
+    data = helper.loadJSONfromFile(inFile)           
+    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
+    triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+    predicted_ys = loadedpipe.predict(triplesList)
+    print "Results TEST 2015"
+    print helper.evaluateResults(expected_ys,predicted_ys)
+    
     ### TEST 2013
     inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
     data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
-    tweetsList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
-    predicted_ys = loadedpipe.predict(tweetsList)
+    ed = tran.TriplesYsExtractor(negateTweet=negateTweet)
+    triplesList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+    predicted_ys = loadedpipe.predict(triplesList)
     print "Results TEST 2013"
     print helper.evaluateResults(expected_ys,predicted_ys)
-    
-    print "preparing gold/predicitons file"
-    #output 2013 predictions to file for semeval official scorer
-    outFile = '2013-predicitons.json'         
-    sentimentList = predicted_ys.tolist()
-    #TODO: Create a fully working function out of this, needs to be tested
-    #       Should also have error handling for when counts don't match
-    #TODO: You could also add in topic classification here e.g. dict["topic_wx"] = topic_wx[count]
-    count = 0 
-    for dict in data:
-        keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
-        dict["sentiment_score"] = sentimentList[count]
-        count += 1
-    
-    goldFile = open('gold2013.tsv','w')
-    predFile = open('pred2103.tsv','w')
-    
-    strScore = lambda score: "negative" if (score == -1) else ("positive" if (score == 1) else "neutral")
-    for dict in data:
-        goldFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + dict["sentiment_orig"] + '\t' + dict["text"] + '\n')
-        predFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + strScore(dict["sentiment_score"]) + '\t' + dict["text"] + '\n')
-    
-    goldFile.close()
-    predFile.close()
-    helper.dumpJSONtoFile(outFile,data) 
-    print "Done"
 
 #^^^^^^^^^^^^^^^^^^^^GRIDSEARCH^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-### TEST 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TweetTransformer()
-tweetsList, ysList = ed.transform(data,ysKeyName = 'sentiment_num',userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False)
-### DEV 2015
-inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
-data = helper.loadJSONfromFile(inFile)           
-ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
-tweetsListDev, expected_ysDev = ed.transform(data,ysKeyName = ysKeyName)
+ed = tran.TriplesYsExtractor()
+triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
 
-#Combine into one train set and build model
-tweetsList.extend(tweetsListDev), ysList.extend(expected_ysDev)
 #clfpipeline = Pipeline([\
 #            ('features',features),
 #            ('clf',SGDClassifier())])
@@ -494,19 +415,11 @@ tweetsList.extend(tweetsListDev), ysList.extend(expected_ysDev)
 
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression())])
-            
+            ('clf',SVC())])
 parameters = {
-    'clf__C': (.6,.5,.4,.3,.2),
-    'clf__penalty': ('l2','l1'),
+    'clf__C': (5.0,.5,.05,.005),
+    'clf__kernel': ('linear','sigmoid'),
 }
-#clfpipeline = Pipeline([\
-#            ('features',features),
-#            ('clf',SVC())])
-#parameters = {
-#    'clf__C': (.6,.5,.4,.3,.2),
-#    'clf__kernel': ('linear'),
-#}
 
 #clfpipeline = Pipeline([\
 #            ('features',features),
@@ -529,7 +442,7 @@ if __name__ == "__main__":
     print("parameters:")
     pprint(parameters)
     t0 = time()    
-    grid_search.fit(tweetsList, ysList)
+    grid_search.fit(triplesList, ysList)
     print("done in %0.3fs" % (time() - t0))
     print()
     print("Best score: %0.3f" % grid_search.best_score_)
@@ -539,4 +452,63 @@ if __name__ == "__main__":
         print("\t%s: %r" % (param_name, best_parameters[param_name]))       
 
 
+#^^^^^^^^^^^^^^^Train/Dev --> Test 2015^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#TRAIN 2015
+inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
+### DEV 2015
+inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesListDev, expected_ysDev = ed.transform(data,ysKeyName = 'sentiment_num')
 
+#Combine into one train set and build model
+triplesList.extend(triplesListDev), ysList.extend(expected_ysDev)
+clfpipeline.fit(triplesList,ysList)
+joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
+loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
+
+#PREDICT ON TEST 2015
+### TEST 2015
+inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(triplesList)
+print helper.evaluateResults(expected_ys,predicted_ys)
+
+
+### TEST 2013
+inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TriplesYsExtractor()
+triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = loadedpipe.predict(triplesList)
+print "Results TEST 2013"
+print helper.evaluateResults(expected_ys,predicted_ys)
+
+#output 2013 predictions to file for semeval official scorer
+outFile = '2013-predicitons.json'         
+sentimentList = predicted_ys.tolist()
+#TODO: Create a fully working function out of this, needs to be tested
+#       Should also have error handling for when counts don't match
+#TODO: You could also add in topic classification here e.g. dict["topic_wx"] = topic_wx[count]
+count = 0 
+for dict in data:
+    keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
+    dict["sentiment_score"] = sentimentList[count]
+    count += 1
+
+goldFile = open('gold2013.tsv','w')
+predFile = open('pred2103.tsv','w')
+
+strScore = lambda score: "negative" if (score == -1) else ("positive" if (score == 1) else "neutral")
+for dict in data:
+    goldFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + dict["sentiment_orig"] + '\t' + dict["text"] + '\n')
+    predFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + strScore(dict["sentiment_score"]) + '\t' + dict["text"] + '\n')
+
+goldFile.close()
+predFile.close()
+helper.dumpJSONtoFile(outFile,data) 

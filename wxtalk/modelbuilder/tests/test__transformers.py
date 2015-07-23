@@ -82,6 +82,7 @@ def test_transformed_tweet_vals_extractor():
     #test 3 - default multiDoc
     t = transformers.DocsExtractor()
     assert_equal(t.transform([testExpected1[0],testExpected3[0]]),['your not_NEG happy_NEG :(_NEG','your not_NEG happy_NEG :(_NEG user_NEG'])
+
 #----------------------lexicon tests
 
 transformedTweets1 = [{'negated_token_list':['adore','him','back']}]

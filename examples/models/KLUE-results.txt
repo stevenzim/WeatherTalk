@@ -1,0 +1,169 @@
+
+***********************
+**BEFORE CODE REFACTOR**
+***********************
+#vvvvvv Results before code change on my data set (bigrams df 5, no stem grams, negate counts, afinn with negation, emoti/acro normalised w/o negationVVVVVVVVVVVVVVv
+NOTE: normalisation --> lowercase=True,hashNormalise=True,digitNormalise=False,urlNormalise = True,userNameNormalise=True,collapseTweet = False)
+>>> clfpipeline = Pipeline([\
+...             ('features',features),
+...             ('clf',LogisticRegression(penalty = 'l2',C = .05))])
+>>> 
+>>> NRCtestingPipeline(clfpipeline,ysKeyName='sentiment_num',negateTweet = True)
+Building Model
+Results DEV 2015
+             precision    recall  f1-score   support
+
+         -1       0.67      0.34      0.45       258
+          0       0.60      0.77      0.68       566
+          1       0.62      0.57      0.60       434
+
+avg / total       0.62      0.61      0.60      1258
+
+
+Results TEST 2013
+             precision    recall  f1-score   support
+
+         -1       0.67      0.31      0.43       445
+          0       0.61      0.85      0.71      1337
+          1       0.74      0.57      0.64      1225
+
+avg / total       0.67      0.65      0.64      3007
+
+>>> clfpipeline = Pipeline([\
+...             ('features',features),
+...             ('clf',LogisticRegression(penalty = 'l2',C = 0.15))])
+>>> NRCtestingPipeline(clfpipeline,ysKeyName='sentiment_num',negateTweet = True)
+Building Model
+Results DEV 2015
+             precision    recall  f1-score   support
+
+         -1       0.68      0.36      0.47       258
+          0       0.62      0.78      0.69       566
+          1       0.62      0.59      0.60       434
+
+avg / total       0.63      0.63      0.61      1258
+
+
+Results TEST 2013
+             precision    recall  f1-score   support
+
+         -1       0.68      0.37      0.48       445
+          0       0.61      0.85      0.71      1337
+          1       0.76      0.57      0.65      1225
+
+avg / total       0.68      0.66      0.65      3007
+
+>>> 
+
+2013 results with MY DATASET with training on DEV/TRAIN  on best classifer
+>>> print helper.evaluateResults(expected_ys,predicted_ys)
+             precision    recall  f1-score   support
+
+         -1       0.70      0.36      0.47       445
+          0       0.62      0.87      0.72      1337
+          1       0.77      0.57      0.66      1225
+
+avg / total       0.69      0.67      0.66      3007
+
+
+2013 results WITH WEBIS FULL DATA SET DEV/TRAIN ON BEST CLASSIFIER
+Results TEST 2013
+>>> print helper.evaluateResults(expected_ys,predicted_ys)
+             precision    recall  f1-score   support
+
+         -1       0.70      0.43      0.53       601
+          0       0.65      0.86      0.74      1640
+          1       0.80      0.64      0.71      1572
+
+avg / total       0.72      0.70      0.69      3813
+
+***********************
+**AFTER CODE REFACTOR**
+***********************
+#vvvvvvvvvvvvvvvvvvvvvvvvRESULTS AFTER MY CODE CHANGEvvvvv (bigrams df 5, no stem grams, negate counts, afinn with negation, emoti/acro normalised)
+NOTE: normalisation params --> userNorm = None,urlNorm = None,hashNormalise=True,digitNormalise=False
+>>> clfpipeline = Pipeline([\
+...             ('features',features),
+...             ('clf',LogisticRegression(penalty = 'l2',C = .05))])
+Results DEV 2015
+             precision    recall  f1-score   support
+
+         -1       0.68      0.34      0.45       258
+          0       0.60      0.77      0.67       566
+          1       0.62      0.58      0.60       434
+
+avg / total       0.62      0.62      0.60      1258
+
+Results TEST 2013
+             precision    recall  f1-score   support
+
+         -1       0.68      0.32      0.44       445
+          0       0.61      0.85      0.71      1337
+          1       0.75      0.58      0.65      1225
+
+avg / total       0.68      0.66      0.65      3007
+
+
+
+>>> clfpipeline = Pipeline([\
+...             ('features',features),
+...             ('clf',LogisticRegression(penalty = 'l2',C = 0.15))])
+>>> 
+Building Model
+Results DEV 2015
+             precision    recall  f1-score   support
+
+         -1       0.69      0.37      0.48       258
+          0       0.61      0.78      0.69       566
+          1       0.63      0.59      0.61       434
+
+avg / total       0.64      0.63      0.62      1258
+
+Results TEST 2013
+             precision    recall  f1-score   support
+
+         -1       0.69      0.36      0.47       445
+          0       0.61      0.84      0.71      1337
+          1       0.75      0.57      0.65      1225
+
+avg / total       0.68      0.66      0.65      3007
+
+2013 results with MY DATA SET and training on DEV/TRAIN 
+>>> print helper.evaluateResults(expected_ys,predicted_ys)
+             precision    recall  f1-score   support
+
+         -1       0.70      0.41      0.52       445
+          0       0.62      0.85      0.72      1337
+          1       0.77      0.56      0.65      1225
+
+avg / total       0.69      0.67      0.66      3007
+
+2013 results WITH WEBIS FULL DATA SET DEV/TRAIN ON BEST CLASSIFIER
+Results TEST 2013
+>>> print helper.evaluateResults(expected_ys,predicted_ys)
+             precision    recall  f1-score   support
+
+         -1       0.71      0.48      0.57       601
+          0       0.65      0.84      0.73      1640
+          1       0.79      0.64      0.71      1572
+
+avg / total       0.72      0.70      0.70      3813
+
+RESULTS L2/C=.25/Hashtag Removed/df=1/negated tokens to afinn
+Confusion table:
+gs \ pred| positive| negative|  neutral
+---------------------------------------
+ positive|     1005|       61|      506
+ negative|       65|      287|      249
+  neutral|      202|       54|     1384
+
+
+Scores:
+class	                       prec	              recall     fscore
+positive 	 (1005/1272) 0.7901	  (1005/1572) 0.6393	 0.7068	
+negative 	   (287/402) 0.7139	    (287/601) 0.4775	 0.5723	
+neutral 	 (1384/2139) 0.6470	  (1384/1640) 0.8439	 0.7325	
+-----------------------------------------------------------------------
+average(pos and neg)                                             0.6395	
+
+

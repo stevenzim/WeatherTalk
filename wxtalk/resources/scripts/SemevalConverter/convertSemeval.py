@@ -9,8 +9,8 @@
 #TODO:  Consider feature reduction.  e.g. change @username to user and all http links --> URL
 #TODO:	Consider is it better to leave classes as neg,neut,pos or convert to -1,0,1
 
-# usage 'python .\convertSemeval.py SemEvalData\TestFile.csv SemEvalData\semeval-train.json'
-
+# usage 'python ./convertSemeval.py SemEvalData/TestFile.csv SemEvalData/semeval-train.json'
+# usage 'python ./convertSemeval.py SemEvalData/Trainingsdata-SemEval2013.txt SemEvalData/SemTrain.json'
 import csv
 import json
 import sys
@@ -55,11 +55,13 @@ def buildOutputDict(csvRow):
 #MAIN PART OF PROGRAM. 
 #Takes in semeval csv file and converts one row at a time to desired dictionary format.  
 #NOTE: You must convert semeval file from tab delimited to comma delimited and add correct headers
+iFile = open(inputCSV,'r')
+iFile.close()
 
 myList = []
 currentRow = 1
 with open(inputCSV) as csvfile:
-    reader = csv.DictReader(csvfile)
+    reader = csv.DictReader(csvfile,delimiter = '\t')
     for row in reader:
         print currentRow
         currentRow += 1

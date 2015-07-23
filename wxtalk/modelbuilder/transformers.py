@@ -103,16 +103,16 @@ class TweetTransformer(BaseEstimator, TransformerMixin):
             updatedTokenList.append(token)
         self.normalised_token_list = updatedTokenList
         self.normalised_string = ' '.join(updatedTokenList)
-        print self.normalised_token_list
-        print self.normalised_string
+        #print self.normalised_token_list
+        #print self.normalised_string
     
     def setTweetStems(self):
         '''sets stems list and string values based on normalised token list'''
         stemmer = PorterStemmer()
         self.stem_list = map(lambda token: stemmer.stem(token),self.normalised_token_list)
         self.stem_string = ' '.join(self.stem_list )
-        print self.stem_list
-        print self.stem_string
+        #print self.stem_list
+        #print self.stem_string
        
     def setTweetNegationVals(self):
         '''sets negation list, string  and count values based on normalised token list  
@@ -149,14 +149,14 @@ class TweetTransformer(BaseEstimator, TransformerMixin):
         self.negated_string = ' '.join(negatedTokenList)
         self.negated_count = negateCount
         
-        print self.negated_list
-        print self.negated_string
-        print self.negated_count
+        #print self.negated_list
+        #print self.negated_string
+        #print self.negated_count
         
     def setCollapsedTweetVals(self):
         '''sets list of collapsed tokens based on normalised token list'''
         self.collapsed_token_list = map(collapseToken,self.normalised_token_list)
-        print self.collapsed_token_list
+        #print self.collapsed_token_list
         
 
     def getPipelineTweetDict(self):
@@ -196,7 +196,7 @@ class TweetTransformer(BaseEstimator, TransformerMixin):
                 self.raw_token_list = map(first,self.cmuRawTextTriples)
                 transformedTweetList.append(self.getPipelineTweetDict())
                 if ysKeyName != None:
-                    expectedYsList.append(dict[ysKeyName])   
+                    expectedYsList.append(currentTweet[ysKeyName])   
             
 #            pp = pprint.PrettyPrinter(indent=4)
 #            pp.pprint(transformedTweetList)
