@@ -160,8 +160,23 @@ negateCounts = Pipeline([\
             ('negate-counts-dict',tran.NegationCountExtractor()),\
             ('negate-vec',tran.DictVectorizer())])
  
-
-
+#NRC features
+features = FeatureUnion([
+            ('lex-man-feats',lexManualFeatures),
+            ('lex-auto-feats',lexAutoFeatures),
+            ('word-gram-count',NRCwordgrams),
+            ('char-gram-count',NRCchargrams),
+            ('pos-count',posCounts),
+            ('cmu-cluster',cmuClusterFeatures),
+            ('all-caps-count',allCapsCount),
+            ('hashtags-count',hashTagCount),
+            ('elong-count',elongatedWordCount),
+            ('punctuation-feats',puncFeatures),
+            ('emoti-feats',emotiFeatures),
+            ]) 
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = .2))])
 #**********Other papers features***
 #TODO: Decide which ones, very much like the features from KLUE paper
 #RTRGO/prototype
@@ -173,6 +188,10 @@ KLUEwordgrams = Pipeline([\
             ('docs',tran.DocsExtractor()),\
             ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=1))])
 
+negateCounts = Pipeline([\
+            ('negate-counts-dict',tran.NegationCountExtractor()),\
+            ('negate-vec',tran.DictVectorizer())])
+            
 KLUEstems = Pipeline([\
             ('docs',tran.DocsExtractor('stem_string')),\
             ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=1))])
@@ -199,19 +218,10 @@ KLUEemotiacro = Pipeline([\
 #KLUE features
 features = FeatureUnion([
             ('word-gram-count',KLUEwordgrams),
-            #('stem-gram-count',KLUEstems),
             ('negate-feats',negateCounts),
-            #('pos-count',posCounts),
-            #('cmu-cluster',cmuClusterFeatures),
-            #('all-caps-count',allCapsCount),
-            #('hashtags-count',hashTagCount),
-            #('elong-count',elongatedWordCount),
-            #('punctuation-feats',puncFeatures),
-            #('emoti-feats',emotiFeatures),
             ('klue-token-count', KLUEtokenCount),
             ('klue-polarity', KLUEpolarity),
             ('klue-emoti-acro', KLUEemotiacro),
-            #('my-feats',originalFeatures)
             ])
             
 clfpipeline = Pipeline([\
@@ -236,61 +246,36 @@ KLUEemotiacro.fit_transform(testTriplesList)
 #----------------            
 #GU-MLT
 GUMLTwordGrams = Pipeline([\
-            ('docs',tran.DocsExtractor(collapseTweet = True)),\
+            ('docs',tran.DocsExtractor(transformedTweetKeyName = 'normalised_string')),\
             ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 1) ,binary=True))])
 GUMLTstems = Pipeline([\
-            ('docs',tran.DocsExtractor(collapseTweet = True)),\
-            ('stems',tran.StemExtractor()),\
+            ('docs',tran.DocsExtractor('stem_string')),\
             ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 1) ,binary=True))])
+negateCounts = Pipeline([\
+            ('negate-counts-dict',tran.NegationCountExtractor()),\
+            ('negate-vec',tran.DictVectorizer())])
+GUMLTClusterFeatures = Pipeline([\
+            ('clusters',tran.ClusterExtractor(['collapsed_token_list','raw_token_list','normalised_token_list'])),\
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 1) ,binary=False,\
+                     vocabulary = helper.loadJSONfromFile(helper.getProjectPath() + '/wxtalk/resources/lexicons/CMU/CMU-cluster-vocab.json')))])   
 GUMLTpolarity = Pipeline([\
-            ('polarity-dict',tran.GUMLTsentiWordNetExtractor()),\
+            ('polarity-dict',tran.GUMLTsentiWordNetExtractor(tokenListKeyName= 'collapsed_token_list')),\
             ('polarity-vec',tran.DictVectorizer())])
-
-
-#***********My features*************
-#TODO: Implement option in lexicons to put score of last polar feature less than 0 and minimum polar score
-
-
-#^^^^^^^^^^^^^^^^^FEATURE UNION^^^^^^^^^^^^^^^^^^^^^^^#
-#NRC features
-features = FeatureUnion([
-            ('lex-man-feats',lexManualFeatures),
-            ('lex-auto-feats',lexAutoFeatures),
-            ('word-gram-count',NRCwordgrams),
-            ('char-gram-count',NRCchargrams),
-            #('negate-feats',negateCounts),
-            ('pos-count',posCounts),
-            ('cmu-cluster',cmuClusterFeatures),
-            #('emoti-cluster',emotiClusterFeatures),
-            ('all-caps-count',allCapsCount),
-            ('hashtags-count',hashTagCount),
-            ('elong-count',elongatedWordCount),
-            ('punctuation-feats',puncFeatures),
-            ('emoti-feats',emotiFeatures),
-            #('feats-other-papers', otherPaperFeatures),
-#            ('rtrgo-encode-feats', rtrgoFeatures),
-            #('klue-token-count', KLUEtokenCount),
-            #('my-feats',originalFeatures)
-            ]) 
-
-
-
 #GM-MLT features
 features = FeatureUnion([
             ('word-gram-count',GUMLTwordGrams),
             ('stem-gram-count',GUMLTstems ),
             ('negate-feats',negateCounts),
-            #('pos-count',posCounts),
-            ('cmu-cluster',cmuClusterFeatures),
-            #('all-caps-count',allCapsCount),
-            #('hashtags-count',hashTagCount),
-            #('elong-count',elongatedWordCount),
-            #('punctuation-feats',puncFeatures),
-            #('emoti-feats',emotiFeatures),
+            ('cmu-cluster',GUMLTClusterFeatures),
             ('gmmlt-polarity', GUMLTpolarity),
-            #('my-feats',originalFeatures)
             ])
-            
+
+clfpipeline = Pipeline([\
+             ('features',features),
+             ('clf',LogisticRegression(penalty = 'l2',C = 0.4))])
+#finalTest(clfpipeline,digitNormalise=True)
+
+#***********My features*************
 #favourite features
 features = FeatureUnion([
             ('lex-man-feats',lexManualFeatures),
@@ -300,19 +285,23 @@ features = FeatureUnion([
             ('negate-feats',negateCounts),
             ('pos-count',posCounts),
             ('cmu-cluster',cmuClusterFeatures),
-            #('emoti-cluster',emotiClusterFeatures),
             ('all-caps-count',allCapsCount),
             ('hashtags-count',hashTagCount),
             ('elong-count',elongatedWordCount),
             ('punctuation-feats',puncFeatures),
             ('emoti-feats',emotiFeatures),
-            #('feats-other-papers', otherPaperFeatures),
-#            ('rtrgo-encode-feats', rtrgoFeatures),
             ('klue-token-count', KLUEtokenCount),
             ('klue-polarity', KLUEpolarity),
             ('klue-emoti-acro', KLUEemotiacro),
-            #('my-feats',originalFeatures)
             ]) 
+clfpipeline = Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l2',C = .25))])
+#^^^^^^^^^^^^^^^^^FEATURE UNION^^^^^^^^^^^^^^^^^^^^^^^#
+
+
+            
+
 
 #^^^^^^^^^^^^^^^^^CLASSIFIERS^^^^^^^^^^^^^^^^^^^^^^^#
 #TODO: Play with params, and probabilistic params
@@ -334,10 +323,10 @@ clfpipeline = Pipeline([\
 #Logistic Regression / MaxEnt with KLUE best settings
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = .6))])
+            ('clf',LogisticRegression(penalty = 'l1',C = .2))])
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l2',C = .05))])
+            ('clf',LogisticRegression(penalty = 'l2',C = .1))])
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',LogisticRegression(penalty = 'l2',C = 0.15))])
@@ -346,6 +335,22 @@ clfpipeline = Pipeline([\
             ('clf',LogisticRegression(penalty = 'l2',C = 0.5))])
 
 
+clf1 =Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = .18))])
+clf2 =Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = .05))])
+clf3 =Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = .1))])
+clf4 =Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = .2))])
+clf5 =Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = .25))])
+clfs= [clf1,clf2,clf3,clf4,clf5]
 #random_forest
 clfpipeline = Pipeline([\
             ('features',features),
@@ -403,7 +408,25 @@ def testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = 
     predicted_ys = loadedpipe.predict(tweetsList)
     print "Results TEST 2013"
     print helper.evaluateResults(expected_ys,predicted_ys)
-
+    print "Writing to goldstandard"
+    count = 0 
+    for dict in data:
+        keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
+        dict["sentiment_score"] = sentimentList[count]
+        count += 1
+    
+    goldFile = open('gold2013.tsv','w')
+    predFile = open('pred2103.tsv','w')
+    
+    strScore = lambda score: "negative" if (score == -1) else ("positive" if (score == 1) else "neutral")
+    for dict in data:
+        goldFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + dict["sentiment_orig"] + '\t' + dict["text"] + '\n')
+        predFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + strScore(dict["sentiment_score"]) + '\t' + dict["text"] + '\n')
+    
+    goldFile.close()
+    predFile.close()
+    helper.dumpJSONtoFile(outFile,data) 
+    print "Done"
 
 #^^^^^^^^^^^^^^^Train/Dev --> Test 2015^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 def finalTest(clfpipeline,ysKeyName = 'sentiment_num',userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False):
@@ -422,18 +445,19 @@ def finalTest(clfpipeline,ysKeyName = 'sentiment_num',userNorm = None,urlNorm = 
     #Combine into one train set and build model
     tweetsList.extend(tweetsListDev), ysList.extend(expected_ysDev)
     clfpipeline.fit(tweetsList,ysList)
-    joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
-    loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
-        
-    #PREDICT ON TEST 2015
-    ### TEST 2015
-    #inFile = '../../wxtalk/resources/data/SemEval/SemTestTriples.json'
-    #data = helper.loadJSONfromFile(inFile)           
-    #ed = tran.TweetTransformer()
-    #tweetsList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
-    #predicted_ys = loadedpipe.predict(tweetsList)
-    #print helper.evaluateResults(expected_ys,predicted_ys)
+    joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/model.pkl') 
+    loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/model.pkl')
+    
     print "Model built, prediction results"
+#    #PREDICT ON TEST 2015
+#    ## TEST 2015
+#    inFile = '../../wxtalk/resources/data/SemEval/SemTest2015Triples.json'
+#    data = helper.loadJSONfromFile(inFile)           
+#    ed = tran.TweetTransformer()
+#    tweetsList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+#    predicted_ys = loadedpipe.predict(tweetsList)
+#    print helper.evaluateResults(expected_ys,predicted_ys)
+    
     ### TEST 2013
     inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
     data = helper.loadJSONfromFile(inFile)           
@@ -473,16 +497,16 @@ def finalTest(clfpipeline,ysKeyName = 'sentiment_num',userNorm = None,urlNorm = 
 ### TEST 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TweetTransformer()
-tweetsList, ysList = ed.transform(data,ysKeyName = 'sentiment_num',userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False)
+ed = tran.TweetTransformer(userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False)
+tweetsList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
 ### DEV 2015
 inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
-tweetsListDev, expected_ysDev = ed.transform(data,ysKeyName = ysKeyName)
+ed = tran.TweetTransformer(userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False)
+tweetsListDev, expected_ysDev = ed.transform(data,ysKeyName = 'sentiment_num')
 
-#Combine into one train set and build model
-tweetsList.extend(tweetsListDev), ysList.extend(expected_ysDev)
+##Combine into one train set and build model
+#tweetsList.extend(tweetsListDev), ysList.extend(expected_ysDev)
 #clfpipeline = Pipeline([\
 #            ('features',features),
 #            ('clf',SGDClassifier())])
@@ -494,11 +518,11 @@ tweetsList.extend(tweetsListDev), ysList.extend(expected_ysDev)
 
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression())])
+            ('clf',LogisticRegression(penalty='l2'))])
             
 parameters = {
-    'clf__C': (.6,.5,.4,.3,.2),
-    'clf__penalty': ('l2','l1'),
+    'clf__C': (.5,.4,.3,.2,.1),
+#
 }
 #clfpipeline = Pipeline([\
 #            ('features',features),
@@ -539,4 +563,27 @@ if __name__ == "__main__":
         print("\t%s: %r" % (param_name, best_parameters[param_name]))       
 
 
+#------------------live data-------------------------
+#1 - Example of Live Data Pipeline --> predict on live Tweets.  Attach prediction/result to each dictionary
+'''Assumes that pickle files contain the desired pipeline'''
+inFile = '../../wxtalk/resources/data/LiveTweets/LiveCorpus.json'
+outFile = '../../wxtalk/resources/data/LiveTweets/LiveCorpusWithTriples.json'
+#helper.extractTweetNLPtriples(inFile,outFile)
+loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')
+inFile = '../../wxtalk/resources/data/LiveTweets/LiveCorpusWithTriples.json'
+outFile = '../../wxtalk/resources/data/LiveTweets/LiveCorpusScored.json'
+data = helper.loadJSONfromFile(inFile)           
+ed = tran.TweetTransformer(userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False)
+triplesList = ed.transform(data)
+predicted_ys = loadedpipe.predict(triplesList)
+sentimentList = predicted_ys.tolist()
+#TODO: Create a fully working function out of this, needs to be tested
+#       Should also have error handling for when counts don't match
+#TODO: You could also add in topic classification here e.g. dict["topic_wx"] = topic_wx[count]
+count = 0 
+for dict in data:
+    keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
+    dict["sentiment_score"] = sentimentList[count]
+    count += 1
 
+helper.dumpJSONtoFile(outFile,data)

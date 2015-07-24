@@ -17,9 +17,9 @@ import pprint
 
 
 #some useful f's for transformers
-first = lambda x: (x[0])
-second = lambda x: (x[1])
-last = lambda x: (x[-1])
+first = lambda x: (x[0]) if (len(x) >0) else ''
+second = lambda x: (x[1]) if (len(x) >1) else ''
+last = lambda x: (x[-1]) if (len(x) >0) else ''
 lower = lambda x:  x.lower()
 upper = lambda x:  x.upper()
 greaterZeroBool = lambda x: True if (x>0.0) else False
@@ -444,13 +444,15 @@ class PunctuationFeatureExtractor(BaseEstimator, TransformerMixin):
         reQuest = re.compile(r'\?{2,}')  #regex to match consecutive question marks
         reBoth = re.compile(r'(!\?|\?!){1,}')  #regex to match consecutive question marks
         for tweet in transformedTweets:
-            punctuationCountDicts.append(
-            {'count_contig_seq_exclaim':len(filter(lambda token: token if ((reExclaim.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
-            'count_contig_seq_question':len(filter(lambda token: token if ((reQuest.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
-            'count_contig_seq_both':len(filter(lambda token: token if ((reBoth.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
-            'last_toke_contain_quest':'?' in last(tweet[self.tokenListKeyName]),
-            'last_toke_contain_exclaim':'!' in last(tweet[self.tokenListKeyName])
-            })
+            try:
+                punctuationCountDicts.append(
+                {'count_contig_seq_exclaim':len(filter(lambda token: token if ((reExclaim.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
+                'count_contig_seq_question':len(filter(lambda token: token if ((reQuest.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
+                'last_toke_contain_quest':'?' in last(tweet[self.tokenListKeyName]),
+                'last_toke_contain_exclaim':'!' in last(tweet[self.tokenListKeyName])
+                })
+            except:
+                print tweet
         return punctuationCountDicts
 
 
@@ -501,8 +503,8 @@ class ClusterExtractor(BaseEstimator, TransformerMixin):
         2- created a lexicon/dictionary with key = token and val equal to binary value
         3- For each tweet build a string of binary cluster vals that can be split on string.split.   If token not in lexicon, add nothing to list
     '''
-    def __init__(self,tokenListKeyName= 'normalised_token_list'):
-        self.tokenListKeyName= tokenListKeyName #name of key containing tokens to search for cluster ids, raw_token_list etc are also valid options
+    def __init__(self,tokenListOfKeyNames= ['normalised_token_list']):
+        self.tokenListOfKeyNames= tokenListOfKeyNames #name of key containing tokens to search for cluster ids, raw_token_list etc are also valid options
         
     def fit(self, x, y=None):
         return self
@@ -515,9 +517,10 @@ class ClusterExtractor(BaseEstimator, TransformerMixin):
         CMUclusterIDlist = []  #list of id strings concatenated together and to return, each item in list is one tweet
         for tweet in transformedTweets:
             currentClusterList = []
-            for token in tweet[self.tokenListKeyName]:
-                if token in clusterWords:
-                    currentClusterList.append(clusterLexicon[token])
+            for tokenListKey in self.tokenListOfKeyNames:
+                for token in tweet[tokenListKey ]:
+                    if token in clusterWords:
+                        currentClusterList.append(clusterLexicon[token])
             CMUclusterIDlist.append(' '.join(currentClusterList))
         #print CMUclusterIDlist
         return CMUclusterIDlist

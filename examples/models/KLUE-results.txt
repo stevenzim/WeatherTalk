@@ -1,4 +1,36 @@
 
+
+RESULTS L2/C=.25/Hashtag Removed/df=1/negated tokens to afinn
+Gold standard: 3813 lines
+               3813 unique
+Breakdown by class:
+positive 	1572
+neutral 	1640
+negative 	601
+
+
+Confusion table:
+gs \ pred| positive| negative|  neutral
+---------------------------------------
+ positive|     1016|       62|      494
+ negative|       62|      287|      252
+  neutral|      192|       48|     1400
+
+
+Scores:
+class	                       prec	              recall     fscore
+positive 	 (1016/1270) 0.8000	  (1016/1572) 0.6463	 0.7150	
+negative 	   (287/397) 0.7229	    (287/601) 0.4775	 0.5752	
+neutral 	 (1400/2146) 0.6524	  (1400/1640) 0.8537	 0.7396	
+-----------------------------------------------------------------------
+average(pos and neg)                                             0.6451	
+
+
+
+
+
+OTHER ANALYSIS TO COMPARE BEFORE AND AFTER CODE AND DATA SET CHANGES....
+
 ***********************
 **BEFORE CODE REFACTOR**
 ***********************
@@ -148,22 +180,3 @@ Results TEST 2013
           1       0.79      0.64      0.71      1572
 
 avg / total       0.72      0.70      0.70      3813
-
-RESULTS L2/C=.25/Hashtag Removed/df=1/negated tokens to afinn
-Confusion table:
-gs \ pred| positive| negative|  neutral
----------------------------------------
- positive|     1005|       61|      506
- negative|       65|      287|      249
-  neutral|      202|       54|     1384
-
-
-Scores:
-class	                       prec	              recall     fscore
-positive 	 (1005/1272) 0.7901	  (1005/1572) 0.6393	 0.7068	
-negative 	   (287/402) 0.7139	    (287/601) 0.4775	 0.5723	
-neutral 	 (1384/2139) 0.6470	  (1384/1640) 0.8439	 0.7325	
------------------------------------------------------------------------
-average(pos and neg)                                             0.6395	
-
-

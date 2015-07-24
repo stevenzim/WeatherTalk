@@ -10,18 +10,19 @@ negative 	601
 Confusion table:
 gs \ pred| positive| negative|  neutral
 ---------------------------------------
- positive|     1035|       62|      475
- negative|       56|      322|      223
+ positive|     1035|       63|      474
+ negative|       56|      323|      222
   neutral|      179|       53|     1408
 
 
 Scores:
 class	                       prec	              recall     fscore
 positive 	 (1035/1270) 0.8150	  (1035/1572) 0.6584	 0.7284	
-negative 	   (322/437) 0.7368	    (322/601) 0.5358	 0.6204	
-neutral 	 (1408/2106) 0.6686	  (1408/1640) 0.8585	 0.7517	
+negative 	   (323/439) 0.7358	    (323/601) 0.5374	 0.6212	
+neutral 	 (1408/2104) 0.6692	  (1408/1640) 0.8585	 0.7521	
 -----------------------------------------------------------------------
-average(pos and neg)                                             0.6744
+average(pos and neg)                                             0.6748	
+
 
 
 CONFIGURATION:

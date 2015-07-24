@@ -10,18 +10,20 @@ negative 	601
 Confusion table:
 gs \ pred| positive| negative|  neutral
 ---------------------------------------
- positive|     1029|       57|      486
- negative|       59|      305|      237
-  neutral|      159|       67|     1414
+ positive|     1028|       58|      486
+ negative|       59|      306|      236
+  neutral|      160|       66|     1414
 
 
 Scores:
 class	                       prec	              recall     fscore
-positive 	 (1029/1247) 0.8252	  (1029/1572) 0.6546	 0.7300	
-negative 	   (305/429) 0.7110	    (305/601) 0.5075	 0.5922	
-neutral 	 (1414/2137) 0.6617	  (1414/1640) 0.8622	 0.7487	
+positive 	 (1028/1247) 0.8244	  (1028/1572) 0.6539	 0.7293	
+negative 	   (306/430) 0.7116	    (306/601) 0.5092	 0.5936	
+neutral 	 (1414/2136) 0.6620	  (1414/1640) 0.8622	 0.7489	
 -----------------------------------------------------------------------
-average(pos and neg)                                             0.6611	
+average(pos and neg)                                             0.6615	
+
+
 
 
 CONFIGURATION:
@@ -163,3 +165,7 @@ emotiFeatures = Pipeline([\
 negateCounts = Pipeline([\
             ('negate-counts-dict',tran.NegationCountExtractor()),\
             ('negate-vec',tran.DictVectorizer())])
+            
+
+Other Results:
+
