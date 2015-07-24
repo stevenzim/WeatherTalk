@@ -275,7 +275,7 @@ clfpipeline = Pipeline([\
              ('clf',LogisticRegression(penalty = 'l2',C = 0.4))])
 #finalTest(clfpipeline,digitNormalise=True)
 
-#***********My features*************
+#***********BLENDED/TeamX features*************
 #favourite features
 features = FeatureUnion([
             ('lex-man-feats',lexManualFeatures),
@@ -297,12 +297,15 @@ features = FeatureUnion([
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',LogisticRegression(penalty = 'l2',C = .25))])
-#^^^^^^^^^^^^^^^^^FEATURE UNION^^^^^^^^^^^^^^^^^^^^^^^#
+#^^^^^^^^^^^^^^^^^BASELINE^^^^^^^^^^^^^^^^^^^^^^^#
 
 
-            
-
-
+features = Pipeline([\
+            ('docs',tran.DocsExtractor(transformedTweetKeyName = 'normalised_string')),\
+            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 1) ,binary=True))])
+clf1 =Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = 1.0))])
 #^^^^^^^^^^^^^^^^^CLASSIFIERS^^^^^^^^^^^^^^^^^^^^^^^#
 #TODO: Play with params, and probabilistic params
 #NB
@@ -313,7 +316,7 @@ clfpipeline = Pipeline([\
 #SGD
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',SGDClassifier(alpha=1e-05,n_iter=50,penalty='elasticnet'))])
+            ('clf',SGDClassifier(alpha=.001,n_iter=1000,penalty='elasticnet'))])
 clfpipeline = Pipeline([\
             ('features',features),
             ('clf',SGDClassifier(n_iter=50,penalty = 'l2'))])
@@ -337,19 +340,19 @@ clfpipeline = Pipeline([\
 
 clf1 =Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = .18))])
+            ('clf',LogisticRegression(penalty = 'l1',C = 1.0))])
 clf2 =Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = .05))])
+            ('clf',LogisticRegression(penalty = 'l1',C = .3))])
 clf3 =Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = .1))])
+            ('clf',LogisticRegression(penalty = 'l1',C = .5))])
 clf4 =Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = .2))])
+            ('clf',LogisticRegression(penalty = 'l1',C = .7))])
 clf5 =Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = .25))])
+            ('clf',LogisticRegression(penalty = 'l1',C = .9))])
 clfs= [clf1,clf2,clf3,clf4,clf5]
 #random_forest
 clfpipeline = Pipeline([\
@@ -415,8 +418,8 @@ def testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = 
         dict["sentiment_score"] = sentimentList[count]
         count += 1
     
-    goldFile = open('gold2013.tsv','w')
-    predFile = open('pred2103.tsv','w')
+    goldFile = open('gold.tsv','w')
+    predFile = open('pred.tsv','w')
     
     strScore = lambda score: "negative" if (score == -1) else ("positive" if (score == 1) else "neutral")
     for dict in data:

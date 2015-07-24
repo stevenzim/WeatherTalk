@@ -311,11 +311,11 @@ ed = tran.TriplesYsExtractor()
 triplesList, ysList = ed.transform(data,ysKeyName = 'sentiment_num')
 clfpipeline.fit(triplesList,ysList)
 joblib.dump(clfpipeline, '../../wxtalk/resources/data/pickles/test.pkl') 
-loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/test.pkl')            
+loadedpipe = joblib.load('../../wxtalk/resources/data/pickles/model.pkl')            
 #dev with probability
-inFile = '../../wxtalk/resources/data/SemEval/SemDevTriples.json'
+inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
 data = helper.loadJSONfromFile(inFile)           
-ed = tran.TriplesYsExtractor()
+ed = tran.TweetTransformer()
 triplesList, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
 predicted_ys = loadedpipe.predict(triplesList)
 probs_ys = loadedpipe.predict_proba(triplesList)

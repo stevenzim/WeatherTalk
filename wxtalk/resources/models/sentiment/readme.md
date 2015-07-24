@@ -11,11 +11,11 @@ from wxtalk.modelbuilder import transformers as tran
 from wxtalk import helper
 
 helper.extractTweetNLPtriples(rawTweeetJSONFile,tripleJSONFile)  #Raw Tweets --> Triple Tweets
-loadedpipe = joblib.load('../../path to desired binaries')
+model = joblib.load('../../path to desired binaries')
 data = helper.loadJSONfromFile(tripleJSONFile)
 ed = tran.TweetTransformer(userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False)
 triplesList = ed.transform(data)
-predicted_ys = loadedpipe.predict(triplesList)
+predicted_ys = model.predict(triplesList)
 sentimentList = predicted_ys.tolist()
 count = 0 
 for dict in data:
@@ -24,3 +24,14 @@ for dict in data:
     count += 1
 
 helper.dumpJSONtoFile(classifiedTweetFileName,data)
+
+You can then predict with probabilities
+model = joblib.load('../../wxtalk/resources/data/pickles/model.pkl')
+
+inFile = 'path to test set tweets with triples'
+data = helper.loadJSONfromFile(inFile)
+ed = tran.TweetTransformer()
+transformedTweets, expected_ys = ed.transform(data,ysKeyName = 'sentiment_num')
+predicted_ys = model.predict(transformedTweets)
+probs_ys = model.predict_proba(transformedTweets)
+print helper.evaluateResults(expected_ys,predicted_ys,y_probs=probs_ys,prob_thresh=.999999)  #which filters any predictions with < prob_tresh
