@@ -40,10 +40,11 @@ def compileEnsemble(listOfEnsembleMetaDicts,listOfTweets):
             meanProbs = map(lambda probSum: round(probSum/len(modelIds),3),sumModelProbsList)
             #get winning idx, class and probability
             winningIndex = meanProbs.index(max(meanProbs))
-            winningClass = ensemble["model_classes"][winningIndex]
-            winningProba = meanProbs[winningIndex]
-            tweet[ensemble["id"] + "_discrete"] = winningClass
-            tweet[ensemble["id"] + "_proba"] = winningProba
+            concencusClass = ensemble["model_classes"][winningIndex]
+            concencusProba = meanProbs[winningIndex]
+            #add ensemble results to tweet
+            tweet[ensemble["id"] + "_discrete"] = concencusClass
+            tweet[ensemble["id"] + "_proba"] = concencusProba
             listOfTweetDicts[idx] = tweet
         
     return listOfTweetDicts
