@@ -442,7 +442,6 @@ class PunctuationFeatureExtractor(BaseEstimator, TransformerMixin):
         punctuationCountDicts = []
         reExclaim = re.compile(r'!{2,}')  #regex to match consecutive exclamation marks
         reQuest = re.compile(r'\?{2,}')  #regex to match consecutive question marks
-        reBoth = re.compile(r'(!\?|\?!){1,}')  #regex to match consecutive question marks
         for tweet in transformedTweets:
             try:
                 punctuationCountDicts.append(
