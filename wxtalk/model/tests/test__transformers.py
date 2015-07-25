@@ -275,14 +275,17 @@ punctuationTweets2 = [{'normalised_token_list' : ["hello","???","worlld","!!!","
 punctuationTweets3 = [{'normalised_token_list' : ["hello","!!!","worlld","!!!","me","???"]}]
 punct1 = {'count_contig_seq_exclaim':0,
             'count_contig_seq_question':0,
+            'count_contig_seq_both':0,
             'last_toke_contain_quest':False,
             'last_toke_contain_exclaim':True}
 punct2 = {'count_contig_seq_exclaim':1,
             'count_contig_seq_question':1,
+            'count_contig_seq_both':1,
             'last_toke_contain_quest':True,
             'last_toke_contain_exclaim':True}            
 punct3 = {'count_contig_seq_exclaim':2,
             'count_contig_seq_question':1,
+            'count_contig_seq_both':0,
             'last_toke_contain_quest':True,
             'last_toke_contain_exclaim':False}  
 def test_punctuation_features():

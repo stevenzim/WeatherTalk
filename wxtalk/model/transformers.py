@@ -442,16 +442,21 @@ class PunctuationFeatureExtractor(BaseEstimator, TransformerMixin):
         punctuationCountDicts = []
         reExclaim = re.compile(r'!{2,}')  #regex to match consecutive exclamation marks
         reQuest = re.compile(r'\?{2,}')  #regex to match consecutive question marks
+        reBoth = re.compile(r'(!\?|\?!){1,}')  #regex to match consecutive question marks
         for tweet in transformedTweets:
+            pp = pprint.PrettyPrinter()
+            print pp.pprint(tweet)
             try:
                 punctuationCountDicts.append(
                 {'count_contig_seq_exclaim':len(filter(lambda token: token if ((reExclaim.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
                 'count_contig_seq_question':len(filter(lambda token: token if ((reQuest.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
+                'count_contig_seq_both':len(filter(lambda token: token if ((reBoth.search(token)) !=None) else None,tweet[self.tokenListKeyName])),
                 'last_toke_contain_quest':'?' in last(tweet[self.tokenListKeyName]),
                 'last_toke_contain_exclaim':'!' in last(tweet[self.tokenListKeyName])
                 })
             except:
                 print tweet
+            print pp.pprint(punctuationCountDicts)
         return punctuationCountDicts
 
 
