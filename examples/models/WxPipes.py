@@ -256,7 +256,7 @@ features = FeatureUnion([
             ('word-gram-count',wordgrams ),
             #('stem-gram-count',KLUEstems),
             #('pos-count',posCounts)
-            #('cmu-cluster',GUMLTClusterFeatures),
+            ('cmu-cluster',GUMLTClusterFeatures),
             ]) 
 clf =Pipeline([\
             ('features',features),
@@ -330,7 +330,34 @@ def testingPipeline(clf,ysKeyName='topic_wx_00',userNorm = None,urlNorm = None,h
     print "Done"
 
 
-
+def updateJudgements(userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False,\
+                    clfKeyName = "clf_wx_score",\
+                    modelBinaryPath = None,\
+                    predictionFile = '../../wxtalk/resources/data/KagSem/LiveCorpusWithTriples.json',\
+                    goldFile = '../../wxtalk/resources/data/KagSem/LiveCorpusScored.json'):
+    print "Prediction on Validation Data"
+    '''Assumes that pickle files contain the desired pipeline'''
+    loadedpipe = joblib.load('../../wxtalk/resources/data/KagSem/pickles/kaggle-proto.pkl')
+    predictionData = helper.loadJSONfromFile(predictionFile) 
+    goldData = helper.loadJSONfromFile(goldFile) 
+    ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
+    transformedTweets = ed.transform(predictionData)
+    predicted_ys = loadedpipe.predict(transformedTweets)
+    wxPredictList = predicted_ys.tolist()
+    count = 0 
+    for dict in predictionData:
+        predictTweetId = dict["id"]
+        goldTweetId = goldData[count]["id"]
+        if predictTweetId != goldTweetId:
+            raise Exception ("Gold and prediciton files not the same order!!! Perhaps wrong files??")
+        else:
+            goldData[count][clfKeyName ] = wxPredictList[count]
+            #keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
+            dict[clfKeyName ] = wxPredictList[count]
+        count += 1
+    
+    helper.dumpJSONtoFile(goldFile,goldData)   #dump live tweets with classifer predictions added to json
+    print "Done"
 
 
 #^^^^^^^^^^^^^^^^^CLASSIFIERS^^^^^^^^^^^^^^^^^^^^^^^#
