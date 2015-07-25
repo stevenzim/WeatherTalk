@@ -25,7 +25,7 @@ testExpected2 = [{"text":"Good day :)",\
                     "s2_proba":[.15,.05,.8]}}]
 
 
-modelList = [predictors.model1MetaData,predictors.model2MetaData]
+modelList = [predictors.NRCmodelMetaData,predictors.KLUEmodelMetaData]
 
 
 def test_predictions():

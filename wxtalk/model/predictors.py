@@ -20,17 +20,17 @@ from wxtalk import helper
 
 
                     
-model1MetaData = {"binary_folder_file":"/sentiment/NRC/model.pkl",\
+NRCmodelMetaData = {"binary_folder_file":"/sentiment/NRC/model.pkl",\
                 "classifier_type":"sentiment",\
                 "description":"Implementation of NRC 2013 Semeval features trained with logistic regression",\
                 "id":"s1",\
-                "name":"NRC2013",\
+                "name":"NRC-2013",\
                 "normalisation_params":{"userNorm" : None,\
                                         "urlNorm" : None,\
                                         "hashNormalise":False,\
                                         "digitNormalise":False}}
                                         
-model2MetaData = {"binary_folder_file":"/sentiment/KLUE/model.pkl",\
+KLUEmodelMetaData = {"binary_folder_file":"/sentiment/KLUE/model.pkl",\
                 "classifier_type":"sentiment",\
                 "description":"Implementation of KLUE 2013 Semeval features trained with logistic regression",\
                 "id":"s2",\
@@ -39,6 +39,25 @@ model2MetaData = {"binary_folder_file":"/sentiment/KLUE/model.pkl",\
                                         "urlNorm" : None,\
                                         "hashNormalise":True,\
                                         "digitNormalise":False}}
+
+GUMLTLTmodelMetaData = {"binary_folder_file":"/sentiment/GUMLT/model.pkl",\
+                "classifier_type":"sentiment",\
+                "description":"Implementation of GU-MLT-LT 2013 Semeval features trained with logistic regression",\
+                "id":"s3",\
+                "name":"GU-MLT-LT-2013",\
+                "normalisation_params":{"userNorm" : None,\
+                                        "urlNorm" : None,\
+                                        "hashNormalise":False,\
+                                        "digitNormalise":False}}
                                         
+TeamXMetaData = {"binary_folder_file":"/sentiment/TeamX-inspired/model.pkl",\
+                "classifier_type":"sentiment",\
+                "description":"Implementation of TeamX 2014 inspired Semeval features trained with logistic regression",\
+                "id":"s4",\
+                "name":"TeamX-2014",\
+                "normalisation_params":{"userNorm" : None,\
+                                        "urlNorm" : None,\
+                                        "hashNormalise":True,\
+                                        "digitNormalise":False}}
 def makePredictions(listOfModelMetaDicts,listOfTweetDicts):
     return None
