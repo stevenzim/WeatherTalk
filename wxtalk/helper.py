@@ -115,14 +115,24 @@ def getDateTimeStamp(ansiFormat = False):
   
     
 # Run TweetNLP on list of dictionaries
-def extractTweetNLPtriples(inputJSONfile,outputJSONfile = None):
+def extractTweetNLPtriples(JSONfilePathOrListOfDicts,outputJSONfile = None):
     '''Loads json file to list --> creates list of tweets for all dictionaries in list
     Then runs the TweetNLP tagger (from Carnegie Mellon) on list of tweets
     Results of TweetNLP tagger are then added to appropriate dictionary which is dumped to new file
     This is done as independent task to allow jvm to process a batch of tweets
     rather than restarting for each individual tweet
     usage: tweetPreprocessedKeyVals("resources/preTweetNLP.json","resources/postTweetNLP.json")'''
-    listOfDicts = loadJSONfromFile(inputJSONfile)
+    listOfDicts = []
+    if type(JSONfilePathOrListOfDicts) == type(''):
+        listOfDicts = loadJSONfromFile(JSONfilePathOrListOfDicts)
+    elif type(JSONfilePathOrListOfDicts) == type([]):
+        try:
+            listOfDicts = JSONfilePathOrListOfDicts
+        except:
+            raise Exception('No tweets in list provided or incorrect data type provided')
+    else:
+        raise Exception('You must provide a file path to json file containing tweets OR a list of tweet dictionaries')
+    
     listOfTweets = []
     for dict in listOfDicts:
         tweet = dict["text"]

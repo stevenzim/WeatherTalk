@@ -1,5 +1,5 @@
 from nose.tools import *
-from wxtalk.model import ensemblers
+from wxtalk.modelbuilder import ensemblers
 from wxtalk import helper
 
 

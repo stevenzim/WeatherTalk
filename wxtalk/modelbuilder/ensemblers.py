@@ -22,7 +22,7 @@ Key steps
 #    l[n] = d
  
 
-from wxtalk.model import transformers
+from wxtalk.modelbuilder import transformers
 from wxtalk import helper
 
 

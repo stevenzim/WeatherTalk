@@ -1,5 +1,5 @@
 from nose.tools import *
-from wxtalk.model import predictors
+from wxtalk.modelbuilder import predictors
 from wxtalk import helper
 
 testTweet1 = [{"text":"Bad day :(",\
@@ -7,22 +7,20 @@ testTweet1 = [{"text":"Bad day :(",\
 
 testExpected1 = [{"text":"Bad day :(",\
                 "id":"test1",\
-                "model_preds":{
-                    "s1_discrete":-1,\
-                    "s1_proba":[.9,.05,.05],\
-                    "s2_discrete":-1,\
-                    "s2_proba":[.8,.05,.15]}}]
+                "s1_discrete":-1,\
+                "s1_proba":[.871,.108,.021],\
+                "s2_discrete":-1,\
+                "s2_proba":[.814,.177,.008]}]
                 
 
 testTweet2 = [{"text":"Good day :)",\
                 "id":"test2"}]
 testExpected2 = [{"text":"Good day :)",\
                 "id":"test2",\
-                "model_preds":{
-                    "s1_discrete":1,\
-                    "s1_proba":[.05,.05,.9],\
-                    "s2_discrete":-1,\
-                    "s2_proba":[.15,.05,.8]}}]
+                "s1_discrete":1,\
+                "s1_proba":[0.017, 0.028, 0.955],\
+                "s2_discrete":1,\
+                "s2_proba":[0.005, 0.032, 0.963]}]
 
 
 modelList = [predictors.NRCmodelMetaData,predictors.KLUEmodelMetaData]
