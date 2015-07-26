@@ -17,6 +17,7 @@ def loadJSONfromFile(fileName):
 	'''Loads JSON data into list.  Returns a list of dictionaries in [{},{}...{}] format
 	fileName is relative to directory where Python is running.
 	usage: myListOfDicts = loadJSONfromFile("FileName") '''
+	#return json.loads(unicode(open(fileName).read(), "ISO-8859-1"))
 	return json.loads(open(fileName).read())
 
 #pretty print json

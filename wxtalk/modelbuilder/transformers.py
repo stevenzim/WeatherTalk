@@ -109,7 +109,11 @@ class TweetTransformer(BaseEstimator, TransformerMixin):
     def setTweetStems(self):
         '''sets stems list and string values based on normalised token list'''
         stemmer = PorterStemmer()
-        self.stem_list = map(lambda token: stemmer.stem(token),self.normalised_token_list)
+        try:
+            self.stem_list = map(lambda token: stemmer.stem(token),self.normalised_token_list)
+        except:
+            #ERROR HANDLING FOR UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 0: ordinal not in range(128)
+            print self.normalised_token_list
         self.stem_string = ' '.join(self.stem_list )
         #print self.stem_list
         #print self.stem_string
@@ -191,16 +195,18 @@ class TweetTransformer(BaseEstimator, TransformerMixin):
             transformedTweetList = []
             expectedYsList =[]
             for currentTweet in listOfTweetsWithTriples:
-                self.rawTweet = currentTweet['text']
-                self.cmuRawTextTriples = currentTweet[triplesKeyName]
-                self.raw_token_list = map(first,self.cmuRawTextTriples)
-                transformedTweetList.append(self.getPipelineTweetDict())
-                if ysKeyName != None:
-                    expectedYsList.append(currentTweet[ysKeyName])   
-            
-#            pp = pprint.PrettyPrinter(indent=4)
-#            pp.pprint(transformedTweetList)
-            #print triplesList             
+                try:
+                    self.rawTweet = currentTweet['text']
+                    self.cmuRawTextTriples = currentTweet[triplesKeyName]
+                    self.raw_token_list = map(first,self.cmuRawTextTriples)
+                    transformedTweetList.append(self.getPipelineTweetDict())
+                    if ysKeyName != None:
+                        expectedYsList.append(currentTweet[ysKeyName])
+                except:  
+                    #ERROR HANDLING FOR UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 0: ordinal not in range(128)
+                    pp = pprint.PrettyPrinter(indent=4)
+                    pp.pprint(currentTweet)
+                    continue           
             if ysKeyName != None:
                 #these values returned for when you are training model
                 return transformedTweetList, expectedYsList  #

@@ -26,7 +26,10 @@ def makePredictions(listOfModelMetaDicts,listOfTweetDicts):
     discrete winning class for each model, see module doc string for more details'''
     print "Extracting Tweet Triples..."
     #get triples for list of tweets
-    tweetsWithTriples = helper.extractTweetNLPtriples(listOfTweetDicts)
+    #The dump and reload to tempTriples file is a hack to deal with a unicode error in stemmer (see error string in transform function of transformers.TweetTransformer)
+    tweetsWithTriplesB4 = helper.extractTweetNLPtriples(listOfTweetDicts)
+    helper.dumpJSONtoFile("tempTriples.json",tweetsWithTriplesB4)
+    tweetsWithTriples = helper.loadJSONfromFile("tempTriples.json")
     for model in listOfModelMetaDicts:
             print "Predicting results for model: " + model["name"]
             #initialise transformer and load model
