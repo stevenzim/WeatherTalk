@@ -1,13 +1,14 @@
 Run Tweet extractor on tweets with NLP triples
 Tweet extractor options are defaulted to have all URL/USERS removed and no digit/hashtag normalisation
-For all available sentiment models binaries, URL/USERS removed, other options described below
-GUMLT - trained with digitNormalise = True
-KLUE -trained with hashNormalise = True
-NRC & TeamX - defaults
+For all available sentiment models binaries, URL/USERS removed and replaced with empty strings
+Based on 2013 submissions for SemEval sentiment task B
+GU-MLT-LT
+KLUE 
+NRC
 
 
 Example usage for sentiment tagging--
-from wxtalk.modelbuilder import transformers as tran
+from wxtalk.model import transformers as tran
 from wxtalk import helper
 
 helper.extractTweetNLPtriples(rawTweeetJSONFile,tripleJSONFile)  #Raw Tweets --> Triple Tweets

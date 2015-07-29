@@ -1,0 +1,28 @@
+[
+    {
+        "coordinates": {
+            "coordinates": [
+                -77.45,
+                34.72
+            ],
+            "type": "Point"
+        },
+        "created_at": "Sat Jan 01 00:09:30 +0000 2000",
+        "id": 601331209453592576,
+        "metar_stations": [
+            [
+                "KNCA",
+                0.0
+            ],
+            [
+                "KOAJ",
+                11.867
+            ],
+            [
+                "KNJM",
+                24.67
+            ]
+        ],
+        "text": "\"@goldentot: Haha boobies\" \rHaha butts"
+    }
+]

@@ -1,5 +1,5 @@
 #for all examples
-from wxtalk.modelbuilder import transformers as tran
+from wxtalk.model import transformers as tran
 from wxtalk import helper
 
 import string
@@ -88,29 +88,17 @@ lexAutoFeatures = FeatureUnion([
 ## word-grams
 #TODO: Investigate non-contiguous tokens (to time consuming for project, future work)
 
-#wordGramCount = Pipeline([\
-#            ('docs',tran.DocsExtractor()),\
-#            ('count',tran.CountVectorizer(tokenizer=string.split,max_df= 0.75,max_features=50000,ngram_range=(1, 1) ,binary=False))])
-
-wordGramCount = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 4) ,binary=True,min_df=1))])                 
 
 NRCwordgrams = Pipeline([\
             ('docs',tran.DocsExtractor()),\
             ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 4) ,binary=True,min_df=1))])  
      
 #char-grams
-#TODO: Waiting to hear back from authors regarding window position, is accross entire tweet or individual words
-#TODO: investigate options for ngram range (they use 3,5 in paper)
-#charGramCount = Pipeline([\
-#            ('docs',tran.DocsExtractor()),\
-#            ('count',tran.CountVectorizer(analyzer='char',max_df= 0.75,max_features=50000,ngram_range=(3, 3) ))])
+#NRCchargrams = Pipeline([\
+#            ('docs',tran.DocsExtractor('normalised_string')),\
+#            ('count',tran.CountVectorizer(tokenizer=string.split,analyzer='char',ngram_range=(3, 5) ,binary=True,min_df=1))])
 NRCchargrams = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
-            ('count',tran.CountVectorizer(tokenizer=string.split,analyzer='char',ngram_range=(3, 5) ,binary=True,min_df=1))])
-NRCchargrams = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
+            ('docs',tran.DocsExtractor('normalised_string')),\
             ('count',tran.CountVectorizer(analyzer='char',ngram_range=(3, 5) ,binary=True,min_df=1))])
 
             
@@ -122,7 +110,7 @@ posCounts = Pipeline([\
 ###---------------clusters--------------###
 #CMU 1000
 cmuClusterFeatures = Pipeline([\
-            ('clusters',tran.ClusterExtractor()),\
+            ('clusters',tran.ClusterExtractor(['normalised_token_list'])),\
             ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 1) ,binary=False,\
                      vocabulary = helper.loadJSONfromFile(helper.getProjectPath() + '/wxtalk/resources/lexicons/CMU/CMU-cluster-vocab.json')))])    
 
@@ -173,10 +161,19 @@ features = FeatureUnion([
             ('elong-count',elongatedWordCount),
             ('punctuation-feats',puncFeatures),
             ('emoti-feats',emotiFeatures),
+            ('negate-feats',negateCounts)
             ]) 
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = .2))])
+            ('clf',LogisticRegression(penalty = 'l2',C = .5))])
+
+print "Hash normal"
+testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = None,hashNormalise=True,digitNormalise=False)
+print "Digits normal"
+testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=True)
+print "Hash and digits normal"
+testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = None,hashNormalise=True,digitNormalise=True)
+
 #**********Other papers features***
 #TODO: Decide which ones, very much like the features from KLUE paper
 #RTRGO/prototype
@@ -185,36 +182,26 @@ clfpipeline = Pipeline([\
 #            ('text-feats-vec',tran.DictVectorizer())])
 #KLUE
 KLUEwordgrams = Pipeline([\
-            ('docs',tran.DocsExtractor()),\
+            ('docs',tran.DocsExtractor('negated_string')),\
             ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=1))])
 
 negateCounts = Pipeline([\
             ('negate-counts-dict',tran.NegationCountExtractor()),\
             ('negate-vec',tran.DictVectorizer())])
             
-KLUEstems = Pipeline([\
-            ('docs',tran.DocsExtractor('stem_string')),\
-            ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 2) ,binary=True,min_df=1))])
 
 KLUEtokenCount = Pipeline([\
             ('token-count-dict',tran.TokenCountExtractor()),\
             ('token-count-vec',tran.DictVectorizer())])
             
 KLUEpolarity = Pipeline([\
-            ('polarity-dict',tran.KLUEpolarityExtractor('klue-afinn',tokenListKeyName= 'negated_token_list')),\
+            ('polarity-dict',tran.KLUEpolarityExtractor('klue-afinn',tokenListKeyName= 'normalised_token_list')),\
             ('polarity-vec',tran.DictVectorizer())])
-#KLUEpolarity = Pipeline([\
-#            ('docs',tran.DocsExtractor(hashNormalise=False)),\
-#            ('polarity-dict',tran.KLUEpolarityExtractor('klue-afinn')),\
-#            ('polarity-vec',tran.DictVectorizer())])
 
 KLUEemotiacro = Pipeline([\
             ('emoti-acro-dict',tran.KLUEpolarityExtractor('klue-both',tokenListKeyName= 'normalised_token_list')),\
             ('emoti-acro-vec',tran.DictVectorizer())])            
-#KLUEemotiacro = Pipeline([\
-#            ('docs',tran.DocsExtractor(hashNormalise=False)),\
-#            ('emoti-acro-dict',tran.KLUEpolarityExtractor('klue-both')),\
-#            ('emoti-acro-vec',tran.DictVectorizer())])
+
 #KLUE features
 features = FeatureUnion([
             ('word-gram-count',KLUEwordgrams),
@@ -226,7 +213,7 @@ features = FeatureUnion([
             
 clfpipeline = Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l2',C = 0.25))])
+            ('clf',LogisticRegression(penalty = 'l2',C = 0.05))])
             
 testTweet = helper.loadJSONfromFile('KLUE-1tweet.json')
 testTweets = helper.extractTweetNLPtriples('KLUE-1tweet.json')
@@ -246,7 +233,7 @@ KLUEemotiacro.fit_transform(testTriplesList)
 #----------------            
 #GU-MLT
 GUMLTwordGrams = Pipeline([\
-            ('docs',tran.DocsExtractor(transformedTweetKeyName = 'normalised_string')),\
+            ('docs',tran.DocsExtractor(transformedTweetKeyName = 'negated_string')),\
             ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 1) ,binary=True))])
 GUMLTstems = Pipeline([\
             ('docs',tran.DocsExtractor('stem_string')),\
@@ -272,7 +259,7 @@ features = FeatureUnion([
 
 clfpipeline = Pipeline([\
              ('features',features),
-             ('clf',LogisticRegression(penalty = 'l2',C = 0.4))])
+             ('clf',LogisticRegression(penalty = 'l2',C = 0.15))])
 #finalTest(clfpipeline,digitNormalise=True)
 
 #***********BLENDED/TeamX features*************
@@ -305,7 +292,7 @@ features = Pipeline([\
             ('count',tran.CountVectorizer(tokenizer=string.split,ngram_range=(1, 1) ,binary=True))])
 clf1 =Pipeline([\
             ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = 1.0))])
+            ('clf',LogisticRegression(penalty = 'l2',C = 1.0))])
 #^^^^^^^^^^^^^^^^^CLASSIFIERS^^^^^^^^^^^^^^^^^^^^^^^#
 #TODO: Play with params, and probabilistic params
 #NB
@@ -372,7 +359,7 @@ clfpipeline = Pipeline([\
             ('clf',LinearSVC(C=.55))])
 
 #^^^^^^^^^^^^^^^^^TESTING PIPELINE^^^^^^^^^^^^^^^^^^^^^^^#
-def testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = None,hashNormalise=True,digitNormalise=False):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
+def testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False):  #options -->         'sentiment_num',"neg_bool","neut_bool","pos_bool"
     #1d - full pipeline with dump of model to pickle and then reload and predict on unseen data
     print "Building Model"
     inFile = '../../wxtalk/resources/data/SemEval/SemTrainTriples.json'
@@ -403,23 +390,24 @@ def testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = 
 #    print "Results TEST 2015"
 #    print helper.evaluateResults(expected_ys,predicted_ys)
 #    
-    ### TEST 2013
-    inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
-    data = helper.loadJSONfromFile(inFile)           
-    ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
-    tweetsList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
-    predicted_ys = loadedpipe.predict(tweetsList)
-    print "Results TEST 2013"
-    print helper.evaluateResults(expected_ys,predicted_ys)
+#    ### TEST 2013
+#    inFile = '../../wxtalk/resources/data/SemEval/SemTest2013Triples.json'
+#    data = helper.loadJSONfromFile(inFile)           
+#    ed = tran.TweetTransformer(userNorm = userNorm,urlNorm = urlNorm,hashNormalise=hashNormalise,digitNormalise=digitNormalise)
+#    tweetsList, expected_ys = ed.transform(data,ysKeyName = ysKeyName)
+#    predicted_ys = loadedpipe.predict(tweetsList)
+#    print "Results TEST 2013"
+#    print helper.evaluateResults(expected_ys,predicted_ys)
     print "Writing to goldstandard"
+    sentimentList = predicted_ys.tolist()
     count = 0 
     for dict in data:
         keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
         dict["sentiment_score"] = sentimentList[count]
         count += 1
     
-    goldFile = open('gold.tsv','w')
-    predFile = open('pred.tsv','w')
+    goldFile = open('gold-dev13.tsv','w')
+    predFile = open('pred-dev13.tsv','w')
     
     strScore = lambda score: "negative" if (score == -1) else ("positive" if (score == 1) else "neutral")
     for dict in data:
@@ -428,7 +416,7 @@ def testingPipe(clfpipeline,ysKeyName='sentiment_num',userNorm = None,urlNorm = 
     
     goldFile.close()
     predFile.close()
-    helper.dumpJSONtoFile(outFile,data) 
+    #helper.dumpJSONtoFile(outFile,data) 
     print "Done"
 
 #^^^^^^^^^^^^^^^Train/Dev --> Test 2015^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -483,8 +471,8 @@ def finalTest(clfpipeline,ysKeyName = 'sentiment_num',userNorm = None,urlNorm = 
         dict["sentiment_score"] = sentimentList[count]
         count += 1
     
-    goldFile = open('gold2013.tsv','w')
-    predFile = open('pred2103.tsv','w')
+    goldFile = open('gold-test13.tsv','w')
+    predFile = open('pred-test13.tsv','w')
     
     strScore = lambda score: "negative" if (score == -1) else ("positive" if (score == 1) else "neutral")
     for dict in data:

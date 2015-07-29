@@ -1,0 +1,16 @@
+{
+    "coordinates": {
+        "coordinates": [
+            -100.389502,
+            48.28949
+        ],
+        "type": "Point"
+    },
+    "created_at": "Sat Jan 01 00:09:30 +0000 2000",
+    "id": 601331223298977792,
+    "metar_delta_time_sec": 570.0,
+    "metar_station_dist": 40.586,
+    "metar_station_id": "KMOT",
+    "metar_uid": 12762492,
+    "text": "Jamie hat Upton Services #us_test #No21233"
+}

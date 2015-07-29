@@ -1,0 +1,28 @@
+[
+    {
+        "coordinates": {
+            "coordinates": [
+                -100.389502,
+                48.28949
+            ],
+            "type": "Point"
+        },
+        "created_at": "Sat Jan 01 00:09:30 +0000 2000",
+        "id": 601331223298977792,
+        "metar_stations": [
+            [
+                "KRUG",
+                18.087
+            ],
+            [
+                "KMOT",
+                40.586
+            ],
+            [
+                "K5H4",
+                41.108
+            ]
+        ],
+        "text": "Jamie hat Upton Services #us_test #No21233"
+    }
+]

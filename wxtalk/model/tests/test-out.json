@@ -1,0 +1,15 @@
+[
+    {
+        "tagged_tweet_triples": [["hello","!",0.985],["worlld","N",0.5999]
+        ],
+        "text": "hello worlld"
+    },
+    {
+        "tagged_tweet_triples": [["No","D",0.823],["one","N",0.5694],["enjoys","V",0.9992],["it","O",0.9884],[".",",",0.9991],["Ha","!",0.9701]],
+        "text": "No one enjoys it. Ha"
+    },
+    {
+        "tagged_tweet_triples": [["I","O",0.9943],["wouldn't","V",0.9993],["do","V",1.0],["it","O",0.9895],[".",",",0.9993],["Okay","!",0.826],["?",",",0.9982]],
+        "text": "I wouldn't do it. Okay?"
+    }
+]

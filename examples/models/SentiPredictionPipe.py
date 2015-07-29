@@ -1,5 +1,5 @@
 #for all examples
-from wxtalk.modelbuilder import (predictors,ensemblers)
+from wxtalk.model import (predictors,ensemblers)
 from wxtalk import helper
 
 import string
@@ -18,8 +18,7 @@ outTest2015path = testDataPath + 'SemTest2015Preds.json'
 
 modelList = [predictors.NRCmodelMetaData,\
             predictors.KLUEmodelMetaData,\
-            predictors.GUMLTLTmodelMetaData,\
-            predictors.TeamXMetaData]
+            predictors.GUMLTLTmodelMetaData]
 
 
 #MODEL PREDICTIONS
@@ -37,48 +36,24 @@ helper.dumpJSONtoFile(outTest2015path,results)
 print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
 #ENSEMBLE PREDICTIONS
 #params
-ensemble1 = {"id":'ens_s1',\
-                    "model_id_list":['s1','s2','s3','s4'],\
-                    "model_classes":[-1,0,1],\
-                    "description":"All"}
-ensemble2 = {"id":'ens_s2',\
-                    "model_id_list":['s2','s3','s4'],\
-                    "model_classes":[-1,0,1],\
-                    "description":"NRC-Held-Out"}
-ensemble3 = {"id":'ens_s3',\
-                    "model_id_list":['s1','s3','s4'],\
-                    "model_classes":[-1,0,1],\
-                    "description":"KLUE-Held-Out"}
-ensemble4 = {"id":'ens_s4',\
-                    "model_id_list":['s1','s2','s4'],\
-                    "model_classes":[-1,0,1],\
-                    "description":"GUMLT-Held-Out"}
-ensemble5 = {"id":'ens_s5',\
+ensembleAll = {"id":'ens_s1',\
                     "model_id_list":['s1','s2','s3'],\
                     "model_classes":[-1,0,1],\
-                    "description":"TeamX-Held-Out"}
-ensemble6 = {"id":'ens_s6',\
+                    "description":"All"}
+ensembleNoGUMLT = {"id":'ens_s2',\
                     "model_id_list":['s1','s2'],\
                     "model_classes":[-1,0,1],\
-                    "description":"GUMLT&TeamX-Held-Out"}
-ensemble7 = {"id":'ens_s7',\
-                    "model_id_list":['s3','s4'],\
-                    "model_classes":[-1,0,1],\
-                    "description":"KLUE&NRC-Held-Out"}
-ensemble8 = {"id":'ens_s8',\
+                    "description":"GUMLT-Held-Out"}
+ensembleNoKLUE = {"id":'ens_s3',\
                     "model_id_list":['s1','s3'],\
                     "model_classes":[-1,0,1],\
-                    "description":"KLUE&TeamX-Held-Out"}
-ensemble9 = {"id":'ens_s9',\
+                    "description":"KLUE-Held-Out"}
+ensembleNoNRC = {"id":'ens_s4',\
                     "model_id_list":['s2','s3'],\
                     "model_classes":[-1,0,1],\
-                    "description":"NRC&TeamX-Held-Out"}
-ensemble10 = {"id":'ens_s10',\
-                    "model_id_list":['s2','s4'],\
-                    "model_classes":[-1,0,1],\
-                    "description":"NRC&KLUE-Held-Out"}
-ensembleParamList = [ensemble1,ensemble2,ensemble3,ensemble4,ensemble5,ensemble6,ensemble7,ensemble8,ensemble9,ensemble10]
+                    "description":"NRC-Held-Out"}
 
+ensembleParamList = [ensembleAll,ensembleNoGUMLT,ensembleNoKLUE,ensembleNoNRC]
 #data
 test2013data = helper.loadJSONfromFile(outTest2013path)
 test2014data = helper.loadJSONfromFile(outTest2014path)
@@ -97,17 +72,17 @@ results = ensemblers.compileEnsemble(ensembleParamList,test2015data)
 helper.dumpJSONtoFile(outTest2015path,results)
 print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
 
-
-goldFile = open('gold2015.tsv','w')
-predFile = open('pred2015.tsv','w')
-
-strScore = lambda score: "negative" if (score == -1) else ("positive" if (score == 1) else "neutral")
-for dict in results:
-    goldFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + dict["sentiment_orig"] + '\t' + dict["text"] + '\n')
-    predFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + strScore(dict["ens_s10_discrete"]) + '\t' + dict["text"] + '\n')
-
-goldFile.close()
-predFile.close()
+def outputScoreFiles(discreteEnsembleID,results):
+    goldFile = open('ens-gold2013.tsv','w')
+    predFile = open('ens-pred2013.tsv','w')
+    
+    strScore = lambda score: "negative" if (score == -1) else ("positive" if (score == 1) else "neutral")
+    for dict in results:
+        goldFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + dict["sentiment_orig"] + '\t' + dict["text"] + '\n')
+        predFile.write(dict["tweet_id"] + '\t' + dict["semeval_id"] + '\t' + strScore(dict[discreteEnsembleID]) + '\t' + dict["text"] + '\n')
+    
+    goldFile.close()
+    predFile.close()
 
 def testingPipeline(clf,ysKeyName='topic_wx_00',userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False):
     print "Building Model"
