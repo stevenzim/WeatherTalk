@@ -64,7 +64,8 @@ def makePredictions(listOfModelMetaDicts,listOfTweetDicts):
         idx = tweet[0]
         keyValDropped = tweetsWithTriples[idx].pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
     return tweetsWithTriples
-                    
+
+#SENTIMENT CLASSIFIERS
 NRCmodelMetaData = {"binary_path":"/sentiment/NRC/model.pkl",\
                 "classifier_type":"sentiment",\
                 "description":"Implementation of NRC 2013 Semeval features trained with logistic regression",\
@@ -95,7 +96,26 @@ GUMLTLTmodelMetaData = {"binary_path":"/sentiment/GUMLT/model.pkl",\
                                         "hashNormalise":False,\
                                         "digitNormalise":False}}
                                         
+#WEATHER CLASSIFIERS
+                                        
+wxFullFeats = {"binary_path":"/topic-wx/all-feats/model.pkl",\
+                "classifier_type":"weather-topic",\
+                "description":"Custom built classifier(trained on all-features with logisitc regression), to determine if a tweet is/ is not about the weather",\
+                "id":"w1",\
+                "name":"wx-full-feats",\
+                "normalisation_params":{"userNorm" : None,\
+                                        "urlNorm" : None,\
+                                        "hashNormalise":False,\
+                                        "digitNormalise":False}}
 
-                                        
-                                        
+wxUnigrams = {"binary_path":"/topic-wx/unigrams/model.pkl",\
+                "classifier_type":"weather-topic",\
+                "description":"Custom built classifier(trained on unigrams only with logisitc regression), to determine if a tweet is/ is not about the weather",\
+                "id":"w2-unis",\
+                "name":"wx-unigrams",\
+                "normalisation_params":{"userNorm" : None,\
+                                        "urlNorm" : None,\
+                                        "hashNormalise":False,\
+                                        "digitNormalise":False}}
+
 

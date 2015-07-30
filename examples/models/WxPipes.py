@@ -74,9 +74,9 @@ features = FeatureUnion([
             #('unigram-count',unigrams),
             ('bigram-count',bigrams),
             #('unistems-count',unistems),
-            ('bistems-count',bistems),
+            #('bistems-count',bistems),
             ('charGrams-count',charGrams),
-            ('pos-count',posCounts),
+            #('pos-count',posCounts),
             ('cmu-cluster',cmuClusterFeatures)
             ]) 
 clf = Pipeline([\
@@ -84,12 +84,12 @@ clf = Pipeline([\
             ('clf',LogisticRegression(penalty = 'l1',C = 0.1))])
 
 #^^^^^^^^^^^^^^^^^BASELINE^^^^^^^^^^^^^^^^^^^^^^^#
-clf =Pipeline([\
-            ('features',features),
-            ('clf',LogisticRegression(penalty = 'l1',C = 1.0))])
+#clf =Pipeline([\
+#            ('features',features),
+#            ('clf',LogisticRegression(penalty = 'l1',C = 1.0))])
 
 (clf,modelName,'FINAL MODEL-unigrams-50-l1-c.3',ysKeyName='topic_wx_50')
-(clf,modelName,'FINAL MODEL-bigram-bistems-chargrams-poscount-clusters-50-l1-c.1',ysKeyName='topic_wx_50')
+(clf,modelName,'ABLATION-MODEL-w/out BISTEMS/POSCOUNTS-50-l1-c.1',ysKeyName='topic_wx_50')
 modelName = 'all-features'
 def finalTest(clf,modelName,descript,ysKeyName='topic_wx_50',userNorm = None,urlNorm = None,hashNormalise=False,digitNormalise=False):
     projPath = helper.getProjectPath()

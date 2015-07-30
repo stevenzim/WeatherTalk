@@ -1,10 +1,15 @@
 from wxtalk import helper, pipeline
-import time
-from wxtalk.modelbuilder import transformers as tran
-from wxtalk import helper
-import sklearn.externals.joblib as joblib
 from wxtalk.db import dbfuncs as db
+from wxtalk.model import transformers as tran
+from wxtalk.model import (predictors,ensemblers)
+
+import time
+import string
 import os
+
+import sklearn.externals.joblib as joblib
+
+
 
 #example to convert raw tweets to tweets with wx from nearest station
 def convertTweetsSimple():
@@ -234,7 +239,60 @@ def getWx(monthName):
                       ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")
     errorFile.close()
     
-
+def classifyTweets(monthName):
+    start_time = time.time()
+    inFilePath = "3-TweetsWithWx/"+ monthName + "/"
+    outFilePath = "4-ClassifiedTweets/"+ monthName + "/"
+    files = helper.getListOfFiles(inFilePath)
+    totalTweetsProcessed = 0
+    totalTweetErrors = 0
+    
+    totalFiles = len(files)
+    filesProcessed = 0
+    fileErrors = 0
+    
+    errorFile = open(inFilePath + "errors/errorFile.log","a")
+    
+    listOfErrorDicts = []
+    listOfCompletedFiles = []
+    
+    modelList = [predictors.NRCmodelMetaData,\
+                predictors.KLUEmodelMetaData,\
+                predictors.GUMLTLTmodelMetaData,\
+                predictors.wxFullFeats]
+    
+    print str(totalFiles) + " total tweet files will be processed for tweet sentiment/weather classification...."
+    
+    for file in files:
+        clf_tweets_time = time.time()
+        classifiedFilePath = outFilePath + file
+        try:
+            #produce model predictions and output to predicited tweeets file
+            origTweets = helper.loadJSONfromFile(inFilePath + file)
+            print "Classifying sentiment and weather for file = " + file + " which contains " + str(len(origTweets)) + " Tweets."
+            modelResults = predictors.makePredictions(modelList,origTweets)
+            fullyClassifiedTweets = ensemblers.compileEnsemble([ensemblers.webisEnsemble],modelResults)
+            fullyClassifiedTweets = helper.dropKeysVals(fullyClassifiedTweets, ['s1_proba','s2_proba','s3_proba','w1_proba'])  #remove model probabilistic data
+            helper.dumpJSONtoFile(classifiedFilePath,fullyClassifiedTweets)
+            filesProcessed +=1
+            totalTweetsProcessed += len(fullyClassifiedTweets)
+            print "Just classiified " + str(len(fullyClassifiedTweets)) + ".  Total tweets classified = " + str(totalTweetsProcessed)
+            print "Total files remaining = " + str(totalFiles - filesProcessed)
+        except Exception as error:
+            #if there is an error classifying tweets, then dump file to error folder 
+            print error
+            fileErrors +=1
+            os.rename(inFilePath + file,inFilePath +'errors/'+ file)
+            errorFile.write("Error for current list of tweets passed to pipe.classifyTweets for file: " + file + " ERROR: " + str(error))  + '\n'
+            continue
+            print(file + " total classification time--- %s seconds ---" % (time.time() - clf_tweets_time))
+        print "Total elapsed time in minutes = " + str((time.time() - start_time)/60.)
+        print "Estimated time remaining in minutes = " + str(((totalFiles - (filesProcessed+fileErrors))*(time.time() - clf_tweets_time))/60.)
+        print
+        print
+        #delete current file from inFile directory, tweets have been classified succesfully and moved to next step, or written to error folder
+        helper.deleteFilesInList(inFilePath,[file])
+ 
     
 def getTriplesAndTopics():
     start_time = time.time()

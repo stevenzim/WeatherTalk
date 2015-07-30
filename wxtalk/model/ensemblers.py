@@ -49,4 +49,7 @@ def compileEnsemble(listOfEnsembleMetaDicts,listOfTweets):
         
     return listOfTweetDicts
 
-
+webisEnsemble = {"id":'ens_s1',\
+                    "model_id_list":['s1','s2','s3'],\
+                    "model_classes":[-1,0,1],\
+                    "description":"Webis 2015 ECIR ensemble of NRC, KLUE and GU-MLT-LT"}
