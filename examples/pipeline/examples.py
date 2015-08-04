@@ -240,6 +240,10 @@ def getWx(monthName):
     errorFile.close()
     
 def classifyTweets(monthName):
+    '''Input is a tweet with metar/climate report ids
+    Output is a tweet with classification details for each model and the ensemble model.  
+    For sentiment classification, probabilities are provided in addition to discrete classes
+    For weather topic classication, only a discrete boolean score is provided'''
     start_time = time.time()
     inFilePath = "3-TweetsWithWx/"+ monthName + "/"
     outFilePath = "4-ClassifiedTweets/"+ monthName + "/"
@@ -292,12 +296,23 @@ def classifyTweets(monthName):
         print
         #delete current file from inFile directory, tweets have been classified succesfully and moved to next step, or written to error folder
         helper.deleteFilesInList(inFilePath,[file])
- 
-    
-def getTriplesAndTopics():
+
+
+def loadTweetsToDB(monthName):
+    '''Input is a tweet with classifications
+    Output is same tweet to raw file repository
+    Processing steps are:
+    1 - load all file names
+    2 - for each file make a temp copy and do the following:
+        a) get topic booleans based on occurence of text string (this is purely for fun analysis)
+        b) rename fields (e.g. e1_s1_discrete --> sentiment_class)
+        c) remove fields that will not be loaded into db (e.g. text/username)
+        d) load into db
+    3 - If an error occurs, dump to appropriate error folder, else move original file to final storage folder
+    '''
     start_time = time.time()
-    inFilePath = "3-TweetsWithWx/"
-    outFilePath = "4-TweetsTriplesTopicsWx/"
+    inFilePath = "4-ClassifiedTweets/"+ monthName + "/"
+    outFilePath = "5-TweetsLoadedToDB/"+ monthName + "/"
     files = helper.getListOfFiles(inFilePath)
     totalTweetsProcessed = 0
     totalTweetErrors = 0
@@ -309,273 +324,390 @@ def getTriplesAndTopics():
     errorFile = open(inFilePath + "errors/errorFile.log","a")
     
     listOfErrorDicts = []
+    listOfCompletedFiles = []
     
-    print str(totalFiles) + " total tweet files will be processed to find triples/topics starting now...."
-    
-    for file in files:
-        #get nlp triples for each tweet in file
-        st_getTriples_time = time.time()
-        tweetListWithTriples = []
-        try:
-            tweetListWithTriples = helper.extractTweetNLPtriples(inFilePath + file)            
-            filesProcessed +=1
-            print "Total files remaining = " + str(totalFiles - filesProcessed)
-        except Exception as error:
-            #if there is an error getting stations, then dump file to error folder 
-            fileErrors +=1
-            os.rename(inFilePath + file,inFilePath +'errors/'+ file)
-            errorFile.write("Error Processing JSON file for triples extraction in file: " + file + " With error: " + str(error) + '\n')
-            continue
-        
-        print("Get Triples time--- %s seconds ---" % (time.time() - st_getTriples_time))
-        print
-        
-        #Add simple topics based on string test to dictionary
-        #NOTE: If disk space is an issue, this could be done just before loading into db, as this step is fast
-        st_getTopics_time = time.time()
-        tweetsWithTopics = []
-        for dict in tweetListWithTriples: 
-            try:
-                dict = helper.addStringTestTopic(dict,'text','obama','topic_obama')
-                dict = helper.addStringTestTopic(dict,'text','adidas','topic_adidas')
-                dict = helper.addStringTestTopic(dict,'text','nike','topic_nike')
-                dict = helper.addStringTestTopic(dict,'text','boeing','topic_boeing')
-                dict = helper.addStringTestTopic(dict,'text','microsoft','topic_microsoft')
-                dict = helper.addStringTestTopic(dict,'text','tableau','topic_tableau')
-                dict = helper.addStringTestTopic(dict,'text','verizon','topic_verizon')
-                dict = helper.addStringTestTopic(dict,'text','apple','topic_apple')
-                dict = helper.addStringTestTopic(dict,'text','samsung','topic_samsung')
-                dict = helper.addStringTestTopic(dict,'text','wal-mart','topic_walmart')
-                tweetsWithTopics.append(dict)
-                totalTweetsProcessed +=1
-            except Exception as error:
-                totalTweetErrors += 1
-                dict['ERROR']='Error adding topic bools. Original file = ' + file.split('/')[-1]
-                listOfErrorDicts.append(dict)
-                continue
-        
-        if len(tweetsWithTopics) > 0:
-            helper.dumpJSONtoFile(outFilePath + file,tweetsWithTopics)
-        print("Get Topics time--- %s seconds ---" % (time.time() - st_getTopics_time))
-        print
-        print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
-
-        #Dump any remaining errors and log details of current processing to error file      
-        dumpErrorListOfDicts(inFilePath,listOfErrorDicts,"get-triples-",file)
-        listOfErrorDicts = []
-            
-        #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
-        helper.deleteFilesInList(inFilePath,[file])
-    
-    print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
-    print str(totalTweetsProcessed) + " tweets processed with tweet errors = " + str(totalTweetErrors)  
-    print("completed in--- %s seconds ---" % (time.time() - start_time))
-    
-
-    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
-                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")
-    errorFile.close()
-    
-   
-#example to take a set of json files of tweets with weather reports and then classify sentiment of tweet
-def getClassifications():
-    start_time = time.time()
-    inFilePath = "4-TweetsTriplesTopicsWx/"
-    outFilePath = "5-ClassifiedTweets/"
-    files = helper.getListOfFiles(inFilePath)
-    totalTweetsProcessed = 0
-    totalTweetErrors = 0
-    
-    totalFiles = len(files)
-    filesProcessed = 0
-    fileErrors = 0
-    
-    errorFile = open(inFilePath + "errors/errorFile.log","a")
-    
-    listOfErrorDicts = []
-        
-    print str(totalFiles) + " total tweet files will be classified starting now...."
-
-    #load sentiment classification model pipeline from pickle files
-    loadedpipe = joblib.load('pickles/test.pkl')
-    
-    #classify all tweets in each file
-    for file in files:
-        #sentiment classification
-        st_getsentiment_time = time.time()
-        try:
-            print
-            print
-            print file + " is being processed for sentiment classification."
-            
-            data = helper.loadJSONfromFile(inFilePath +file)           
-            ed = tran.TriplesYsExtractor()  #create transformer object
-            triplesList = ed.transform(data)  #extract triples list
-            predicted_ys = loadedpipe.predict(triplesList)  #get predictions
-            sentimentList = predicted_ys.tolist()   #convert predictions to list
-            count = 0
-            totalTweetsProcessed += len(data) 
-            for dict in data:
-                keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
-                dict["sentiment_score"] = sentimentList[count]   #append prediction to dictionary
-                count += 1
-            helper.dumpJSONtoFile(outFilePath + file,data)   #dump live tweets with classifer predictions added to json
-            filesProcessed +=1
-            print "Total files remaining = " + str(totalFiles - filesProcessed)
-        except Exception as error:
-            fileErrors +=1
-            os.rename(inFilePath + file,inFilePath +'errors/'+ file)
-            errorFile.write("Error Processing Tweet file for sentiment classification. File name: " + file + " With error: " + str(error) + '\n')
-            continue
-        
-        print("Get Sentiment time--- %s seconds ---" % (time.time() - st_getsentiment_time))
-        print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
-        
-        #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
-        helper.deleteFilesInList(inFilePath,[file])
-    
-    print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
-    print str(totalTweetsProcessed) + " tweets processed."
-    print("completed in--- %s seconds ---" % (time.time() - start_time))
-
-    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
-                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")    
-    errorFile.close()
-
-def prepTweetsDb():
-    start_time = time.time()
-    inFilePath = "5-ClassifiedTweets/"
-    outFilePath = "6-TweetsReadyForDB/"
-    files = helper.getListOfFiles(inFilePath)
-    totalTweetsProcessed = 0
-    totalTweetErrors = 0
-    
-    totalFiles = len(files)
-    filesProcessed = 0
-    fileErrors = 0
-    
-    errorFile = open(inFilePath + "errors/errorFile.log","a")
-    
-    listOfErrorDicts = []
-    
-    print str(totalFiles) + " total tweet files will be prepped for DB starting now...."        
-    for file in files:
-        file_time = time.time()
-        try:
-            print
-            print
-            print file + " is being processed for db."
-            data = helper.loadJSONfromFile(inFilePath +file)           
-            totalTweetsProcessed += len(data) 
-            for dict in data:
-                keysToDrop = ["in_reply_to_status_id","in_reply_to_user_id","lang","metar_report","timestamp_ms","user","text"]
-                dict['user_id'] = dict['user']['id']
-                dict['user_name'] = dict['user']['screen_name']
-                dict['coordinates'] = str(tuple(dict['coordinates']['coordinates']))
-                #pop the list of keys, these key names are not columns in db.
-                for key in keysToDrop:
-                    temp = dict.pop(key,None)  #stored as variable in order to supress print to screen
-
-            helper.dumpJSONtoFile(outFilePath + file,data)   #dump updated tweets to file
-
-            filesProcessed +=1
-            print "Total files remaining = " + str(totalFiles - filesProcessed)
-        except Exception as error:
-            fileErrors +=1
-            os.rename(inFilePath + file,inFilePath +'errors/'+ file)
-            errorFile.write("Error Processing Tweet file for DB Prep. File name: " + file + " With error: " + str(error) + '\n')
-            continue
-        
-        print("Current file prep time--- %s seconds ---" % (time.time() - file_time))
-
-        print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
-
-        #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
-        helper.deleteFilesInList(inFilePath,[file])
-        
-    print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
-    print str(totalTweetsProcessed) + " tweets processed."
-    print("completed in--- %s seconds ---" % (time.time() - start_time))
-    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
-                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")    
-    errorFile.close()
-    
-def batchLoadTweets():
-    '''Provided a directory path containing full processed/classified tweets.'''
-    start_time = time.time()
-    #inFilePath = "5-TweetsReadyForDB/temp/"
-    inFilePath = "6-TweetsReadyForDB/"
-    files = helper.getListOfFiles(inFilePath)
-    totalTweetsProcessed = 0
-    totalTweetErrors = 0
-    
-    totalFiles = len(files)
-    filesProcessed = 0
-    fileErrors = 0
-    
-    errorFile = open(inFilePath + "errors/errorFile.log","a")
-    
-    listOfErrorDicts = []
-    
-    #db setup
+    #establish db connection for tweet loading
     s = db.Tweet()
     
-    print str(totalFiles) + " total tweet files will be loaded to db starting now...."        
+    print str(totalFiles) + " total tweet files will be processed for loading into DB...."
+    
     for file in files:
+        db_loading_time = time.time()
+        finalFilePath = outFilePath + file  #path to final storage folder for tweets
+        try:
+            #produce model predictions and output to predicited tweeets file
+            origTweets = helper.loadJSONfromFile(inFilePath + file)
+            print "Processing and loading tweets to DB for file = " + file + " which contains " + str(len(origTweets)) + " Tweets."
+            #
+            tweetsToLoadToDB = []
+            for tweet in origTweets:
+                #add in boolean topics based on occurence of word in text (simple topic analyzer only for fun)
+                tweet = helper.addStringTestTopic(tweet,'text','obama','topic_obama')
+                tweet = helper.addStringTestTopic(tweet,'text','adidas','topic_adidas')
+                tweet = helper.addStringTestTopic(tweet,'text','nike','topic_nike')
+                tweet = helper.addStringTestTopic(tweet,'text','boeing','topic_boeing')
+                tweet = helper.addStringTestTopic(tweet,'text','microsoft','topic_microsoft')
+                tweet = helper.addStringTestTopic(tweet,'text','tableau','topic_tableau')
+                tweet = helper.addStringTestTopic(tweet,'text','verizon','topic_verizon')
+                tweet = helper.addStringTestTopic(tweet,'text','apple','topic_apple')
+                tweet = helper.addStringTestTopic(tweet,'text','samsung','topic_samsung')
+                tweet = helper.addStringTestTopic(tweet,'text','wal-mart','topic_walmart')
+                
+                #add in desired names of fields (these are same fields in DB)
+                tweet['sentiment_class'] = tweet['ens_s1_discrete']
+                tweet['sentiment_probability'] = tweet['ens_s1_proba']
+                tweet['weather_class'] = tweet['w1_discrete']
+                tweet['user_id'] = tweet['user']['id']
+                tweet['coordinates'] = str(tuple(tweet['coordinates']['coordinates']))
+                
+                #remove fields that will not be loaded into db
+                keysToDrop = ["in_reply_to_status_id","in_reply_to_user_id","lang","metar_report","timestamp_ms","user","text",\
+                                'ens_s1_discrete','ens_s1_proba','s1_discrete','s2_discrete','s3_discrete','w1_discrete',\
+                                'quoted_status','quoted_status_id','quoted_status_id_str','scopes']
 
-        totalTweetsInFileProcessed = 0
-        file_time = time.time()
-        try:    
-            print
-            print
-            print file + " is being processed for db."
-            data = helper.loadJSONfromFile(inFilePath +file)   
-            totalTweetsInFile = len(data)  
-
-            for dict in data:    
-                #print dict
-                try:
-                    s.loadTweet(dict)
-                    totalTweetsProcessed+=1
-                    totalTweetsInFileProcessed+=1
-                    #print "Loading tweet to db"
-                except Exception as error:
-                    #TODO: fix error logging, currently it is logging way to much
-                    s = db.Tweet()
-                    totalTweetErrors+=1
-                    dict['ERROR']='Error finding metar report via pipe.getTweetMetarReport, perhaps none was available for station/time combo. Error: ' + str(error) + '. Original file = ' + file.split('/')[-1]
-                    listOfErrorDicts.append(dict)                    
-                    continue
-            filesProcessed += 1
-            if (totalTweetsInFileProcessed % 100) == 0:
-                print str(totalTweetsInFileProcessed) + " tweets loaded for current file of total tweets = " + str(totalTweetsInFile)
+                #pop the list of keys, these key names are not valid columns in db.
+                for key in keysToDrop:
+                    temp = tweet.pop(key,None)  #stored as temp variable in order to supress print to screen
+                
+                #load tweet into db
+                s.loadTweet(tweet)
+                
+                tweetsToLoadToDB.append(tweet) #temp file to view
+                
+            helper.dumpJSONtoFile(inFilePath + 'loadedTemp.json',tweetsToLoadToDB)
+            
+            helper.dumpJSONtoFile(finalFilePath,origTweets)
+            filesProcessed +=1
+            totalTweetsProcessed += len(origTweets)
+            print "Just loaded " + str(len(origTweets)) + ".  Total tweets loaded to DB = " + str(totalTweetsProcessed)
+            print "Total files remaining = " + str(totalFiles - filesProcessed)
         except Exception as error:
+            #if there is an error processing and loading tweets to DB, then dump file to error folder 
+            print error
             fileErrors +=1
             os.rename(inFilePath + file,inFilePath +'errors/'+ file)
-            errorFile.write("Error Processing Tweet file for DB Prep. File name: " + file + " With error: " + str(error) + '\n')
+            errorFile.write("Error for current list of tweets passed to pipe.loadTweetsToDB for file: " + file + " ERROR: " + str(error))  + '\n'
             continue
-        print str(filesProcessed) + " files loaded of " + str(totalFiles) + ". Current file = " + file
-        print str(totalTweetsProcessed) + " tweets loaded into DB. With total tweet errors = " + str(totalTweetErrors)
-        print("Current file prep time--- %s seconds ---" % (time.time() - file_time))
-
-        #print("Total elapsed time--- %s minutes ---" % (((totalFiles - (filesProcessed+fileErrors))*(time.time() - start_time))/60.)
-        print "Total files remaining = " + str(totalFiles - (filesProcessed+fileErrors))
-        print "Estimated time remaining in minutes = " + str(((totalFiles - (filesProcessed+fileErrors))*(time.time() - file_time))/60.)
-
-        #Dump dictionary errors and log details    
-        dumpErrorListOfDicts(inFilePath,listOfErrorDicts,"get-loadDB-",file)
-        listOfErrorDicts = []
-
-        #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
+            print(file + " total loading to DB time--- %s seconds ---" % (time.time() - db_loading_time))
+        print "Total elapsed time in minutes = " + str((time.time() - start_time)/60.)
+        print "Estimated time remaining in minutes = " + str(((totalFiles - (filesProcessed+fileErrors))*(time.time() - db_loading_time))/60.)
+        print
+        print
+        #delete current file from inFile directory, tweets have been processed and loaded succesfully to DB and moved to final storage folder, or written to error folder
         helper.deleteFilesInList(inFilePath,[file])
-    
-    
-    print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
-    print str(totalTweetsProcessed) + " tweets loaded into DB. With total tweet errors = " + str(totalTweetErrors)
-    print("Total completion time in minutes--- %s minutes ---" % ((time.time() - start_time)/60.))   
-    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
-                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")    
-    errorFile.close()
+
+
+
+#    
+#    print str(totalFiles) + " total tweet files will be loaded to db starting now...."        
+#    for file in files:
+
+#        totalTweetsInFileProcessed = 0
+#        file_time = time.time()
+#        try:    
+#            print
+#            print
+#            print file + " is being processed for db."
+#            data = helper.loadJSONfromFile(inFilePath +file)   
+#            totalTweetsInFile = len(data)  
+
+#            for dict in data:    
+#                #print dict
+#                try:
+#                    s.loadTweet(dict)
+#                    totalTweetsProcessed+=1
+#                    totalTweetsInFileProcessed+=1
+#                    #print "Loading tweet to db"
+#                except Exception as error:
+#                    #TODO: fix error logging, currently it is logging way to much
+#                    s = db.Tweet()
+#                    totalTweetErrors+=1
+#                    dict['ERROR']='Error finding metar report via pipe.getTweetMetarReport, perhaps none was available for station/time combo. Error: ' + str(error) + '. Original file = ' + file.split('/')[-1]
+#                    listOfErrorDicts.append(dict)                    
+#                    continue
+#    
+#def getTriplesAndTopics():
+#    start_time = time.time()
+#    inFilePath = "3-TweetsWithWx/"
+#    outFilePath = "4-TweetsTriplesTopicsWx/"
+#    files = helper.getListOfFiles(inFilePath)
+#    totalTweetsProcessed = 0
+#    totalTweetErrors = 0
+#    
+#    totalFiles = len(files)
+#    filesProcessed = 0
+#    fileErrors = 0
+#    
+#    errorFile = open(inFilePath + "errors/errorFile.log","a")
+#    
+#    listOfErrorDicts = []
+#    
+#    print str(totalFiles) + " total tweet files will be processed to find triples/topics starting now...."
+#    
+#    for file in files:
+#        #get nlp triples for each tweet in file
+#        st_getTriples_time = time.time()
+#        tweetListWithTriples = []
+#        try:
+#            tweetListWithTriples = helper.extractTweetNLPtriples(inFilePath + file)            
+#            filesProcessed +=1
+#            print "Total files remaining = " + str(totalFiles - filesProcessed)
+#        except Exception as error:
+#            #if there is an error getting stations, then dump file to error folder 
+#            fileErrors +=1
+#            os.rename(inFilePath + file,inFilePath +'errors/'+ file)
+#            errorFile.write("Error Processing JSON file for triples extraction in file: " + file + " With error: " + str(error) + '\n')
+#            continue
+#        
+#        print("Get Triples time--- %s seconds ---" % (time.time() - st_getTriples_time))
+#        print
+#        
+#        #Add simple topics based on string test to dictionary
+#        #NOTE: If disk space is an issue, this could be done just before loading into db, as this step is fast
+#        st_getTopics_time = time.time()
+#        tweetsWithTopics = []
+#        for dict in tweetListWithTriples: 
+#            try:
+#                dict = helper.addStringTestTopic(dict,'text','obama','topic_obama')
+#                dict = helper.addStringTestTopic(dict,'text','adidas','topic_adidas')
+#                dict = helper.addStringTestTopic(dict,'text','nike','topic_nike')
+#                dict = helper.addStringTestTopic(dict,'text','boeing','topic_boeing')
+#                dict = helper.addStringTestTopic(dict,'text','microsoft','topic_microsoft')
+#                dict = helper.addStringTestTopic(dict,'text','tableau','topic_tableau')
+#                dict = helper.addStringTestTopic(dict,'text','verizon','topic_verizon')
+#                dict = helper.addStringTestTopic(dict,'text','apple','topic_apple')
+#                dict = helper.addStringTestTopic(dict,'text','samsung','topic_samsung')
+#                dict = helper.addStringTestTopic(dict,'text','wal-mart','topic_walmart')
+#                tweetsWithTopics.append(dict)
+#                totalTweetsProcessed +=1
+#            except Exception as error:
+#                totalTweetErrors += 1
+#                dict['ERROR']='Error adding topic bools. Original file = ' + file.split('/')[-1]
+#                listOfErrorDicts.append(dict)
+#                continue
+#        
+#        if len(tweetsWithTopics) > 0:
+#            helper.dumpJSONtoFile(outFilePath + file,tweetsWithTopics)
+#        print("Get Topics time--- %s seconds ---" % (time.time() - st_getTopics_time))
+#        print
+#        print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+
+#        #Dump any remaining errors and log details of current processing to error file      
+#        dumpErrorListOfDicts(inFilePath,listOfErrorDicts,"get-triples-",file)
+#        listOfErrorDicts = []
+#            
+#        #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
+#        helper.deleteFilesInList(inFilePath,[file])
+#    
+#    print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
+#    print str(totalTweetsProcessed) + " tweets processed with tweet errors = " + str(totalTweetErrors)  
+#    print("completed in--- %s seconds ---" % (time.time() - start_time))
+#    
+
+#    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
+#                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")
+#    errorFile.close()
+#    
+#   
+##example to take a set of json files of tweets with weather reports and then classify sentiment of tweet
+#def getClassifications():
+#    start_time = time.time()
+#    inFilePath = "4-TweetsTriplesTopicsWx/"
+#    outFilePath = "5-ClassifiedTweets/"
+#    files = helper.getListOfFiles(inFilePath)
+#    totalTweetsProcessed = 0
+#    totalTweetErrors = 0
+#    
+#    totalFiles = len(files)
+#    filesProcessed = 0
+#    fileErrors = 0
+#    
+#    errorFile = open(inFilePath + "errors/errorFile.log","a")
+#    
+#    listOfErrorDicts = []
+#        
+#    print str(totalFiles) + " total tweet files will be classified starting now...."
+
+#    #load sentiment classification model pipeline from pickle files
+#    loadedpipe = joblib.load('pickles/test.pkl')
+#    
+#    #classify all tweets in each file
+#    for file in files:
+#        #sentiment classification
+#        st_getsentiment_time = time.time()
+#        try:
+#            print
+#            print
+#            print file + " is being processed for sentiment classification."
+#            
+#            data = helper.loadJSONfromFile(inFilePath +file)           
+#            ed = tran.TriplesYsExtractor()  #create transformer object
+#            triplesList = ed.transform(data)  #extract triples list
+#            predicted_ys = loadedpipe.predict(triplesList)  #get predictions
+#            sentimentList = predicted_ys.tolist()   #convert predictions to list
+#            count = 0
+#            totalTweetsProcessed += len(data) 
+#            for dict in data:
+#                keydropped = dict.pop("tagged_tweet_triples",None)  #stored as variable in order to supress print to screen
+#                dict["sentiment_score"] = sentimentList[count]   #append prediction to dictionary
+#                count += 1
+#            helper.dumpJSONtoFile(outFilePath + file,data)   #dump live tweets with classifer predictions added to json
+#            filesProcessed +=1
+#            print "Total files remaining = " + str(totalFiles - filesProcessed)
+#        except Exception as error:
+#            fileErrors +=1
+#            os.rename(inFilePath + file,inFilePath +'errors/'+ file)
+#            errorFile.write("Error Processing Tweet file for sentiment classification. File name: " + file + " With error: " + str(error) + '\n')
+#            continue
+#        
+#        print("Get Sentiment time--- %s seconds ---" % (time.time() - st_getsentiment_time))
+#        print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+#        
+#        #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
+#        helper.deleteFilesInList(inFilePath,[file])
+#    
+#    print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
+#    print str(totalTweetsProcessed) + " tweets processed."
+#    print("completed in--- %s seconds ---" % (time.time() - start_time))
+
+#    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
+#                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")    
+#    errorFile.close()
+
+#def prepTweetsDb():
+#    start_time = time.time()
+#    inFilePath = "5-ClassifiedTweets/"
+#    outFilePath = "6-TweetsReadyForDB/"
+#    files = helper.getListOfFiles(inFilePath)
+#    totalTweetsProcessed = 0
+#    totalTweetErrors = 0
+#    
+#    totalFiles = len(files)
+#    filesProcessed = 0
+#    fileErrors = 0
+#    
+#    errorFile = open(inFilePath + "errors/errorFile.log","a")
+#    
+#    listOfErrorDicts = []
+#    
+#    print str(totalFiles) + " total tweet files will be prepped for DB starting now...."        
+#    for file in files:
+#        file_time = time.time()
+#        try:
+#            print
+#            print
+#            print file + " is being processed for db."
+#            data = helper.loadJSONfromFile(inFilePath +file)           
+#            totalTweetsProcessed += len(data) 
+#            for dict in data:
+#                keysToDrop = ["in_reply_to_status_id","in_reply_to_user_id","lang","metar_report","timestamp_ms","user","text"]
+#                dict['user_id'] = dict['user']['id']
+#                dict['user_name'] = dict['user']['screen_name']
+#                dict['coordinates'] = str(tuple(dict['coordinates']['coordinates']))
+#                #pop the list of keys, these key names are not columns in db.
+#                for key in keysToDrop:
+#                    temp = dict.pop(key,None)  #stored as variable in order to supress print to screen
+
+#            helper.dumpJSONtoFile(outFilePath + file,data)   #dump updated tweets to file
+
+#            filesProcessed +=1
+#            print "Total files remaining = " + str(totalFiles - filesProcessed)
+#        except Exception as error:
+#            fileErrors +=1
+#            os.rename(inFilePath + file,inFilePath +'errors/'+ file)
+#            errorFile.write("Error Processing Tweet file for DB Prep. File name: " + file + " With error: " + str(error) + '\n')
+#            continue
+#        
+#        print("Current file prep time--- %s seconds ---" % (time.time() - file_time))
+
+#        print("Total elapsed time--- %s seconds ---" % (time.time() - start_time))
+
+#        #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
+#        helper.deleteFilesInList(inFilePath,[file])
+#        
+#    print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
+#    print str(totalTweetsProcessed) + " tweets processed."
+#    print("completed in--- %s seconds ---" % (time.time() - start_time))
+#    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
+#                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")    
+#    errorFile.close()
+#    
+#def batchLoadTweets():
+#    '''Provided a directory path containing full processed/classified tweets.'''
+#    start_time = time.time()
+#    #inFilePath = "5-TweetsReadyForDB/temp/"
+#    inFilePath = "6-TweetsReadyForDB/"
+#    files = helper.getListOfFiles(inFilePath)
+#    totalTweetsProcessed = 0
+#    totalTweetErrors = 0
+#    
+#    totalFiles = len(files)
+#    filesProcessed = 0
+#    fileErrors = 0
+#    
+#    errorFile = open(inFilePath + "errors/errorFile.log","a")
+#    
+#    listOfErrorDicts = []
+#    
+#    #db setup
+#    s = db.Tweet()
+#    
+#    print str(totalFiles) + " total tweet files will be loaded to db starting now...."        
+#    for file in files:
+
+#        totalTweetsInFileProcessed = 0
+#        file_time = time.time()
+#        try:    
+#            print
+#            print
+#            print file + " is being processed for db."
+#            data = helper.loadJSONfromFile(inFilePath +file)   
+#            totalTweetsInFile = len(data)  
+
+#            for dict in data:    
+#                #print dict
+#                try:
+#                    s.loadTweet(dict)
+#                    totalTweetsProcessed+=1
+#                    totalTweetsInFileProcessed+=1
+#                    #print "Loading tweet to db"
+#                except Exception as error:
+#                    #TODO: fix error logging, currently it is logging way to much
+#                    s = db.Tweet()
+#                    totalTweetErrors+=1
+#                    dict['ERROR']='Error finding metar report via pipe.getTweetMetarReport, perhaps none was available for station/time combo. Error: ' + str(error) + '. Original file = ' + file.split('/')[-1]
+#                    listOfErrorDicts.append(dict)                    
+#                    continue
+#            filesProcessed += 1
+#            if (totalTweetsInFileProcessed % 100) == 0:
+#                print str(totalTweetsInFileProcessed) + " tweets loaded for current file of total tweets = " + str(totalTweetsInFile)
+#        except Exception as error:
+#            fileErrors +=1
+#            os.rename(inFilePath + file,inFilePath +'errors/'+ file)
+#            errorFile.write("Error Processing Tweet file for DB Prep. File name: " + file + " With error: " + str(error) + '\n')
+#            continue
+#        print str(filesProcessed) + " files loaded of " + str(totalFiles) + ". Current file = " + file
+#        print str(totalTweetsProcessed) + " tweets loaded into DB. With total tweet errors = " + str(totalTweetErrors)
+#        print("Current file prep time--- %s seconds ---" % (time.time() - file_time))
+
+#        #print("Total elapsed time--- %s minutes ---" % (((totalFiles - (filesProcessed+fileErrors))*(time.time() - start_time))/60.)
+#        print "Total files remaining = " + str(totalFiles - (filesProcessed+fileErrors))
+#        print "Estimated time remaining in minutes = " + str(((totalFiles - (filesProcessed+fileErrors))*(time.time() - file_time))/60.)
+
+#        #Dump dictionary errors and log details    
+#        dumpErrorListOfDicts(inFilePath,listOfErrorDicts,"get-loadDB-",file)
+#        listOfErrorDicts = []
+
+#        #delete current file from inFile directory, tweets have been processes succesfully and moved to next step, or written to error folder
+#        helper.deleteFilesInList(inFilePath,[file])
+#    
+#    
+#    print str(filesProcessed) + " files processed with error files = " + str(fileErrors)
+#    print str(totalTweetsProcessed) + " tweets loaded into DB. With total tweet errors = " + str(totalTweetErrors)
+#    print("Total completion time in minutes--- %s minutes ---" % ((time.time() - start_time)/60.))   
+#    errorFile.write("Total tweets=," + str(totalTweetsProcessed) + ",Total tweets errors=," + str(totalTweetErrors) +\
+#                      ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")    
+#    errorFile.close()
 
 
 def main():

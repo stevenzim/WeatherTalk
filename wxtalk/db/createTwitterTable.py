@@ -15,12 +15,12 @@ def createTwitterTable():
     #open database connection
     connection = psycopg2.connect("dbname=weather user=steven password=steven") 
     cursor = connection.cursor()
-
+    
 #    #drop existing table
 #    cursor.execute("DROP TABLE weather.tweets;")
 #    connection.commit()
-
-
+    
+    
         #open database connection
     connection = psycopg2.connect("dbname=weather user=steven password=steven") 
     cursor = connection.cursor()
@@ -31,9 +31,7 @@ def createTwitterTable():
     id bigint PRIMARY KEY,\
     coordinates point,\
     created_at timestamp,\
-    text varchar(160),\
     user_id bigint,\
-    user_name varchar(20),\
     climate_uid integer,\
     climate_delta_time_sec float,\
     climate_station_dist float,\
@@ -45,16 +43,8 @@ def createTwitterTable():
     metar_station_dist float,\
     metar_station_id CHAR(4),\
     sentiment_class smallint,\
-    sentiment_score float,\
     sentiment_probability float,\
-    sentiment_positive boolean,\
-    sentiment_pos_probability float,\
-    sentiment_negative boolean,\
-    sentiment_neg_probability float,\
-    sentiment_neutral boolean,\
-    sentiment_neut_probability float,\
-    weather_class smallint,\
-    weather_score float,\
+    weather_class boolean,\
     topic_obama boolean,\
     topic_adidas boolean,\
     topic_nike boolean,\
@@ -74,6 +64,7 @@ def createTwitterTable():
       
     cursor.execute(addTableCmd)
     connection.commit()
+
 
 
 
