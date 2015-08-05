@@ -9,7 +9,7 @@ import os
 
 import sklearn.externals.joblib as joblib
 
-
+import random
 
 #example to convert raw tweets to tweets with wx from nearest station
 def convertTweetsSimple():
@@ -329,14 +329,19 @@ def loadTweetsToDB(monthName):
     #establish db connection for tweet loading
     s = db.Tweet()
     
-    print str(totalFiles) + " total tweet files will be processed for loading into DB...."
+    print str(totalFiles) + " total tweet files will be processed for loading into DB...."\
+    
+    random.shuffle(files)
     
     for file in files:
         db_loading_time = time.time()
         finalFilePath = outFilePath + file  #path to final storage folder for tweets
         try:
             #produce model predictions and output to predicited tweeets file
-            origTweets = helper.loadJSONfromFile(inFilePath + file)
+            try:
+                origTweets = helper.loadJSONfromFile(inFilePath + file)
+            except:
+                continue
             print "Processing and loading tweets to DB for file = " + file + " which contains " + str(len(origTweets)) + " Tweets."
             #
             tweetsToLoadToDB = []
@@ -374,7 +379,7 @@ def loadTweetsToDB(monthName):
                 
                 tweetsToLoadToDB.append(tweet) #temp file to view
                 
-            helper.dumpJSONtoFile(inFilePath + 'loadedTemp.json',tweetsToLoadToDB)
+            helper.dumpJSONtoFile(inFilePath + 'errors/loadedTemp.json',tweetsToLoadToDB)
             
             helper.dumpJSONtoFile(finalFilePath,origTweets)
             filesProcessed +=1
