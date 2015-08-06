@@ -12,6 +12,9 @@ def createValidationFiles(apiFileName):
             2 about weather, 2 not about weather) Adds them to appropriate list
     4 - Outputs to 5 seperate files, one for each class
     With the output files, they can then be manually split on date and then randomly sorted and output to CSV
+    usage (run in directory with desried files):
+    from wxtalk.resources.scripts.corpusBuilder import buildLiveTweetCorpus as tc
+    tc.createValidationFiles(apiFileName)
     '''
     #api file name 
     #NOTE: You must manually load files into subfolders that are before Twitter api change and after twitter api change 
@@ -51,6 +54,7 @@ def createValidationFiles(apiFileName):
         totalTweets += len(data)
         filecount += 1
         print filecount
+        print len(files)
         print file
         
         #get 2 of each class from file, add desired tweet fields (e.g. text, id, creation time) and appropriate judgement field

@@ -9,7 +9,7 @@ import os
 
 import sklearn.externals.joblib as joblib
 
-import random
+
 
 #example to convert raw tweets to tweets with wx from nearest station
 def convertTweetsSimple():
@@ -329,23 +329,20 @@ def loadTweetsToDB(monthName):
     #establish db connection for tweet loading
     s = db.Tweet()
     
-    print str(totalFiles) + " total tweet files will be processed for loading into DB...."\
-    
-    random.shuffle(files)
+    print str(totalFiles) + " total tweet files will be processed for loading into DB...."
     
     for file in files:
         db_loading_time = time.time()
         finalFilePath = outFilePath + file  #path to final storage folder for tweets
         try:
             #produce model predictions and output to predicited tweeets file
-            try:
-                origTweets = helper.loadJSONfromFile(inFilePath + file)
-            except:
-                continue
+            origTweets = helper.loadJSONfromFile(inFilePath + file)
             print "Processing and loading tweets to DB for file = " + file + " which contains " + str(len(origTweets)) + " Tweets."
             #
-            tweetsToLoadToDB = []
+            tweetsToSave = []
+            tweetsToLoadToDB = [] 
             for tweet in origTweets:
+                tweetsToSave.append(tweet.copy()) #keep original classified tweet
                 #add in boolean topics based on occurence of word in text (simple topic analyzer only for fun)
                 tweet = helper.addStringTestTopic(tweet,'text','obama','topic_obama')
                 tweet = helper.addStringTestTopic(tweet,'text','adidas','topic_adidas')
@@ -378,10 +375,10 @@ def loadTweetsToDB(monthName):
                 s.loadTweet(tweet)
                 
                 tweetsToLoadToDB.append(tweet) #temp file to view
-                
-            helper.dumpJSONtoFile(inFilePath + 'errors/loadedTemp.json',tweetsToLoadToDB)
+              
+            helper.dumpJSONtoFile(inFilePath + 'errors/loadedTemp.json',tweetsToLoadToDB)  #only keep this as temp file (stored in errror folder)
             
-            helper.dumpJSONtoFile(finalFilePath,origTweets)
+            helper.dumpJSONtoFile(finalFilePath,tweetsToSave)  #dump original tweets
             filesProcessed +=1
             totalTweetsProcessed += len(origTweets)
             print "Just loaded " + str(len(origTweets)) + ".  Total tweets loaded to DB = " + str(totalTweetsProcessed)

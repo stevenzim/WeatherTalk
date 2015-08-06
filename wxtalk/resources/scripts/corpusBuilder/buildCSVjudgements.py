@@ -17,7 +17,8 @@ def importCSVjudgments(csvFileName,judger,classType,apiFiles):
         a - if id of current tweet in judgement dictionary, then update current tweet with tweet[judger] equal to judgement in dictionary
         b - else continue
     4 - write updated judgement dictionary to original file name
-    usage addJudgements('test.csv','senti_judge_1','sentiment','before')
+    usage: from wxtalk.resources.scripts.corpusBuilder import buildCSVjudgements as csvJudge
+     csvJudge.addJudgements('test.csv','senti_judge_1','sentiment','before')
     '''
     #create judgement dictionary from csv
     csvDictList = helper.csvToDicts(csvFileName)
@@ -61,9 +62,12 @@ def createCSV(classType,apiFiles):
     2 - For each json file, takes the first 300 tweets (could be changed to user specified at later date)
     3 - Tweets are grouped together (e.g. 300 of each senti class will output 900 total) and then shuffled so reviewer sees them randomly.
     The randomly shuffled data is then output to CSV and passed onto reviewers
+    usage: from wxtalk.resources.scripts.corpusBuilder import buildCSVjudgements as csvJudge
+     csvJudge.createCSV(classType,apiFiles)
     '''
     #set file path to random json files
     filePath = ''
+    fileName = classType + '-' + apiFiles + 'APIchange-tweets.csv'
     if classType == 'sentiment':
         filePath = helper.getProjectPath() + '/wxtalk/resources/data/LiveTweets/sentiCorpus/'
     if classType == 'weather':
@@ -74,7 +78,6 @@ def createCSV(classType,apiFiles):
         filePath = filePath + 'after/'
     files = helper.getListOfFiles(filePath)
     combinedTweets = []
-    tweetsForCSV = []
 
     #get first 300 tweets from each file (tweets are already random in each file)
     for file in files:
@@ -86,10 +89,10 @@ def createCSV(classType,apiFiles):
             combinedTweets.extend(first300)
 
     #randomly mix class of each tweet together
-    shuffle(tweetsForCSV)
+    shuffle(combinedTweets)
 
     #write out tweets to csv file
-    writer = csv.writer(open(filePath + 'tweets.csv', 'wb'))
+    writer = csv.writer(open(filePath + fileName, 'wb'))
     writer.writerow(['TweetID','JUDGEMENT','TWEET TEXT']) #header info
     for tweet in combinedTweets:
         twId = tweet['id']
