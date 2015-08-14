@@ -4,11 +4,11 @@ import csv
 import os
 
 
-def importCSVjudgments(csvFileName,judger,classType,apiFiles):
+def addJudgements(csvFileName,judger,classType,apiFiles):
     '''
     Given a folder containing csv file judged by human as well as required parameters, will update original validation json files with judgements
     csvFileName = name of csv file passed back from judger
-    judge = 'wx_judge_1' OR 'wx_judge_2' OR 'senti_judge_1' OR 'senti_judge_2'
+    judger = 'wx_judge_1' OR 'wx_judge_2' OR 'senti_judge_1' OR 'senti_judge_2'
     classType = 'sentiment' or 'weather'
     apiFiles = ('before' or 'after') as in before or after tweet change
     1 - creates a dictionary of all tweet ids and judgements for csv file key = id value = judgement
@@ -18,7 +18,8 @@ def importCSVjudgments(csvFileName,judger,classType,apiFiles):
         b - else continue
     4 - write updated judgement dictionary to original file name
     usage: from wxtalk.resources.scripts.corpusBuilder import buildCSVjudgements as csvJudge
-     csvJudge.addJudgements('test.csv','senti_judge_1','sentiment','before')
+     sentiment: csvJudge.addJudgements('Judgements.csv','senti_judge_1','sentiment','before')
+     weather: csvJudge.addJudgements('Judgements.csv','wx_judge_1','weather','before')
     '''
     #create judgement dictionary from csv
     csvDictList = helper.csvToDicts(csvFileName)
