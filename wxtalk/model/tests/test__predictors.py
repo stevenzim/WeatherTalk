@@ -5,23 +5,34 @@ from wxtalk import helper
 testTweet1 = [{"text":"Bad day :(",\
                 "id":"test1"}]
 
+#testExpected1 = [{"text":"Bad day :(",\
+#                "id":"test1",\
+#                "s1_discrete":-1,\
+#                "s1_proba":[.871,.108,.021],\
+#                "s2_discrete":-1,\
+#                "s2_proba":[.814,.177,.008]}]
+#                
 testExpected1 = [{"text":"Bad day :(",\
                 "id":"test1",\
                 "s1_discrete":-1,\
-                "s1_proba":[.871,.108,.021],\
+                "s1_proba":[0.952, 0.041, 0.007],\
                 "s2_discrete":-1,\
-                "s2_proba":[.814,.177,.008]}]
+                "s2_proba":[0.789, 0.197, 0.014]}]
                 
-
 testTweet2 = [{"text":"Good day :)",\
                 "id":"test2"}]
+#testExpected2 = [{"text":"Good day :)",\
+#                "id":"test2",\
+#                "s1_discrete":1,\
+#                "s1_proba":[0.017, 0.028, 0.955],\
+#                "s2_discrete":1,\
+#                "s2_proba":[0.005, 0.032, 0.963]}]
 testExpected2 = [{"text":"Good day :)",\
                 "id":"test2",\
                 "s1_discrete":1,\
-                "s1_proba":[0.017, 0.028, 0.955],\
+                "s1_proba":[0.003, 0.003, 0.994],\
                 "s2_discrete":1,\
-                "s2_proba":[0.005, 0.032, 0.963]}]
-
+                "s2_proba":[0.008, 0.042, 0.95]}]
 
 modelList = [predictors.NRCmodelMetaData,predictors.KLUEmodelMetaData]
 
