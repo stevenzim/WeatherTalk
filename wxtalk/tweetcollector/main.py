@@ -10,7 +10,7 @@ import getRawTweets
 import cleanTweets
 from wxtalk import helper
 
-rawTweetsPath = '1-RawTweets'
+rawTweetsPath = helper.getProjectPath() + '/pipeline/0-RawTweets'
 
 while True:
     try:

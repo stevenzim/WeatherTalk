@@ -39,15 +39,8 @@ def buildOutputDict(csvRow):
     outputDict = {'tweet_id' : csvRow['tweet_id'],
                 'semeval_id' : csvRow['semeval_id'],
                 'text' : csvRow['tweet'],  
-                #'text_converted' : links_convert(csvRow['tweet']),  
-                #'loc_state' : csvRow['state'],
-                #'loc_city' : csvRow['location'],
                 'sentiment_orig' : csvRow['sentiment_id'],
                 'sentiment_num' : convertSentToNum(csvRow['sentiment_id']),
-                #'sentiment_converted' : sentiment_convert(sentiList[1:4]), 
-                #'topic_wx_orig' : sentiList[-1],
-                #'topic_wx_converted' : topic_convert(sentiList[-1]),  
-                #'uncertainty_score' : sentiList[0],
                 'source' : 'Semeval-train'}
     return outputDict
 

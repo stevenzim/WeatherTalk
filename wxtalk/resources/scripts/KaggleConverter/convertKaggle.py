@@ -77,9 +77,6 @@ def buildOutputDict(csvRow,sentiList,temporalList):
     outputDict = {'id' : csvRow['id'],
                 'text_orig' : csvRow['tweet'],  
                 'text' : links_convert(csvRow['tweet']),  
-                #'loc_state' : csvRow['state'],
-                #'loc_city' : csvRow['location'],
-                #'sentiment_orig' : sentiList,
                 's1_conf' : float(sentiList[0]),
                 's2_conf' : float(sentiList[1]),  
                 's3_conf' : float(sentiList[2]), 
@@ -96,9 +93,6 @@ def buildOutputDict(csvRow,sentiList,temporalList):
                 'topic_wx_80' : topic_convert(sentiList[4],0.8),
                 'topic_wx_90' : topic_convert(sentiList[4],0.9), 
                 'topic_wx_100' : topic_convert(sentiList[4],1.0),                 
-                #'sentiment_converted' : sentiment_convert(sentiList[1:4]), 
-                #'temporal_orig' : temporalList,
-                #'temporal_converted' : temporal_convert(temporalList), 
                 'source' : 'Kaggle'}
     return outputDict
 

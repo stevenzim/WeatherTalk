@@ -4,18 +4,16 @@ import json
 import datetime
 from wxtalk import helper
 
-dirName = '1-RawTweets'
+dirName = helper.getProjectPath() + '/pipeline/0-RawTweets'
 
 #retrieve twitter credentials
 #must fill in blanks of creds file with your keys and secrets supplied by twitter
-creds = helper.loadJSONfromFile('my.creds')
+creds = helper.loadJSONfromFile(helper.getProjectPath() + '/wxtalk/tweetcollector/my.creds')
 
 def getTweets():
     api = TwitterAPI(consumer_key = creds['consumer_key'], consumer_secret = creds['consumer_secret'], access_token_key = creds['access_token_key'], access_token_secret = creds['access_token_secret'])
     #Grab tweets over CONUS
     request = api.request('statuses/filter', {'locations':'-124.7,24.4,-67,49'})
-    #Grab tweets over EASTERN MASS and RI and Nashua NH:
-    #request = api.request('statuses/filter', {'locations':'-73.0,40.0,-70,43.0'})
 
     #initialize variables for new set of 1000 tweets
     utc_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H%M%SZ")

@@ -1,5 +1,5 @@
 '''Module to make predictions on tweets for sentiment classification and 
-weather topic classification.   
+weather topic classification, each parameter dictionary contains location of model binary files.   
 input 1: list containing model parameter dicts
 input 2: list of tweet dicts
 Key steps
