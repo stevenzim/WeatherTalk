@@ -1,0 +1,133 @@
+***********topic_wx_00***********
+             precision    recall  f1-score   support
+
+      False       0.83      0.78      0.80      6692
+       True       0.80      0.84      0.82      6808
+
+avg / total       0.81      0.81      0.81     13500
+***********topic_wx_10***********
+             precision    recall  f1-score   support
+
+      False       0.83      0.78      0.80      6681
+       True       0.80      0.84      0.82      6819
+
+avg / total       0.81      0.81      0.81     13500
+***********topic_wx_20***********
+             precision    recall  f1-score   support
+
+      False       0.84      0.77      0.80      5710
+       True       0.84      0.89      0.87      7790
+
+avg / total       0.84      0.84      0.84     13500
+***********topic_wx_30***********
+             precision    recall  f1-score   support
+
+      False       0.87      0.78      0.82      5053
+       True       0.87      0.93      0.90      8447
+
+avg / total       0.87      0.87      0.87     13500
+***********topic_wx_40***********
+             precision    recall  f1-score   support
+
+      False       0.88      0.77      0.82      4595
+       True       0.89      0.94      0.92      8905
+
+avg / total       0.89      0.89      0.88     13500
+***********topic_wx_50***********
+             precision    recall  f1-score   support
+
+      False       0.90      0.79      0.84      4219
+       True       0.91      0.96      0.93      9281
+
+avg / total       0.91      0.91      0.90     13500
+***********topic_wx_60***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.80      0.85      3893
+       True       0.92      0.97      0.94      9607
+
+avg / total       0.92      0.92      0.92     13500
+***********topic_wx_70***********
+             precision    recall  f1-score   support
+
+      False       0.93      0.81      0.86      3615
+       True       0.93      0.98      0.95      9885
+
+avg / total       0.93      0.93      0.93     13500
+***********topic_wx_80***********
+             precision    recall  f1-score   support
+
+      False       0.94      0.84      0.89      3264
+       True       0.95      0.98      0.97     10236
+
+avg / total       0.95      0.95      0.95     13500
+***********topic_wx_90***********
+             precision    recall  f1-score   support
+
+      False       0.97      0.95      0.96      2818
+       True       0.99      0.99      0.99     10682
+
+avg / total       0.98      0.98      0.98     13500
+***********topic_wx_100***********
+             precision    recall  f1-score   support
+
+      False       0.96      0.95      0.96      2815
+       True       0.99      0.99      0.99     10685
+
+avg / total       0.98      0.98      0.98     13500
+***********unigrams-90-digitNorm***********
+             precision    recall  f1-score   support
+
+      False       0.97      0.95      0.96      2818
+       True       0.99      0.99      0.99     10682
+
+avg / total       0.98      0.98      0.98     13500
+***********unigrams-90-hashNorm***********
+             precision    recall  f1-score   support
+
+      False       0.96      0.95      0.96      2818
+       True       0.99      0.99      0.99     10682
+
+avg / total       0.98      0.98      0.98     13500
+***********unigrams-90-hashAndDigitNorm***********
+             precision    recall  f1-score   support
+
+      False       0.96      0.95      0.96      2818
+       True       0.99      0.99      0.99     10682
+
+avg / total       0.98      0.98      0.98     13500
+***********unigrams-L1-90***********
+             precision    recall  f1-score   support
+
+      False       0.97      0.95      0.96      2818
+       True       0.99      0.99      0.99     10682
+
+avg / total       0.98      0.98      0.98     13500
+***********unigrams-L2-c.5-90***********
+             precision    recall  f1-score   support
+
+      False       0.97      0.95      0.96      2818
+       True       0.99      0.99      0.99     10682
+
+avg / total       0.98      0.98      0.98     13500
+***********unigrams-L2-c.1-90***********
+             precision    recall  f1-score   support
+
+      False       0.97      0.95      0.96      2818
+       True       0.99      0.99      0.99     10682
+
+avg / total       0.98      0.98      0.98     13500
+***********unigrams-L1-c.1-90***********
+             precision    recall  f1-score   support
+
+      False       0.97      0.95      0.96      2818
+       True       0.99      0.99      0.99     10682
+
+avg / total       0.98      0.98      0.98     13500
+***********unigrams-l1-c.1-50***********
+             precision    recall  f1-score   support
+
+      False       0.90      0.79      0.84      4219
+       True       0.91      0.96      0.93      9281
+
+avg / total       0.91      0.91      0.90     13500

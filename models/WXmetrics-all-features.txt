@@ -1,0 +1,267 @@
+clf = Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l1',C = 0.1))])
+***********topic_wx_50 desc: unigrams-50***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.73      0.81      4219
+       True       0.89      0.97      0.92      9281
+
+avg / total       0.89      0.89      0.89     13500
+***********topic_wx_50 desc: bigram-50***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.75      0.82      4219
+       True       0.90      0.96      0.93      9281
+
+avg / total       0.90      0.90      0.90     13500
+***********topic_wx_50 desc: bigram-clusters-50***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.77      0.83      4219
+       True       0.90      0.96      0.93      9281
+
+avg / total       0.90      0.90      0.90     13500
+***********topic_wx_50 desc: bigram-poscount-clusters-50***********
+             precision    recall  f1-score   support
+
+      False       0.90      0.77      0.83      4219
+       True       0.90      0.96      0.93      9281
+
+avg / total       0.90      0.90      0.90     13500
+***********topic_wx_50 desc: bigram-bistems-poscount-clusters-50***********
+             precision    recall  f1-score   support
+
+      False       0.90      0.78      0.83      4219
+       True       0.90      0.96      0.93      9281
+
+avg / total       0.90      0.90      0.90     13500
+***********topic_wx_50 desc: bigram-bistems-chargrams-poscount-clusters-50***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.79      0.84      4219
+       True       0.91      0.96      0.94      9281
+
+avg / total       0.91      0.91      0.91     13500
+
+#########################
+clf = Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l2',C = 0.1))]) ------------------> BAD IN LIVE DATA
+***********topic_wx_50 desc: bigram-bistems-chargrams-poscount-clusters-50***********
+             precision    recall  f1-score   support
+
+      False       0.89      0.82      0.85      4219
+       True       0.92      0.96      0.94      9281
+
+avg / total       0.91      0.91      0.91     13500
+
+clf = Pipeline([\
+            ('features',features),
+            ('clf',LogisticRegression(penalty = 'l2',C = 0.5))])
+            
+#################
+parameter search l1 0.01 -->0.5 (exlcuding .1 as it is above)
+
+***********topic_wx_50 desc: bigram-bistems-chargrams-poscount-clusters-50-l1-c.5***********
+             precision    recall  f1-score   support
+
+      False       0.88      0.82      0.85      4219
+       True       0.92      0.95      0.93      9281
+
+avg / total       0.91      0.91      0.91     13500
+***********topic_wx_50 desc: bigram-bistems-chargrams-poscount-clusters-50-l1-c.4***********
+             precision    recall  f1-score   support
+
+      False       0.89      0.82      0.85      4219
+       True       0.92      0.95      0.94      9281
+
+avg / total       0.91      0.91      0.91     13500
+***********topic_wx_50 desc: bigram-bistems-chargrams-poscount-clusters-50-l1-c.3***********
+             precision    recall  f1-score   support
+
+      False       0.89      0.81      0.85      4219
+       True       0.92      0.95      0.94      9281
+
+avg / total       0.91      0.91      0.91     13500
+***********topic_wx_50 desc: bigram-bistems-chargrams-poscount-clusters-50-l1-c.2***********
+             precision    recall  f1-score   support
+
+      False       0.90      0.80      0.85      4219
+       True       0.91      0.96      0.94      9281
+
+avg / total       0.91      0.91      0.91     13500
+***********topic_wx_50 desc: bigram-bistems-chargrams-poscount-clusters-50-l1-c.01***********
+             precision    recall  f1-score   support
+
+      False       0.90      0.72      0.80      4219
+       True       0.88      0.96      0.92      9281
+
+avg / total       0.89      0.89      0.88     13500
+###########UNIGRAMS param search same as above
+
+***********topic_wx_50 desc: unigrams-50-l1-c.5***********
+             precision    recall  f1-score   support
+
+      False       0.90      0.77      0.83      4219
+       True       0.90      0.96      0.93      9281
+
+avg / total       0.90      0.90      0.90     13500
+***********topic_wx_50 desc: unigrams-50-l1-c.4***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.76      0.83      4219
+       True       0.90      0.96      0.93      9281
+
+avg / total       0.90      0.90      0.90     13500
+***********topic_wx_50 desc: unigrams-50-l1-c.3***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.76      0.83      4219
+       True       0.90      0.96      0.93      9281
+
+avg / total       0.90      0.90      0.90     13500
+***********topic_wx_50 desc: unigrams-50-l1-c.2***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.75      0.82      4219
+       True       0.89      0.97      0.93      9281
+
+avg / total       0.90      0.90      0.90     13500
+***********topic_wx_50 desc: unigrams-50-l1-c.01***********
+             precision    recall  f1-score   support
+
+      False       0.87      0.69      0.77      4219
+       True       0.87      0.95      0.91      9281
+
+avg / total       0.87      0.87      0.87     13500
+
+
+
+#####BEST / Built models
+(clf,modelName,'FINAL MODEL-bigram-bistems-chargrams-poscount-clusters-50-l1-c.1',ysKeyName='topic_wx_50')
+***********topic_wx_50 desc: FINAL MODEL-bigram-bistems-chargrams-poscount-clusters-50-l1-c.1***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.78      0.84      4819
+       True       0.91      0.96      0.93     10601
+
+avg / total       0.91      0.91      0.90     15420
+
+File: wx-pred.tsv -- no errors found
+Prediction file: 15420 lines
+                 15420 unique
+Breakdown by class:
+positive 	11268
+neutral 	0
+negative 	4152
+File: wx-gold.tsv -- no errors found
+
+
+Gold standard: 15420 lines
+               15420 unique
+Breakdown by class:
+positive 	10601
+neutral 	0
+negative 	4819
+
+
+Confusion table:
+gs \ pred| positive| negative|  neutral
+---------------------------------------
+ positive|    10207|      394|        0
+ negative|     1061|     3758|        0
+  neutral|        0|        0|        0
+
+
+Scores:
+class	                       prec	              recall            fscore
+positive 	    (10207/11268) 0.9058	    (10207/10601) 0.9628	 0.9335	
+negative 	         (3758/4152) 0.9051	    (3758/4819) 0.7798	     0.8378	
+neutral 	       (0/0) 0.0000	        (0/0) 0.0000	 0.0000	
+-----------------------------------------------------------------------
+average(pos and neg)                                             0.8856
+
+
+
+***********topic_wx_50 desc: FINAL MODEL-unigrams-50-l1-c.3***********
+             precision    recall  f1-score   support
+
+      False       0.90      0.75      0.82      4819
+       True       0.90      0.96      0.93     10601
+
+avg / total       0.90      0.90      0.89     15420
+
+Breakdown by class:
+positive 	11381
+neutral 	0
+negative 	4039
+File: wx-gold.tsv -- no errors found
+
+
+Gold standard: 15420 lines
+               15420 unique
+Breakdown by class:
+positive 	10601
+neutral 	0
+negative 	4819
+
+
+Confusion table:
+gs \ pred| positive| negative|  neutral
+---------------------------------------
+ positive|    10190|      411|        0
+ negative|     1191|     3628|        0
+  neutral|        0|        0|        0
+
+
+Scores:
+class	                       prec	              recall     fscore
+positive 	(10190/11381) 0.8954	 (10190/10601) 0.9612	 0.9271	
+negative 	 (3628/4039) 0.8982	  (3628/4819) 0.7529	 0.8191	
+neutral 	       (0/0) 0.0000	        (0/0) 0.0000	 0.0000	
+-----------------------------------------------------------------------
+average(pos and neg)                                             0.8731	
+
+***********topic_wx_50 desc: ABLATION-MODEL-w/out bistems-50-l1-c.1***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.78      0.84      4819
+       True       0.91      0.96      0.93     10601
+
+avg / total       0.91      0.91      0.90     15420
+***********topic_wx_50 desc: ABLATION-MODEL-w/out BIGRAMS-50-l1-c.1***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.78      0.84      4819
+       True       0.91      0.96      0.93     10601
+
+avg / total       0.91      0.91      0.90     15420
+***********topic_wx_50 desc: ABLATION-MODEL-w/out CHARGRAMS-50-l1-c.1***********
+             precision    recall  f1-score   support
+
+      False       0.90      0.77      0.83      4819
+       True       0.90      0.96      0.93     10601
+
+avg / total       0.90      0.90      0.90     15420
+***********topic_wx_50 desc: ABLATION-MODEL-w/out POSCounts -50-l1-c.1***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.78      0.84      4819
+       True       0.91      0.96      0.93     10601
+
+avg / total       0.91      0.91      0.90     15420
+***********topic_wx_50 desc: ABLATION-MODEL-w/out CLUSTERS-50-l1-c.1***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.78      0.84      4819
+       True       0.90      0.96      0.93     10601
+
+avg / total       0.91      0.91      0.90     15420
+***********topic_wx_50 desc: ABLATION-MODEL-w/out BISTEMS/POSCOUNTS-50-l1-c.1***********
+             precision    recall  f1-score   support
+
+      False       0.91      0.78      0.84      4819
+       True       0.91      0.96      0.93     10601
+
+avg / total       0.91      0.91      0.90     15420

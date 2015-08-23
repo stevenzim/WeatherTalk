@@ -1,0 +1,29 @@
+March
+Just classiified 12030.  Total tweets classified = 5261983
+Total files remaining = 0
+Total elapsed time in minutes = 1373.38269488
+Estimated time remaining in minutes = 0.0
+
+
+
+April
+Just classiified 16342.  Total tweets classified = 9494385
+Total files remaining = 0
+Total elapsed time in minutes = 2216.03781013
+Estimated time remaining in minutes = 0.0
+
+May
+Just classiified 15062.  Total tweets classified = 9067772
+Total files remaining = 0
+Total elapsed time in minutes = 2223.48947718
+Estimated time remaining in minutes = 0.0
+
+
+
+Jun
+Just classiified 16222.  Total tweets classified = 7600873
+Total files remaining = 0
+Total elapsed time in minutes = 2043.49050562
+Estimated time remaining in minutes = 0.0
+
+
