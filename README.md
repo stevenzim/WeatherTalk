@@ -60,7 +60,7 @@ from wxtalk.tweetcollector import main
 
 How to Collect & Process METAR Weather Data
 --------------------
-1. Run the weather collection script every 5 minutes (unix command provided)
+- Run the weather collection script every 5 minutes (unix command provided)
 ```
 while true
 do 
@@ -69,7 +69,7 @@ do
 done
 ```
 
-2. When ready to process METAR reports and load into database (e.g. after several days) run the following
+1. When ready to process METAR reports and load into database (e.g. after several days) run the following
 
 
 How to Collect & Process NWS Climate Data
