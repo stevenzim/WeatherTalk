@@ -68,6 +68,7 @@ do
     sleep 300
 done
 ```
+
 2. When ready to process METAR reports and load into database (e.g. after several days) run the following
 
 
