@@ -2,17 +2,16 @@
 ==============   
 Overview
 --------------   
-- The included code in this project is for MSc Thesis to retrieve tweets and weather data,
+The included code in this project is for MSc Thesis to retrieve tweets and weather data,
 classify tweets for sentiment and topic(is it related to weather), link tweet to nearest weather report.
 Further analysis can then be performed to determine any possibile links between sentiment scores and the weather.
 
-###The overall goals of this package
+###The overall goals of this package include:
 1. Build sentiment and weather topic classification models for tweets
 2. Retrive weather data
 3. Link weather to each tweet
 4. Classifiy new tweets
 5. Load tweets and weather data into database which can be used for further analysis
-
 
 Requirements
 --------------  
@@ -34,17 +33,22 @@ How to setup DB
 2. Scripts are found in wxtalk/db
 3. Run the following
 ```
-    from wxtalk.db import (createTwitterTable,createClimateTable, createMetarTable, loadDBwithStations)
-    loadDBwithStations.createStationTable('wxtalk\resources\WeatherStations\FullMasterStation.csv')
-    createClimateTable.createClimateTable()
-    createMetarTable.createMetarTable()
-    createTwitterTable.createTwitterTable()
+from wxtalk.db import (createTwitterTable,createClimateTable, createMetarTable, loadDBwithStations)
+loadDBwithStations.createStationTable('wxtalk\resources\WeatherStations\FullMasterStation.csv')
+createClimateTable.createClimateTable()
+createMetarTable.createMetarTable()
+createTwitterTable.createTwitterTable()
+```
+- Code will have to be modified for different database username/passwords
+
+
+How to collect Raw Tweets
+--------------    
+open python in command line and run
+```
+from wxtalk.tweetcollector import main
 ```
 
-Collect Raw Tweets
---------------    
-1. open python in command line
-2. from wxtalk.tweetcollector import main
 - All tweets are collected for bounding box in lower 48 United States (can easily be updated in code)
 - REQUIRES: A twitter account and api key
     - Update the twitter.creds file in tweetcollector folder with api credentials
