@@ -10,7 +10,7 @@ config = {
     'download_url': 'https://github.com/stevenzim/WeatherTalk',
     'author_email': 'szimme@essex.ac.uk',
     'version': '1.0',
-    'install_requires': ['TwitterAPI','sklearn','numpy','nltk','psycopg2'],
+    'install_requires': ['TwitterAPI','sklearn','numpy','nltk','psycopg2','flatdict'],
     'packages': ['tests','tweetcollector','wxcollector','db','model'],
     'name': 'WeatherTalk'
 }

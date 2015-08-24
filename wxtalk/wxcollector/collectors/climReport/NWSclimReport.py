@@ -77,6 +77,8 @@ import os
 import re
 import datetime
 
+from wxtalk import helper
+
 def convertToFloat(string):
     '''We want to convert string to float, and 
     keep/store/return original string if exception is thrown'''
@@ -230,8 +232,9 @@ class ClimateReport(object):
         self.ICAO = ICAOcode
         goodReport = False
         reportLines = []
-        urllib.urlretrieve ('http://www.weather.gov/climate/getclimate.php?date=&wfo=' + officeID +'&sid='+ climStationID + '&pil=CLI&recent=yes',"tempDaily.report")
-        report = open("tempDaily.report" , 'r')
+        urllib.urlretrieve ('http://www.weather.gov/climate/getclimate.php?date=&wfo=' + officeID +'&sid='+ climStationID + '&pil=CLI&recent=yes',
+        helper.getProjectPath() + '/wxtalk/resources/data/tempDaily.report')
+        report = open(helper.getProjectPath() + '/wxtalk/resources/data/tempDaily.report' , 'r')
         gotDate = False
         for line in report:
             

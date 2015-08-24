@@ -1,5 +1,0 @@
-while true
-do 
-    python collectors/metar/rawMETARcollector.py
-    sleep 300
-done

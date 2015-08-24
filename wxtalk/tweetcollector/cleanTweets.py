@@ -127,8 +127,8 @@ def cleanRawTweets(rawTweetList,cleanedTweetList):
 
     #TODO: need a better name or reorg so that get raw tweets is list of files
 def getRawTweets():
-    inDirName = helper.getProjectPath() + '/pipeline/0-RawTweets'
-    outDirName = helper.getProjectPath() + '/pipeline/1-CleanedTweets'
+    inDirName = helper.getProjectPath() + '/processing/0-RawTweets'
+    outDirName = helper.getProjectPath() + '/processing/1-CleanedTweets'
     fileList = helper.getListOfFiles(inDirName)
     utc_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H%M-%SZ")
     outFileName = outDirName + '/' + 'Tweets_%s.json' % utc_datetime

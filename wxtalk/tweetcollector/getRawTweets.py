@@ -4,7 +4,7 @@ import json
 import datetime
 from wxtalk import helper
 
-dirName = helper.getProjectPath() + '/pipeline/0-RawTweets'
+dirName = helper.getProjectPath() + '/processing/0-RawTweets'
 
 #retrieve twitter credentials
 #must fill in blanks of creds file with your keys and secrets supplied by twitter

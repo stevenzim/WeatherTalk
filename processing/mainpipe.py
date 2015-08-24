@@ -19,14 +19,14 @@ def dumpErrorListOfDicts(filePath,listOfErrorDicts,description,origFileName):
 
 
 def organizeTweets():
-'''
--useful for disk management and shaving down size of corpus
--takes a set files containing tweets in JSON and combines them into larger files (e.g. >15K tweets per file)
--If tweet date before 27APR2015(date of API change) then only take 2/9 and dump remainder to other folder to process later if time permits 
-'''
+    '''
+    -useful for disk management and shaving down size of corpus
+    -takes a set files containing tweets in JSON and combines them into larger files (e.g. >15K tweets per file)
+    -If tweet date before 27APR2015(date of API change) then only take 2/9 and dump remainder to other folder to process later if time permits 
+    '''
     start_time = time.time()
-    inFilePath = "1-CleanedTweets/2015-March/"
-    outFilePath = "2-OrganizedTweets/March/"
+    inFilePath = helper.getProjectPath() + "/processing/1-CleanedTweets/"
+    outFilePath = helper.getProjectPath() + "/processing/2-OrganizedTweets/"
     files = helper.getListOfFiles(inFilePath)
     files.sort()  #put oldest first
     totalTweetsProcessed = 0
@@ -108,11 +108,11 @@ def organizeTweets():
     errorFile.close()
         
 
-def getWx(monthName):
+def getWx():
     '''take a set of json files of tweets and load them with uids of most recent wx report and nearest station'''
     start_time = time.time()
-    inFilePath = "2-OrganizedTweets/"+ monthName + "/"
-    outFilePath = "3-TweetsWithWx/"+ monthName + "/"
+    inFilePath = helper.getProjectPath() + "/processing/2-OrganizedTweets/"
+    outFilePath = helper.getProjectPath() + "/processing/3-TweetsWithWx/"
     files = helper.getListOfFiles(inFilePath)
     totalTweetsProcessed = 0
     totalTweetErrors = 0
@@ -230,14 +230,14 @@ def getWx(monthName):
                       ",Total files processed =," + str(filesProcessed) + ",Total file errors=," + str(fileErrors) + "\n")
     errorFile.close()
     
-def classifyTweets(monthName):
+def classifyTweets():
     '''Input is a tweet with metar/climate report ids
     Output is a tweet with classification details for each model and the ensemble model.  
     For sentiment classification, probabilities are provided in addition to discrete classes
     For weather topic classication, only a discrete boolean score is provided'''
     start_time = time.time()
-    inFilePath = "3-TweetsWithWx/"+ monthName + "/"
-    outFilePath = "4-ClassifiedTweets/"+ monthName + "/"
+    inFilePath = helper.getProjectPath() + "/processing/3-TweetsWithWx/"
+    outFilePath = helper.getProjectPath() + "/processing/4-ClassifiedTweets/"
     files = helper.getListOfFiles(inFilePath)
     totalTweetsProcessed = 0
     totalTweetErrors = 0
@@ -289,7 +289,7 @@ def classifyTweets(monthName):
         helper.deleteFilesInList(inFilePath,[file])
 
 
-def loadTweetsToDB(monthName):
+def loadTweetsToDB():
     '''Input is a tweet with classifications
     Output is same tweet to raw file repository
     Processing steps are:
@@ -302,8 +302,8 @@ def loadTweetsToDB(monthName):
     3 - If an error occurs, dump to appropriate error folder, else move original file to final storage folder
     '''
     start_time = time.time()
-    inFilePath = "4-ClassifiedTweets/"+ monthName + "/"
-    outFilePath = "5-TweetsLoadedToDB/"+ monthName + "/"
+    inFilePath = helper.getProjectPath() + "/processing/4-ClassifiedTweets/"
+    outFilePath = helper.getProjectPath() + "/processing/5-TweetsLoadedToDB/"
     files = helper.getListOfFiles(inFilePath)
     totalTweetsProcessed = 0
     totalTweetErrors = 0
@@ -390,22 +390,4 @@ def loadTweetsToDB(monthName):
         helper.deleteFilesInList(inFilePath,[file])
 
 
-
-
-def main():
-    start_time = time.time()
-    
-    print ".............Getting Weather.............."
-    getWx()
-    print "...............Getting NLP Triples and Topics.................."
-    getTriplesAndTopics()
-#    print "..................Classifying.............."
-#    getClassifications()
-#    print "................PREPPING FOR DB.............."
-#    prepTweetsDb()
-#    print "..............BATCH LOADING TO DB............"
-#    batchLoadTweets()
-    
-    print("Total completion time in minutes--- %s minutes ---" % ((time.time() - start_time)/60.))  
-    print "DONE!!!"  
 

@@ -27,6 +27,7 @@ import datetime
 import urllib
 import csv
 
+from wxtalk import helper
 ###########################
 ### user-defined functions
 ###########################
@@ -57,10 +58,10 @@ def outputToCSV(listOfList,outFile):
 ###########################
 #create temp file and permanent output file
 #TODO: Need to clean this up so that it works with relative and absolute paths
-tempMetarFile = "data/temp.metar"
-dirName = 'data'
+tempMetarFile = helper.getProjectPath() + "/wxtalk/resources/temp/temp.metar"
+dirName = helper.getProjectPath() + '/wxtalk/resources/data/metar/1-raw/'
 utc_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H%MZ")
-outFileName = dirName + '/' + 'METAR_%s.csv' % utc_datetime
+outFileName = dirName + 'METAR_%s.csv' % utc_datetime
 
 
 #retrieve data

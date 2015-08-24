@@ -23,8 +23,10 @@ Requirements
 -   PostgreSQL server must be installed with weather database and usernames (default is steven/steven). See wxtalk/resources/db/PostgreNotes for setup notes
 -   see dependencies in setup.py 
 -   Additional Notes:
-    -   System built with Python 2.7.4, Scikit Learn 0.17, numpy 1.9.2, NLTK 3.0.2, TwitterAPI 2.3.3, psycopg2 2.4.5
-    -   See notes in README.md files in main and subdirectories as well as doc strings in code for useful information
+    -   System built with Python 2.7.4, Scikit Learn 0.17, numpy 1.9.2, 
+    NLTK 3.0.2, TwitterAPI 2.3.3, psycopg2 2.4.5 and flatdict 1.1.3
+    -   See notes in README.md files in main and subdirectories 
+    as well as doc strings in code for useful information
 
 
 How to setup DB
@@ -60,7 +62,8 @@ from wxtalk.tweetcollector import main
 
 How to Collect & Process METAR Weather Data
 --------------------
-- Run the weather collection script every 5 minutes (unix command provided)
+- Run the weather collection script every 5 minutes (scheduled job or similar). 
+unix command example:
 ```
 while true
 do 
@@ -68,26 +71,70 @@ do
     sleep 300
 done
 ```
-
-1. When ready to process METAR reports and load into database (e.g. after several days) run the following
+- When ready to process METAR reports and load into database 
+(e.g. after several days of collection and prior to loading tweets) 
+run the following from python command window:
+```
+from wxtalk import pipeline
+pipeline.removeDuplicateMetar()
+pipeline.batchLoadMetarReports()
+```
 
 
 How to Collect & Process NWS Climate Data
 --------------------
-
-How to Build Sentiment Classifier Models
---------------------
-
-How to Build Weather Topic Classifier Models
-----------------------
+- Run the weather collection script every 60 minutes as reports are updated
+throughout the day and to provide coverage for network failures. Run as a 
+scheduled job or similar. 
+unix command example:
+```
+while true
+do 
+    python wxtalk/wxcollector/collectors/climReport/retrieveClimateReports.py
+    sleep 3600
+done
+```
+- When ready to process NWS climate reports and load into database 
+(e.g. after several days of collection and prior to loading tweets) 
+run the following from python command window:
+```
+from wxtalk.wxcollector import processclimate
+processclimate.processAndAggregate()
+processclimate.loadClimateReportsToDB()
+```
 
 How to Run Classification and Tweet Linking Pipeline
 ----------------------
+- These steps are to be performed only after loading weather reports into 
+database. You must have reports loaded with time stamps that occur prior to the 
+time stamp of tweet, otherwise linking will not occur.
+- Run the following command in python command window (~1000 tweets per minute)
+```
+from processing import mainpipe
+mainpipe.organizeTweets()
+mainpipe.getWx()
+mainpipe.classifyTweets()
+mainpipe.loadTweetsToDB()
+```
+
+
+How to Build Sentiment Classification Models
+--------------------
+
+How to Build Weather Topic Classification Models
+----------------------
+
+
 
 
 TODO(Future Work):
 -----
 - Allow for aribitrary DB credentials rather than hard coding
+- Improve pipeline of tweet processing to better handle time stamp situations
+- Add multi thread processing
+- Improve station search (distance search on 2000 stations is a very expensive
+operation, as such a better method to find nearest stations would speed up 
+the overall search)
 
 
 

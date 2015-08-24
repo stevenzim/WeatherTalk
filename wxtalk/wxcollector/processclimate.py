@@ -291,8 +291,8 @@ def processAndAggregate():
     #outdir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/wxcollector/tests/test-data'
     #datadir = outdir +  "/climate"
     filenum = 0
-    outdir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/resources/data/climateClean'
-    datadir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/resources/data/climate'
+    outdir = helper.getProjectPath() + '/wxtalk/resources/data/climateClean'
+    datadir = helper.getProjectPath() + '/wxtalk/resources/data/climate'
     files = []
     stationsDict = {} 
     for dirpath, dirnames, filenames in os.walk(datadir):
@@ -313,7 +313,6 @@ def processAndAggregate():
         print stationCode
         if stationCode[0] == 'P':
             continue
-        print file
         #try:
         climDict = helper.loadJSONfromFile(file)
         #print climDict
@@ -472,7 +471,7 @@ def processAndAggregate():
 
 def loadClimateReportsToDB():
     '''Function to load all prepped climate reports into database.  To be run after processAndAggregate() function in above'''
-    datadir = '/home/steven/Desktop/T/WeatherTalk/wxtalk/resources/data/climateClean'
+    datadir = helper.getProjectPath() + '/wxtalk/resources/data/climate/Clean'
     files = []
     for dirpath, dirnames, filenames in os.walk(datadir):
         for filename in [f for f in filenames if f.endswith(".json")]:
