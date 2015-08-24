@@ -1,9 +1,10 @@
  WeatherTalk
 ==============   
- Overview
+Overview
 --------------   
     The included code in this project is for MSc Thesis to retrieve tweets and weather data,
     classify tweets for sentiment and topic(is it related to weather), link tweet to nearest weather report.
+    Further analysis can then be performed to determine any possibile links between sentiment scores and the weather.
     
     The overall goals of this package is to provide the abilities to 
     1. Build sentiment and weather topic classification models for tweets
@@ -12,7 +13,7 @@
     4. Classifiy new tweets
     5. Load tweets and weather data into database which can be used for further analysis
     
-Requirements:
+Requirements
 --------------  
 -   **WeatherTalk** Source Folder **MUST** be in python path directory.  Full packaging is not completed at this time, this is the best workaround.
         -For packaging to work must update ~/.bashrc with following:
@@ -20,13 +21,22 @@ Requirements:
         -see stackoverflow "permanently add a directory to python path"
         -export PYTHONPATH="${PYTHONPATH}:/home/steven/Desktop/T/WeatherTalk"
 -   PostgreSQL server must be installed with weather database and usernames (default is steven/steven). See wxtalk/resources/db/PostgreNotes for setup notes
--   scikit learn version 0.14.1 or later
--   nosetests
--   nltk with latest data packages (see: see http://stackoverflow.com/questions/17672423/http-proxy-authentification-error-for-nltk-download for steps to update path if necessary)
-  
+-   see dependencies in setup.py 
+-   Additional Notes:
+    -   System built with Python 2.7.4, Scikit Learn 0.17, numpy 1.9.2, NLTK 3.0.2, TwitterAPI 2.3.3, psycopg2 2.4.5
+    -   See notes in README.md files in main and subdirectories as well as doc strings in code for useful information
 
-Setup DB
-----------
+
+How to setup DB
+--------------
+1. In addition to installation of database, scripts must be run to create tables in database
+2. Scripts are found in wxtalk/db
+3. Run the following
+    - from wxtalk.db import (createTwitterTable,createClimateTable, createMetarTable, loadDBwithStations)
+    - loadDBwithStations.createStationTable('wxtalk\resources\WeatherStations\FullMasterStation.csv')
+    - createClimateTable.createClimateTable()
+    - createMetarTable.createMetarTable()
+    - createTwitterTable.createTwitterTable()
 
 Collect Raw Tweets
 --------------    

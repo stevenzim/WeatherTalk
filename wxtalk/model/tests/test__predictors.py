@@ -5,13 +5,7 @@ from wxtalk import helper
 testTweet1 = [{"text":"Bad day :(",\
                 "id":"test1"}]
 
-#testExpected1 = [{"text":"Bad day :(",\
-#                "id":"test1",\
-#                "s1_discrete":-1,\
-#                "s1_proba":[.871,.108,.021],\
-#                "s2_discrete":-1,\
-#                "s2_proba":[.814,.177,.008]}]
-#                
+
 testExpected1 = [{"text":"Bad day :(",\
                 "id":"test1",\
                 "s1_discrete":-1,\
@@ -21,12 +15,7 @@ testExpected1 = [{"text":"Bad day :(",\
                 
 testTweet2 = [{"text":"Good day :)",\
                 "id":"test2"}]
-#testExpected2 = [{"text":"Good day :)",\
-#                "id":"test2",\
-#                "s1_discrete":1,\
-#                "s1_proba":[0.017, 0.028, 0.955],\
-#                "s2_discrete":1,\
-#                "s2_proba":[0.005, 0.032, 0.963]}]
+
 testExpected2 = [{"text":"Good day :)",\
                 "id":"test2",\
                 "s1_discrete":1,\
