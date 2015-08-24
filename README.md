@@ -118,13 +118,16 @@ mainpipe.loadTweetsToDB()
 ```
 
 
-How to Build Sentiment Classification Models
+How to Build & Evaluate Classification Models
 --------------------
-
-How to Build Weather Topic Classification Models
-----------------------
-
-
+- Code is provided that was used to extract, evaluate and produce model binaries
+This code can be modified to produce different models.
+- For code to produce final sentiment models see 
+modelbuilders/2013Semeval-FinalPipes.py
+- For code to produce final sentiment models see 
+modelbuilders/WxPipes.py
+- For evaluation, the modelbuilders/scorer.py provided by SemEval 2013 was used
+in command prompt enter python B predictionFileName goldFileName
 
 
 TODO(Future Work):
