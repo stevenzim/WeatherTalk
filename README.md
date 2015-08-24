@@ -32,11 +32,11 @@ How to setup DB
 1. In addition to installation of database, scripts must be run to create tables in database
 2. Scripts are found in wxtalk/db
 3. Run the following
-    - from wxtalk.db import (createTwitterTable,createClimateTable, createMetarTable, loadDBwithStations)
-    - loadDBwithStations.createStationTable('wxtalk\resources\WeatherStations\FullMasterStation.csv')
-    - createClimateTable.createClimateTable()
-    - createMetarTable.createMetarTable()
-    - createTwitterTable.createTwitterTable()
+    from wxtalk.db import (createTwitterTable,createClimateTable, createMetarTable, loadDBwithStations)
+    loadDBwithStations.createStationTable('wxtalk\resources\WeatherStations\FullMasterStation.csv')
+    createClimateTable.createClimateTable()
+    createMetarTable.createMetarTable()
+    createTwitterTable.createTwitterTable()
 
 Collect Raw Tweets
 --------------    
