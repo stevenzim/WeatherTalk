@@ -2,16 +2,16 @@
 ==============   
 Overview
 --------------   
-The included code in this project is for MSc Thesis to retrieve tweets and weather data,
+- The included code in this project is for MSc Thesis to retrieve tweets and weather data,
 classify tweets for sentiment and topic(is it related to weather), link tweet to nearest weather report.
 Further analysis can then be performed to determine any possibile links between sentiment scores and the weather.
 
-The overall goals of this package is to provide the abilities to 
-    1. Build sentiment and weather topic classification models for tweets
-    2. Retrive weather data
-    3. Link weather to each tweet
-    4. Classifiy new tweets
-    5. Load tweets and weather data into database which can be used for further analysis
+- The overall goals of this package is to provide the abilities to 
+1. Build sentiment and weather topic classification models for tweets
+2. Retrive weather data
+3. Link weather to each tweet
+4. Classifiy new tweets
+5. Load tweets and weather data into database which can be used for further analysis
     
 Requirements
 --------------  
