@@ -7,11 +7,11 @@ classify tweets for sentiment and topic(is it related to weather), link tweet to
 Further analysis can then be performed to determine any possibile links between sentiment scores and the weather.
 
 The overall goals of this package is to provide the abilities to 
-1. Build sentiment and weather topic classification models for tweets
-2. Retrive weather data
-3. Link weather to each tweet
-4. Classifiy new tweets
-5. Load tweets and weather data into database which can be used for further analysis
+    1. Build sentiment and weather topic classification models for tweets
+    2. Retrive weather data
+    3. Link weather to each tweet
+    4. Classifiy new tweets
+    5. Load tweets and weather data into database which can be used for further analysis
     
 Requirements
 --------------  
